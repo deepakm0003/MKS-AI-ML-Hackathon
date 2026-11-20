@@ -120,6 +120,44 @@ def run_anomalies(verbose: bool = True) -> dict:
     return {"demand": demand, "register": register}
 
 
+def write_run_report(log: DQLog, sales: pd.DataFrame, panel: pd.DataFrame, test: pd.DataFrame) -> dict:
+    """Machine-readable summary of one cleaning run, with hard validation checks."""
+    t = log.table()
+    n = lambda types: int(t["issue_type"].isin(types).sum())
+    tr = t[t["file"] == "train.csv"]
+    checks = {
+        "one_row_per_date_sku_region": bool(not sales.duplicated(["Date", "SKU_ID", "Region"]).any()),
+        "no_negative_units": bool((sales["Units_Sold"].dropna() >= 0).all()),
+        "revenue_reconciles": bool(((sales["Revenue_USD"] - sales["Units_Sold"] * sales["Unit_Price_USD"]).abs()
+                                    .dropna() <= 0.05).all()),
+        "all_skus_in_master": bool(sales["SKU_ID"].notna().all()),
+        "test_keys_unique": bool(not test.duplicated(["Date", "SKU_ID", "Region"]).any()),
+    }
+    rep = {
+        "run_id": time.strftime("%Y-%m-%d_%H%M%S"),
+        "rows_ingested": int(log.profiles["train.csv"]["before"]["rows"]),
+        "rows_clean": int(len(sales)),
+        "duplicates_removed": n(["exact_duplicate_row", "reloaded_record_id", "duplicate_date_sku_region"]),
+        "date_corrections": n(["non_standard_date_format", "date_year_typo", "year_month_disagree_with_date"]),
+        "label_corrections": n(["sku_id_format", "region_label", "channel_label", "customer_name_variant"]),
+        "unit_corrections": n(["negative_units", "units_scale_error", "units_uom_block_x0.1", "units_uom_precision",
+                               "units_thousands_separator"]),
+        "price_corrections": int(tr["issue_type"].str.startswith("price_").sum()),
+        "revenue_corrections": n(["revenue_scale_error", "revenue_mismatch", "missing_revenue"]),
+        "missing_values_recovered": n(["missing_units", "missing_region", "missing_product_family",
+                                       "missing_sku_description"]),
+        "missing_values_unrecoverable": n(["missing_units_unrecoverable", "missing_region_unresolved"]),
+        "missing_rows_flagged": int((panel["status"] == "missing_row").sum()),
+        "reference_conflicts": int((t["category"] == "reference").sum()),
+        "issues_by_file": t.groupby("file").size().astype(int).to_dict(),
+        "checks": checks,
+        "validation_status": "PASS" if all(checks.values()) else "FAIL",
+    }
+    with open(QUALITY / "run_report.json", "w", encoding="utf-8") as f:
+        json.dump(rep, f, indent=2)
+    return rep
+
+
 def run_cleaning(verbose: bool = True) -> dict:
     t0 = time.time()
     PROCESSED.mkdir(parents=True, exist_ok=True)
@@ -144,6 +182,7 @@ def run_cleaning(verbose: bool = True) -> dict:
     panel.to_parquet(PROCESSED / "panel.parquet", index=False)
     test.to_parquet(PROCESSED / "test.parquet", index=False)
     log.write(QUALITY)
+    write_run_report(log, sales, panel, test)
 
     summary = log.summary()
     if verbose:

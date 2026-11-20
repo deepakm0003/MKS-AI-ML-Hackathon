@@ -1,0 +1,31 @@
+{
+  "run_id": "2026-11-20_231013",
+  "rows_ingested": 248248,
+  "rows_clean": 244566,
+  "duplicates_removed": 3682,
+  "date_corrections": 10097,
+  "label_corrections": 15733,
+  "unit_corrections": 1394,
+  "price_corrections": 1792,
+  "revenue_corrections": 580,
+  "missing_values_recovered": 6316,
+  "missing_values_unrecoverable": 380,
+  "missing_rows_flagged": 972,
+  "reference_conflicts": 17,
+  "issues_by_file": {
+    "events_calendar.csv": 1,
+    "inventory_stockouts.csv": 1059,
+    "macro_indicators.csv": 19,
+    "sku_master.csv": 1,
+    "test.csv": 156,
+    "train.csv": 40987
+  },
+  "checks": {
+    "one_row_per_date_sku_region": true,
+    "no_negative_units": true,
+    "revenue_reconciles": true,
+    "all_skus_in_master": true,
+    "test_keys_unique": true
+  },
+  "validation_status": "PASS"
+}
