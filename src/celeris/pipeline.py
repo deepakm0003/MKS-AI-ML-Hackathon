@@ -1,13 +1,16 @@
 """Stage 1 - cleaning. Reads data/raw, writes data/processed + outputs/quality."""
 from __future__ import annotations
 
+import json
 import time
 
 import pandas as pd
 
 from .clean_reference import clean_events, clean_macro, clean_sku_master, clean_stockouts
 from .clean_sales import clean_sales
-from .config import PROCESSED, QUALITY, RAW
+from .config import PROCESSED, QUALITY, RAW, ROOT
+
+ROOT_OUT = ROOT / "outputs"
 from .dq import DQLog
 from .panel import build_panel
 
@@ -50,6 +53,62 @@ def refine_with_stockouts(sales: pd.DataFrame, so: pd.DataFrame, log: DQLog) -> 
     j.loc[sel, "Units_Sold"] = j.loc[sel, "Shipped_Units"]
     j.loc[sel, "Revenue_USD"] = (j.loc[sel, "Units_Sold"] * price[sel]).round(2)
     return j.drop(columns="Shipped_Units")
+
+
+UNIT_ERROR_TYPES = {
+    "negative_units": "sign error",
+    "units_scale_error": "units x10/x100 entry error",
+    "units_uom_block_x0.1": "units booked in packs of 10",
+    "missing_units": "blank units recovered from revenue",
+}
+
+
+def run_anomalies(verbose: bool = True) -> dict:
+    from .anomalies import build_demand
+    t0 = time.time()
+    rd = lambda n: pd.read_parquet(PROCESSED / f"{n}.parquet")
+    panel, so, ev, evm, sku = rd("panel"), rd("stockouts"), rd("events"), rd("events_monthly"), rd("sku_master")
+    demand, register, findings = build_demand(panel, so, ev, evm, sku)
+
+    # data errors fixed in stage 1 that changed units also belong in the anomaly register
+    log = pd.read_csv(QUALITY / "dq_issue_log.csv", dtype=str)
+    err = log[log["issue_type"].isin(UNIT_ERROR_TYPES)]
+    errs = pd.DataFrame({
+        "Date": err["date"], "SKU_ID": err["sku_id"], "Region": err["region"],
+        "Units_Shipped": pd.to_numeric(err["corrected"], errors="coerce"),
+        "Type": err["issue_type"], "Category": "data_error", "Detection": "stage-1 reconciliation",
+        "Reason": err["issue_type"].map(UNIT_ERROR_TYPES) + ": raw value " + err["original"].fillna(""),
+        "Action": "corrected (" + err["rule"] + ")", "Confidence": "high"})
+    attrs = demand.set_index(["Date", "SKU_ID", "Region"])[
+        ["Product_Family", "Customer_Name", "Sales_Channel", "Demand", "Expected"]]
+    errs = errs.join(attrs, on=["Date", "SKU_ID", "Region"])
+    register = pd.concat([errs[register.columns], register], ignore_index=True)
+    register = register.sort_values(["Date", "SKU_ID", "Region", "Category"]).reset_index(drop=True)
+
+    from .structural import event_impact, series_profile, structural_register
+    test = rd("test")
+    impact = event_impact(demand, ev, evm)
+    profile = series_profile(demand)
+    struct = structural_register(demand, sku, test, ev)
+
+    out = ROOT_OUT / "anomalies"
+    out.mkdir(parents=True, exist_ok=True)
+    impact.to_csv(out / "event_impact.csv", index=False)
+    struct.to_csv(out / "structural_register.csv", index=False)
+    profile.to_parquet(PROCESSED / "series_profile.parquet", index=False)
+    demand.to_parquet(PROCESSED / "demand.parquet", index=False)
+    register.to_csv(out / "anomaly_register.csv", index=False)
+    with open(out / "findings.json", "w", encoding="utf-8") as f:
+        json.dump(findings, f, indent=2, default=str)
+    if verbose:
+        print(f"anomalies done in {time.time() - t0:.1f}s; register rows {len(register):,}")
+        print(register.groupby(["Category", "Type"]).size().rename("rows").to_string())
+        print(demand["Demand_Source"].value_counts().to_string())
+        print(json.dumps(findings, indent=1, default=str))
+        print(impact[["Event_ID", "Event_Type", "Scope", "Start", "Shipped_Impact_Pct", "Shipped_Z", "Demand_Impact_Pct", "Typical_Impact_Pct", "Verdict"]].to_string())
+        print(struct.groupby("Type").size().to_string())
+        print(profile["Demand_Class"].value_counts().to_string())
+    return {"demand": demand, "register": register}
 
 
 def run_cleaning(verbose: bool = True) -> dict:

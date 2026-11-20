@@ -1,0 +1,8 @@
+{
+  "unlisted_stockout_test": {
+    "low_then_high_months": 2057,
+    "high_then_low_months_noise_baseline": 2512,
+    "excess_over_noise": -455,
+    "conclusion": "no evidence of unlisted stockouts outside event windows: the stockout signature is no more frequent than its noise mirror, so no adjustment is made"
+  }
+}

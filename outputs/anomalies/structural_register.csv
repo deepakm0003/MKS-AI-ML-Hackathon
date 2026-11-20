@@ -1,0 +1,93 @@
+Type,Date,SKU_ID,Region,Customer_Name,Detail,Evidence,Action
+ordering_cycle_change,2024,BSS-008,India,Meridian Assembly,orders every 1 -> every 2 month(s),"dominant gap 2023=1, 2024=2, 2025=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2022,BSS-014,Europe,Helios Auto Parts,orders every 3 -> every 1 month(s),"dominant gap 2021=3, 2022=1, 2023=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,BSS-019,India,Meridian Assembly,orders every 3 -> every 1 month(s),"dominant gap 2022=3, 2023=1, 2024=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2022,BSS-050,North America,Solaris Automotive,orders every 3 -> every 1 month(s),"dominant gap 2021=3, 2022=1, 2023=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,BSS-069,Asia Pacific,Crestline Manufacturing,orders every 3 -> every 1 month(s),"dominant gap 2022=3, 2023=1, 2024=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2024,BSS-071,North America,Quantum Drive Systems,orders every 1 -> every 2 month(s),"dominant gap 2023=1, 2024=2, 2025=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,BSS-073,North America,Orion Driveline,orders every 1 -> every 2 month(s),"dominant gap 2022=1, 2023=2, 2024=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,BSS-082,Asia Pacific,Quantum Drive Systems,orders every 1 -> every 3 month(s),"dominant gap 2022=1, 2023=3, 2024=3",forecast uses the latest cycle and phase
+ordering_cycle_change,2022,CSS-020,North America,Orion Driveline,orders every 1 -> every 2 month(s),"dominant gap 2021=1, 2022=2, 2023=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,CSS-059,Asia Pacific,Crestline Manufacturing,orders every 3 -> every 1 month(s),"dominant gap 2022=3, 2023=1, 2024=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2022,CSS-060,Latin America,Crestline Manufacturing,orders every 3 -> every 1 month(s),"dominant gap 2021=3, 2022=1, 2023=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2024,CSS-068,Latin America,Helios Auto Parts,orders every 1 -> every 2 month(s),"dominant gap 2023=1, 2024=2, 2025=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2021,ELA-002,Latin America,Solaris Automotive,orders every 1 -> every 2 month(s),"dominant gap 2020=1, 2021=2, 2022=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2024,ELA-035,Europe,Quantum Drive Systems,orders every 3 -> every 1 month(s),"dominant gap 2023=3, 2024=1, 2025=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,ELA-045,Middle East & Africa,Kestrel Mobility,orders every 1 -> every 2 month(s),"dominant gap 2022=1, 2023=2, 2024=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,ELA-053,India,Crestline Manufacturing,orders every 3 -> every 1 month(s),"dominant gap 2022=3, 2023=1, 2024=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,ELA-058,Europe,Vantara Auto,orders every 3 -> every 1 month(s),"dominant gap 2022=3, 2023=1, 2024=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,ELA-068,Asia Pacific,Meridian Assembly,orders every 1 -> every 2 month(s),"dominant gap 2022=1, 2023=2, 2024=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2022,ELA-078,Latin America,Solaris Automotive,orders every 3 -> every 1 month(s),"dominant gap 2021=3, 2022=1, 2023=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2022,ELA-086,Latin America,Vantara Auto,orders every 3 -> every 1 month(s),"dominant gap 2021=3, 2022=1, 2023=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,HYD-016,Latin America,Apex Tier One,orders every 1 -> every 3 month(s),"dominant gap 2022=1, 2023=3, 2024=3",forecast uses the latest cycle and phase
+ordering_cycle_change,2022,HYD-024,Latin America,Helios Auto Parts,orders every 3 -> every 1 month(s),"dominant gap 2021=3, 2022=1, 2023=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,HYD-037,Europe,Meridian Assembly,orders every 1 -> every 2 month(s),"dominant gap 2022=1, 2023=2, 2024=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2024,PMP-009,Asia Pacific,Orion Driveline,orders every 3 -> every 1 month(s),"dominant gap 2023=3, 2024=1, 2025=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2024,PMP-028,Latin America,Solaris Automotive,orders every 1 -> every 2 month(s),"dominant gap 2023=1, 2024=2, 2025=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2022,PMP-040,India,Vantara Auto,orders every 3 -> every 1 month(s),"dominant gap 2021=3, 2022=1, 2023=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2021,PMP-046,Asia Pacific,Solaris Automotive,orders every 1 -> every 2 month(s),"dominant gap 2020=1, 2021=2, 2022=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2022,PMP-066,India,Vantara Auto,orders every 1 -> every 2 month(s),"dominant gap 2021=1, 2022=2, 2023=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,PMP-074,India,Quantum Drive Systems,orders every 3 -> every 1 month(s),"dominant gap 2022=3, 2023=1, 2024=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,PMP-083,Latin America,Apex Tier One,orders every 3 -> every 1 month(s),"dominant gap 2022=3, 2023=1, 2024=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,PTC-003,India,Orion Driveline,orders every 1 -> every 2 month(s),"dominant gap 2022=1, 2023=2, 2024=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,PTC-007,North America,Orion Driveline,orders every 1 -> every 2 month(s),"dominant gap 2022=1, 2023=2, 2024=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2020,PTC-015,Latin America,Nexon Motor Group,orders every 1 -> every 2 month(s),"dominant gap 2019=1, 2020=2, 2021=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2024,PTC-015,Latin America,Nexon Motor Group,orders every 1 -> every 2 month(s),"dominant gap 2023=1, 2024=2, 2025=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2021,PTC-019,Asia Pacific,Nexon Motor Group,orders every 1 -> every 2 month(s),"dominant gap 2020=1, 2021=2, 2022=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2022,PTC-058,Latin America,Solaris Automotive,orders every 3 -> every 1 month(s),"dominant gap 2021=3, 2022=1, 2023=1",forecast uses the latest cycle and phase
+ordering_cycle_change,2022,PTC-062,India,Quantum Drive Systems,orders every 1 -> every 2 month(s),"dominant gap 2021=1, 2022=2, 2023=2",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,PTC-082,Europe,Helios Auto Parts,orders every 1 -> every 3 month(s),"dominant gap 2022=1, 2023=3, 2024=3",forecast uses the latest cycle and phase
+ordering_cycle_change,2023,THM-044,Latin America,Orion Driveline,orders every 3 -> every 1 month(s),"dominant gap 2022=3, 2023=1, 2024=1",forecast uses the latest cycle and phase
+customer_switch,2022-09,BSS-001,Asia Pacific,Crestline Manufacturing,Helios Auto Parts -> Crestline Manufacturing,"avg demand 12m before 60.7, 12m after 53.2",history kept; new customer's level used for the forecast
+customer_switch,2024-04,BSS-024,Asia Pacific,Meridian Assembly,Solaris Automotive -> Meridian Assembly,"avg demand 12m before 44.0, 12m after 93.2",history kept; new customer's level used for the forecast
+customer_switch,2025-01,BSS-081,North America,Apex Tier One,Nexon Motor Group -> Apex Tier One,"avg demand 12m before 51.7, 12m after 29.9",history kept; new customer's level used for the forecast
+customer_switch,2024-12,CSS-066,Latin America,Apex Tier One,Helios Auto Parts -> Apex Tier One,"avg demand 12m before 25.4, 12m after 47.2",history kept; new customer's level used for the forecast
+customer_switch,2022-07,CSS-085,India,Helios Auto Parts,Crestline Manufacturing -> Helios Auto Parts,"avg demand 12m before 26.1, 12m after 23.2",history kept; new customer's level used for the forecast
+customer_switch,2024-11,ELA-023,Europe,Quantum Drive Systems,Apex Tier One -> Quantum Drive Systems,"avg demand 12m before 25.0, 12m after 34.7",history kept; new customer's level used for the forecast
+customer_switch,2024-06,ELA-063,India,Apex Tier One,Quantum Drive Systems -> Apex Tier One,"avg demand 12m before 8.3, 12m after 11.3",history kept; new customer's level used for the forecast
+customer_switch,2024-05,HYD-001,Asia Pacific,Orion Driveline,Meridian Assembly -> Orion Driveline,"avg demand 12m before 13.2, 12m after 23.9",history kept; new customer's level used for the forecast
+customer_switch,2024-05,HYD-009,Europe,Apex Tier One,Nexon Motor Group -> Apex Tier One,"avg demand 12m before 43.2, 12m after 35.0",history kept; new customer's level used for the forecast
+customer_switch,2022-10,HYD-013,North America,Crestline Manufacturing,Nexon Motor Group -> Crestline Manufacturing,"avg demand 12m before 42.1, 12m after 22.8",history kept; new customer's level used for the forecast
+customer_switch,2022-09,HYD-055,Asia Pacific,Helios Auto Parts,Orion Driveline -> Helios Auto Parts,"avg demand 12m before 22.9, 12m after 35.9",history kept; new customer's level used for the forecast
+customer_switch,2024-10,HYD-059,India,Vantara Auto,Crestline Manufacturing -> Vantara Auto,"avg demand 12m before 14.7, 12m after 31.5",history kept; new customer's level used for the forecast
+customer_switch,2025-04,PMP-015,Europe,Apex Tier One,Crestline Manufacturing -> Apex Tier One,"avg demand 12m before 83.5, 12m after 59.1",history kept; new customer's level used for the forecast
+customer_switch,2023-09,PMP-032,Europe,Quantum Drive Systems,Solaris Automotive -> Quantum Drive Systems,"avg demand 12m before 53.9, 12m after 66.9",history kept; new customer's level used for the forecast
+customer_switch,2023-01,PMP-047,North America,Solaris Automotive,Vantara Auto -> Solaris Automotive,"avg demand 12m before 101.2, 12m after 53.0",history kept; new customer's level used for the forecast
+customer_switch,2023-12,PMP-074,Latin America,Apex Tier One,Orion Driveline -> Apex Tier One,"avg demand 12m before 38.0, 12m after 52.3",history kept; new customer's level used for the forecast
+customer_switch,2024-05,PTC-034,India,Meridian Assembly,Nexon Motor Group -> Meridian Assembly,"avg demand 12m before 63.8, 12m after 52.4",history kept; new customer's level used for the forecast
+customer_switch,2025-05,PTC-050,Europe,Quantum Drive Systems,Helios Auto Parts -> Quantum Drive Systems,"avg demand 12m before 40.0, 12m after 24.7",history kept; new customer's level used for the forecast
+customer_switch,2025-01,THM-003,Latin America,Solaris Automotive,Meridian Assembly -> Solaris Automotive,"avg demand 12m before 12.7, 12m after 18.7",history kept; new customer's level used for the forecast
+customer_switch,2023-01,THM-017,Europe,Nexon Motor Group,Solaris Automotive -> Nexon Motor Group,"avg demand 12m before 30.9, 12m after 47.9",history kept; new customer's level used for the forecast
+customer_switch,2025-01,THM-020,India,Crestline Manufacturing,Orion Driveline -> Crestline Manufacturing,"avg demand 12m before 84.2, 12m after 63.4",history kept; new customer's level used for the forecast
+customer_switch,2023-05,THM-026,Latin America,Quantum Drive Systems,Vantara Auto -> Quantum Drive Systems,"avg demand 12m before 61.8, 12m after 99.5",history kept; new customer's level used for the forecast
+customer_switch,2025-01,THM-047,India,Helios Auto Parts,Apex Tier One -> Helios Auto Parts,"avg demand 12m before 32.7, 12m after 55.8",history kept; new customer's level used for the forecast
+eol_exit,2023-06,ELA-014,Asia Pacific,,"last sale 2023-06, EOL 2023-06",lifecycle as planned,forecast 0 after EOL
+eol_exit,2023-06,ELA-014,India,,"last sale 2023-06, EOL 2023-06",lifecycle as planned,forecast 0 after EOL
+eol_exit,2023-06,ELA-014,Latin America,,"last sale 2023-06, EOL 2023-06",lifecycle as planned,forecast 0 after EOL
+eol_exit,2023-06,ELA-014,Middle East & Africa,,"last sale 2023-06, EOL 2023-06",lifecycle as planned,forecast 0 after EOL
+eol_exit,2024-09,HYD-020,Asia Pacific,,"last sale 2024-09, EOL 2024-09",lifecycle as planned,forecast 0 after EOL
+eol_exit,2024-09,HYD-020,Europe,,"last sale 2024-09, EOL 2024-09",lifecycle as planned,forecast 0 after EOL
+eol_exit,2024-09,HYD-020,India,,"last sale 2024-09, EOL 2024-09",lifecycle as planned,forecast 0 after EOL
+eol_exit,2024-09,HYD-020,Latin America,,"last sale 2024-09, EOL 2024-09",lifecycle as planned,forecast 0 after EOL
+eol_exit,2024-09,HYD-020,Middle East & Africa,,"last sale 2024-09, EOL 2024-09",lifecycle as planned,forecast 0 after EOL
+eol_exit,2024-09,HYD-020,North America,,"last sale 2024-09, EOL 2024-09",lifecycle as planned,forecast 0 after EOL
+eol_exit,2022-03,PMP-017,Asia Pacific,,"last sale 2022-03, EOL 2022-03",lifecycle as planned,forecast 0 after EOL
+eol_exit,2022-03,PMP-017,Europe,,"last sale 2022-03, EOL 2022-03",lifecycle as planned,forecast 0 after EOL
+eol_exit,2022-03,PMP-017,India,,"last sale 2022-03, EOL 2022-03",lifecycle as planned,forecast 0 after EOL
+eol_exit,2021-06,PTC-025,Asia Pacific,,"last sale 2021-06, EOL 2021-06",lifecycle as planned,forecast 0 after EOL
+eol_exit,2021-06,PTC-025,Europe,,"last sale 2021-06, EOL 2021-06",lifecycle as planned,forecast 0 after EOL
+eol_exit,2021-06,PTC-025,India,,"last sale 2021-06, EOL 2021-06",lifecycle as planned,forecast 0 after EOL
+eol_exit,2021-06,PTC-025,North America,,"last sale 2021-06, EOL 2021-06",lifecycle as planned,forecast 0 after EOL
+eol_exit,2024-03,PTC-026,Latin America,,"last sale 2024-03, EOL 2024-03",lifecycle as planned,forecast 0 after EOL
+eol_exit,2024-03,PTC-026,Middle East & Africa,,"last sale 2024-03, EOL 2024-03",lifecycle as planned,forecast 0 after EOL
+eol_exit,2024-03,PTC-026,North America,,"last sale 2024-03, EOL 2024-03",lifecycle as planned,forecast 0 after EOL
+eol_exit,2022-12,THM-009,Asia Pacific,,"last sale 2022-12, EOL 2022-12",lifecycle as planned,forecast 0 after EOL
+eol_exit,2022-12,THM-009,Europe,,"last sale 2022-12, EOL 2022-12",lifecycle as planned,forecast 0 after EOL
+eol_exit,2022-12,THM-009,India,,"last sale 2022-12, EOL 2022-12",lifecycle as planned,forecast 0 after EOL
+eol_exit,2022-12,THM-009,Latin America,,"last sale 2022-12, EOL 2022-12",lifecycle as planned,forecast 0 after EOL
+eol_exit,2022-12,THM-009,Middle East & Africa,,"last sale 2022-12, EOL 2022-12",lifecycle as planned,forecast 0 after EOL
+level_shift,2025-09,,India,Helios Auto Parts,share of India demand +20%,t=4.8; EV-052 Helios Auto Parts commissions second Indian assembly line (permanent capacity increase),treated as the new level (permanent)
+master_conflict,2025-02,BSS-018,,,first sale 2025-02 before Launch_Date 2025-06,transactions consistent across regions,trust transactions; master launch date likely wrong
+new_launch,2027-06,PMP-020,,,no history; replaces PMP-003 (EV),status Planned Launch,forecast from predecessor ramp curve
+new_launch,2027-03,PTC-029,,,no history; replaces PTC-005 (EV),status Planned Launch,forecast from predecessor ramp curve
+new_launch,2027-10,THM-012,,,no history; replaces THM-001 (Universal),status Planned Launch,forecast from predecessor ramp curve

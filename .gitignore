@@ -12,6 +12,11 @@ outputs/*
 !outputs/quality/
 outputs/quality/*
 !outputs/quality/dq_report.json
+!outputs/anomalies/
+outputs/anomalies/*
+!outputs/anomalies/event_impact.csv
+!outputs/anomalies/structural_register.csv
+!outputs/anomalies/findings.json
 
 # Local reference copies
 docs_problem_statement.pdf
