@@ -211,7 +211,7 @@ def run_forecast(verbose: bool = True, params=None, rounds=None) -> dict:
     """Stage 4: train the final model on all history and forecast the test window."""
     from .backtest import N_ROUNDS
     from .features import Panel
-    from .forecast import forecast_test, hierarchy, replacement_curves, save_model, train_final
+    from .forecast import band_coverage, forecast_test, hierarchy, replacement_curves, save_model, train_final
     t0 = time.time()
     rd = lambda n: pd.read_parquet(PROCESSED / f"{n}.parquet")
     demand, sku, macro, evm, test = rd("demand"), rd("sku_master"), rd("macro"), rd("events_monthly"), rd("test")
@@ -235,6 +235,8 @@ def run_forecast(verbose: bool = True, params=None, rounds=None) -> dict:
     fc[cols_out].to_csv(out / "forecast_detail.csv", index=False)
     hier = hierarchy(fc, bt)
     hier.to_csv(out / "forecast_hierarchy.csv", index=False)
+    cov = band_coverage(bt)
+    cov.to_csv(out / "band_coverage.csv", index=False)
     meta = {"trained_rows": n_train, "history_end": "2026-10", "horizon": 19,
             "backtest": json.loads(pd.read_csv(ROOT_OUT / "backtest" / "metrics_overall.csv").to_json(orient="records"))[0],
             "lifecycle_curves": curves, "rules": notes}
@@ -247,5 +249,6 @@ def run_forecast(verbose: bool = True, params=None, rounds=None) -> dict:
         print(f"19-month total: {tot['Forecast'].sum():,.0f} units "
               f"(P10 {tot['P10'].sum():,.0f} / P90 {tot['P90'].sum():,.0f})")
         print(fc["method"].str.split(";").str[0].value_counts().to_string())
+        print("held-out P10-P90 coverage by level:", cov.groupby("Level")["Coverage_P10_P90"].mean().round(2).to_dict())
         print(json.dumps(notes, indent=1, default=str)[:1500])
     return {"forecast": fc, "hierarchy": hier, "model": model}

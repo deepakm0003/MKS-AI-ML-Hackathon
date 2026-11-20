@@ -18,6 +18,7 @@ import json
 import lightgbm as lgb
 import numpy as np
 import pandas as pd
+from scipy import stats
 
 from .backtest import LGB_PARAMS, N_ROUNDS, fit_lgb, predict_lgb, training_frames
 from .features import HORIZON, LAST_HIST, MIDX, MONTHS, Panel
@@ -156,20 +157,52 @@ LEVELS = {"total": [], "family": ["Product_Family"], "region": ["Region"],
           "family_region": ["Product_Family", "Region"]}
 
 
-def hierarchy(fc: pd.DataFrame, bt: pd.DataFrame) -> pd.DataFrame:
-    """Coherent aggregates (exact sums of SKU forecasts) with level-specific bands from the
-    backtest: quantiles of actual/forecast for the same level and horizon bucket."""
+Z90 = 1.2816
+
+
+def aggregate_error_model(bt: pd.DataFrame, by: list) -> dict:
+    """Error model for an aggregate level, from backtest log(actual / forecast).
+
+    Aggregate errors have two parts: month-to-month noise within a period, and a shift
+    that is shared by the whole period (a market upswing such as 2024 moves every family
+    together). With only a handful of backtest cutoffs the shared shift is uncertain, so
+    it enters with a t-quantile instead of z (small-sample correction)."""
+    g = bt.groupby(["cutoff", "h"] + by)[["y", "f_lgb_tweedie"]].sum().reset_index()
+    g = g[(g["y"] > 0) & (g["f_lgb_tweedie"] > 0)]
+    lr = np.log(g["y"] / g["f_lgb_tweedie"])
+    k = g["cutoff"].nunique()
+    within = float((lr - lr.groupby(g["cutoff"]).transform("mean")).std())
+    between = float(lr.groupby(g["cutoff"]).mean().std(ddof=1)) if k > 1 else 0.0
+    tf = float(stats.t.ppf(0.9, max(k - 1, 1)) / Z90)
+    return {"mu": float(lr.mean()), "sigma": float(np.sqrt(within ** 2 + (tf * between) ** 2)),
+            "within": within, "between": between, "cutoffs": k}
+
+
+def band_coverage(bt: pd.DataFrame) -> pd.DataFrame:
+    """Leave-one-cutoff-out check of the aggregate P10-P90 bands (target 80%)."""
     rows = []
     for level, by in LEVELS.items():
-        g_bt = bt.groupby(["cutoff", "h"] + by)[["y", "f_lgb_tweedie"]].sum().reset_index()
-        g_bt["r"] = g_bt["y"] / g_bt["f_lgb_tweedie"].where(g_bt["f_lgb_tweedie"] > 0)
-        g_bt["hb"] = pd.cut(g_bt["h"], [0, 6, 12, 19], labels=False)
-        q = g_bt.groupby("hb")["r"].quantile([0.1, 0.5, 0.9]).unstack()
+        for c in sorted(bt["cutoff"].unique()):
+            em = aggregate_error_model(bt[bt["cutoff"] != c], by)
+            te = bt[bt["cutoff"] == c].groupby(["h"] + by)[["y", "f_lgb_tweedie"]].sum()
+            lo = te["f_lgb_tweedie"] * np.exp(em["mu"] - Z90 * em["sigma"])
+            hi = te["f_lgb_tweedie"] * np.exp(em["mu"] + Z90 * em["sigma"])
+            rows.append({"Level": level, "Held_Out_Cutoff": c, "Points": len(te),
+                         "Coverage_P10_P90": round(float(((te["y"] >= lo) & (te["y"] <= hi)).mean()), 3)})
+    return pd.DataFrame(rows)
+
+
+def hierarchy(fc: pd.DataFrame, bt: pd.DataFrame) -> pd.DataFrame:
+    """Coherent aggregates (exact sums of SKU forecasts) with level-specific bands from the
+    backtest error model of that level (see aggregate_error_model)."""
+    rows = []
+    for level, by in LEVELS.items():
+        em = aggregate_error_model(bt, by)
         agg = fc.groupby(["Date"] + by)[["Forecast"]].sum().reset_index()
         agg["h"] = agg["Date"].map(MIDX) - LAST_HIST
-        hb = pd.cut(agg["h"], [0, 6, 12, 19], labels=False)
-        for name, qq in [("P10", 0.1), ("P50", 0.5), ("P90", 0.9)]:
-            agg[name] = agg["Forecast"] * hb.map(q[qq]).to_numpy()
+        agg["P10"] = agg["Forecast"] * np.exp(em["mu"] - Z90 * em["sigma"])
+        agg["P50"] = agg["Forecast"] * np.exp(em["mu"])
+        agg["P90"] = agg["Forecast"] * np.exp(em["mu"] + Z90 * em["sigma"])
         agg["Level"] = level
         agg["Member"] = agg[by].astype(str).agg(" | ".join, axis=1) if by else "Total"
         rows.append(agg[["Level", "Member", "Date", "h", "Forecast", "P10", "P50", "P90"] + by])
