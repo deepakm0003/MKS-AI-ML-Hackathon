@@ -1,0 +1,263 @@
+{
+  "champion": "global LightGBM, Tweedie, 87 features",
+  "frozen_on": "2026-11-20",
+  "spec": {
+    "description": "Global LightGBM, Tweedie loss on demand/scale, weight=scale, 87 features (frozen 2026-11-20)",
+    "model": "lgb",
+    "feature_set": "base",
+    "params": {
+      "objective": "tweedie",
+      "tweedie_variance_power": 1.2,
+      "learning_rate": 0.03,
+      "num_leaves": 63,
+      "min_data_in_leaf": 200,
+      "feature_fraction": 0.7,
+      "bagging_fraction": 0.8,
+      "bagging_freq": 1,
+      "lambda_l2": 1.0,
+      "seed": 7,
+      "deterministic": true,
+      "force_row_wise": true,
+      "num_threads": 16,
+      "verbose": -1
+    },
+    "rounds": 1200,
+    "train_first_origin": "2020-01",
+    "train_origin_step": 2,
+    "target_clip": 20,
+    "name": "champion",
+    "seeds": [
+      7
+    ]
+  },
+  "evaluation": {
+    "cutoffs": [
+      "2022-10",
+      "2023-04",
+      "2023-10",
+      "2024-04",
+      "2024-10",
+      "2025-03"
+    ],
+    "tuned_on": [
+      "2024-04",
+      "2025-03"
+    ],
+    "horizon_buckets": [
+      [
+        1,
+        3
+      ],
+      [
+        4,
+        6
+      ],
+      [
+        7,
+        12
+      ],
+      [
+        13,
+        19
+      ]
+    ],
+    "promotion": {
+      "min_mean_wape_gain": 0.002,
+      "min_share_cutoffs_won": 0.67,
+      "max_single_cutoff_loss": 0.005
+    }
+  },
+  "features": {
+    "count": 87,
+    "groups": {
+      "lags": 24,
+      "rolling_and_shape": 13,
+      "ordering_cycle": 6,
+      "seasonality": 10,
+      "calendar_horizon": 3,
+      "lifecycle": 2,
+      "holidays_events": 7,
+      "macro": 16,
+      "categorical": 6
+    },
+    "unassigned": [],
+    "list": {
+      "lags": [
+        "lag_1",
+        "lag_2",
+        "lag_3",
+        "lag_4",
+        "lag_5",
+        "lag_6",
+        "lag_7",
+        "lag_8",
+        "lag_9",
+        "lag_10",
+        "lag_11",
+        "lag_12",
+        "lag_1_n",
+        "lag_2_n",
+        "lag_3_n",
+        "lag_4_n",
+        "lag_5_n",
+        "lag_6_n",
+        "lag_7_n",
+        "lag_8_n",
+        "lag_9_n",
+        "lag_10_n",
+        "lag_11_n",
+        "lag_12_n"
+      ],
+      "rolling_and_shape": [
+        "mean_3",
+        "mean_6",
+        "mean_12",
+        "mean_24",
+        "prev_mean_12",
+        "std_12",
+        "nz_share_12",
+        "nz_share_24",
+        "order_size_12",
+        "max_12",
+        "trend_12",
+        "momentum_3",
+        "cv_12"
+      ],
+      "ordering_cycle": [
+        "months_since_order",
+        "cycle",
+        "phase",
+        "phase_due",
+        "cycle_naive",
+        "cycle_naive_n"
+      ],
+      "seasonality": [
+        "seas_idx",
+        "seas_idx_origin",
+        "same_month_ly",
+        "same_month_ly_n",
+        "same_month_1y_n",
+        "same_month_2y_n",
+        "same_month_3y_n",
+        "same_month_mean_n",
+        "same_month_win_n",
+        "same_month_prof"
+      ],
+      "calendar_horizon": [
+        "age",
+        "h",
+        "target_month"
+      ],
+      "lifecycle": [
+        "months_since_launch",
+        "months_to_eol"
+      ],
+      "holidays_events": [
+        "hol_lunar",
+        "hol_lunar_origin",
+        "hol_ramadan",
+        "hol_ramadan_origin",
+        "hol_summer",
+        "hol_summer_origin",
+        "cust_shutdown"
+      ],
+      "macro": [
+        "m_Auto_Product_L3",
+        "m_Auto_Product_L3_chg",
+        "m_Auto_Product_L4",
+        "m_Auto_Product_L4_chg",
+        "m_New_Vehicle__L3",
+        "m_New_Vehicle__L3_chg",
+        "m_New_Vehicle__L4",
+        "m_New_Vehicle__L4_chg",
+        "m_ISM_Manufact_L1",
+        "m_ISM_Manufact_L1_chg",
+        "m_ISM_Manufact_L2",
+        "m_ISM_Manufact_L2_chg",
+        "m_Raw_Material_L1",
+        "m_Raw_Material_L1_chg",
+        "m_EV_Adoption__L0",
+        "m_EV_Adoption__L0_chg"
+      ],
+      "categorical": [
+        "Product_Family",
+        "Region",
+        "Sales_Channel",
+        "Customer_Name",
+        "Powertrain_Application",
+        "Size_Class"
+      ]
+    }
+  },
+  "training_rows": {
+    "design": "direct multi-horizon: one row per (series, origin o, horizon h=1..19), target = Demand at o+h",
+    "origins": "every 2 months from 2020-01; only rows with target month <= cutoff",
+    "filters": "Train_Weight > 0 (excludes one-offs, measured events, gaps) and a defined scale (mean of last 12 > 0.1)",
+    "per_cutoff": {
+      "2023-10": {
+        "origins": 23,
+        "first_origin": "2020-01",
+        "last_target": "2023-10"
+      },
+      "2024-04": {
+        "origins": 26,
+        "first_origin": "2020-01",
+        "last_target": "2024-04"
+      },
+      "2024-10": {
+        "origins": 29,
+        "first_origin": "2020-01",
+        "last_target": "2024-10"
+      },
+      "2025-03": {
+        "origins": 31,
+        "first_origin": "2020-01",
+        "last_target": "2025-03"
+      }
+    }
+  },
+  "preprocessing": {
+    "cleaning": "README.md stage 1 table; every correction in outputs/quality/dq_issue_log.csv",
+    "demand_recovery": "README.md stage 2; outputs/anomalies/findings.json",
+    "target": "Demand (unconstrained); Train_Weight=0 rows excluded; lags use causal Demand_Model"
+  },
+  "original_backtest_4_cutoffs": {
+    "WAPE": 0.2766,
+    "Bias": -0.04,
+    "by_cutoff": {
+      "2023-10": 0.2893,
+      "2024-04": 0.2677,
+      "2024-10": 0.2761,
+      "2025-03": 0.2735
+    }
+  },
+  "reproducibility": {
+    "seed": 7,
+    "lightgbm_deterministic": true,
+    "force_row_wise": true,
+    "num_threads": 16,
+    "python": "3.11.5",
+    "libraries": {
+      "pandas": "2.1.3",
+      "numpy": "1.26.4",
+      "lightgbm": "4.3.0",
+      "scikit-learn": "1.9.0",
+      "pyarrow": "15.0.2"
+    },
+    "raw_data_sha256_16": {
+      "events_calendar.csv": "bf45c00afcf946ee",
+      "inventory_stockouts.csv": "eaa92ac8336523b2",
+      "macro_indicators.csv": "f6fd249574436aff",
+      "sample_submission.csv": "1d12013567bb1d43",
+      "sku_master.csv": "95664b05e0b7d1a0",
+      "test.csv": "25dc8d435f44a3fa",
+      "train.csv": "2bfc753f147f61c6"
+    },
+    "processed_demand_sha256_16": "8587fb4a876c3ab2"
+  },
+  "artifacts": {
+    "model": "artifacts/champion/lgb_global_tweedie.txt (release asset)",
+    "backtest_predictions_4_cutoffs": "artifacts/champion/backtest_predictions_4cutoffs.parquet (release asset)",
+    "backtest_predictions_6_cutoffs": "artifacts/experiments/champion/predictions.parquet"
+  }
+}
