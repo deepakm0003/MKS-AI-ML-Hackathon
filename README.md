@@ -328,3 +328,35 @@ leakage paths), `artifacts/reports/error_decomposition_<name>.json`.
   * **Systematic under-forecast is specific:** the vehicle-build families (Chassis −8.3% in
     6/6 cutoffs, Thermal −5.8%, Brake −5.0%), Middle East & Africa (−6.5%) and **new
     series < 24 months (WAPE 0.391, bias −8.1%)**. Industrial families are unbiased.
+
+## Planning Intelligence engine — `python run_pipeline.py --stage intelligence`
+
+Turns the forecast into decisions, from pipeline outputs only (history, champion forecast
+and bands, the champion's own 6-cutoff backtest errors, the macro stress test, the
+anomaly and structural registers), so it re-runs unchanged for a new champion.
+Outputs in `outputs/intelligence/`: `series_signals.csv|json` (one record per SKU-region,
+the frontend contract), `exceptions.csv`, `market_signals.csv`, `lifecycle_alerts.csv`,
+`interval_reliability.csv`, `summary.json`.
+
+| Component | Logic (thresholds are constants in `intelligence.py`) |
+|---|---|
+| **Status** | Forecast next 12 m vs actual last 12 m: HIGH_GROWTH ≥ +15%, GROWTH ≥ +5%, DECLINE ≤ −10%, SHARP_DECLINE ≤ −25%; lifecycle overrides (NEW_LAUNCH, END_OF_LIFE, RAMPING < 24 m history) |
+| **Surge / decline detector** | Last 3 m ≥ +30% and last 6 m ≥ +15% YoY, ≥ 20 pts above its own family, **and** unusual for that series (z ≥ 2 vs its history of 3-month swings, z ≥ 1.5 for 6 months). Mirror rule for declines |
+| **Risk score (0–100)** | Percentile-weighted: backtest error of that series 35%, band width 20%, volatility 15%, short history 10%, recent data issues 10%, macro sensitivity of its family 10%; +10 for launches, EOL, customer shutdowns. Top 15% HIGH, next 35% MEDIUM |
+| **Market change** | Family / region / customer / channel YoY of the last 3 months **relative to the whole market** (OUTPACING / LAGGING / IN_LINE); the market itself gets one headline signal |
+| **Reason codes** | 21 codes, e.g. SUSTAINED_ORDER_GROWTH, FAMILY_LAGGING_MARKET, LOW_HISTORICAL_ACCURACY, HIGH_FORECAST_VARIANCE, SUPPLY_CONSTRAINED_HISTORY, FORECAST_CONFLICTS_WITH_RECENT_TREND, CUSTOMER_SHUTDOWN_IN_WINDOW, APPROACHING_EOL |
+| **Recommendation** | Rule per status / risk with procurement quantities (forecast and P90 for the next 6 months) |
+| **Exceptions** | High risk, SKU-specific surges/declines, sharp declines, lifecycle, shutdowns; ranked by units at stake × risk; top 10% + all lifecycle/shutdown items = ACT_NOW |
+
+**Interval reliability by segment** (champion backtest, leave-one-cutoff-out): the P10–P90
+band holds 82% at every horizon and 81–85% across demand classes and families, but only
+**73% for new series and 77% for Middle East & Africa**. For planning quantities their bands
+are widened by the factor that restores 80% on the backtest (×1.8 and ×1.55).
+
+**Current read-out (forecast from 2026-10):**
+* **Market upturn:** total demand +13.6% YoY over the last 3 months (vs −0.6% over 12 months);
+  Electrical Assemblies is outpacing the market, Chassis & Structural lagging it.
+* 50 SKU-specific surges and 23 declines; 32 series where the forecast contradicts a
+  sustained recent trend (flagged for planner judgement).
+* 589 exceptions, **137 ACT_NOW** (all 28 lifecycle items, 61 Orion-shutdown series, the
+  highest-risk / largest-volume items); 463 series HIGH risk.

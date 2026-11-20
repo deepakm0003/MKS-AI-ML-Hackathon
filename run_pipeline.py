@@ -9,10 +9,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from celeris.pipeline import run_anomalies, run_backtest_stage, run_cleaning, run_drivers, run_forecast  # noqa: E402
+from celeris.pipeline import run_anomalies, run_backtest_stage, run_cleaning, run_drivers, run_forecast, run_intelligence  # noqa: E402
 
 STAGES = {"clean": run_cleaning, "anomalies": run_anomalies, "drivers": run_drivers,
-          "backtest": run_backtest_stage, "forecast": run_forecast}
+          "backtest": run_backtest_stage, "forecast": run_forecast,
+          "intelligence": run_intelligence}
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()

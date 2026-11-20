@@ -291,3 +291,57 @@ def run_forecast(verbose: bool = True, params=None, rounds=None) -> dict:
         print("held-out P10-P90 coverage by level:", cov.groupby("Level")["Coverage_P10_P90"].mean().round(2).to_dict())
         print(json.dumps(notes, indent=1, default=str)[:1500])
     return {"forecast": fc, "hierarchy": hier, "model": model}
+
+
+def run_intelligence(verbose: bool = True) -> dict:
+    """Stage 6: planning intelligence on the champion forecast."""
+    from .intelligence import (build_signals, classify, exceptions, interval_reliability, lifecycle_alerts,
+                               market_changes, to_json_records)
+    rd = lambda n: pd.read_parquet(PROCESSED / f"{n}.parquet")
+    demand, sku = rd("demand"), rd("sku_master")
+    fc = pd.read_csv(ROOT_OUT / "forecast" / "forecast_detail.csv")
+    pred = pd.read_parquet(ROOT / "artifacts" / "experiments" / "champion" / "predictions.parquet")
+    stress = pd.read_csv(ROOT / "artifacts" / "reports" / "macro_stress.csv")
+    reg = pd.read_csv(ROOT_OUT / "anomalies" / "anomaly_register.csv")
+    struct = pd.read_csv(ROOT_OUT / "anomalies" / "structural_register.csv")
+
+    rel, widen = interval_reliability(pred)
+    market = market_changes(demand, fc)
+    sig = build_signals(demand, fc, pred, stress, reg, struct, sku, widen)
+    sig = classify(sig, market)
+    exc = exceptions(sig)
+    life = lifecycle_alerts(fc, sku)
+
+    out = ROOT_OUT / "intelligence"
+    out.mkdir(parents=True, exist_ok=True)
+    flat = sig.copy()
+    flat["reason_codes"] = flat["reason_codes"].map(lambda c: "|".join(c))
+    flat.reset_index().to_csv(out / "series_signals.csv", index=False)
+    exc_flat = exc.copy()
+    exc_flat["reason_codes"] = exc_flat["reason_codes"].map(lambda c: "|".join(c))
+    exc_flat.reset_index().to_csv(out / "exceptions.csv", index=False)
+    market.to_csv(out / "market_signals.csv", index=False)
+    life.to_csv(out / "lifecycle_alerts.csv", index=False)
+    rel.to_csv(out / "interval_reliability.csv", index=False)
+    with open(out / "series_signals.json", "w", encoding="utf-8") as f:
+        json.dump(to_json_records(sig), f, indent=1)
+    codes = pd.Series([c for cs in sig["reason_codes"] for c in cs]).value_counts()
+    summary = {
+        "series": int(len(sig)),
+        "status_counts": sig["forecast_status"].value_counts().to_dict(),
+        "risk_level_counts": sig["risk_level"].value_counts().to_dict(),
+        "sustained_surge": int(sig["sustained_surge"].sum()), "sustained_decline": int(sig["sustained_decline"].sum()),
+        "exceptions": int(len(exc)), "exceptions_by_tier": exc["tier"].value_counts().to_dict(),
+        "exceptions_by_trigger": exc["trigger"].value_counts().to_dict(), "reason_code_counts": codes.to_dict(),
+        "market_headline": market[market["Level"] == "total"][["signal", "yoy_last3m", "yoy_last12m",
+                                                               "forecast_next12_vs_last12"]].to_dict("records")[0],
+        "band_widening": {f"{k[0]}={k[1]}": v for k, v in widen.items()},
+        "market_signals": market[market["signal"] != "STEADY"][["Level", "Member", "signal", "acceleration"]]
+            .to_dict("records"),
+    }
+    with open(out / "summary.json", "w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2, default=str)
+    if verbose:
+        print(json.dumps({k: v for k, v in summary.items() if k != "market_signals"}, indent=1, default=str))
+        print(market.to_string(index=False))
+    return {"signals": sig, "exceptions": exc, "market": market, "lifecycle": life, "reliability": rel}
