@@ -60,6 +60,9 @@ def event_impact(d: pd.DataFrame, events: pd.DataFrame, events_monthly: pd.DataF
             rows.append({**base, "Method": "", "Verdict": "in forecast window"})
             continue
         sel = d[_scope_mask(d, e)]
+        if e["Event_Type"] == "Announcement" and "price" in str(e["Description"]).lower():
+            rows.append({**base, **_pull_forward_impact(sel, hist[0])})
+            continue
         method = ("holiday: vs adjacent months" if e["Event_Type"] == "Holiday" else
                   "long event: vs 12m before/after" if len(hist) > 6 else "YoY sandwich")
         for col, name in [("Units_Sold", "Shipped"), ("Demand", "Demand")]:
@@ -112,6 +115,35 @@ def event_impact(d: pd.DataFrame, events: pd.DataFrame, events_monthly: pd.DataF
     out.loc[rec & out["Shipped_Z"].notna(), "Verdict"] = "material (recurring)"
     out.loc[rec & out["Verdict"].eq("in forecast window"), "Verdict"] = "in forecast window: expect recurring effect"
     out["Pooled_Z"] = out["Pooled_Z"].round(1)
+    return out
+
+
+def _pull_forward_impact(sel: pd.DataFrame, start: str) -> dict:
+    """Early buying after a price-rise announcement: the 2 announcement months vs the 2
+    months before, and the 2 payback months vs the announcement months. Each ratio is
+    compared with the same calendar ratio in every other year (z-score)."""
+    s = sel.groupby("Date")["Units_Sold"].sum()
+    m0 = pd.Period(start, "M")
+
+    def ratio(p0):   # (p0, p0+1) / (p0-2, p0-1)
+        a = [(p0 + i).strftime("%Y-%m") for i in (0, 1)]
+        b = [(p0 + i).strftime("%Y-%m") for i in (-2, -1)]
+        if not all(x in s.index for x in a + b):
+            return np.nan
+        return np.log(s[a].sum() / s[b].sum())
+
+    out = {"Method": "pull-forward: seasonal ratio vs other years"}
+    for name, p0 in [("Early_Buying", m0), ("Payback", m0 + 2)]:
+        this = ratio(p0)
+        others = [ratio(p0 - 12 * k) for k in range(-8, 9) if k != 0]
+        others = np.array([o for o in others if pd.notna(o)])
+        z = (this - others.mean()) / others.std() if len(others) > 2 and others.std() > 0 else np.nan
+        out[f"{name}_Pct_vs_Normal"] = round(100 * (np.exp(this - others.mean()) - 1), 1)
+        out[f"{name}_Z"] = round(z, 1)
+    z = max(abs(out["Early_Buying_Z"]), abs(out["Payback_Z"]))
+    out["Shipped_Impact_Pct"] = out["Early_Buying_Pct_vs_Normal"]
+    out["Shipped_Z"] = out["Early_Buying_Z"]
+    out["Verdict"] = "material" if z >= 3 else "weak" if z >= 2 else "no measurable effect"
     return out
 
 
