@@ -274,3 +274,57 @@ saved in `outputs/models/` with a model card (features, parameters, backtest met
   fall from 107 (mid-2026) to ~99, and the industrial families follow with a 3–4 month lag.
 * Bands are skewed upward: in the backtest the model under-forecast more often than it
   over-forecast, so upside risk is larger than downside.
+
+## Forecasting engine — champion, experiments and registry
+
+The model that produced the submission is frozen as the **champion**
+(`config/experiments.yaml`, `artifacts/champion/manifest.json`: parameters, the 87 features
+by group, cutoffs, seed, deterministic LightGBM settings, library versions and SHA-256
+fingerprints of every raw file). Every challenger runs under identical conditions — same
+demand panel, 6 rolling cutoffs (2022-10 → 2025-03), 19-month horizon, same metrics — and
+is promoted only if it gains ≥ 0.002 WAPE on average, wins ≥ 4 of 6 cutoffs and never
+loses more than 0.005 on any cutoff.
+
+```powershell
+python run_backtest.py --list
+```
+
+```powershell
+python run_backtest.py --experiment champion cross_series
+```
+
+```powershell
+python evaluate.py --segments cross_series
+```
+
+Outputs: `artifacts/registry/registry.csv` (leaderboard), `artifacts/experiments/<name>/`
+(metrics by cutoff, horizon, family, region, demand class, volume band, lifecycle; spec;
+predictions), `artifacts/reports/champion_audit.json` (feature inventory + measured
+leakage paths), `artifacts/reports/error_decomposition_<name>.json`.
+
+### Milestone 1 results (6 cutoffs, 19-month horizon)
+
+| Experiment | WAPE | Bias | MAE | 1–3 m | 4–6 m | 7–12 m | 13–19 m | Total-month | Verdict |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| Seasonal naive | 0.388 | | | | | | | | baseline |
+| **Champion** | **0.2897** | −3.0% | 13.71 | 0.284 | 0.279 | 0.287 | 0.299 | 5.4% | champion |
+| + cross-series market features (53) | 0.2884 | −3.4% | 13.65 | 0.284 | 0.278 | 0.286 | 0.297 | 5.6% | not promoted: +0.0013, wins 5/6 |
+| − macro features | 0.3019 | −2.1% | 14.29 | 0.283 | 0.286 | 0.305 | 0.314 | 8.9% | not promoted |
+
+* **Reproducible:** the champion reproduces its original four cutoffs exactly (0.2895 /
+  0.2677 / 0.2761 / 0.2735). The two added, older cutoffs are harder (0.328, 0.308), so the
+  6-cutoff benchmark (0.290) is stricter than the earlier 0.277.
+* **Leakage audit:** all 140 features (87 + 53 cross-series) pass the scramble test; five
+  minor paths were measured and are listed with their size in `champion_audit.json`.
+* **Macro dependence (robustness risk):** without macro features WAPE rises to 0.302 and
+  company-total error from 5.4% to 8.9%, mostly beyond 6 months. The forecast therefore
+  leans on the macro file's projections for 2027–28 — they must be stress-tested.
+* **Error decomposition (champion):**
+  * Error is **not concentrated**: half of it comes from 866 of 3,540 series; the top 20
+    series cause 3.2%. There is no small set of SKUs to fix.
+  * Getting every series' level exactly right would only lower WAPE from 0.290 to 0.272 —
+    **~94% of the error is month-to-month noise**, so remaining gains are small and
+    robustness matters more than raw accuracy.
+  * **Systematic under-forecast is specific:** the vehicle-build families (Chassis −8.3% in
+    6/6 cutoffs, Thermal −5.8%, Brake −5.0%), Middle East & Africa (−6.5%) and **new
+    series < 24 months (WAPE 0.391, bias −8.1%)**. Industrial families are unbiased.

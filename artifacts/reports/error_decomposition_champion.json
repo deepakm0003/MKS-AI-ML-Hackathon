@@ -1,0 +1,819 @@
+{
+  "experiment": "champion",
+  "rows": 330989,
+  "WAPE": 0.28970238590757097,
+  "Bias": -0.029821653179675504,
+  "error_concentration": {
+    "series": 3540,
+    "series_for_50pct_of_error": 866,
+    "series_for_80pct_of_error": 1850,
+    "top20_series_share_of_error": 0.032481592205331825,
+    "top20_series_share_of_demand": 0.026234611868858337
+  },
+  "top_error_series": [
+    {
+      "SKU_ID": "PMP-009",
+      "Region": "Asia Pacific",
+      "WAPE": 0.5956,
+      "Bias": -0.1353,
+      "share_of_error": 0.0025,
+      "share_of_demand": 0.0012000000569969416
+    },
+    {
+      "SKU_ID": "PMP-009",
+      "Region": "North America",
+      "WAPE": 0.3172,
+      "Bias": 0.2635,
+      "share_of_error": 0.0021,
+      "share_of_demand": 0.0020000000949949026
+    },
+    {
+      "SKU_ID": "PTC-021",
+      "Region": "India",
+      "WAPE": 0.3331,
+      "Bias": -0.0549,
+      "share_of_error": 0.0019,
+      "share_of_demand": 0.0017000000225380063
+    },
+    {
+      "SKU_ID": "BSS-008",
+      "Region": "India",
+      "WAPE": 0.5869,
+      "Bias": -0.1925,
+      "share_of_error": 0.0019,
+      "share_of_demand": 0.0008999999845400453
+    },
+    {
+      "SKU_ID": "PMP-074",
+      "Region": "India",
+      "WAPE": 0.6624,
+      "Bias": -0.2718,
+      "share_of_error": 0.0019,
+      "share_of_demand": 0.0007999999797903001
+    },
+    {
+      "SKU_ID": "PMP-083",
+      "Region": "Latin America",
+      "WAPE": 0.7947,
+      "Bias": -0.0489,
+      "share_of_error": 0.0018,
+      "share_of_demand": 0.000699999975040555
+    },
+    {
+      "SKU_ID": "PMP-009",
+      "Region": "Europe",
+      "WAPE": 0.2639,
+      "Bias": -0.0797,
+      "share_of_error": 0.0017,
+      "share_of_demand": 0.0019000000320374966
+    },
+    {
+      "SKU_ID": "PMP-009",
+      "Region": "Middle East & Africa",
+      "WAPE": 0.3852,
+      "Bias": -0.0856,
+      "share_of_error": 0.0016,
+      "share_of_demand": 0.0012000000569969416
+    },
+    {
+      "SKU_ID": "THM-050",
+      "Region": "Latin America",
+      "WAPE": 0.4441,
+      "Bias": 0.3423,
+      "share_of_error": 0.0016,
+      "share_of_demand": 0.0010000000474974513
+    },
+    {
+      "SKU_ID": "PMP-005",
+      "Region": "North America",
+      "WAPE": 0.239,
+      "Bias": -0.1474,
+      "share_of_error": 0.0016,
+      "share_of_demand": 0.0019000000320374966
+    },
+    {
+      "SKU_ID": "BSS-051",
+      "Region": "Latin America",
+      "WAPE": 0.3863,
+      "Bias": 0.1726,
+      "share_of_error": 0.0015,
+      "share_of_demand": 0.0012000000569969416
+    },
+    {
+      "SKU_ID": "THM-006",
+      "Region": "North America",
+      "WAPE": 0.2806,
+      "Bias": 0.058,
+      "share_of_error": 0.0015,
+      "share_of_demand": 0.0015999999595806003
+    },
+    {
+      "SKU_ID": "CSS-006",
+      "Region": "North America",
+      "WAPE": 0.1844,
+      "Bias": -0.1018,
+      "share_of_error": 0.0015,
+      "share_of_demand": 0.002300000051036477
+    },
+    {
+      "SKU_ID": "PMP-031",
+      "Region": "Europe",
+      "WAPE": 0.6828,
+      "Bias": -0.1691,
+      "share_of_error": 0.0014,
+      "share_of_demand": 0.0006000000284984708
+    },
+    {
+      "SKU_ID": "PMP-009",
+      "Region": "India",
+      "WAPE": 0.2888,
+      "Bias": 0.0321,
+      "share_of_error": 0.0014,
+      "share_of_demand": 0.00139999995008111
+    }
+  ],
+  "top_error_skus": [
+    {
+      "SKU_ID": "PMP-009",
+      "WAPE": 0.3426,
+      "Bias": 0.0172,
+      "share_of_error": 0.0101
+    },
+    {
+      "SKU_ID": "PTC-021",
+      "WAPE": 0.267,
+      "Bias": -0.041,
+      "share_of_error": 0.0074
+    },
+    {
+      "SKU_ID": "CSS-006",
+      "WAPE": 0.2494,
+      "Bias": -0.1394,
+      "share_of_error": 0.0066
+    },
+    {
+      "SKU_ID": "BSS-008",
+      "WAPE": 0.3369,
+      "Bias": -0.1211,
+      "share_of_error": 0.0053
+    },
+    {
+      "SKU_ID": "ELA-008",
+      "WAPE": 0.2749,
+      "Bias": 0.0197,
+      "share_of_error": 0.005
+    },
+    {
+      "SKU_ID": "THM-006",
+      "WAPE": 0.3217,
+      "Bias": 0.0286,
+      "share_of_error": 0.0047
+    },
+    {
+      "SKU_ID": "ELA-003",
+      "WAPE": 0.2872,
+      "Bias": -0.0918,
+      "share_of_error": 0.0045
+    },
+    {
+      "SKU_ID": "BSS-003",
+      "WAPE": 0.2507,
+      "Bias": -0.1286,
+      "share_of_error": 0.0043
+    },
+    {
+      "SKU_ID": "PMP-015",
+      "WAPE": 0.2329,
+      "Bias": -0.0399,
+      "share_of_error": 0.0042
+    },
+    {
+      "SKU_ID": "THM-064",
+      "WAPE": 0.39,
+      "Bias": -0.1955,
+      "share_of_error": 0.004
+    }
+  ],
+  "by_Product_Family": [
+    {
+      "Product_Family": "Brake & Safety Systems",
+      "y": 2893535.0,
+      "abs": 812179.7009,
+      "err": -145383.1092,
+      "rows": 46902,
+      "WAPE": 0.2807,
+      "Bias": -0.0502,
+      "share_of_error": 0.179,
+      "share_of_demand": 0.18469999730587006,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0231
+    },
+    {
+      "Product_Family": "Chassis & Structural",
+      "y": 2316664.0,
+      "abs": 654603.2032,
+      "err": -192167.4403,
+      "rows": 47348,
+      "WAPE": 0.2826,
+      "Bias": -0.083,
+      "share_of_error": 0.1443,
+      "share_of_demand": 0.14790000021457672,
+      "cutoffs_under": 6,
+      "cutoffs_over": 0,
+      "WAPE_std_across_cutoffs": 0.0152
+    },
+    {
+      "Product_Family": "Electrical Assemblies",
+      "y": 1528855.0,
+      "abs": 480094.3929,
+      "err": 14476.5951,
+      "rows": 46740,
+      "WAPE": 0.314,
+      "Bias": 0.0095,
+      "share_of_error": 0.1058,
+      "share_of_demand": 0.09759999811649323,
+      "cutoffs_under": 3,
+      "cutoffs_over": 3,
+      "WAPE_std_across_cutoffs": 0.0338
+    },
+    {
+      "Product_Family": "Hydraulic Systems",
+      "y": 1843562.125,
+      "abs": 555259.6315,
+      "err": 9948.1681,
+      "rows": 49486,
+      "WAPE": 0.3012,
+      "Bias": 0.0054,
+      "share_of_error": 0.1224,
+      "share_of_demand": 0.1177000030875206,
+      "cutoffs_under": 3,
+      "cutoffs_over": 3,
+      "WAPE_std_across_cutoffs": 0.0393
+    },
+    {
+      "Product_Family": "Powertrain Components",
+      "y": 2138585.0,
+      "abs": 600601.3871,
+      "err": 17935.0775,
+      "rows": 47640,
+      "WAPE": 0.2808,
+      "Bias": 0.0084,
+      "share_of_error": 0.1324,
+      "share_of_demand": 0.13650000095367432,
+      "cutoffs_under": 3,
+      "cutoffs_over": 3,
+      "WAPE_std_across_cutoffs": 0.0166
+    },
+    {
+      "Product_Family": "Precision Machined Parts",
+      "y": 2551255.0,
+      "abs": 752873.8498,
+      "err": -34172.2749,
+      "rows": 48943,
+      "WAPE": 0.2951,
+      "Bias": -0.0134,
+      "share_of_error": 0.1659,
+      "share_of_demand": 0.16290000081062317,
+      "cutoffs_under": 3,
+      "cutoffs_over": 3,
+      "WAPE_std_across_cutoffs": 0.0301
+    },
+    {
+      "Product_Family": "Thermal Management",
+      "y": 2389449.0,
+      "abs": 681679.081,
+      "err": -137700.9154,
+      "rows": 43930,
+      "WAPE": 0.2853,
+      "Bias": -0.0576,
+      "share_of_error": 0.1502,
+      "share_of_demand": 0.1526000052690506,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0217
+    }
+  ],
+  "by_Region": [
+    {
+      "Region": "Asia Pacific",
+      "y": 2881598.0,
+      "abs": 776620.7377,
+      "err": -112400.8727,
+      "rows": 55349,
+      "WAPE": 0.2695,
+      "Bias": -0.039,
+      "share_of_error": 0.1712,
+      "share_of_demand": 0.18400000035762787,
+      "cutoffs_under": 6,
+      "cutoffs_over": 0,
+      "WAPE_std_across_cutoffs": 0.0176
+    },
+    {
+      "Region": "Europe",
+      "y": 2991206.0,
+      "abs": 786924.9396,
+      "err": -68780.7406,
+      "rows": 55473,
+      "WAPE": 0.2631,
+      "Bias": -0.023,
+      "share_of_error": 0.1734,
+      "share_of_demand": 0.19099999964237213,
+      "cutoffs_under": 4,
+      "cutoffs_over": 2,
+      "WAPE_std_across_cutoffs": 0.0258
+    },
+    {
+      "Region": "India",
+      "y": 2829866.0,
+      "abs": 830775.1854,
+      "err": -92044.0615,
+      "rows": 55732,
+      "WAPE": 0.2936,
+      "Bias": -0.0325,
+      "share_of_error": 0.1831,
+      "share_of_demand": 0.18070000410079956,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0165
+    },
+    {
+      "Region": "Latin America",
+      "y": 2532191.0,
+      "abs": 816301.7044,
+      "err": -55946.0477,
+      "rows": 54816,
+      "WAPE": 0.3224,
+      "Bias": -0.0221,
+      "share_of_error": 0.1799,
+      "share_of_demand": 0.16169999539852142,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0341
+    },
+    {
+      "Region": "Middle East & Africa",
+      "y": 1433660.0,
+      "abs": 543732.2778,
+      "err": -93455.6969,
+      "rows": 56111,
+      "WAPE": 0.3793,
+      "Bias": -0.0652,
+      "share_of_error": 0.1198,
+      "share_of_demand": 0.09149999916553497,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0333
+    },
+    {
+      "Region": "North America",
+      "y": 2993384.0,
+      "abs": 782936.4015,
+      "err": -44436.4796,
+      "rows": 53508,
+      "WAPE": 0.2616,
+      "Bias": -0.0148,
+      "share_of_error": 0.1726,
+      "share_of_demand": 0.19110000133514404,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0249
+    }
+  ],
+  "by_Customer_Name": [
+    {
+      "Customer_Name": "Apex Tier One",
+      "y": 1586539.0,
+      "abs": 444040.6397,
+      "err": -40029.663,
+      "rows": 30399,
+      "WAPE": 0.2799,
+      "Bias": -0.0252,
+      "share_of_error": 0.0979,
+      "share_of_demand": 0.10130000114440918,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0208
+    },
+    {
+      "Customer_Name": "Atlas Mideast Components",
+      "y": 490263.0,
+      "abs": 186025.5228,
+      "err": -32462.7677,
+      "rows": 19526,
+      "WAPE": 0.3794,
+      "Bias": -0.0662,
+      "share_of_error": 0.041,
+      "share_of_demand": 0.031300000846385956,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0304
+    },
+    {
+      "Customer_Name": "Crestline Manufacturing",
+      "y": 1424124.0,
+      "abs": 402171.4717,
+      "err": -41333.5117,
+      "rows": 27367,
+      "WAPE": 0.2824,
+      "Bias": -0.029,
+      "share_of_error": 0.0886,
+      "share_of_demand": 0.0908999964594841,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0254
+    },
+    {
+      "Customer_Name": "Falcon Gulf Motors",
+      "y": 466087.0,
+      "abs": 174539.2096,
+      "err": -26479.5522,
+      "rows": 18674,
+      "WAPE": 0.3745,
+      "Bias": -0.0568,
+      "share_of_error": 0.0385,
+      "share_of_demand": 0.02979999966919422,
+      "cutoffs_under": 4,
+      "cutoffs_over": 2,
+      "WAPE_std_across_cutoffs": 0.0347
+    },
+    {
+      "Customer_Name": "Helios Auto Parts",
+      "y": 1722443.0,
+      "abs": 478413.5457,
+      "err": -54496.9178,
+      "rows": 33327,
+      "WAPE": 0.2778,
+      "Bias": -0.0316,
+      "share_of_error": 0.1054,
+      "share_of_demand": 0.10999999940395355,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0228
+    },
+    {
+      "Customer_Name": "Kestrel Mobility",
+      "y": 477310.0,
+      "abs": 183167.5455,
+      "err": -34513.377,
+      "rows": 17911,
+      "WAPE": 0.3837,
+      "Bias": -0.0723,
+      "share_of_error": 0.0404,
+      "share_of_demand": 0.030500000342726707,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0357
+    },
+    {
+      "Customer_Name": "Meridian Assembly",
+      "y": 1560879.0,
+      "abs": 432983.7018,
+      "err": -39752.8493,
+      "rows": 30730,
+      "WAPE": 0.2774,
+      "Bias": -0.0255,
+      "share_of_error": 0.0954,
+      "share_of_demand": 0.09969999641180038,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0271
+    },
+    {
+      "Customer_Name": "Nexon Motor Group",
+      "y": 1445422.0,
+      "abs": 410170.6429,
+      "err": -52711.9278,
+      "rows": 27328,
+      "WAPE": 0.2838,
+      "Bias": -0.0365,
+      "share_of_error": 0.0904,
+      "share_of_demand": 0.09229999780654907,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0306
+    },
+    {
+      "Customer_Name": "Orion Driveline",
+      "y": 1664462.0,
+      "abs": 473794.8138,
+      "err": -46740.5693,
+      "rows": 31587,
+      "WAPE": 0.2847,
+      "Bias": -0.0281,
+      "share_of_error": 0.1044,
+      "share_of_demand": 0.1062999963760376,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0249
+    },
+    {
+      "Customer_Name": "Quantum Drive Systems",
+      "y": 1557204.0,
+      "abs": 443857.0384,
+      "err": -30850.2541,
+      "rows": 30990,
+      "WAPE": 0.285,
+      "Bias": -0.0198,
+      "share_of_error": 0.0978,
+      "share_of_demand": 0.09939999878406525,
+      "cutoffs_under": 4,
+      "cutoffs_over": 2,
+      "WAPE_std_across_cutoffs": 0.0202
+    },
+    {
+      "Customer_Name": "Solaris Automotive",
+      "y": 1538438.0,
+      "abs": 435516.0906,
+      "err": -26776.8897,
+      "rows": 29182,
+      "WAPE": 0.2831,
+      "Bias": -0.0174,
+      "share_of_error": 0.096,
+      "share_of_demand": 0.0982000008225441,
+      "cutoffs_under": 3,
+      "cutoffs_over": 3,
+      "WAPE_std_across_cutoffs": 0.0192
+    },
+    {
+      "Customer_Name": "Vantara Auto",
+      "y": 1728734.0,
+      "abs": 472611.0241,
+      "err": -40915.6195,
+      "rows": 33968,
+      "WAPE": 0.2734,
+      "Bias": -0.0237,
+      "share_of_error": 0.1042,
+      "share_of_demand": 0.1103999987244606,
+      "cutoffs_under": 5,
+      "cutoffs_over": 1,
+      "WAPE_std_across_cutoffs": 0.0196
+    }
+  ],
+  "by_horizon": [
+    {
+      "h": 1,
+      "WAPE": 0.2686,
+      "Bias": -0.0178
+    },
+    {
+      "h": 2,
+      "WAPE": 0.2837,
+      "Bias": -0.0193
+    },
+    {
+      "h": 3,
+      "WAPE": 0.3011,
+      "Bias": -0.0036
+    },
+    {
+      "h": 4,
+      "WAPE": 0.293,
+      "Bias": -0.0131
+    },
+    {
+      "h": 5,
+      "WAPE": 0.2735,
+      "Bias": -0.0606
+    },
+    {
+      "h": 6,
+      "WAPE": 0.2728,
+      "Bias": -0.0483
+    },
+    {
+      "h": 7,
+      "WAPE": 0.2791,
+      "Bias": -0.0448
+    },
+    {
+      "h": 8,
+      "WAPE": 0.289,
+      "Bias": -0.0286
+    },
+    {
+      "h": 9,
+      "WAPE": 0.2937,
+      "Bias": -0.0312
+    },
+    {
+      "h": 10,
+      "WAPE": 0.2946,
+      "Bias": -0.0265
+    },
+    {
+      "h": 11,
+      "WAPE": 0.2815,
+      "Bias": -0.0371
+    },
+    {
+      "h": 12,
+      "WAPE": 0.2836,
+      "Bias": -0.0289
+    },
+    {
+      "h": 13,
+      "WAPE": 0.2917,
+      "Bias": -0.0327
+    },
+    {
+      "h": 14,
+      "WAPE": 0.3089,
+      "Bias": -0.0104
+    },
+    {
+      "h": 15,
+      "WAPE": 0.3126,
+      "Bias": -0.0201
+    },
+    {
+      "h": 16,
+      "WAPE": 0.3124,
+      "Bias": -0.0131
+    },
+    {
+      "h": 17,
+      "WAPE": 0.2933,
+      "Bias": -0.0368
+    },
+    {
+      "h": 18,
+      "WAPE": 0.2885,
+      "Bias": -0.0413
+    },
+    {
+      "h": 19,
+      "WAPE": 0.2893,
+      "Bias": -0.0437
+    }
+  ],
+  "horizon_deterioration": {
+    "WAPE_h1_3": 0.2840557167454848,
+    "WAPE_h13_19": 0.29903480230717355
+  },
+  "by_Demand_Class": [
+    {
+      "Demand_Class": "erratic",
+      "WAPE": 0.3496,
+      "Bias": -0.0978,
+      "share_of_error": 0.024,
+      "share_of_demand": 0.019899999722838402,
+      "rows": 7467
+    },
+    {
+      "Demand_Class": "intermittent",
+      "WAPE": 0.3039,
+      "Bias": -0.0447,
+      "share_of_error": 0.2647,
+      "share_of_demand": 0.2524000108242035,
+      "rows": 82691
+    },
+    {
+      "Demand_Class": "lumpy",
+      "WAPE": 0.3508,
+      "Bias": -0.1325,
+      "share_of_error": 0.005,
+      "share_of_demand": 0.00419999985024333,
+      "rows": 1212
+    },
+    {
+      "Demand_Class": "smooth",
+      "WAPE": 0.2828,
+      "Bias": -0.0222,
+      "share_of_error": 0.7063,
+      "share_of_demand": 0.7235999703407288,
+      "rows": 239619
+    }
+  ],
+  "by_Volume_Band": [
+    {
+      "Volume_Band": "Q1 low",
+      "WAPE": 0.3904,
+      "Bias": -0.0749,
+      "share_of_error": 0.111,
+      "share_of_demand": 0.08240000158548355,
+      "rows": 66200
+    },
+    {
+      "Volume_Band": "Q2",
+      "WAPE": 0.3187,
+      "Bias": -0.0411,
+      "share_of_error": 0.1429,
+      "share_of_demand": 0.1298999935388565,
+      "rows": 66197
+    },
+    {
+      "Volume_Band": "Q3",
+      "WAPE": 0.291,
+      "Bias": -0.0211,
+      "share_of_error": 0.1749,
+      "share_of_demand": 0.17409999668598175,
+      "rows": 66196
+    },
+    {
+      "Volume_Band": "Q4",
+      "WAPE": 0.2758,
+      "Bias": -0.0229,
+      "share_of_error": 0.22,
+      "share_of_demand": 0.23109999299049377,
+      "rows": 66197
+    },
+    {
+      "Volume_Band": "Q5 high",
+      "WAPE": 0.2659,
+      "Bias": -0.0244,
+      "share_of_error": 0.3512,
+      "share_of_demand": 0.38260000944137573,
+      "rows": 66199
+    }
+  ],
+  "by_Lifecycle": [
+    {
+      "Lifecycle": "approaching EOL",
+      "WAPE": 0.2707,
+      "Bias": -0.0448,
+      "share_of_error": 0.0052,
+      "share_of_demand": 0.005499999970197678,
+      "rows": 1536
+    },
+    {
+      "Lifecycle": "declining",
+      "WAPE": 0.2792,
+      "Bias": -0.0188,
+      "share_of_error": 0.1409,
+      "share_of_demand": 0.1462000012397766,
+      "rows": 45589
+    },
+    {
+      "Lifecycle": "established",
+      "WAPE": 0.2775,
+      "Bias": -0.0245,
+      "share_of_error": 0.7109,
+      "share_of_demand": 0.7422999739646912,
+      "rows": 233091
+    },
+    {
+      "Lifecycle": "new (<24m)",
+      "WAPE": 0.3909,
+      "Bias": -0.0812,
+      "share_of_error": 0.143,
+      "share_of_demand": 0.10599999874830246,
+      "rows": 50773
+    }
+  ],
+  "by_cutoff": [
+    {
+      "cutoff": "2022-10",
+      "WAPE": 0.328,
+      "Bias": 0.0315,
+      "share_of_error": 0.1754,
+      "share_of_demand": 0.1550000011920929,
+      "rows": 52647
+    },
+    {
+      "cutoff": "2023-04",
+      "WAPE": 0.3079,
+      "Bias": -0.0459,
+      "share_of_error": 0.1732,
+      "share_of_demand": 0.16290000081062317,
+      "rows": 53545
+    },
+    {
+      "cutoff": "2023-10",
+      "WAPE": 0.2895,
+      "Bias": -0.0566,
+      "share_of_error": 0.1697,
+      "share_of_demand": 0.16990000009536743,
+      "rows": 54981
+    },
+    {
+      "cutoff": "2024-04",
+      "WAPE": 0.2677,
+      "Bias": -0.0741,
+      "share_of_error": 0.1596,
+      "share_of_demand": 0.17270000278949738,
+      "rows": 55972
+    },
+    {
+      "cutoff": "2024-10",
+      "WAPE": 0.2761,
+      "Bias": -0.0242,
+      "share_of_error": 0.1605,
+      "share_of_demand": 0.16840000450611115,
+      "rows": 56525
+    },
+    {
+      "cutoff": "2025-03",
+      "WAPE": 0.2735,
+      "Bias": -0.0044,
+      "share_of_error": 0.1616,
+      "share_of_demand": 0.1712000072002411,
+      "rows": 57319
+    }
+  ],
+  "noise_vs_bias": {
+    "WAPE_actual": 0.28970238590757097,
+    "WAPE_if_each_series_level_were_perfect": 0.2717435778794069,
+    "reading": "the gap between these two is error from getting series LEVELS wrong; the rest is month-to-month noise"
+  }
+}
