@@ -247,21 +247,26 @@ saved in `outputs/models/` with a model card (features, parameters, backtest met
   forecast size and horizon). Held-out check: the P10–P90 band contains **80–83%** of
   actual demand in every cutoff (target 80%).
 * **Coherent hierarchy:** SKU-region forecasts add up exactly to customer, channel,
-  region, family and company totals (`forecast_hierarchy.csv`); each level gets its own
-  band from backtest errors at that level.
+  region, family and company totals (`forecast_hierarchy.csv`).
+* **Aggregate bands** need more than row-level noise: a market-wide swing (like the 2024
+  upswing) moves every family together, and bands that ignore it held only 37–74% of
+  actual company totals in the held-out check. Each level's band therefore combines
+  within-period noise with the period-to-period shift, the latter with a small-sample
+  t-correction (only 4 backtest periods). Held-out coverage is now **83–87% at every
+  level** (`band_coverage.csv`).
 
 ### The forecast (2026-11 → 2028-05)
 
 | | Forecast | P10 | P90 |
 |---|---:|---:|---:|
-| **Company, 19 months** | **2.84 M units** | 2.79 M | 3.12 M |
-| Brake & Safety | 544 k | 514 k | 624 k |
-| Precision Machined | 442 k | 418 k | 508 k |
-| Chassis & Structural | 439 k | 415 k | 504 k |
-| Thermal Management | 429 k | 405 k | 492 k |
-| Powertrain | 364 k | 344 k | 418 k |
-| Hydraulic | 331 k | 313 k | 380 k |
-| Electrical | 287 k | 271 k | 329 k |
+| **Company, 19 months** (sum of monthly bands) | **2.84 M units** | 2.75 M | 3.17 M |
+| Brake & Safety | 544 k | 508 k | 627 k |
+| Precision Machined | 442 k | 413 k | 510 k |
+| Chassis & Structural | 439 k | 410 k | 506 k |
+| Thermal Management | 429 k | 401 k | 494 k |
+| Powertrain | 364 k | 340 k | 420 k |
+| Hydraulic | 331 k | 309 k | 381 k |
+| Electrical | 287 k | 268 k | 331 k |
 
 * Next 12 months **+6.5%** vs the last 12, carried by the strong Sep–Oct 2026 and a PMI
   rising to 53.

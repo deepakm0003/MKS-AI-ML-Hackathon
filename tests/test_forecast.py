@@ -67,3 +67,9 @@ def test_hierarchy_is_coherent(fc):
         s = h[h["Level"] == level].groupby("Date")["Forecast"].sum()
         assert np.allclose(s, tot.reindex(s.index))
     assert np.allclose(fc.groupby("Date")["Forecast"].sum(), tot.reindex(sorted(fc["Date"].unique())))
+
+
+def test_aggregate_bands_calibrated():
+    """Leave-one-cutoff-out: P10-P90 bands at every aggregate level hold ~80% of actuals."""
+    cov = pd.read_csv(OUT / "band_coverage.csv").groupby("Level")["Coverage_P10_P90"].mean()
+    assert (cov >= 0.75).all() and (cov <= 0.95).all()
