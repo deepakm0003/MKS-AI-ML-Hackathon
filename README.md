@@ -211,3 +211,61 @@ up to the cutoff only; 224,797 SKU-region-months scored against recovered demand
 * At planning level the error is small: **6.7%** WAPE by family-month, **4.8%** for the
   company total per month (seasonal naive: 9.7% / 7.5%).
 * Open issue for stage 4: a steady **−3.5% under-forecast** even on clean months.
+
+## Stage 4 — Final model and the 19-month forecast
+
+`python run_pipeline.py --stage forecast` → `outputs/forecast/submission.csv`
+(58,219 rows, test.csv order, non-negative integers, no blanks).
+
+### Model choices — each one tested in the rolling backtest
+
+| Option tested | Result | Decision |
+|---|---|---|
+| Global LightGBM, Tweedie loss on a scale-free target | WAPE 0.277 (best) | **Final model** |
+| Blend with L1 model / seasonal naive (weights chosen leave-one-cutoff-out) | No gain on 3 of 4 held-out cutoffs, worse on the 4th | Rejected |
+| Bigger trees, Tweedie power 1.4, recency weighting, faster learning rate | Equal or worse on both test cutoffs | Rejected |
+| Macro top-down alignment (family growth from leading indicators) | Fixes bias in 2024 but over-forecasts 2025–26 (+4–9%) and raises WAPE | Rejected for the point forecast; kept for what-if |
+| Fixed bias multiplier | Bias was period-specific (2024 boom: −7%), recent cutoffs unbiased (−0.4%) | Rejected |
+
+Final model: trained on 1.7 M (series, origin, horizon) rows covering all history,
+saved in `outputs/models/` with a model card (features, parameters, backtest metrics).
+
+### What the model cannot learn from history — explicit, evidence-based rules
+
+| Situation | Rule | Evidence |
+|---|---|---|
+| After EOL / before launch (156 test rows) | 0 | Business rule 5 |
+| New launches with no history (PMP-020, PTC-029, THM-012) | Predecessor's regional level × ramp-up curve: 16% → 45% → 67% → 72% → 88% … ≥ 100% from month 7 | The 6 past replacements |
+| Predecessor while the successor ramps up | 0.59 × its normal level (set, not multiplied — the model already lowers SKUs near EOL) | Same 6 replacements |
+| Orion Driveline NA retooling shutdown, Jul–Aug 2027 | × 0.19 | Closest analogue: Nexon strike, −81% |
+| Holidays (Lunar New Year and Ramadan move dates) | Learned by the model from holiday-share features | Event-impact analysis |
+| 1-January price rises 2027 / 2028 | No adjustment | No measurable effect in any past year |
+
+### Uncertainty and hierarchy
+
+* **P10 / P50 / P90** from the backtest's own errors (quantiles of actual ÷ forecast by
+  forecast size and horizon). Held-out check: the P10–P90 band contains **80–83%** of
+  actual demand in every cutoff (target 80%).
+* **Coherent hierarchy:** SKU-region forecasts add up exactly to customer, channel,
+  region, family and company totals (`forecast_hierarchy.csv`); each level gets its own
+  band from backtest errors at that level.
+
+### The forecast (2026-11 → 2028-05)
+
+| | Forecast | P10 | P90 |
+|---|---:|---:|---:|
+| **Company, 19 months** | **2.84 M units** | 2.79 M | 3.12 M |
+| Brake & Safety | 544 k | 514 k | 624 k |
+| Precision Machined | 442 k | 418 k | 508 k |
+| Chassis & Structural | 439 k | 415 k | 504 k |
+| Thermal Management | 429 k | 405 k | 492 k |
+| Powertrain | 364 k | 344 k | 418 k |
+| Hydraulic | 331 k | 313 k | 380 k |
+| Electrical | 287 k | 271 k | 329 k |
+
+* Next 12 months **+6.5%** vs the last 12, carried by the strong Sep–Oct 2026 and a PMI
+  rising to 53.
+* Second year eases (−3% to −8% vs the same months a year earlier): new vehicle orders
+  fall from 107 (mid-2026) to ~99, and the industrial families follow with a 3–4 month lag.
+* Bands are skewed upward: in the backtest the model under-forecast more often than it
+  over-forecast, so upside risk is larger than downside.

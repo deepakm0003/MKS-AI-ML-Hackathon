@@ -29,3 +29,7 @@ Thumbs.db
 !outputs/drivers/
 !outputs/backtest/
 outputs/backtest/*.parquet
+!outputs/forecast/
+outputs/forecast/forecast_detail.csv
+!outputs/models/
+outputs/models/*.txt
