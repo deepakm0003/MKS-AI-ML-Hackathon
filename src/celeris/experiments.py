@@ -241,23 +241,58 @@ def update_registry(name: str, spec: dict, met: dict, cfg: dict) -> pd.DataFrame
     return reg
 
 
+def _segment_metrics(name: str) -> dict | None:
+    f = ART / "experiments" / name / "metrics.json"
+    return json.loads(f.read_text(encoding="utf-8")) if f.exists() else None
+
+
 def add_promotion_verdicts(reg: pd.DataFrame, cfg: dict) -> pd.DataFrame:
+    """Six promotion criteria (all must hold):
+      1. mean WAPE gain >= min_mean_wape_gain over the same cutoffs
+      2. no horizon bucket worse by more than max_bucket_loss
+      3. bias controlled: |bias| not worse by more than max_abs_bias_increase
+      4. wins >= min_share_cutoffs_won of cutoffs and no cutoff worse than max_single_cutoff_loss
+      5. no family / region / new-series segment worse by more than max_segment_loss
+      6. tests + leakage audit pass (checked by the test suite, not here)"""
     if "champion" not in set(reg["experiment"]):
         return reg
     rule = cfg["evaluation"]["promotion"]
     champ = reg[reg["experiment"] == "champion"].iloc[0]
     cut_cols = [f"WAPE_{c}" for c in cfg["evaluation"]["cutoffs"]]
+    bucket_cols = [f"WAPE_{lo}-{hi}m" for lo, hi in cfg["evaluation"]["horizon_buckets"]]
+    cm = _segment_metrics("champion")
     verdicts = []
     for _, r in reg.iterrows():
         if r["experiment"] == "champion":
             verdicts.append("CHAMPION")
             continue
-        diff = np.array([champ[c] - r[c] for c in cut_cols])
+        fails = []
         gain = champ["WAPE"] - r["WAPE"]
+        if gain < rule["min_mean_wape_gain"]:
+            fails.append(f"gain {gain:+.4f}")
+        bdiff = min([champ[c] - r[c] for c in bucket_cols if c in r and pd.notna(r[c])] or [0.0])
+        if bdiff < -rule.get("max_bucket_loss", 1):
+            fails.append(f"horizon bucket {bdiff:+.4f}")
+        if abs(r.get("Bias", 0)) - abs(champ.get("Bias", 0)) > rule.get("max_abs_bias_increase", 1):
+            fails.append(f"bias {r['Bias']:+.3f}")
+        diff = np.array([champ[c] - r[c] for c in cut_cols])
         won = float((diff > 0).mean())
-        ok = gain >= rule["min_mean_wape_gain"] and won >= rule["min_share_cutoffs_won"] \
-            and diff.min() >= -rule["max_single_cutoff_loss"]
-        verdicts.append(f"{'PROMOTE' if ok else 'reject'} (gain {gain:+.4f}, won {won:.0%} of cutoffs, "
-                        f"worst {diff.min():+.4f})")
+        if won < rule["min_share_cutoffs_won"] or diff.min() < -rule["max_single_cutoff_loss"]:
+            fails.append(f"won {won:.0%} of cutoffs, worst {diff.min():+.4f}")
+        em = _segment_metrics(r["experiment"])
+        if cm and em:
+            worst = []
+            for seg in ["by_Product_Family", "by_Region"]:
+                for k, v in cm[seg].items():
+                    if k in em[seg]:
+                        worst.append((em[seg][k]["WAPE"] - v["WAPE"], k))
+            new_c, new_e = cm["by_Lifecycle"].get("new (<24m)"), em["by_Lifecycle"].get("new (<24m)")
+            if new_c and new_e:
+                worst.append((new_e["WAPE"] - new_c["WAPE"], "new series"))
+            d, k = max(worst) if worst else (0.0, "")
+            if d > rule.get("max_segment_loss", 1):
+                fails.append(f"segment {k} {d:+.4f}")
+        head = "PROMOTE" if not fails else "reject: " + "; ".join(fails)
+        verdicts.append(f"{head} | gain {gain:+.4f}, won {won:.0%}, worst cutoff {diff.min():+.4f}")
     reg["verdict"] = verdicts
     return reg

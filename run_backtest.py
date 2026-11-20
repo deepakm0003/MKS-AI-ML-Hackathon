@@ -17,6 +17,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--experiment", nargs="*", default=["champion"])
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--rerun-champion", action="store_true")
     a = ap.parse_args()
     cfg = load_config()
     if a.list:
@@ -24,8 +25,15 @@ if __name__ == "__main__":
         for k, v in cfg["experiments"].items():
             print(f"{k}: {v['description']}")
         sys.exit()
+    from celeris.experiments import resolve
     store = FrameStore()
     for name in a.experiment:
+        if name == "champion" and (Path(__file__).parent / "artifacts/experiments/champion/metrics.json").exists()                 and "--rerun-champion" not in sys.argv:
+            print("champion is frozen; pass --rerun-champion to reproduce it", flush=True)
+            continue
+        fs = resolve(name, cfg)["feature_set"]
+        store.frames = {k: v for k, v in store.frames.items() if k[0] == fs}   # free other feature sets
+        store.panels = {k: v for k, v in store.panels.items() if k == fs}
         print(f"== experiment {name}", flush=True)
         m = run(name, store)
         o = m["overall"]

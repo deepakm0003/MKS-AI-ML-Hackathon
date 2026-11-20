@@ -13,6 +13,9 @@ evaluation:
     min_mean_wape_gain: 0.002          # absolute WAPE points
     min_share_cutoffs_won: 0.67        # wins on at least 4 of 6 cutoffs
     max_single_cutoff_loss: 0.005      # never worse than this on any cutoff
+    max_bucket_loss: 0.003             # no horizon bucket (1-3/4-6/7-12/13-19 m) worse than this
+    max_abs_bias_increase: 0.01        # |bias| may not grow by more than 1 point
+    max_segment_loss: 0.005            # no family, region or new-series segment worse than this
 
 champion:
   description: "Global LightGBM, Tweedie loss on demand/scale, weight=scale, 87 features (frozen 2026-11-20)"
@@ -39,21 +42,42 @@ champion:
   target_clip: 20
 
 experiments:
+  # ---- milestone 1
   cross_series:
     description: "Champion + cross-series market features (family, region, customer, family x region, total)"
     feature_set: base+cross
   no_macro:
     description: "Champion without macro features (measures dependence on macro foresight)"
     drop_feature_prefix: ["m_"]
-  hurdle:
-    description: "Two-stage: P(order) classifier x E[qty | order] regressor"
-    model: hurdle
-  horizon_split:
-    description: "Separate models for h 1-6 and h 7-19"
+  # ---- phase C
+  c1_growth:
+    description: "C1: + series momentum, age-aware growth and family-specific macro sensitivity"
+    feature_set: base+growth
+  c2_horizon_split:
+    description: "C2: separate models for h 1-6 and h 7-19"
     horizon_models: [[1, 6], [7, 19]]
-  catboost:
-    description: "CatBoost challenger, Tweedie, same features"
+  c3_interm_features:
+    description: "C3a: + intermittent-demand statistics (ADI, CV2, TSB, SBA, overdue)"
+    feature_set: base+interm
+  c3_hurdle:
+    description: "C3b: two-stage P(order) x E[qty | order], champion features"
+    model: hurdle
+  c3_hurdle_interm:
+    description: "C3c: two-stage hurdle with intermittent-demand statistics"
+    model: hurdle
+    feature_set: base+interm
+  c4_seed_bag_cross:
+    description: "C4: champion + cross-series features, averaged over 3 seeds"
+    feature_set: base+cross
+    seeds: [7, 11, 23]
+  c5_catboost:
+    description: "C5: CatBoost, Tweedie, same leakage-safe features"
     model: catboost
+    cb_iterations: 1000
+  c6_no_ev_level:
+    description: "C6: drop the EV-adoption features (stress test showed they act as a time-trend proxy)"
+    drop_feature_prefix: ["m_EV_Adoptio"]
+  # ---- robustness (not promotion candidates on their own)
   seed_bag:
     description: "Champion averaged over 3 seeds"
     seeds: [7, 11, 23]

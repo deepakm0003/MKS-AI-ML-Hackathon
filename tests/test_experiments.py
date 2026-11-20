@@ -41,10 +41,14 @@ def test_promotion_rule():
     cfg = load_config()
     cuts = cfg["evaluation"]["cutoffs"]
     base = {f"WAPE_{c}": 0.28 for c in cuts}
+    buckets = [f"WAPE_{lo}-{hi}m" for lo, hi in cfg["evaluation"]["horizon_buckets"]]
     reg = pd.DataFrame([
-        {"experiment": "champion", "WAPE": 0.28, **base},
-        {"experiment": "better", "WAPE": 0.27, **{f"WAPE_{c}": 0.27 for c in cuts}},
-        {"experiment": "lucky", "WAPE": 0.275, **{f"WAPE_{c}": (0.25 if i == 0 else 0.281) for i, c in enumerate(cuts)}},
+        {"experiment": "champion", "WAPE": 0.28, "Bias": -0.03, **base, **{b: 0.28 for b in buckets}},
+        {"experiment": "better", "WAPE": 0.27, "Bias": -0.02, **{f"WAPE_{c}": 0.27 for c in cuts}, **{b: 0.27 for b in buckets}},
+        {"experiment": "lucky", "WAPE": 0.275, "Bias": -0.03, **{b: 0.275 for b in buckets},
+         **{f"WAPE_{c}": (0.25 if i == 0 else 0.281) for i, c in enumerate(cuts)}},
+        {"experiment": "biased", "WAPE": 0.27, "Bias": -0.06, **{f"WAPE_{c}": 0.27 for c in cuts}, **{b: 0.27 for b in buckets}},
     ])
     v = add_promotion_verdicts(reg, cfg).set_index("experiment")["verdict"]
     assert v["champion"] == "CHAMPION" and v["better"].startswith("PROMOTE") and v["lucky"].startswith("reject")
+    assert v["biased"].startswith("reject") and "bias" in v["biased"]
