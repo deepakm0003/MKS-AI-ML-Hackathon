@@ -32,7 +32,9 @@ class Panel:
     """Series x month matrices built once and sliced per origin."""
 
     def __init__(self, demand: pd.DataFrame, sku: pd.DataFrame, macro: pd.DataFrame,
-                 events_monthly: pd.DataFrame, extra_series: pd.DataFrame | None = None):
+                 events_monthly: pd.DataFrame, extra_series: pd.DataFrame | None = None,
+                 feature_set: str = "base"):
+        self.feature_set = feature_set      # "base" (champion) or "base+cross"
         d = demand
         keys = d[["SKU_ID", "Region"]].drop_duplicates()
         if extra_series is not None:   # test series with no history (new launches)
@@ -164,6 +166,9 @@ class Panel:
               eligible: np.ndarray | None = None) -> pd.DataFrame:
         st = self.static
         sf = self.series_features(o)
+        if "cross" in self.feature_set:
+            from .cross_series import cross_features
+            sf = pd.concat([sf, cross_features(self.X, self.static, o)], axis=1)
         si = self.seasonal_index(o)
         grp = (st["Product_Family"].astype(str) + "|" + st["Region"].astype(str)).to_numpy()
         base_ok = (st["first_idx"].to_numpy() <= o) if eligible is None else eligible
