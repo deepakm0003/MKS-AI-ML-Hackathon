@@ -28,7 +28,7 @@ One command rebuilds every output from `data/raw/`:
 python run_pipeline.py
 ```
 
-Run the tests afterwards:
+Run one stage only with `--stage clean` or `--stage anomalies`. Run the tests afterwards:
 
 ```powershell
 python -m pytest -q
@@ -83,3 +83,63 @@ Every rule below is applied in code (`src/celeris/`) and every affected row is i
 Outputs: `sales_clean.parquet` (244,566 rows, one per Date-SKU-Region) and
 `panel.parquet` (full monthly grid with a status per cell: `observed`,
 `missing_row`, `missing_value`, `not_active`).
+
+## Stage 2 — Anomalies and unconstrained demand
+
+The forecast must be **unconstrained demand** (what customers asked for), so shipped
+units are converted into demand before any model sees them
+(`src/celeris/anomalies.py`, output `data/processed/demand.parquet`).
+
+| Step | Rows | Rule |
+|---|---:|---|
+| Listed stockout months | 5,005 | Demand = `Requested_Units` (also fills 25 months with no sales row) |
+| Month after a backorder | 1,048 | Demand = shipped − units carried in from last month (shipments there run ~30% high) |
+| Chip-shortage months not in the stockout file (Electrical Assemblies, 2021-03 → 2022-09) | 2,564 | Demand = shipped × (requested ÷ shipped of the listed rows, same family-month); the event says the whole family was allocated |
+| Unlisted stockouts elsewhere | 0 | **Tested, not assumed:** the "partial shipment then catch-up" signature (2,057 months) is *less* common than its noise mirror (2,512), so there is no evidence to adjust |
+
+Every unusual point goes into **`outputs/anomalies/anomaly_register.csv`** with type,
+category, detection method, reason, action and confidence:
+
+| Category | Types | Action |
+|---|---|---|
+| `data_error` | sign, ×10/×100, packs-of-10, blank units | Corrected in stage 1 |
+| `stockout` | listed, backorder catch-up, allocation | Demand recovered |
+| `real_event` | COVID, strike, price-announcement pull-forward | Kept in history, excluded from model target |
+| `spike` | 251 one-off orders (robust z > 5, > 3× typical order, revenue reconciles) | Kept in history, excluded from model target |
+| `gap` | missing months | Excluded from target, normal level used for lags |
+| `unknown` | 219 unexplained drops | Flagged for planners |
+
+For modelling, `Train_Weight` = 0 on excluded months (8.4% of cells) and `Demand_Model`
+replaces them with the robust normal level, so lags and rolling features are not
+polluted by one-off events.
+
+### Which events actually moved demand — `outputs/anomalies/event_impact.csv`
+
+Baseline depends on the event: holidays vs adjacent months (pooled across years),
+long events vs 12 months before/after, others vs the same months a year before and after.
+
+| Finding | Effect |
+|---|---|
+| COVID lockdowns | −35% (APAC) to −76% (India), all material |
+| Nexon strike, Europe Oct–Nov 2023 | −81% for that customer |
+| Chip shortage, Electrical Assemblies | material: shipped ≈ 25% below recovered demand |
+| Europe August shutdown | −57% every year |
+| North America July retooling | −40% every year |
+| Lunar New Year (APAC) | −25% to −43% in the month that holds it (moves Jan ↔ Feb) |
+| Ramadan (MEA) | about −14%, moves earlier each year |
+| Helios second Indian line (Sep 2025) | +21%; Helios's share of India steps up 20% (t = 4.8), permanent |
+| Annual 1-January price rises | **no measurable effect** (any year) |
+| Trade fair, rebrand, CRM upgrade, new director, dealer conference, Red Sea | **no measurable effect** |
+
+### Structural changes — `outputs/anomalies/structural_register.csv`
+
+* **39 ordering-cycle changes** (18 monthly → every 2 months, 18 quarterly → monthly, 3 monthly → quarterly)
+* **23 customer switches** on an SKU-region (the account moved to another customer)
+* **0 lost accounts** without replacement; 25 series ended exactly at their EOL
+* **1 level shift** (Helios India, matches EV-052)
+* **Master vs transactions:** BSS-018 sold from 2025-02 but master says launch 2025-06;
+  3 planned launches with no history (PMP-020, PTC-029, THM-012 → forecast from predecessors)
+
+`data/processed/series_profile.parquet` holds per series: ordering cycle (2,455 monthly,
+369 every 2 months, 242 quarterly), months since last order, ADI/CV² demand class
+(2,230 smooth, 769 intermittent, 69 erratic, 15 lumpy).
