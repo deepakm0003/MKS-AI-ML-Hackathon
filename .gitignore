@@ -39,3 +39,4 @@ outputs/models/*.txt
 artifacts/**/*.parquet
 artifacts/**/*.txt
 catboost_info/
+artifacts/logs/

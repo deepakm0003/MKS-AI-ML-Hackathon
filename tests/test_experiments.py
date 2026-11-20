@@ -14,26 +14,33 @@ def sample():
     from celeris.experiments import FrameStore
     from celeris.features import MIDX
     st = FrameStore()
-    spec = {"feature_set": "base+cross", "train_first_origin": "2023-01", "train_origin_step": 6}
+    spec = {"feature_set": "base+cross+growth+interm", "train_first_origin": "2023-01", "train_origin_step": 6}
     train = st.training(spec, MIDX["2024-04"]).sample(4000, random_state=0)
     ev = st.evaluation(spec, MIDX["2024-04"]).sample(1500, random_state=0)
     return train, ev
 
 
-@pytest.mark.parametrize("name", ["champion", "cross_series", "no_macro", "hurdle", "horizon_split",
-                                  "seed_bag", "catboost"])
+EXTRA = {"cross_series": "x_", "c1_growth": "g_", "c3_interm_features": "i_", "c3_hurdle_interm": "i_",
+         "c4_seed_bag_cross": "x_"}
+
+
+@pytest.mark.parametrize("name", ["champion", "cross_series", "no_macro", "c1_growth", "c2_horizon_split",
+                                  "c3_interm_features", "c3_hurdle", "c3_hurdle_interm", "c4_seed_bag_cross",
+                                  "c5_catboost", "c6_no_ev_level"])
 def test_every_model_type_runs(sample, name):
     from celeris.experiments import fit_predict, resolve
     train, ev = sample
     spec = resolve(name)
-    spec.update(rounds=10, cb_iterations=10, feature_set="base+cross")
-    if name != "cross_series":
-        train = train[[c for c in train.columns if not c.startswith("x_")]]
-        ev = ev[[c for c in ev.columns if not c.startswith("x_")]]
+    spec.update(rounds=10, cb_iterations=10)
+    keep = lambda c: not c.startswith(("x_", "g_", "i_")) or (name in EXTRA and c.startswith(EXTRA[name]))
+    train = train[[c for c in train.columns if keep(c)]]
+    ev = ev[[c for c in ev.columns if keep(c)]]
     f, info = fit_predict(spec, train, ev)
     assert len(f) == len(ev) and np.isfinite(f).all() and (f >= 0).all()
     if name == "no_macro":
         assert info["n_features"] < 87
+    if name == "champion":
+        assert info["n_features"] == 87
 
 
 def test_promotion_rule():
