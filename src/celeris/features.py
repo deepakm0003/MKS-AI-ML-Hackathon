@@ -169,6 +169,15 @@ class Panel:
         if "cross" in self.feature_set:
             from .cross_series import cross_features
             sf = pd.concat([sf, cross_features(self.X, self.static, o)], axis=1)
+        fam_models = None
+        if "growth" in self.feature_set:
+            from .challenger_features import family_macro_models, growth_series_features
+            sf = pd.concat([sf, growth_series_features(self.X, self.static, o)], axis=1)
+            fam_models = family_macro_models(self.X, self.static, self.macro, self.macro_cols, o)
+            fam_arr = self.static["Product_Family"].astype(str).to_numpy()
+        if "interm" in self.feature_set:
+            from .challenger_features import intermittent_features
+            sf = pd.concat([sf, intermittent_features(self.X, o)], axis=1)
         si = self.seasonal_index(o)
         grp = (st["Product_Family"].astype(str) + "|" + st["Region"].astype(str)).to_numpy()
         base_ok = (st["first_idx"].to_numpy() <= o) if eligible is None else eligible
@@ -239,6 +248,10 @@ class Panel:
                 v_t, v_o = self.macro[t - lag, j], self.macro[o - lag, j]
                 fr[f"m_{ind[:12]}_L{lag}"] = v_t
                 fr[f"m_{ind[:12]}_L{lag}_chg"] = v_t - v_o
+            if fam_models is not None:
+                from .challenger_features import growth_target_features
+                for k, v in growth_target_features(fam_models, fam_arr[ok], self.macro, o, t).items():
+                    fr[k] = v
             for c in CATEGORICAL:   # keep one fixed category set so codes match across frames
                 fr[c] = pd.Categorical(s[c].astype(object), categories=st[c].cat.categories)
             fr["series"] = np.flatnonzero(ok)
