@@ -61,8 +61,24 @@ def tag_events(p: pd.DataFrame, ev_monthly: pd.DataFrame) -> pd.DataFrame:
 
 
 # ----------------------------------------------------------------------------- main
+def transient_candidates(events: pd.DataFrame) -> set:
+    """Events that could distort the history for a while and then end: closed events of a
+    transient type, plus price-rise announcements (early buying, then payback).
+    Open-ended events (e.g. a customer's permanent capacity increase) are structural."""
+    closed = events["End_Date"].notna() & events["End_Date"].astype(str).str.strip().ne("")
+    trans = closed & events["Event_Type"].isin(TRANSIENT_EVENT_TYPES)
+    ann = events["Event_Type"].eq("Announcement") & events["Description"].str.contains("price", case=False)
+    return set(events.loc[trans | ann, "Event_ID"])
+
+
 def build_demand(panel: pd.DataFrame, stockouts: pd.DataFrame, events: pd.DataFrame,
-                 events_monthly: pd.DataFrame, sku: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+                 events_monthly: pd.DataFrame, sku: pd.DataFrame,
+                 excluded_events: set | None = None) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
+    """excluded_events: event IDs whose months are kept out of the model target. The
+    pipeline passes only events whose impact was measured as material (see
+    structural.event_impact); None = every transient candidate."""
+    if excluded_events is None:
+        excluded_events = transient_candidates(events)
     p = panel[panel["status"] != "not_active"].copy()
     p = p.sort_values(KEY + ["Date"]).reset_index(drop=True)
     U = p["Units_Sold"]
@@ -93,9 +109,25 @@ def build_demand(panel: pd.DataFrame, stockouts: pd.DataFrame, events: pd.DataFr
                     lambda r: f"shipment includes {r['Backorder_In']:.0f} units back-ordered last month",
                     "demand = shipped - carried-in backorder", "high"))
 
-    # ---------------------------------------------------- 2. allocation windows (supply constraint)
+    # ---------------------------------------------------- 2. event tags
     em = events_monthly
+    tags = tag_events(p, em)
+    p["Events"] = tags.groupby("row")["Event_ID"].agg(",".join).reindex(p.index).fillna("")
+    transient = tags[tags["Event_ID"].isin(excluded_events)].groupby("row")["Event_ID"].agg(",".join)
+    p["Transient_Event"] = transient.reindex(p.index).fillna("")
+    # price-rise announcement -> early buying in the announcement months, payback after
+    ann = events[events["Event_Type"].eq("Announcement") & events["Description"].str.contains("price", case=False)]
+    p["Pull_Forward"] = ""
+    for _, a in ann[ann["Event_ID"].isin(excluded_events)].iterrows():
+        start = pd.Period(a["start_day"], "M")
+        fwd = {(start + i).strftime("%Y-%m") for i in range(0, 2)}
+        back = {(start + i).strftime("%Y-%m") for i in range(2, 4)}
+        p.loc[p["Date"].isin(fwd), "Pull_Forward"] = f"{a['Event_ID']}:early_buying"
+        p.loc[p["Date"].isin(back), "Pull_Forward"] = f"{a['Event_ID']}:payback"
+
+    # ---------------------------------------------------- 3. allocation windows (supply constraint)
     sup = em[em["Event_Type"].eq("Supply Constraint")]
+    findings_alloc = {}
     alloc = pd.Series(False, index=p.index)
     for ev_id, g in sup.groupby("Event_ID"):
         fam = g["Scope_Value"].iloc[0]
@@ -106,36 +138,31 @@ def build_demand(panel: pd.DataFrame, stockouts: pd.DataFrame, events: pd.DataFr
         upl = (lst.groupby("Date")["Requested_Units"].sum() /
                lst.groupby("Date")["Shipped_Units"].sum()).clip(1, 3)
         sel = inwin & p["Demand_Source"].eq("observed")
-        f = p.loc[sel, "Date"].map(upl).fillna(upl.median())
+        f_listed = p.loc[sel, "Date"].map(upl).fillna(upl.median())
+        # The listed rows are the worst-hit ones, so their ratio overstates the shortfall of
+        # the unlisted rows. Calibrate the level with a difference-in-differences: unlisted
+        # rows' shipments in the window vs their own normal level, against the same ratio
+        # for the other (unconstrained) families. Keep the listed rows' monthly profile.
+        did = _did_uplift(p, months, fam, sel)
+        k = (did - 1) / (f_listed.mean() - 1) if f_listed.mean() > 1 else 0
+        f = (1 + (f_listed - 1) * k).clip(lower=1)
+        findings_alloc[ev_id] = {"listed_rows_uplift_mean": round(float(f_listed.mean()), 3),
+                                 "did_uplift_for_unlisted_rows": round(float(did), 3)}
         p.loc[sel, "Demand"] = (U[sel] * f).round()
         p.loc[sel, "Demand_Source"] = "allocation_uplift"
         p.loc[sel, "Alloc_Uplift"] = f
         alloc |= sel
         reg.append(_reg(p[sel], "allocation_unlisted", "stockout", f"events_calendar {ev_id}",
                         lambda r, ev_id=ev_id: f"{ev_id} shipments allocated below demand; month not in stockout file; "
-                                               f"uplift x{r['Alloc_Uplift']:.2f} from listed rows of the same month",
-                        "demand = shipped x (requested / shipped of listed rows, same family-month)", "medium"))
-
-    # ---------------------------------------------------- 3. event tags
-    tags = tag_events(p, em)
-    p["Events"] = tags.groupby("row")["Event_ID"].agg(",".join).reindex(p.index).fillna("")
-    transient = tags[tags["Event_Type"].isin(TRANSIENT_EVENT_TYPES)].groupby("row")["Event_ID"].agg(",".join)
-    p["Transient_Event"] = transient.reindex(p.index).fillna("")
-    # price-rise announcement -> early buying in the announcement months, payback after
-    ann = events[events["Event_Type"].eq("Announcement") & events["Description"].str.contains("price", case=False)]
-    p["Pull_Forward"] = ""
-    for _, a in ann.iterrows():
-        start = pd.Period(a["start_day"], "M")
-        fwd = {(start + i).strftime("%Y-%m") for i in range(0, 2)}
-        back = {(start + i).strftime("%Y-%m") for i in range(2, 4)}
-        p.loc[p["Date"].isin(fwd), "Pull_Forward"] = f"{a['Event_ID']}:early_buying"
-        p.loc[p["Date"].isin(back), "Pull_Forward"] = f"{a['Event_ID']}:payback"
+                                               f"uplift x{r['Alloc_Uplift']:.2f} (listed-row monthly profile, DiD-calibrated level)",
+                        "demand = shipped x uplift (difference-in-differences vs unconstrained families)", "medium"))
 
     # ---------------------------------------------------- 4. unlisted-stockout test
     # The stockout file is "known to be incomplete". A stockout outside it would show as a
     # partial shipment followed by a catch-up month. We count that low->high signature
     # and compare it with the mirror high->low pattern, which only noise can produce.
-    findings = {"unlisted_stockout_test": unlisted_stockout_test(p)}
+    findings = {"unlisted_stockout_test": unlisted_stockout_test(p), "allocation_uplift": findings_alloc,
+                "excluded_events": sorted(excluded_events)}
 
     # ---------------------------------------------------- 6. expected level (pass 2) + spikes / drops
     pi = p.set_index(KEY + ["Date"])
@@ -164,6 +191,9 @@ def build_demand(panel: pd.DataFrame, stockouts: pd.DataFrame, events: pd.DataFr
     p.loc[drop & p["Transient_Event"].eq("") & p["Anomaly_Type"].eq(""), "Anomaly_Type"] = "unexplained_drop"
     p.loc[p["Transient_Event"].ne("") & p["Anomaly_Type"].eq(""), "Anomaly_Type"] = "event_window"
     p.loc[p["Pull_Forward"].ne("") & p["Anomaly_Type"].eq(""), "Anomaly_Type"] = "price_pull_forward"
+    open_ev = set(events.loc[events["End_Date"].isna() & events["Event_Type"].eq("Customer Event"), "Event_ID"])
+    step = p["Events"].apply(lambda x: bool(open_ev & set(x.split(","))) if x else False)
+    p.loc[step & p["Anomaly_Type"].eq(""), "Anomaly_Type"] = "structural_step"
     p.loc[p["status"].isin(["missing_row", "missing_value"]), "Anomaly_Type"] = "missing"
 
     reg.append(_reg(p[p["Anomaly_Type"].eq("one_off_order")], "one_off_order", "spike",
@@ -183,6 +213,11 @@ def build_demand(panel: pd.DataFrame, stockouts: pd.DataFrame, events: pd.DataFr
     reg.append(_reg(pf[pf["Robust_Z"].abs().gt(1.5)], "price_pull_forward", "real_event", "events_calendar announcement",
                     lambda r: f"{r['Pull_Forward']}: {r['Demand']:.0f} vs normal {r['Expected']:.1f}",
                     "real event: kept; excluded from model target (announcement-driven)", "medium"))
+    st = p[p["Anomaly_Type"].eq("structural_step")]
+    reg.append(_reg(st[st["Date"].eq(st.groupby(KEY)["Date"].transform("min"))], "structural_step", "real_event",
+                    "events_calendar (open-ended) + level-shift test",
+                    lambda r: f"permanent change from {r['Date']}: {r['Events']}",
+                    "real and permanent: kept as the new level, used for training", "high"))
     reg.append(_reg(p[p["Anomaly_Type"].eq("missing")], "missing_month", "gap", "panel status",
                     lambda r: r["gap_reason"] or "units not recoverable",
                     "excluded from target; Expected used for lags", "high"))
@@ -190,8 +225,16 @@ def build_demand(panel: pd.DataFrame, stockouts: pd.DataFrame, events: pd.DataFr
     # ---------------------------------------------------- 7. model columns
     excl = p["Anomaly_Type"].isin(["one_off_order", "event_window", "price_pull_forward", "missing"])
     p["Train_Weight"] = np.where(excl, 0.0, 1.0)
-    p["Demand_Model"] = p["Demand"].where(~excl, p["Expected"])
-    p["Demand_Model"] = p["Demand_Model"].fillna(p["Expected"])
+    # Fill excluded / missing months with a CAUSAL level (mean of the previous 12 usable
+    # months) so lag features never see the future in a backtest; fall back to the
+    # centred Expected only at the very start of a series.
+    usable = p["Demand"].where(~excl)
+    trailing = usable.groupby([p["SKU_ID"], p["Region"]]).transform(
+        lambda x: x.shift(1).rolling(12, min_periods=3).mean())
+    fill = trailing.fillna(p["Expected"])
+    p["Expected_Causal"] = trailing
+    p["Demand_Model"] = p["Demand"].where(~excl, fill)
+    p["Demand_Model"] = p["Demand_Model"].fillna(fill)
     p["Demand_Model"] = p.groupby(KEY)["Demand_Model"].transform(lambda x: x.ffill().bfill()).fillna(0)
 
     register = pd.concat([r for r in reg if r is not None and len(r)], ignore_index=True)
@@ -201,6 +244,23 @@ def build_demand(panel: pd.DataFrame, stockouts: pd.DataFrame, events: pd.DataFr
     register["Demand"] = fin["Demand"].reindex(idx).values
     register["Expected"] = fin["Expected"].reindex(idx).round(1).values
     return p, register, findings
+
+
+def _did_uplift(p: pd.DataFrame, months: set, fam: str, sel: pd.Series) -> float:
+    w0, w1 = min(months), max(months)
+    lo = (pd.Period(w0, "M") - 24).strftime("%Y-%m")
+    hi = (pd.Period(w1, "M") + 24).strftime("%Y-%m")
+    usable = p["Transient_Event"].eq("") & p["Units_Sold"].notna()
+    inside = p["Date"].isin(months) & usable
+    outside = p["Date"].between(lo, hi) & ~p["Date"].isin(months) & usable
+    ins = p[inside].groupby(KEY)["Units_Sold"].mean()
+    out = p[outside].groupby(KEY)["Units_Sold"].mean()
+    r = (ins / out).replace([np.inf, -np.inf], np.nan).dropna()
+    fam_of = p.groupby(KEY)["Product_Family"].first().reindex(r.index)
+    treated = set(map(tuple, p.loc[sel, KEY].drop_duplicates().values))
+    is_t = pd.Series([i in treated for i in r.index], index=r.index)
+    ctrl, trt = r[fam_of.ne(fam)].median(), r[is_t].median()
+    return float(np.clip(ctrl / trt, 1, 3)) if trt > 0 else 1.0
 
 
 def unlisted_stockout_test(p: pd.DataFrame) -> dict:

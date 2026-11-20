@@ -64,11 +64,21 @@ UNIT_ERROR_TYPES = {
 
 
 def run_anomalies(verbose: bool = True) -> dict:
-    from .anomalies import build_demand
+    from .anomalies import build_demand, transient_candidates
+    from .structural import event_impact, series_profile, structural_register
     t0 = time.time()
     rd = lambda n: pd.read_parquet(PROCESSED / f"{n}.parquet")
     panel, so, ev, evm, sku = rd("panel"), rd("stockouts"), rd("events"), rd("events_monthly"), rd("sku_master")
-    demand, register, findings = build_demand(panel, so, ev, evm, sku)
+
+    # Pass 1: measure every candidate event; pass 2: exclude from the model target only
+    # the events whose impact is measurable (a "no effect" event leaves the data alone).
+    prelim, _, _ = build_demand(panel, so, ev, evm, sku)
+    impact0 = event_impact(prelim, ev, evm)
+    cands = transient_candidates(ev)
+    measured = set(impact0.loc[impact0["Event_ID"].isin(cands)
+                               & impact0["Verdict"].isin(["material", "weak"]), "Event_ID"])
+    demand, register, findings = build_demand(panel, so, ev, evm, sku, excluded_events=measured)
+    findings["events_not_excluded_no_effect"] = sorted(cands - measured)
 
     # data errors fixed in stage 1 that changed units also belong in the anomaly register
     log = pd.read_csv(QUALITY / "dq_issue_log.csv", dtype=str)
@@ -85,7 +95,6 @@ def run_anomalies(verbose: bool = True) -> dict:
     register = pd.concat([errs[register.columns], register], ignore_index=True)
     register = register.sort_values(["Date", "SKU_ID", "Region", "Category"]).reset_index(drop=True)
 
-    from .structural import event_impact, series_profile, structural_register
     test = rd("test")
     impact = event_impact(demand, ev, evm)
     profile = series_profile(demand)
