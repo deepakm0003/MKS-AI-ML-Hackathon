@@ -205,3 +205,47 @@ def run_backtest_stage(verbose: bool = True, cutoffs=None, variants=None) -> dic
     if verbose:
         print(tables["overall"].T.round(3).to_string())
     return {"backtest": bt, **tables}
+
+
+def run_forecast(verbose: bool = True, params=None, rounds=None) -> dict:
+    """Stage 4: train the final model on all history and forecast the test window."""
+    from .backtest import N_ROUNDS
+    from .features import Panel
+    from .forecast import forecast_test, hierarchy, replacement_curves, save_model, train_final
+    t0 = time.time()
+    rd = lambda n: pd.read_parquet(PROCESSED / f"{n}.parquet")
+    demand, sku, macro, evm, test = rd("demand"), rd("sku_master"), rd("macro"), rd("events_monthly"), rd("test")
+    bt = pd.read_parquet(ROOT_OUT / "backtest" / "backtest_predictions.parquet")
+    impact = pd.read_csv(ROOT_OUT / "anomalies" / "event_impact.csv")
+    P = Panel(demand, sku, macro, evm, test)
+    model, cols, n_train = train_final(P, params, rounds or N_ROUNDS)
+    curves = replacement_curves(demand, sku)
+    fc, notes = forecast_test(P, model, cols, test, sku, demand, evm, impact, bt, curves)
+
+    out = ROOT_OUT / "forecast"
+    out.mkdir(parents=True, exist_ok=True)
+    sub = fc[["Date", "SKU_ID", "Region", "Units_Sold_Forecast"]]
+    assert len(sub) == len(test) and sub["Units_Sold_Forecast"].notna().all()
+    assert (sub["Units_Sold_Forecast"] >= 0).all()
+    assert (sub[["Date", "SKU_ID", "Region"]].values == test[["Date", "SKU_ID", "Region"]].values).all()
+    sub.to_csv(out / "submission.csv", index=False)
+    cols_out = ["Date", "Year", "Month", "Product_Family", "Business_Unit", "SKU_ID", "SKU_Description",
+                "Customer_Name", "Sales_Channel", "Region", "h", "Forecast", "P10", "P50", "P90",
+                "Units_Sold_Forecast", "method"]
+    fc[cols_out].to_csv(out / "forecast_detail.csv", index=False)
+    hier = hierarchy(fc, bt)
+    hier.to_csv(out / "forecast_hierarchy.csv", index=False)
+    meta = {"trained_rows": n_train, "history_end": "2026-10", "horizon": 19,
+            "backtest": json.loads(pd.read_csv(ROOT_OUT / "backtest" / "metrics_overall.csv").to_json(orient="records"))[0],
+            "lifecycle_curves": curves, "rules": notes}
+    save_model(model, cols, ROOT_OUT / "models", meta)
+    with open(out / "forecast_notes.json", "w", encoding="utf-8") as f:
+        json.dump({"curves": curves, **notes}, f, indent=2, default=str)
+    if verbose:
+        tot = hier[hier["Level"] == "total"]
+        print(f"forecast done in {time.time() - t0:.0f}s; trained on {n_train:,} rows; {len(sub):,} test rows")
+        print(f"19-month total: {tot['Forecast'].sum():,.0f} units "
+              f"(P10 {tot['P10'].sum():,.0f} / P90 {tot['P90'].sum():,.0f})")
+        print(fc["method"].str.split(";").str[0].value_counts().to_string())
+        print(json.dumps(notes, indent=1, default=str)[:1500])
+    return {"forecast": fc, "hierarchy": hier, "model": model}
