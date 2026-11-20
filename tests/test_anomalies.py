@@ -44,11 +44,6 @@ def test_unconstrained_demand_not_below_shipments_in_allocation(demand):
     assert (a["Demand"] >= a["Units_Sold"] - 0.5).all()
 
 
-def test_excluded_months_use_expected_for_lags(demand):
-    x = demand[demand["Train_Weight"].eq(0) & demand["Expected"].notna()]
-    assert np.allclose(x["Demand_Model"], x["Expected"])
-
-
 def test_register_rows_point_to_panel(demand):
     reg = pd.read_csv(OUT / "anomaly_register.csv")
     need = {"Date", "SKU_ID", "Region", "Type", "Category", "Reason", "Action", "Confidence"}
@@ -76,3 +71,31 @@ def test_series_profile_one_row_per_series(demand):
 def test_findings_written():
     f = json.loads((OUT / "findings.json").read_text(encoding="utf-8"))
     assert "unlisted_stockout_test" in f
+
+
+def test_only_measured_events_are_excluded():
+    """An event is kept out of the model target only if its impact was measurable."""
+    f = json.loads((OUT / "findings.json").read_text(encoding="utf-8"))
+    ev = pd.read_csv(OUT / "event_impact.csv").set_index("Event_ID")
+    for e in f["excluded_events"]:
+        assert ev.at[e, "Verdict"] in ("material", "weak")
+    assert "EV-039" not in f["excluded_events"]          # Red Sea: no measurable effect
+
+
+def test_permanent_step_is_training_data(demand):
+    """Helios's second Indian line (open-ended event) is the new normal, not an outlier."""
+    h = demand[(demand["Customer_Name"] == "Helios Auto Parts") & (demand["Region"] == "India")
+               & (demand["Date"] >= "2025-09")]
+    assert (h["Train_Weight"] == 0).mean() < 0.05
+
+
+def test_allocation_uplift_calibrated_below_listed_rows():
+    f = json.loads((OUT / "findings.json").read_text(encoding="utf-8"))["allocation_uplift"]["EV-019"]
+    assert 1 < f["did_uplift_for_unlisted_rows"] < f["listed_rows_uplift_mean"]
+
+
+def test_model_fill_is_causal(demand):
+    """Excluded months are filled from the PAST 12 months only (no look-ahead in backtests)."""
+    d = demand.sort_values(["SKU_ID", "Region", "Date"])
+    x = d[d["Train_Weight"].eq(0) & d["Expected_Causal"].notna()]
+    assert np.allclose(x["Demand_Model"], x["Expected_Causal"])

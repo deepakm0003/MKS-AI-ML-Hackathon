@@ -94,8 +94,8 @@ units are converted into demand before any model sees them
 |---|---:|---|
 | Listed stockout months | 5,005 | Demand = `Requested_Units` (also fills 25 months with no sales row) |
 | Month after a backorder | 1,048 | Demand = shipped − units carried in from last month (shipments there run ~30% high) |
-| Chip-shortage months not in the stockout file (Electrical Assemblies, 2021-03 → 2022-09) | 2,564 | Demand = shipped × (requested ÷ shipped of the listed rows, same family-month); the event says the whole family was allocated |
-| Unlisted stockouts elsewhere | 0 | **Tested, not assumed:** the "partial shipment then catch-up" signature (2,057 months) is *less* common than its noise mirror (2,512), so there is no evidence to adjust |
+| Chip-shortage months not in the stockout file (Electrical Assemblies, 2021-03 → 2022-09) | 2,564 | Demand = shipped × uplift. The listed rows are the worst-hit, so their ratio (1.57×) would overstate the rest; the level is calibrated by **difference-in-differences** against the unconstrained families (1.37×), keeping the listed rows' month-to-month profile |
+| Unlisted stockouts elsewhere | 0 | **Tested, not assumed:** the "partial shipment then catch-up" signature (2,112 months) is *less* common than its noise mirror (2,545), so there is no evidence to adjust |
 
 Every unusual point goes into **`outputs/anomalies/anomaly_register.csv`** with type,
 category, detection method, reason, action and confidence:
@@ -105,30 +105,39 @@ category, detection method, reason, action and confidence:
 | `data_error` | sign, ×10/×100, packs-of-10, blank units | Corrected in stage 1 |
 | `stockout` | listed, backorder catch-up, allocation | Demand recovered |
 | `real_event` | COVID, strike, price-announcement pull-forward | Kept in history, excluded from model target |
-| `spike` | 251 one-off orders (robust z > 5, > 3× typical order, revenue reconciles) | Kept in history, excluded from model target |
+| `real_event` | permanent step (Helios second Indian line) | Kept **as the new level** and used for training |
+| `spike` | 246 one-off orders (robust z > 5, > 3× typical order, revenue reconciles) | Kept in history, excluded from model target |
 | `gap` | missing months | Excluded from target, normal level used for lags |
-| `unknown` | 219 unexplained drops | Flagged for planners |
+| `unknown` | 225 unexplained drops | Flagged for planners |
 
-For modelling, `Train_Weight` = 0 on excluded months (8.4% of cells) and `Demand_Model`
-replaces them with the robust normal level, so lags and rolling features are not
-polluted by one-off events.
+**Only events with a measured impact are excluded.** The stage runs twice: pass 1
+measures every candidate event, pass 2 keeps out of the model target only those that
+were material or weak (COVID ×5, Nexon strike, the 2022 price announcement). The Red Sea
+disruption showed no effect, so its months stay in. Open-ended events are permanent
+changes, never outliers.
+
+For modelling, `Train_Weight` = 0 on excluded months (7.5% of cells) and `Demand_Model`
+fills them with the mean of the **previous** 12 usable months — a causal fill, so a
+backtest never sees the future through its lag features.
 
 ### Which events actually moved demand — `outputs/anomalies/event_impact.csv`
 
 Baseline depends on the event: holidays vs adjacent months (pooled across years),
-long events vs 12 months before/after, others vs the same months a year before and after.
+long events vs 12 months before/after, price announcements vs the same seasonal ratio in
+other years, others vs the same months a year before and after.
 
 | Finding | Effect |
 |---|---|
 | COVID lockdowns | −35% (APAC) to −76% (India), all material |
 | Nexon strike, Europe Oct–Nov 2023 | −81% for that customer |
-| Chip shortage, Electrical Assemblies | material: shipped ≈ 25% below recovered demand |
+| Chip shortage, Electrical Assemblies | material: shipped 31% below recovered demand |
 | Europe August shutdown | −57% every year |
 | North America July retooling | −40% every year |
 | Lunar New Year (APAC) | −25% to −43% in the month that holds it (moves Jan ↔ Feb) |
 | Ramadan (MEA) | about −14%, moves earlier each year |
+| 9% price rise announced Nov 2022 | early buying +10% in Nov–Dec, **payback −17% in Jan–Feb 2023 (z = −5.1)** |
 | Helios second Indian line (Sep 2025) | +21%; Helios's share of India steps up 20% (t = 4.8), permanent |
-| Annual 1-January price rises | **no measurable effect** (any year) |
+| Annual 1-January price rises (not announced in advance) | **no measurable effect** (any year) |
 | Trade fair, rebrand, CRM upgrade, new director, dealer conference, Red Sea | **no measurable effect** |
 
 ### Structural changes — `outputs/anomalies/structural_register.csv`

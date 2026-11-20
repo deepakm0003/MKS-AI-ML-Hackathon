@@ -1,8 +1,27 @@
 {
   "unlisted_stockout_test": {
-    "low_then_high_months": 2057,
-    "high_then_low_months_noise_baseline": 2512,
-    "excess_over_noise": -455,
+    "low_then_high_months": 2112,
+    "high_then_low_months_noise_baseline": 2545,
+    "excess_over_noise": -433,
     "conclusion": "no evidence of unlisted stockouts outside event windows: the stockout signature is no more frequent than its noise mirror, so no adjustment is made"
-  }
+  },
+  "allocation_uplift": {
+    "EV-019": {
+      "listed_rows_uplift_mean": 1.572,
+      "did_uplift_for_unlisted_rows": 1.367
+    }
+  },
+  "excluded_events": [
+    "EV-009",
+    "EV-010",
+    "EV-011",
+    "EV-012",
+    "EV-013",
+    "EV-030",
+    "EV-038"
+  ],
+  "events_not_excluded_no_effect": [
+    "EV-039",
+    "EV-062"
+  ]
 }
