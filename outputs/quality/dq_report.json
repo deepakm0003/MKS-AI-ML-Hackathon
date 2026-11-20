@@ -1,0 +1,394 @@
+{
+  "total_issues": 42223,
+  "issues_by_file": {
+    "events_calendar.csv": 1,
+    "inventory_stockouts.csv": 1059,
+    "macro_indicators.csv": 19,
+    "sku_master.csv": 1,
+    "test.csv": 156,
+    "train.csv": 40987
+  },
+  "issues_by_category": {
+    "error": 34351,
+    "gap": 7673,
+    "info": 182,
+    "reference": 17
+  },
+  "issues": [
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "non_standard_date_format",
+      "action": "standardised",
+      "rows": 9821
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "region_label",
+      "action": "standardised",
+      "rows": 5912
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "sku_id_format",
+      "action": "standardised",
+      "rows": 3683
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "channel_label",
+      "action": "standardised",
+      "rows": 3683
+    },
+    {
+      "file": "train.csv",
+      "category": "gap",
+      "issue_type": "missing_units",
+      "action": "recovered from revenue / price",
+      "rows": 3164
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "exact_duplicate_row",
+      "action": "dropped",
+      "rows": 2946
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "customer_name_variant",
+      "action": "standardised",
+      "rows": 2455
+    },
+    {
+      "file": "train.csv",
+      "category": "gap",
+      "issue_type": "missing_product_family",
+      "action": "filled from sku_master",
+      "rows": 1228
+    },
+    {
+      "file": "train.csv",
+      "category": "gap",
+      "issue_type": "missing_sku_description",
+      "action": "filled from sku_master",
+      "rows": 982
+    },
+    {
+      "file": "train.csv",
+      "category": "gap",
+      "issue_type": "missing_row",
+      "action": "flagged; imputed for features, excluded from training target",
+      "rows": 972
+    },
+    {
+      "file": "train.csv",
+      "category": "gap",
+      "issue_type": "missing_region",
+      "action": "inferred",
+      "rows": 942
+    },
+    {
+      "file": "inventory_stockouts.csv",
+      "category": "error",
+      "issue_type": "empty_stockout_record",
+      "action": "excluded from demand recovery",
+      "rows": 825
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "reloaded_record_id",
+      "action": "dropped (older load)",
+      "rows": 736
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "price_scale_x100",
+      "action": "corrected",
+      "rows": 614
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "price_currency_eur",
+      "action": "corrected",
+      "rows": 498
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "negative_units",
+      "action": "sign flipped",
+      "rows": 491
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "units_uom_block_x0.1",
+      "action": "units and revenue x10",
+      "rows": 455
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "revenue_scale_error",
+      "action": "recomputed",
+      "rows": 425
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "price_scale_x10",
+      "action": "corrected",
+      "rows": 385
+    },
+    {
+      "file": "train.csv",
+      "category": "gap",
+      "issue_type": "missing_units_unrecoverable",
+      "action": "left missing (imputed later)",
+      "rows": 380
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "units_scale_error",
+      "action": "corrected from revenue",
+      "rows": 368
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "price_missing_or_zero",
+      "action": "corrected",
+      "rows": 295
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "year_month_disagree_with_date",
+      "action": "rebuilt from Date",
+      "rows": 246
+    },
+    {
+      "file": "inventory_stockouts.csv",
+      "category": "error",
+      "issue_type": "fill_rate_mismatch",
+      "action": "recomputed",
+      "rows": 234
+    },
+    {
+      "file": "test.csv",
+      "category": "info",
+      "issue_type": "row_after_eol",
+      "action": "forecast forced to 0",
+      "rows": 156
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "revenue_mismatch",
+      "action": "recomputed",
+      "rows": 155
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "units_thousands_separator",
+      "action": "parsed",
+      "rows": 44
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "units_uom_precision",
+      "action": "set to stockout-file shipped units",
+      "rows": 36
+    },
+    {
+      "file": "train.csv",
+      "category": "error",
+      "issue_type": "date_year_typo",
+      "action": "corrected",
+      "rows": 30
+    },
+    {
+      "file": "train.csv",
+      "category": "info",
+      "issue_type": "series_ended_early",
+      "action": "flagged for anomaly review",
+      "rows": 25
+    },
+    {
+      "file": "train.csv",
+      "category": "reference",
+      "issue_type": "sale_before_launch",
+      "action": "flagged",
+      "rows": 16
+    },
+    {
+      "file": "macro_indicators.csv",
+      "category": "error",
+      "issue_type": "unit_error_fraction_vs_percent",
+      "action": "corrected",
+      "rows": 12
+    },
+    {
+      "file": "macro_indicators.csv",
+      "category": "gap",
+      "issue_type": "missing_value",
+      "action": "imputed",
+      "rows": 5
+    },
+    {
+      "file": "sku_master.csv",
+      "category": "reference",
+      "issue_type": "bu_family_conflict",
+      "action": "corrected",
+      "rows": 1
+    },
+    {
+      "file": "macro_indicators.csv",
+      "category": "error",
+      "issue_type": "duplicate_month",
+      "action": "dropped",
+      "rows": 1
+    },
+    {
+      "file": "macro_indicators.csv",
+      "category": "error",
+      "issue_type": "decimal_shift",
+      "action": "corrected",
+      "rows": 1
+    },
+    {
+      "file": "events_calendar.csv",
+      "category": "info",
+      "issue_type": "open_ended_event",
+      "action": "end set to forecast end",
+      "rows": 1
+    }
+  ],
+  "profiles": {
+    "sku_master.csv": {
+      "before": {
+        "rows": 601,
+        "columns": 10,
+        "null_cells": 1184,
+        "nulls_by_column": {
+          "EOL_Date": 592,
+          "Replaces_SKU": 592
+        }
+      },
+      "after": {
+        "rows": 601,
+        "columns": 10,
+        "null_cells": 1184,
+        "nulls_by_column": {
+          "EOL_Date": 592,
+          "Replaces_SKU": 592
+        }
+      }
+    },
+    "macro_indicators.csv": {
+      "before": {
+        "rows": 114,
+        "columns": 11,
+        "null_cells": 5,
+        "nulls_by_column": {
+          "Vehicle_Inventory_Days": 1,
+          "New_Vehicle_Orders_Index": 1,
+          "Industrial_Util_Rate_Pct": 1,
+          "Fuel_Price_Index": 1,
+          "EV_Adoption_Index": 1
+        }
+      },
+      "after": {
+        "rows": 113,
+        "columns": 11,
+        "null_cells": 0,
+        "nulls_by_column": {}
+      }
+    },
+    "events_calendar.csv": {
+      "before": {
+        "rows": 68,
+        "columns": 7,
+        "null_cells": 1,
+        "nulls_by_column": {
+          "End_Date": 1
+        }
+      },
+      "after": {
+        "rows": 68,
+        "columns": 12,
+        "null_cells": 139,
+        "nulls_by_column": {
+          "End_Date": 1,
+          "Scope_Customer": 65,
+          "Scope_Region": 17,
+          "Pct": 56
+        }
+      }
+    },
+    "inventory_stockouts.csv": {
+      "before": {
+        "rows": 5830,
+        "columns": 11,
+        "null_cells": 0,
+        "nulls_by_column": {}
+      },
+      "after": {
+        "rows": 5830,
+        "columns": 13,
+        "null_cells": 825,
+        "nulls_by_column": {
+          "Fill_Rate_Calc": 825
+        }
+      }
+    },
+    "test.csv": {
+      "before": {
+        "rows": 58219,
+        "columns": 10,
+        "null_cells": 0,
+        "nulls_by_column": {}
+      },
+      "after": {
+        "rows": 58219,
+        "columns": 10,
+        "null_cells": 0,
+        "nulls_by_column": {}
+      }
+    },
+    "train.csv": {
+      "before": {
+        "rows": 248248,
+        "columns": 15,
+        "null_cells": 6945,
+        "nulls_by_column": {
+          "Product_Family": 1252,
+          "SKU_Description": 996,
+          "Region": 952,
+          "Units_Sold": 3362,
+          "Revenue_USD": 383
+        }
+      },
+      "after": {
+        "rows": 244566,
+        "columns": 19,
+        "null_cells": 760,
+        "nulls_by_column": {
+          "Units_Sold": 380,
+          "Revenue_USD": 380
+        }
+      }
+    }
+  }
+}
