@@ -1,0 +1,2 @@
+,naive_seasonal_WAPE,naive_seasonal_Bias,ma12_WAPE,ma12_Bias,seasonal_ma_WAPE,seasonal_ma_Bias,cycle_naive_WAPE,cycle_naive_Bias,tsb_WAPE,tsb_Bias,lgb_tweedie_WAPE,lgb_tweedie_Bias,lgb_l1_WAPE,lgb_l1_Bias,n_rows
+0,0.3762,-0.035,0.4987,-0.0315,0.4919,-0.0287,0.4374,0.0273,0.492,-0.0575,0.2766,-0.04,0.2832,-0.0652,224797.0

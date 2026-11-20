@@ -28,7 +28,7 @@ One command rebuilds every output from `data/raw/`:
 python run_pipeline.py
 ```
 
-Run one stage only with `--stage clean` or `--stage anomalies`. Run the tests afterwards:
+Run one stage only with `--stage clean|anomalies|drivers|backtest` (the backtest takes ~1 hour). Run the tests afterwards:
 
 ```powershell
 python -m pytest -q
@@ -152,3 +152,62 @@ other years, others vs the same months a year before and after.
 `data/processed/series_profile.parquet` holds per series: ordering cycle (2,455 monthly,
 369 every 2 months, 242 quarterly), months since last order, ADI/CV² demand class
 (2,230 smooth, 769 intermittent, 69 erratic, 15 lumpy).
+
+## Stage 3 — Demand drivers, features and backtest
+
+### Which indicator leads which family — `outputs/drivers/`
+
+Family demand growth (3-month total vs a year earlier) against each indicator shifted
+0–12 months ahead, post-COVID (2021-01 → 2026-10):
+
+| Family | Leading indicator | Lead | r |
+|---|---|---:|---:|
+| Brake & Safety | Auto production YoY | 3 m | 0.72 |
+| Chassis & Structural | Auto production YoY | 4 m | 0.83 |
+| Thermal Management | Auto production YoY | 4 m | 0.76 |
+| Electrical Assemblies | New vehicle orders | 3 m | 0.88 |
+| Hydraulic Systems | New vehicle orders | 4 m | 0.86 |
+| Powertrain Components | New vehicle orders | 4 m | 0.82 |
+| Precision Machined | New vehicle orders | 4 m | 0.75 |
+
+Two groups: **vehicle-build families** follow auto production, **industrial families**
+follow new orders (and PMI at 0–2 months). **Is the lag stable?** Splitting the period in
+two halves, 12 indicator–family links keep the same sign, a lag within ±2 months and
+|r| ≥ 0.3 in both — including every link in the table above (`lag_stability.csv`).
+
+**EV shift:** EV parts went from 0% to 9.8% of demand and ICE parts from 24% to 13%
+(2019 → 2026); EV share tracks the EV adoption index (r = 0.95, +0.27 share-points per
+index point) — but it has **flattened at ~9.8% since 2025** while the index keeps rising.
+
+### Features — `src/celeris/features.py`
+
+Direct multi-horizon design: one row = (series, origin month, horizon 1–19). 87
+features, all computed from data up to the origin (a test scrambles every later month
+and checks that no feature changes): lags 1–12, rolling means/volatility, trend,
+non-zero share, **ordering cycle and phase** (is the target month an order month?),
+**SKU-level seasonality** (same month 1–3 years back — demand correlates at lag 12, not
+lag 1), family×region seasonal index, holidays by kind (Lunar New Year, Ramadan, summer
+shutdowns) in the target month, scheduled customer shutdowns, lifecycle (months since
+launch / to EOL), the leading indicators at their lead and their change since the
+origin, and categorical family / region / channel / customer / powertrain / size.
+
+### Rolling-origin backtest — `outputs/backtest/`
+
+Cutoffs 2023-10, 2024-04, 2024-10, 2025-03; each forecasts the next 19 months from data
+up to the cutoff only; 224,797 SKU-region-months scored against recovered demand.
+
+| Model | WAPE | Bias |
+|---|---:|---:|
+| Moving average (12 m) | 0.499 | −3.2% |
+| Seasonal moving average (family×region index) | 0.492 | −2.9% |
+| TSB (intermittent demand) | 0.492 | −5.8% |
+| Cycle naive (same phase, last cycle) | 0.437 | +2.7% |
+| Seasonal naive (same month last year) | 0.376 | −3.5% |
+| LightGBM, L1 loss | 0.283 | −6.5% |
+| **LightGBM global model, Tweedie loss** | **0.277** | −4.0% |
+
+* **26% lower error than the best baseline**, consistent in all 4 cutoffs (0.268–0.289),
+  all 7 families and all 6 regions; MEA is hardest (0.363, the youngest region).
+* At planning level the error is small: **6.7%** WAPE by family-month, **4.8%** for the
+  company total per month (seasonal naive: 9.7% / 7.5%).
+* Open issue for stage 4: a steady **−3.5% under-forecast** even on clean months.

@@ -26,3 +26,6 @@ docs_problem_statement.pdf
 Thumbs.db
 .vscode/
 .idea/
+!outputs/drivers/
+!outputs/backtest/
+outputs/backtest/*.parquet

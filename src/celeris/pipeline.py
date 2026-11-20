@@ -155,3 +155,53 @@ def run_cleaning(verbose: bool = True) -> dict:
             print(f"    {r['file']:<26}{r['category']:<10}{r['issue_type']:<38}{r['rows']:>7,}  {r['action']}")
     return {"sales": sales, "panel": panel, "sku": sku, "macro": macro, "events": events,
             "events_monthly": events_monthly, "stockouts": stockouts, "test": test, "log": log}
+
+
+def run_drivers(verbose: bool = True) -> dict:
+    """Stage 3a: macro lead/lag (with stability check) and the EV shift."""
+    from .drivers import best_lags, ev_shift, lag_stability, lead_lag
+    rd = lambda n: pd.read_parquet(PROCESSED / f"{n}.parquet")
+    demand, macro, sku = rd("demand"), rd("macro"), rd("sku_master")
+    out = ROOT_OUT / "drivers"
+    out.mkdir(parents=True, exist_ok=True)
+    ll = lead_lag(demand, macro)
+    best = best_lags(ll)
+    stab = lag_stability(demand, macro)
+    ev_table, ev_stats = ev_shift(demand, sku, macro)
+    ll.to_csv(out / "lead_lag.csv", index=False)
+    best.to_csv(out / "best_lags.csv", index=False)
+    stab.to_csv(out / "lag_stability.csv", index=False)
+    ev_table.to_csv(out / "ev_shift_by_year.csv", index=False)
+    with open(out / "ev_shift.json", "w", encoding="utf-8") as f:
+        json.dump(ev_stats, f, indent=2)
+    if verbose:
+        top = best.loc[best.groupby("Product_Family")["Corr"].apply(lambda s: s.abs().idxmax())]
+        print("strongest leading indicator per family:")
+        print(top[["Product_Family", "Indicator", "Lag", "Corr"]].round(2).to_string(index=False))
+        print(f"stable indicator-family links: {int(stab['Stable'].sum())} of {len(stab)}")
+        print(json.dumps(ev_stats))
+    return {"lead_lag": ll, "best": best, "stability": stab}
+
+
+def run_backtest_stage(verbose: bool = True, cutoffs=None, variants=None) -> dict:
+    """Stage 3c: rolling-origin backtest (19-month horizon) of baselines and the global model."""
+    from .backtest import CUTOFFS, run_backtest, score
+    from .features import Panel
+    rd = lambda n: pd.read_parquet(PROCESSED / f"{n}.parquet")
+    P = Panel(rd("demand"), rd("sku_master"), rd("macro"), rd("events_monthly"), rd("test"))
+    bt = run_backtest(P, cutoffs=cutoffs or CUTOFFS, lgb_variants=variants, verbose=verbose)
+    out = ROOT_OUT / "backtest"
+    out.mkdir(parents=True, exist_ok=True)
+    keep = ["cutoff", "target_month", "h", "series", "Product_Family", "Region", "Sales_Channel",
+            "Customer_Name", "y", "w"] + [c for c in bt.columns if c.startswith("f_")]
+    bt[keep].to_parquet(out / "backtest_predictions.parquet", index=False)
+    pc = [c for c in bt.columns if c.startswith("f_")]
+    tables = {"overall": score(bt, pc), "by_cutoff": score(bt, pc, "cutoff"),
+              "by_family": score(bt, pc, "Product_Family"), "by_region": score(bt, pc, "Region"),
+              "by_horizon": score(bt, pc, "h")}
+    for name, t in tables.items():
+        t.columns = [f"{a.removeprefix('f_')}_{b}" for a, b in t.columns]
+        t.round(4).to_csv(out / f"metrics_{name}.csv")
+    if verbose:
+        print(tables["overall"].T.round(3).to_string())
+    return {"backtest": bt, **tables}

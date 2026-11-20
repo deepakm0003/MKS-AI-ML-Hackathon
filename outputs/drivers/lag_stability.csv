@@ -1,0 +1,57 @@
+Product_Family,Indicator,Lag_2021_23,Corr_2021_23,Lag_2024_26,Corr_2024_26,Lag_Shift,Stable
+Brake & Safety Systems,ISM_Manufacturing_PMI,12,-0.8604481650982878,12,0.2145752438106791,0,False
+Brake & Safety Systems,New_Vehicle_Orders_Index,12,-0.8567632876215934,0,-0.6153886551065493,-12,False
+Brake & Safety Systems,Auto_Production_YoY_Pct,3,0.8127271986319484,7,0.4056252890980642,4,False
+Brake & Safety Systems,Raw_Material_Cost_Index,9,-0.8100311658658891,0,-0.7768157180547054,-9,False
+Brake & Safety Systems,Industrial_Util_Rate_Pct,0,-0.7239351746345415,7,0.5768950071385426,7,False
+Brake & Safety Systems,Fuel_Price_Index,8,-0.7053373438245208,2,-0.8994612550862606,-6,False
+Brake & Safety Systems,Vehicle_Inventory_Days,12,0.6445470748389318,1,-0.5232438674557246,-11,False
+Brake & Safety Systems,EV_Adoption_Index,8,-0.5942602176800581,2,0.20295783697418868,-6,False
+Chassis & Structural,Auto_Production_YoY_Pct,4,0.8439537114817975,7,0.9183439427746489,3,False
+Chassis & Structural,New_Vehicle_Orders_Index,12,-0.8236859386988069,8,0.4409049078260119,-4,False
+Chassis & Structural,Raw_Material_Cost_Index,9,-0.7985706865303324,0,-0.6957443995520353,-9,False
+Chassis & Structural,ISM_Manufacturing_PMI,12,-0.7178703970366364,0,0.5428618672617322,-12,False
+Chassis & Structural,Industrial_Util_Rate_Pct,0,-0.5834064126887738,6,0.45462852292723627,6,False
+Chassis & Structural,Vehicle_Inventory_Days,12,0.5589872994409729,11,0.9478693986630189,-1,True
+Chassis & Structural,Fuel_Price_Index,9,-0.5445709824036016,4,-0.7334798635049701,-5,False
+Chassis & Structural,EV_Adoption_Index,11,-0.4129059019096703,2,0.9369958837020148,-9,False
+Electrical Assemblies,New_Vehicle_Orders_Index,3,0.9149641546040308,5,0.93818980890993,2,True
+Electrical Assemblies,Fuel_Price_Index,12,-0.8658638953312596,0,-0.5752532275807605,-12,False
+Electrical Assemblies,Raw_Material_Cost_Index,0,0.8370578630977068,6,0.5095800621667609,6,False
+Electrical Assemblies,Industrial_Util_Rate_Pct,12,-0.7443398215610385,2,0.9244907108012831,-10,False
+Electrical Assemblies,ISM_Manufacturing_PMI,0,0.7216245431803051,1,0.9367554494767496,1,True
+Electrical Assemblies,Vehicle_Inventory_Days,0,-0.6620172815785227,7,0.7207210105819273,7,False
+Electrical Assemblies,Auto_Production_YoY_Pct,5,0.6204582034026931,3,0.7262342545528977,-2,True
+Electrical Assemblies,EV_Adoption_Index,12,-0.5834710001739669,0,0.6491412283456041,-12,False
+Hydraulic Systems,Raw_Material_Cost_Index,0,0.9289674002532131,7,0.5329475003168039,7,False
+Hydraulic Systems,New_Vehicle_Orders_Index,4,0.9278129134299542,5,0.8987957342099727,1,True
+Hydraulic Systems,ISM_Manufacturing_PMI,3,0.8949700398530701,2,0.9261537198317816,-1,True
+Hydraulic Systems,Fuel_Price_Index,12,-0.8673010280110738,0,-0.49254919531563635,-12,False
+Hydraulic Systems,Vehicle_Inventory_Days,0,-0.8495487203484747,8,0.5589485689481426,8,False
+Hydraulic Systems,Industrial_Util_Rate_Pct,12,-0.839301329600188,2,0.913088852821762,-10,False
+Hydraulic Systems,EV_Adoption_Index,12,-0.5650878742101878,0,0.5212163025553335,-12,False
+Hydraulic Systems,Auto_Production_YoY_Pct,5,0.3774166142334036,3,0.5750958265529472,-2,True
+Powertrain Components,New_Vehicle_Orders_Index,4,0.8000939822483496,4,0.9578652420400718,0,True
+Powertrain Components,Auto_Production_YoY_Pct,5,0.7810615245458368,3,0.730289896925127,-2,True
+Powertrain Components,Fuel_Price_Index,12,-0.6195317450017465,0,-0.7503698356835337,-12,False
+Powertrain Components,Raw_Material_Cost_Index,0,0.5837450659067914,5,0.6293698267306006,5,False
+Powertrain Components,Industrial_Util_Rate_Pct,12,-0.48973140796626086,2,0.9462492635126931,-10,False
+Powertrain Components,ISM_Manufacturing_PMI,3,0.43397561428577164,0,0.8129683799650633,-3,False
+Powertrain Components,Vehicle_Inventory_Days,0,-0.3751134316784051,7,0.7161622166850026,7,False
+Powertrain Components,EV_Adoption_Index,12,-0.3010554795607356,0,0.5724914132496455,-12,False
+Precision Machined Parts,New_Vehicle_Orders_Index,3,0.8116962144910341,6,0.9292481250455942,3,False
+Precision Machined Parts,Fuel_Price_Index,12,-0.7528692575903605,0,-0.5726179368757165,-12,False
+Precision Machined Parts,Auto_Production_YoY_Pct,4,0.7377306495903851,3,0.687942722043709,-1,True
+Precision Machined Parts,Raw_Material_Cost_Index,0,0.6576991163560753,7,0.4707142188914673,7,False
+Precision Machined Parts,Industrial_Util_Rate_Pct,12,-0.6247516534432762,3,0.9277278226555886,-9,False
+Precision Machined Parts,ISM_Manufacturing_PMI,1,0.5849458767866083,1,0.9254133264381361,0,True
+Precision Machined Parts,EV_Adoption_Index,11,-0.5037044322818364,0,0.6753336039633645,-11,False
+Precision Machined Parts,Vehicle_Inventory_Days,0,-0.4671534160737111,8,0.7121904390282936,8,False
+Thermal Management,New_Vehicle_Orders_Index,12,-0.8169236017336786,7,0.9089040008259149,-5,False
+Thermal Management,ISM_Manufacturing_PMI,12,-0.7888327844292667,2,0.8828605440736228,-10,False
+Thermal Management,Auto_Production_YoY_Pct,4,0.7812399957447306,4,0.6646877918336671,0,True
+Thermal Management,Raw_Material_Cost_Index,11,-0.7403165174019719,0,-0.6420660269908298,-11,False
+Thermal Management,Industrial_Util_Rate_Pct,0,-0.7335680641201642,4,0.8623824579899864,4,False
+Thermal Management,Fuel_Price_Index,9,-0.7135442153727628,2,-0.5788276824323666,-7,False
+Thermal Management,EV_Adoption_Index,10,-0.609795120144337,1,0.7208519408331889,-9,False
+Thermal Management,Vehicle_Inventory_Days,12,0.562750753250423,9,0.7470097026116076,-3,False
