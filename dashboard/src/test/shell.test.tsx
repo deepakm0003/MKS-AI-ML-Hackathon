@@ -39,7 +39,7 @@ describe("app shell", () => {
   });
 
   it("shows live backend status in the header", async () => {
-    renderApp("/overview");
+    renderApp("/data-health");
     expect(await screen.findByText("Validation PASS")).toBeInTheDocument();
     expect(screen.getByText("C9c · keep pull forward")).toBeInTheDocument();
     expect(screen.getByText("Oct 2026")).toBeInTheDocument();
@@ -54,17 +54,17 @@ describe("app shell", () => {
   });
 
   it("reports data readiness from GET /datasets without inventing values", async () => {
-    renderApp("/overview");
+    renderApp("/data-health");
     const table = await screen.findByRole("table");
     const row = (name: string) => within(table).getByText(name).closest("tr")!;
-    expect(within(row("intelligence_report")).getByText("Available")).toBeInTheDocument();
-    expect(within(row("timeline")).getByText("Not generated")).toBeInTheDocument();
-    expect(within(row("mix")).getByText("Missing")).toBeInTheDocument();
+    expect(within(row("dq_issue_log")).getByText("Available")).toBeInTheDocument();
+    expect(within(row("dq_report")).getByText("Not generated")).toBeInTheDocument();
+    expect(within(row("run_report")).getByText("Missing")).toBeInTheDocument();
   });
 
   it("shows explicit error states when the API is unreachable", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => { throw new TypeError("Failed to fetch"); }));
-    render(<MemoryRouter initialEntries={["/overview"]} future={FUTURE}><AppRoutes /></MemoryRouter>);
+    render(<MemoryRouter initialEntries={["/anomalies"]} future={FUTURE}><AppRoutes /></MemoryRouter>);
     expect(await screen.findByText("API offline")).toBeInTheDocument();
     expect((await screen.findAllByText("API unreachable")).length).toBeGreaterThan(0);
   });

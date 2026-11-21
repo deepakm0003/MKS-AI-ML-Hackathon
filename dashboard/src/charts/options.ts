@@ -51,13 +51,15 @@ export function timelineOption(v: TimelineView, metric: Metric, opts: { showShip
   const forecast = rows.map((r, i) => (i === lastHist ? r.actual : r.forecast));
   const lower = rows.map((r) => r.p10);
   const width = rows.map((r) => (r.p10 !== null && r.p90 !== null ? r.p90 - r.p10 : null));
+  const actualName = metric === "units" ? "Actual demand" : "Actual revenue";
+  const shippedName = metric === "units" ? "Shipped" : "Invoiced";
 
   return {
     animationDuration: 400,
     grid: { left: 8, right: 16, top: 44, bottom: 8, containLabel: true },
     legend: {
       top: 0, left: 0,
-      data: [{ name: "Actual demand" }, ...(opts.showShipped ? [{ name: "Shipped" }] : []), { name: "Forecast" }, { name: "P10–P90 range" }],
+      data: [{ name: actualName }, ...(opts.showShipped ? [{ name: shippedName }] : []), { name: "Forecast" }, { name: "P10–P90 range" }],
     },
     tooltip: {
       trigger: "axis",
@@ -66,8 +68,8 @@ export function timelineOption(v: TimelineView, metric: Metric, opts: { showShip
         const i = params[0]?.dataIndex ?? 0;
         const r = rows[i];
         const lines = [`<b>${fmtMonthShort(r.date)}</b>`];
-        if (r.actual !== null) lines.push(`Actual demand <b>${fmt(r.actual)}</b>`);
-        if (opts.showShipped && r.shipped !== null) lines.push(`Shipped ${fmt(r.shipped)}`);
+        if (r.actual !== null) lines.push(`${actualName} <b>${fmt(r.actual)}</b>`);
+        if (opts.showShipped && r.shipped !== null) lines.push(`${shippedName} ${fmt(r.shipped)}`);
         if (r.forecast !== null) lines.push(`Forecast <b>${fmt(r.forecast)}</b>`);
         if (r.p10 !== null && r.p90 !== null) lines.push(`Range ${fmt(r.p10)} – ${fmt(r.p90)}`);
         return lines.join("<br/>");
@@ -86,9 +88,9 @@ export function timelineOption(v: TimelineView, metric: Metric, opts: { showShip
         tooltip: { show: false }, silent: true, legendHoverLink: false },
       { name: "P10–P90 range", type: "line", data: width, stack: "band", lineStyle: { opacity: 0 }, symbol: "none",
         areaStyle: { color: CHART.band }, itemStyle: { color: CHART.band }, silent: true },
-      { name: "Actual demand", type: "line", data: rows.map((r) => r.actual), itemStyle: { color: CHART.history },
+      { name: actualName, type: "line", data: rows.map((r) => r.actual), itemStyle: { color: CHART.history },
         lineStyle: { width: 2, color: CHART.history } },
-      ...(opts.showShipped ? [{ name: "Shipped", type: "line", data: rows.map((r) => r.shipped),
+      ...(opts.showShipped ? [{ name: shippedName, type: "line", data: rows.map((r) => r.shipped),
         itemStyle: { color: CHART.textMuted }, lineStyle: { width: 1, type: "dashed", color: CHART.textMuted } }] : []),
       { name: "Forecast", type: "line", data: forecast, itemStyle: { color: SERIES[0] }, lineStyle: { width: 2, color: SERIES[0] },
         markArea: firstFc >= 0 ? { silent: true, itemStyle: { color: "rgba(34, 211, 238, 0.04)" },

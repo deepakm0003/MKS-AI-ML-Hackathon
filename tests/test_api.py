@@ -124,3 +124,23 @@ def test_breakdown_view(client):
     top = client.get("/views/breakdown", params={"dim": "sku", "top": 3, "family": "Thermal Management"}).json()
     assert len(top["rows"]) == 4 and top["rows"][-1]["Member"].startswith("Other (")
     assert client.get("/views/breakdown", params={"dim": "planet"}).status_code == 400
+
+
+@pytest.mark.skipif(not INTEL_READY, reason="run the intelligence stage first")
+def test_recommendations_follow_global_filters(client):
+    allc = client.get("/intelligence/recommendations", params={"limit": 1000}).json()
+    assert allc["total"] == allc["direct"] == sum(allc["by_priority"].values())
+    eu = client.get("/intelligence/recommendations", params={"region": "Europe", "limit": 1000}).json()
+    assert 0 < eu["direct"] < eu["total"] < allc["total"]
+    matches = [c["match"] for c in eu["cards"]]
+    assert matches == sorted(matches, key=["direct", "context"].index)       # direct first
+    for c in eu["cards"]:
+        if c["match"] == "direct":
+            assert "Europe" in c["scope"]
+        assert "| North America" not in c["scope"] and "| India" not in c["scope"]
+    sku = client.get("/intelligence/recommendations", params={"sku": "THM-026", "limit": 1000}).json()
+    for c in sku["cards"]:
+        fam = (c["evidence"] or {}).get("family")
+        assert fam in (None, "Thermal Management")                           # a SKU implies its family
+    multi = client.get("/intelligence/recommendations", params={"region": "Europe|India", "limit": 1000}).json()
+    assert multi["direct"] >= eu["direct"]

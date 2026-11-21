@@ -131,3 +131,26 @@ library, chosen before any view is built.
 | Option builders | `src/charts/options.ts` | pure, unit-tested: continuous history→forecast line (bridged at the last actual), stacked P10–P90 band, shaded forecast window, data-following single y-axis, Ctrl+wheel zoom (plain wheel scrolls the page); ranked single-hue bars with value + change labels |
 | Components | `src/components/`, `src/charts/` | `KpiTile` (skeleton while loading, "—" when missing, arrow + sign on deltas), `Segmented`, `DataTable` (sortable, sticky header), `ChartCard` (loading / error / empty, Chart ⇄ Table, source footnote), `TimelineCard`, `BreakdownCard` |
 | Review page | `/system` (not in the nav) | every component on live, filtered data + the colour tokens |
+
+## 9. Phase 3 — Executive Overview (delivered, `/overview`)
+
+The first screen answers five questions before any scrolling:
+
+| Question | Answer on screen | Source |
+|---|---|---|
+| How much demand do we expect? | KPI: 19-month forecast units (+ next 12 m vs last 12 m) | `/views/timeline` summary |
+| How much revenue will it generate? | KPI: next-12-month revenue at the announced list prices, with change | `/views/timeline` summary |
+| Is demand increasing or decreasing? | KPI deltas (arrow + sign) and the history → forecast timeline | `/views/timeline` |
+| What could go wrong? | KPI: P10–P90 range of the 19-month total (band method shown); macro scenario impact (exact re-forecasts) | `/views/timeline`, `/scenario/presets` |
+| What should I do now? | KPI: critical actions; Act-now list ranked by impact × severity × urgency × confidence, evidence on expand | `/intelligence/recommendations?priority=CRITICAL&<filters>` |
+
+Below: revenue timeline, mix by region / family / channel (the problem statement's required
+mix), and the evidence-based planning briefing (company-wide, labelled when filters are on).
+
+* **Recommendations follow the global filters** (`api/app.py`): each card's scope is read from its
+  evidence; a card is `direct` when its scope lies inside the selection, `context` when it is
+  broader (e.g. the company-wide EV shift), and dropped when it lies outside - judged against the
+  values the selection implies (a SKU implies its family, regions, channels and customers).
+* **One request per dataset per page:** identical GETs are shared and cached for 60 s in the client,
+  so the KPI row and both timelines make a single `/views/timeline` call (tested).
+* Company-wide panels (scenario impact, briefing) say so instead of pretending to be filtered.

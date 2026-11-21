@@ -48,6 +48,6 @@ export const BRIEFING = {
   briefing: [],
 };
 export const DATASETS = {
-  intelligence_report: { path: "outputs/intelligence/intelligence_report.json", view: "executive", description: "", available: true },
-  timeline: { path: "outputs/intelligence/timeline.csv", view: "executive", description: "", available: false },
+  dq_issue_log: { path: "outputs/quality/dq_issue_log.csv", view: "data_quality", description: "", available: true },
+  dq_report: { path: "outputs/quality/dq_report.json", view: "data_quality", description: "", available: false },
 };

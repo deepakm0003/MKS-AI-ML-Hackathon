@@ -173,8 +173,15 @@ def intelligence_briefing():
 
 @app.get("/intelligence/recommendations")
 def recommendations(priority: str | None = None, owner: str | None = None, level: str | None = None,
-                    rule_id: str | None = None, q: str | None = None, limit: int = Query(50, le=1000)):
-    """Ranked recommendation cards; filter by priority, owner (substring), level, rule or free text in scope."""
+                    rule_id: str | None = None, q: str | None = None, limit: int = Query(50, le=1000),
+                    family: str | None = None, sku: str | None = None, region: str | None = None,
+                    channel: str | None = None, customer: str | None = None):
+    """Ranked recommendation cards; filter by priority, owner (substring), level, rule, free text in
+    scope, and the global filters (family, sku, region, channel, customer; '|' for several values).
+    With global filters, each card gets `match`: "direct" (its scope is inside the selection) or
+    "context" (a broader card - e.g. a family-wide signal while one region is selected); cards whose
+    scope lies outside the selection are dropped. Direct matches come first."""
+    from api.views import parse_filters
     c = _cards()
     if priority:
         c = [x for x in c if x["priority"] == priority.upper()]
@@ -186,7 +193,70 @@ def recommendations(priority: str | None = None, owner: str | None = None, level
         c = [x for x in c if x["rule_id"] == rule_id]
     if q:
         c = [x for x in c if q.lower() in x["scope"].lower()]
-    return {"total": len(c), "cards": c[:limit]}
+    f = parse_filters(family, sku, region, channel, customer)
+    if f:
+        allowed = _allowed_values(f)
+        out = []
+        for x in c:
+            m = _card_match(x, f, allowed)
+            if m:
+                out.append({**x, "match": m})
+        c = [x for x in out if x["match"] == "direct"] + [x for x in out if x["match"] == "context"]
+    by_priority = {}
+    for x in c:
+        by_priority[x["priority"]] = by_priority.get(x["priority"], 0) + 1
+    direct = sum(1 for x in c if x.get("match", "direct") == "direct")
+    return {"total": len(c), "direct": direct, "by_priority": by_priority, "cards": c[:limit]}
+
+
+@lru_cache(maxsize=1)
+def _channel_of() -> dict:
+    fc = _load("forecast_detail")
+    return fc.drop_duplicates(["SKU_ID", "Region"]).set_index(["SKU_ID", "Region"])["Sales_Channel"].to_dict()
+
+
+def _card_scope(card: dict) -> dict:
+    """The planning dimensions a card is about, read from its evidence."""
+    e = card.get("evidence") or {}
+    d = {k: e[k] for k in ("family", "region", "sku", "customer") if e.get(k)}
+    lvl, member = e.get("segment_level"), e.get("member")
+    if lvl and member:
+        if lvl == "family":
+            d["family"] = member
+        elif lvl == "region":
+            d["region"] = member
+        elif lvl == "family_region" and " | " in member:
+            d["family"], d["region"] = member.split(" | ", 1)
+    if "sku" in d and "region" in d:
+        ch = _channel_of().get((d["sku"], d["region"]))
+        if ch:
+            d["channel"] = ch
+    return d
+
+
+def _allowed_values(f: dict) -> dict:
+    """Values of every dimension that co-occur with the selection in the valid combinations
+    (a SKU filter implies its family, regions, channels and customers)."""
+    o = _filter_options()
+    names = {"sku": [s["id"] for s in o["skus"]], "region": o["regions"], "channel": o["channels"],
+             "customer": o["customers"]}
+    fam_of = {s["id"]: o["families"][s["family"]] for s in o["skus"]}
+    allowed = {k: set() for k in ("family", "sku", "region", "channel", "customer")}
+    for si, ri, ci, ui in o["combos"]:
+        row = {"sku": names["sku"][si], "region": names["region"][ri], "channel": names["channel"][ci],
+               "customer": names["customer"][ui]}
+        row["family"] = fam_of[row["sku"]]
+        if all(row[d] in v for d, v in f.items()):
+            for d in allowed:
+                allowed[d].add(row[d])
+    return allowed
+
+
+def _card_match(card: dict, f: dict, allowed: dict) -> str | None:
+    scope = _card_scope(card)
+    if any(v not in allowed.get(d, {v}) for d, v in scope.items()):
+        return None
+    return "direct" if all(dim in scope for dim in f) else "context"
 
 
 @lru_cache(maxsize=1)

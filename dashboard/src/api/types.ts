@@ -101,11 +101,25 @@ export interface RecommendationCard {
   confidence: "HIGH" | "MEDIUM" | "LOW";
   impact_usd: number;
   evidence: Record<string, string | number | boolean | null>;
+  /** Only with global filters: "direct" = scope inside the selection, "context" = broader card. */
+  match?: "direct" | "context";
 }
 
 export interface Recommendations {
   total: number;
+  direct: number;
+  by_priority: Partial<Record<Priority, number>>;
   cards: RecommendationCard[];
+}
+
+export interface PresetResult {
+  method: string;
+  shocks: Record<string, number>;
+  total: ScenarioResult["total"];
+  by_family: ScenarioResult["by_family"];
+  by_region: ScenarioResult["by_region"];
+  planning_risks: ScenarioResult["planning_risks"];
+  responses: string[];
 }
 
 export interface ScenarioSlider {

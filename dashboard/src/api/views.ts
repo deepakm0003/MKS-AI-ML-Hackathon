@@ -19,3 +19,11 @@ export function useBreakdown(dim: BreakdownView["dim"], top = 25) {
   const key = JSON.stringify(q);
   return useApi((s) => api.breakdown(dim, q, top, s), [dim, top, key]);
 }
+
+/** Recommendation cards for the current global filters (direct matches first). */
+export function useRecommendations(extra: Record<string, string | number> = {}) {
+  const { filters } = useFilters();
+  const q = { ...toViewQuery(filters), ...extra };
+  const key = JSON.stringify(q);
+  return useApi((s) => api.recommendations(q, s), [key]);
+}

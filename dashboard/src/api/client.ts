@@ -1,6 +1,6 @@
 import type {
-  Briefing, BreakdownView, DatasetIndex, FilterOptions, Health, Kpis, Paged, Recommendations, ScenarioConfig,
-  ScenarioResult, TimelineView,
+  Briefing, BreakdownView, DatasetIndex, FilterOptions, Health, Kpis, Paged, PresetResult, Recommendations,
+  ScenarioConfig, ScenarioResult, TimelineView,
 } from "./types";
 
 /** Base URL of the read-only API. Dev and preview proxy /api to FastAPI (vite.config.ts). */
@@ -35,11 +35,35 @@ function url(path: string, query?: Query): string {
   return `${API_BASE}${path}${s ? `?${s}` : ""}`;
 }
 
-export async function request<T>(path: string, init?: RequestInit & { query?: Query }): Promise<T> {
-  const { query, ...rest } = init ?? {};
+/*
+ * GET responses are shared: identical concurrent requests (several panels on one page asking for
+ * the same timeline) become one network call, and a response is reused for CACHE_MS. The backend
+ * is frozen, so this never shows stale model output - only avoids duplicate work.
+ */
+const CACHE_MS = 60_000;
+const cache = new Map<string, { at: number; p: Promise<unknown> }>();
+
+export function clearApiCache(): void {
+  cache.clear();
+}
+
+export function request<T>(path: string, init?: RequestInit & { query?: Query }): Promise<T> {
+  const { query, signal, ...rest } = init ?? {};
+  const u = url(path, query);
+  if ((rest.method ?? "GET").toUpperCase() !== "GET") return send<T>(path, u, { ...rest, signal });
+  const hit = cache.get(u);
+  if (hit && Date.now() - hit.at < CACHE_MS) return hit.p as Promise<T>;
+  // the shared request is not tied to one caller's AbortSignal; callers ignore results after abort
+  const p = send<T>(path, u, rest);
+  cache.set(u, { at: Date.now(), p });
+  p.catch(() => cache.delete(u));
+  return p;
+}
+
+async function send<T>(path: string, u: string, init: RequestInit): Promise<T> {
   let res: Response;
   try {
-    res = await fetch(url(path, query), { headers: { Accept: "application/json" }, ...rest });
+    res = await fetch(u, { headers: { Accept: "application/json" }, ...init });
   } catch (e) {
     if ((e as Error).name === "AbortError") throw e;
     throw new ApiError("The API is unreachable. Start it with: uvicorn api.app:app", null, path);
@@ -72,6 +96,7 @@ export const api = {
   timeline: (filters: FilterQuery, signal?: AbortSignal) => request<TimelineView>("/views/timeline", { query: filters, signal }),
   breakdown: (dim: BreakdownView["dim"], filters: FilterQuery, top = 25, signal?: AbortSignal) =>
     request<BreakdownView>("/views/breakdown", { query: { dim, top, ...filters }, signal }),
+  scenarioPresets: (signal?: AbortSignal) => request<Record<string, PresetResult>>("/scenario/presets", { signal }),
   scenarioConfig: (signal?: AbortSignal) => request<ScenarioConfig>("/scenario/config", { signal }),
   scenario: (body: { shocks: Record<string, number>; region_overlay?: Record<string, number> }, signal?: AbortSignal) =>
     request<ScenarioResult>("/scenario", {
