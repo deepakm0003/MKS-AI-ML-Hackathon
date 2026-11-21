@@ -151,3 +151,64 @@ export interface ScenarioResult {
   planning_risks: { type: string; scope: string; [k: string]: string | number }[];
   responses: string[];
 }
+
+/* ---------------------------------------------------------------- filter-aware views (api/views.py) */
+export interface TimelineHistoryPoint {
+  Date: string;
+  Units_shipped: number;
+  Units_unconstrained: number;
+  Revenue_shipped: number;
+  Revenue_unconstrained: number;
+}
+
+export interface TimelineForecastPoint {
+  Date: string;
+  Units_forecast: number;
+  Revenue_forecast: number;
+  Units_P10: number | null;
+  Units_P90: number | null;
+  Revenue_P10: number | null;
+  Revenue_P90: number | null;
+}
+
+export interface TimelineSummary {
+  series: number;
+  forecast_series: number;
+  history_end: string | null;
+  units_last12: number;
+  units_next12: number;
+  revenue_last12: number;
+  revenue_next12: number;
+  units_19m: number;
+  units_19m_p10: number;
+  units_19m_p90: number;
+  revenue_19m: number;
+  units_next12_vs_last12: number | null;
+  revenue_next12_vs_last12: number | null;
+}
+
+export interface TimelineView {
+  filters: Record<string, string[]>;
+  band_method: string;
+  summary: TimelineSummary;
+  history: TimelineHistoryPoint[];
+  forecast: TimelineForecastPoint[];
+}
+
+export interface BreakdownRow {
+  Member: string;
+  Units_last12: number;
+  Revenue_last12: number;
+  Units_next12: number;
+  Revenue_next12: number;
+  Units_change_pct: number | null;
+  Revenue_change_pct: number | null;
+  Revenue_share_next12: number | null;
+}
+
+export interface BreakdownView {
+  dim: "family" | "region" | "channel" | "customer" | "sku";
+  filters: Record<string, string[]>;
+  members: number;
+  rows: BreakdownRow[];
+}

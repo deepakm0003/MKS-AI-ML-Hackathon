@@ -233,8 +233,10 @@ def run_final(name: str | None = None, log=print) -> dict:
     (OUT / "validation_report.json").write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
     met = json.loads((ART / "experiments" / name / "metrics.json").read_text(encoding="utf-8"))
     (OUT / "backtest_metrics.json").write_text(json.dumps(met, indent=2), encoding="utf-8")
-    hist = inp["demand"][["Date", "SKU_ID", "Region", "Product_Family", "Customer_Name", "Sales_Channel",
-                          "Units_Sold", "Demand", "Demand_Source", "Anomaly_Type", "Train_Weight"]]
+    from .intel.pricing import history_revenue           # cleaned shipped revenue + unconstrained revenue
+    hist = history_revenue(inp["demand"])[["Date", "SKU_ID", "Region", "Product_Family", "Customer_Name",
+                                           "Sales_Channel", "Units_Sold", "Demand", "Revenue_shipped",
+                                           "Revenue_unconstrained", "Demand_Source", "Anomaly_Type", "Train_Weight"]]
     hist.sort_values(["SKU_ID", "Region", "Date"]).to_csv(OUT / "history.csv", index=False)
     mdir = OUT / "model"
     mdir.mkdir(exist_ok=True)

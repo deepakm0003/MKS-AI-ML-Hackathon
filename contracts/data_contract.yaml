@@ -80,6 +80,8 @@ datasets:
       Sales_Channel: string
       Units_Sold: float                 # cleaned shipments (NaN = month missing)
       Demand: float                     # unconstrained demand (stockout / allocation recovered)
+      Revenue_shipped: float            # cleaned invoiced revenue, USD
+      Revenue_unconstrained: float      # recovered demand x that month's price, USD
       Demand_Source: string             # observed | stockout_file | allocation_uplift | backorder_netted | missing
       Anomaly_Type: string              # "" = normal month
       Train_Weight: float               # 0 = excluded from the model target

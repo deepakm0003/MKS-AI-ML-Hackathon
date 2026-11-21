@@ -84,3 +84,43 @@ def test_filter_options(client):
                  client.get("/datasets/forecast_detail", params={"limit": 100000}).json()["rows"]}
     combo_series = {(r["skus"][s]["id"], r["regions"][g]) for s, g, _, _ in r["combos"]}
     assert fc_series <= combo_series                        # every forecast series is filterable
+
+
+# ----------------------------------------------------------------------------- filter-aware views
+def test_timeline_view_totals_match_frozen_outputs(client):
+    import pandas as pd
+    r = client.get("/views/timeline").json()
+    assert r["band_method"].startswith("calibrated company band")
+    fc = pd.read_csv(ROOT / "outputs" / "final" / "forecast_detail.csv")
+    assert abs(r["summary"]["units_19m"] - fc["Forecast"].sum()) < 1
+    tl = pd.read_csv(ROOT / "outputs" / "intelligence" / "timeline.csv")
+    assert abs(r["summary"]["revenue_19m"] - tl["Revenue_forecast"].sum()) / tl["Revenue_forecast"].sum() < 1e-6
+    hist = {p["Date"]: p for p in r["history"]}
+    assert len(r["forecast"]) == 19 and hist["2026-10"]["Units_unconstrained"] > 0
+    assert all(p["Units_P10"] <= p["Units_forecast"] <= p["Units_P90"] for p in r["forecast"])
+
+
+def test_timeline_filters_and_band_methods(client):
+    one = client.get("/views/timeline", params={"family": "Thermal Management", "region": "Europe"}).json()
+    assert one["band_method"].startswith("calibrated family x region band")
+    two = client.get("/views/timeline", params={"region": "Europe|India"}).json()
+    assert two["band_method"].startswith("sum of 2 calibrated region bands")
+    eu = client.get("/views/timeline", params={"region": "Europe"}).json()["summary"]["units_19m"]
+    ind = client.get("/views/timeline", params={"region": "India"}).json()["summary"]["units_19m"]
+    assert abs(two["summary"]["units_19m"] - (eu + ind)) < 1
+    sku = client.get("/views/timeline", params={"sku": "BSS-001"}).json()
+    assert sku["band_method"].startswith("sum of SKU-level bands")
+    assert client.get("/views/timeline", params={"region": "Atlantis"}).status_code == 404
+
+
+def test_breakdown_view(client):
+    r = client.get("/views/breakdown", params={"dim": "region"}).json()
+    assert r["members"] == 6 and len(r["rows"]) == 6
+    tot = client.get("/views/timeline").json()["summary"]
+    assert abs(sum(x["Units_next12"] for x in r["rows"]) - tot["units_next12"]) < 1
+    assert abs(sum(x["Revenue_share_next12"] for x in r["rows"]) - 1) < 1e-3   # shares rounded to 4 dp
+    revs = [x["Revenue_next12"] for x in r["rows"]]
+    assert revs == sorted(revs, reverse=True)
+    top = client.get("/views/breakdown", params={"dim": "sku", "top": 3, "family": "Thermal Management"}).json()
+    assert len(top["rows"]) == 4 and top["rows"][-1]["Member"].startswith("Other (")
+    assert client.get("/views/breakdown", params={"dim": "planet"}).status_code == 400

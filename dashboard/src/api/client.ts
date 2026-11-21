@@ -1,5 +1,6 @@
 import type {
-  Briefing, DatasetIndex, FilterOptions, Health, Kpis, Paged, Recommendations, ScenarioConfig, ScenarioResult,
+  Briefing, BreakdownView, DatasetIndex, FilterOptions, Health, Kpis, Paged, Recommendations, ScenarioConfig,
+  ScenarioResult, TimelineView,
 } from "./types";
 
 /** Base URL of the read-only API. Dev and preview proxy /api to FastAPI (vite.config.ts). */
@@ -23,6 +24,7 @@ export class ApiError extends Error {
 }
 
 type Query = Record<string, string | number | undefined | null>;
+export type FilterQuery = Partial<Record<"family" | "sku" | "region" | "channel" | "customer", string>>;
 
 function url(path: string, query?: Query): string {
   const q = new URLSearchParams();
@@ -66,6 +68,10 @@ export const api = {
   briefing: (signal?: AbortSignal) => request<Briefing>("/intelligence/briefing", { signal }),
   recommendations: (query?: Query, signal?: AbortSignal) =>
     request<Recommendations>("/intelligence/recommendations", { query, signal }),
+  /** Global filters as {family, sku, region, channel, customer} -> pipe-joined query values. */
+  timeline: (filters: FilterQuery, signal?: AbortSignal) => request<TimelineView>("/views/timeline", { query: filters, signal }),
+  breakdown: (dim: BreakdownView["dim"], filters: FilterQuery, top = 25, signal?: AbortSignal) =>
+    request<BreakdownView>("/views/breakdown", { query: { dim, top, ...filters }, signal }),
   scenarioConfig: (signal?: AbortSignal) => request<ScenarioConfig>("/scenario/config", { signal }),
   scenario: (body: { shocks: Record<string, number>; region_overlay?: Record<string, number> }, signal?: AbortSignal) =>
     request<ScenarioResult>("/scenario", {

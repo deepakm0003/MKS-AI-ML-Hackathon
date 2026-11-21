@@ -787,6 +787,83 @@ Status: **200**
 }
 ```
 
+## `GET /views/timeline` — params `{'family': 'Thermal Management', 'region': 'Europe'}`
+
+Status: **200**
+
+```json
+{
+  "filters": {
+    "family": [
+      "string"
+    ],
+    "region": [
+      "string"
+    ]
+  },
+  "band_method": "string",
+  "summary": {
+    "series": "number",
+    "forecast_series": "number",
+    "history_end": "string",
+    "units_last12": "number",
+    "units_next12": "number",
+    "revenue_last12": "number",
+    "revenue_next12": "number",
+    "units_19m": "number",
+    "units_19m_p10": "number",
+    "units_19m_p90": "number",
+    "revenue_19m": "number",
+    "units_next12_vs_last12": "number",
+    "revenue_next12_vs_last12": "number"
+  },
+  "history": [
+    {
+      "Date": "string",
+      "Units_shipped": "number",
+      "Units_unconstrained": "number",
+      "Revenue_shipped": "number",
+      "Revenue_unconstrained": "number"
+    }
+  ],
+  "forecast": [
+    {
+      "Date": "string",
+      "Units_forecast": "number",
+      "Revenue_forecast": "number",
+      "Units_P10": "number",
+      "Units_P90": "number",
+      "Revenue_P10": "number",
+      "Revenue_P90": "number"
+    }
+  ]
+}
+```
+
+## `GET /views/breakdown` — params `{'dim': 'region', 'top': 3}`
+
+Status: **200**
+
+```json
+{
+  "dim": "string",
+  "filters": {},
+  "members": "number",
+  "rows": [
+    {
+      "Member": "string",
+      "Units_last12": "number",
+      "Revenue_last12": "number",
+      "Units_next12": "number",
+      "Revenue_next12": "number",
+      "Units_change_pct": "number",
+      "Revenue_change_pct": "number",
+      "Revenue_share_next12": "number"
+    }
+  ]
+}
+```
+
 ## `GET /scenario/config`
 
 Status: **200**

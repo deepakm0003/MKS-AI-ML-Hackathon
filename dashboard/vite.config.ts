@@ -16,6 +16,15 @@ export default defineConfig({
     port: 4173,
     proxy: { "/api": { target: API_TARGET, changeOrigin: true, rewrite: (p) => p.replace(/^\/api/, "") } },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        // vendor chunks change rarely and stay cached across releases; ECharts loads with the first chart page
+        manualChunks: { echarts: ["echarts", "zrender"], react: ["react", "react-dom", "react-router-dom"] },
+      },
+    },
+    chunkSizeWarningLimit: 800,   // the ECharts chunk (modular import) is ~200 KB gzipped by itself
+  },
   test: {
     globals: true,
     environment: "jsdom",

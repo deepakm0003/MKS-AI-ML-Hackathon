@@ -27,6 +27,8 @@ CALLS = [
     ("GET", "/intelligence/briefing", None, None),
     ("GET", "/intelligence/report", None, None),
     ("GET", "/intelligence/recommendations", {"priority": "CRITICAL", "limit": 1}, None),
+    ("GET", "/views/timeline", {"family": "Thermal Management", "region": "Europe"}, None),
+    ("GET", "/views/breakdown", {"dim": "region", "top": 3}, None),
     ("GET", "/scenario/config", None, None),
     ("POST", "/scenario", None, {"shocks": {"pmi": -3}, "region_overlay": {"Europe": -5}}),
 ]

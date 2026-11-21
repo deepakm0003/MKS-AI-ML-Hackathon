@@ -22,6 +22,10 @@ from celeris.contract import dataset_path, load_contract, read_dataset  # noqa: 
 app = FastAPI(title="Celeris demand control tower API", version=load_contract()["version"],
               description="Frozen forecasts, accuracy, anomalies, data quality and planning intelligence.")
 
+from api.views import router as views_router  # noqa: E402
+
+app.include_router(views_router)
+
 
 @lru_cache(maxsize=32)
 def _load(name: str):

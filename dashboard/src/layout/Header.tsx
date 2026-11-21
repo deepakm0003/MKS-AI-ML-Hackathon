@@ -32,7 +32,7 @@ export function Header({ onMenu }: { onMenu: () => void }) {
       <div className="header__title">
         <h1>
           {view?.number && <span className="header__num">{view.number}</span>}
-          {view?.label ?? "Celeris Control Tower"}
+          {view?.label ?? (pathname.startsWith("/system") ? "Design system" : "Celeris Control Tower")}
         </h1>
         <p>AI demand planning · forecast intelligence · 19-month planning horizon</p>
       </div>

@@ -164,3 +164,10 @@ export function toApiQuery(f: FilterState): Record<string, string> {
   for (const d of DIMS) if (f[d].length === 1) q[col[d]] = f[d][0];
   return q;
 }
+
+/** Global filters for the /views endpoints: every dimension, multi-values joined by "|". */
+export function toViewQuery(f: FilterState): Partial<Record<Dim, string>> {
+  const q: Partial<Record<Dim, string>> = {};
+  for (const d of DIMS) if (f[d].length) q[d] = f[d].join(SEP);
+  return q;
+}

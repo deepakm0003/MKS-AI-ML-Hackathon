@@ -1,5 +1,5 @@
 {
-  "frozen_at": "2026-11-21 14:33",
+  "frozen_at": "2026-11-21 15:40",
   "selected_model": "c9c_keep_pull_forward",
   "selection_reason": "c9c_keep_pull_forward passes all promotion criteria: WAPE 0.2837 vs champion 0.2897; PROMOTE | gain +0.0060, won 83%, worst cutoff +0.0000",
   "spec": {
@@ -273,7 +273,7 @@
     "band_coverage.csv": "fa3e00bbbaa3dec3",
     "forecast_detail.csv": "994d90d374390b2d",
     "forecast_hierarchy.csv": "a0d88975db75e7d0",
-    "history.csv": "1bd0de03fe4bc6dd",
+    "history.csv": "8f73d5d4e0e0ebfa",
     "model/final_model_0_lgb.txt": "4b0666a33e987f7f",
     "submission.csv": "9a9762f6c56c1865",
     "validation_report.json": "7607c5469c8dbcb7"
