@@ -154,3 +154,22 @@ mix), and the evidence-based planning briefing (company-wide, labelled when filt
 * **One request per dataset per page:** identical GETs are shared and cached for 60 s in the client,
   so the KPI row and both timelines make a single `/views/timeline` call (tested).
 * Company-wide panels (scenario impact, briefing) say so instead of pretending to be filtered.
+
+## 10. Phase 4 — Demand Explorer (delivered, `/explorer`)
+
+Covers the required **demand explorer** (drill-down family → SKU → region → customer;
+seasonality, zero months, lifecycle) and **history vs forecast on one timeline**, plus the optional
+**lifecycle intelligence** view.
+
+| Panel | What it shows | Endpoint |
+|---|---|---|
+| Drill path | breadcrumbs from the global filters; clicking a row pins that level, a crumb clears everything deeper - shareable and shared with every other view | (filters) |
+| History and forecast | recovered demand → forecast with P10–P90; units / revenue; **"+ Shipped" overlay** shows where stockouts held shipments below true demand | `/views/timeline` |
+| Seasonality | % above / below an average month (history bars from a true zero line, forecast line) or a year-over-year overlay | `/views/seasonality` |
+| Order pattern | share of observed months with no order (a missing month is not a zero), series ordering in ≤ 70% of months, median cycle, Syntetos–Boylan demand classes | `/views/seasonality` |
+| Lifecycle | status mix, series age, launch / EOL handovers in the forecast window (each launch paired with its predecessor's EOL) | `/views/lifecycle` |
+| Drill table | members of the current level with 24 + 12-month sparkline, last / next 12 months, change, revenue, zero months, lifecycle or demand class | `/views/drilldown` |
+| Series detail | once a SKU and region are pinned: product, lifecycle, order pattern, planning segment, the weighted parts of the risk score, reason codes and the recommendation | `/series/{sku}/{region}` |
+
+New contract datasets `sku_lifecycle` and `series_profile` are exports of existing pipeline tables
+(no new calculation).

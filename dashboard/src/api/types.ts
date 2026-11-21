@@ -226,3 +226,85 @@ export interface BreakdownView {
   members: number;
   rows: BreakdownRow[];
 }
+
+/* ---------------------------------------------------------------- Demand Explorer (api/explorer.py) */
+export interface SeasonalityView {
+  filters: Record<string, string[]>;
+  by_month: { month: number; label: string; hist_avg_units: number | null; hist_index: number | null;
+    forecast_units: number | null; forecast_index: number | null }[];
+  years: { year: string; kind: "history" | "forecast"; values: (number | null)[] }[];
+  stats: {
+    peak_months: string[];
+    trough_month: string | null;
+    amplitude: number | null;
+    zero_month_share_24m: number | null;
+    series_with_30pct_zero_months: number;
+    series_observed_24m: number;
+    demand_classes: Record<string, number>;
+    median_order_cycle_months: number | null;
+  };
+}
+
+export type DrillLevel = "family" | "sku" | "region" | "customer";
+
+export interface DrillRow {
+  Member: string;
+  Series: number | null;
+  Units_last12: number | null;
+  Units_next12: number | null;
+  Revenue_next12: number | null;
+  Units_change_pct: number | null;
+  Zero_share_24m: number | null;
+  spark_history: (number | null)[];
+  spark_forecast: (number | null)[];
+  Label?: string | null;
+  Lifecycle_Status?: string | null;
+  Powertrain?: string | null;
+  Launch_Date?: string | null;
+  EOL_Date?: string | null;
+  Successor_SKU?: string | null;
+  Demand_Class?: string;
+  Order_cycle_months?: number | null;
+  First_Month?: string;
+}
+
+export interface DrilldownView {
+  level: DrillLevel;
+  next_level: DrillLevel | null;
+  filters: Record<string, string[]>;
+  members: number;
+  spark_months: { history: string[]; forecast: string[] };
+  rows: DrillRow[];
+}
+
+export interface LifecycleEvent {
+  type: "LAUNCH" | "EOL";
+  sku: string;
+  date: string;
+  description: string | null;
+  related_sku: string | null;
+  powertrain: string | null;
+  regions: number;
+  forecast_units: number | null;
+}
+
+export interface LifecycleView {
+  filters: Record<string, string[]>;
+  skus: number;
+  status_counts: Record<string, number>;
+  powertrain_counts: Record<string, number>;
+  series_age: Record<string, number>;
+  events: LifecycleEvent[];
+}
+
+export interface SeriesDetail {
+  forecast: { Date: string; h: number; Forecast: number; P10: number; P50: number; P90: number; Units_Sold_Forecast: number; method: string }[];
+  history?: { Date: string; Units_Sold: number | null; Demand: number | null; Demand_Source: string; Anomaly_Type: string | null }[];
+  signals?: Record<string, string | number | boolean | null> | null;
+  anomalies: Record<string, string | number | null>[];
+  profile?: { Demand_Class: string; Cycle_Last12: number | null; First_Month: string; Months: number; Nonzero_Share_24: number | null;
+    ADI: number | null; CV2: number | null; Months_Since_Order: number | null } | null;
+  lifecycle?: { Lifecycle_Status: string; Launch_Date: string; EOL_Date: string | null; Replaces_SKU: string | null;
+    Successor_SKU: string | null; Powertrain_Application: string; SKU_Description: string; Size_Class: string } | null;
+  risk?: Record<string, string | number | null> | null;
+}

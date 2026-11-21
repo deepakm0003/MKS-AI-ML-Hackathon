@@ -545,3 +545,40 @@ datasets:
       total_sim_pct: float
       total_emulated_pct: float
       total_abs_err_pts: float
+
+  sku_lifecycle:
+    path: outputs/intelligence/sku_lifecycle.csv
+    stage: intelligence
+    view: explorer
+    description: Product master with lifecycle status, launch / EOL dates, predecessor and successor.
+    primary_key: [SKU_ID]
+    columns:
+      SKU_ID: string
+      Product_Family: string
+      SKU_Description: string
+      Size_Class: string
+      Powertrain_Application: string    # ICE | EV | Universal
+      Launch_Date: month
+      EOL_Date: month
+      Replaces_SKU: string
+      Successor_SKU: string
+      Lifecycle_Status: string          # Active | Discontinued | EOL Announced | Planned Launch
+
+  series_profile:
+    path: outputs/intelligence/series_profile.csv
+    stage: intelligence
+    view: explorer
+    description: Per SKU x Region demand profile - history span, ordering cycle, intermittency (ADI, CV2) and demand class.
+    primary_key: [SKU_ID, Region]
+    columns:
+      SKU_ID: string
+      Region: string
+      First_Month: month
+      Last_Month: month
+      Months: int
+      Cycle_Last12: float               # typical months between orders
+      Nonzero_Share_24: float
+      ADI: float
+      CV2: float
+      Demand_Class: string              # smooth | intermittent | erratic | lumpy
+

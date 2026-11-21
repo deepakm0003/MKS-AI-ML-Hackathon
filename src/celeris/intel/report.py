@@ -131,6 +131,15 @@ def run_report(sig: pd.DataFrame, fc: pd.DataFrame, pred: pd.DataFrame, model_na
         (OUT / "scenario_presets.json").write_text(json.dumps(scen, indent=1, default=_jsonable), encoding="utf-8")
 
     # ---- write
+    # lifecycle and demand-profile reference for the Demand Explorer (copies, no new calculation)
+    life = sku.copy()
+    succ = life.dropna(subset=["Replaces_SKU"]).set_index("Replaces_SKU")["SKU_ID"]
+    life["Successor_SKU"] = life["SKU_ID"].map(succ)
+    life.to_csv(OUT / "sku_lifecycle.csv", index=False)
+    prof = pd.read_parquet(PROCESSED / "series_profile.parquet")
+    prof[["SKU_ID", "Region", "First_Month", "Last_Month", "Months", "Cycle_Last12", "Cycle_Last24",
+          "Months_Since_Order", "Nonzero_Share_24", "ADI", "CV2", "Demand_Class", "Mean_12"]].to_csv(
+        OUT / "series_profile.csv", index=False)
     book.to_csv(OUT / "price_book.csv", index=False)
     price_rise_check(demand, events).to_csv(OUT / "price_rise_check.csv", index=False)
     tl.to_csv(OUT / "timeline.csv", index=False)

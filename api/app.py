@@ -22,9 +22,11 @@ from celeris.contract import dataset_path, load_contract, read_dataset  # noqa: 
 app = FastAPI(title="Celeris demand control tower API", version=load_contract()["version"],
               description="Frozen forecasts, accuracy, anomalies, data quality and planning intelligence.")
 
+from api.explorer import router as explorer_router  # noqa: E402
 from api.views import router as views_router  # noqa: E402
 
 app.include_router(views_router)
+app.include_router(explorer_router)
 
 
 @lru_cache(maxsize=32)
@@ -120,6 +122,21 @@ def series(sku_id: str, region: str):
         out["signals"] = _records(s)[0] if len(s) else None
     a = _load("anomaly_register")
     out["anomalies"] = _records(a[(a["SKU_ID"] == sku_id) & (a["Region"] == region)])
+    if dataset_path("series_profile").exists():
+        p = _load("series_profile")
+        p = p[(p["SKU_ID"] == sku_id) & (p["Region"] == region)]
+        out["profile"] = _records(p)[0] if len(p) else None
+    if dataset_path("sku_lifecycle").exists():
+        lc = _load("sku_lifecycle")
+        lc = lc[lc["SKU_ID"] == sku_id]
+        out["lifecycle"] = _records(lc)[0] if len(lc) else None
+    if dataset_path("series_risk").exists():
+        r = _load("series_risk")
+        r = r[(r["SKU_ID"] == sku_id) & (r["Region"] == region)]
+        keep = [c for c in r.columns if c.startswith("risk_") or c in (
+            "confidence", "Segment", "Service_level", "backtest_wape", "backtest_bias", "forecast_status",
+            "reason_codes", "recommendation", "revenue_next12", "revenue_downside_next12", "revenue_upside_next12")]
+        out["risk"] = _records(r[keep])[0] if len(r) else None
     return out
 
 

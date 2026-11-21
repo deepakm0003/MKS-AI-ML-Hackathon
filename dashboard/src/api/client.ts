@@ -1,6 +1,6 @@
 import type {
-  Briefing, BreakdownView, DatasetIndex, FilterOptions, Health, Kpis, Paged, PresetResult, Recommendations,
-  ScenarioConfig, ScenarioResult, TimelineView,
+  Briefing, BreakdownView, DatasetIndex, DrilldownView, DrillLevel, FilterOptions, Health, Kpis, LifecycleView, Paged,
+  PresetResult, Recommendations, ScenarioConfig, ScenarioResult, SeasonalityView, SeriesDetail, TimelineView,
 } from "./types";
 
 /** Base URL of the read-only API. Dev and preview proxy /api to FastAPI (vite.config.ts). */
@@ -96,6 +96,12 @@ export const api = {
   timeline: (filters: FilterQuery, signal?: AbortSignal) => request<TimelineView>("/views/timeline", { query: filters, signal }),
   breakdown: (dim: BreakdownView["dim"], filters: FilterQuery, top = 25, signal?: AbortSignal) =>
     request<BreakdownView>("/views/breakdown", { query: { dim, top, ...filters }, signal }),
+  seasonality: (filters: FilterQuery, signal?: AbortSignal) => request<SeasonalityView>("/views/seasonality", { query: filters, signal }),
+  drilldown: (level: DrillLevel, filters: FilterQuery, top = 60, signal?: AbortSignal) =>
+    request<DrilldownView>("/views/drilldown", { query: { level, top, ...filters }, signal }),
+  lifecycle: (filters: FilterQuery, signal?: AbortSignal) => request<LifecycleView>("/views/lifecycle", { query: filters, signal }),
+  series: (sku: string, region: string, signal?: AbortSignal) =>
+    request<SeriesDetail>(`/series/${encodeURIComponent(sku)}/${encodeURIComponent(region)}`, { signal }),
   scenarioPresets: (signal?: AbortSignal) => request<Record<string, PresetResult>>("/scenario/presets", { signal }),
   scenarioConfig: (signal?: AbortSignal) => request<ScenarioConfig>("/scenario/config", { signal }),
   scenario: (body: { shocks: Record<string, number>; region_overlay?: Record<string, number> }, signal?: AbortSignal) =>

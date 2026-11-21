@@ -1,5 +1,5 @@
 import { api } from "./client";
-import type { BreakdownView } from "./types";
+import type { BreakdownView, DrillLevel } from "./types";
 import { useApi } from "./useApi";
 import { useFilters } from "../filters/FilterContext";
 import { toViewQuery } from "../filters/model";
@@ -26,4 +26,22 @@ export function useRecommendations(extra: Record<string, string | number> = {}) 
   const q = { ...toViewQuery(filters), ...extra };
   const key = JSON.stringify(q);
   return useApi((s) => api.recommendations(q, s), [key]);
+}
+
+export function useSeasonality() {
+  const { filters } = useFilters();
+  const q = toViewQuery(filters);
+  return useApi((s) => api.seasonality(q, s), [JSON.stringify(q)]);
+}
+
+export function useDrilldown(level: DrillLevel, top = 60) {
+  const { filters } = useFilters();
+  const q = toViewQuery(filters);
+  return useApi((s) => api.drilldown(level, q, top, s), [level, top, JSON.stringify(q)]);
+}
+
+export function useLifecycle() {
+  const { filters } = useFilters();
+  const q = toViewQuery(filters);
+  return useApi((s) => api.lifecycle(q, s), [JSON.stringify(q)]);
 }
