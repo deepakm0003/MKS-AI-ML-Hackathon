@@ -28,7 +28,10 @@ One command rebuilds every output from `data/raw/`:
 python run_pipeline.py
 ```
 
-Run one stage only with `--stage clean|anomalies|drivers|backtest` (the backtest takes ~1 hour). Run the tests afterwards:
+Run one stage only with `--stage clean|anomalies|drivers|backtest|forecast|final|intelligence`
+(the backtest takes ~1 hour). `final` selects the model from the experiment registry, freezes
+the forecast in `outputs/final/` and validates it; `intelligence` then reads that frozen
+forecast. Run the tests afterwards:
 
 ```powershell
 python -m pytest -q
@@ -43,7 +46,13 @@ python -m pytest -q
 | `outputs/quality/dq_report.json` | Machine-readable data-quality report (counts by file / category / issue, before-after profiles) |
 | `outputs/quality/dq_issue_log.csv` | One row per correction: file, row, field, original → corrected, action, rule |
 | `src/celeris/` | Pipeline code |
-| `tests/` | Unit tests (parsers) + invariant tests on the cleaned outputs |
+| `config/experiments.yaml` | Champion spec, every challenger, cutoffs and the six promotion criteria |
+| `artifacts/registry/registry.csv` | Leaderboard of every experiment with its promotion verdict |
+| `artifacts/reports/` | Experiment report, error decomposition, macro stress, cleaning sensitivity, reliability |
+| `outputs/final/` | Frozen backend: submission, forecast, hierarchy, validation report, manifest |
+| `contracts/data_contract.yaml` | Every dataset the dashboard may read, with columns and types |
+| `api/app.py` | Read-only FastAPI layer over the data contract |
+| `tests/` | Parsers, cleaned-output invariants, features, forecast rules, experiments, robustness, contract, API |
 
 ## Stage 1 — Cleaning: decisions and why
 
@@ -255,25 +264,29 @@ saved in `outputs/models/` with a model card (features, parameters, backtest met
   t-correction (only 4 backtest periods). Held-out coverage is now **83–87% at every
   level** (`band_coverage.csv`).
 
-### The forecast (2026-11 → 2028-05)
+### The forecast (2026-11 → 2028-05) — frozen final model (`outputs/final/`)
+
+Produced by the promoted model **C9c** (see Phase C below); the stage-4 champion forecast is
+kept in `outputs/forecast/` for comparison (company total 2.84 M; C9c is 0.6% lower).
 
 | | Forecast | P10 | P90 |
 |---|---:|---:|---:|
-| **Company, 19 months** (sum of monthly bands) | **2.84 M units** | 2.75 M | 3.17 M |
-| Brake & Safety | 544 k | 508 k | 627 k |
-| Precision Machined | 442 k | 413 k | 510 k |
-| Chassis & Structural | 439 k | 410 k | 506 k |
-| Thermal Management | 429 k | 401 k | 494 k |
-| Powertrain | 364 k | 340 k | 420 k |
-| Hydraulic | 331 k | 309 k | 381 k |
-| Electrical | 287 k | 268 k | 331 k |
+| **Company, 19 months** (sum of monthly bands) | **2.82 M units** | 2.66 M | 3.15 M |
+| Brake & Safety | 536 k | 486 k | 621 k |
+| Precision Machined | 439 k | 398 k | 508 k |
+| Chassis & Structural | 433 k | 393 k | 501 k |
+| Thermal Management | 428 k | 388 k | 496 k |
+| Powertrain | 363 k | 329 k | 420 k |
+| Hydraulic | 332 k | 301 k | 384 k |
+| Electrical | 286 k | 259 k | 331 k |
 
-* Next 12 months **+6.5%** vs the last 12, carried by the strong Sep–Oct 2026 and a PMI
+* Next 12 months **+6.1%** vs the last 12, carried by the strong Sep–Oct 2026 and a PMI
   rising to 53.
-* Second year eases (−3% to −8% vs the same months a year earlier): new vehicle orders
+* Second year eases (−4% to −10% vs the same months a year earlier): new vehicle orders
   fall from 107 (mid-2026) to ~99, and the industrial families follow with a 3–4 month lag.
-* Bands are skewed upward: in the backtest the model under-forecast more often than it
-  over-forecast, so upside risk is larger than downside.
+* Aggregate bands are now fitted on 6 backtest cutoffs (including the harder 2022–23
+  periods), so the company band is wider and more honest than the earlier 4-cutoff band;
+  held-out coverage 82–86% at every level.
 
 ## Forecasting engine — champion, experiments and registry
 
@@ -282,8 +295,14 @@ The model that produced the submission is frozen as the **champion**
 by group, cutoffs, seed, deterministic LightGBM settings, library versions and SHA-256
 fingerprints of every raw file). Every challenger runs under identical conditions — same
 demand panel, 6 rolling cutoffs (2022-10 → 2025-03), 19-month horizon, same metrics — and
-is promoted only if it gains ≥ 0.002 WAPE on average, wins ≥ 4 of 6 cutoffs and never
-loses more than 0.005 on any cutoff.
+is promoted only if **all six** criteria hold (`config/experiments.yaml` → `promotion`):
+
+1. mean WAPE gain ≥ 0.002 over the same 6 cutoffs;
+2. no horizon bucket (1–3 / 4–6 / 7–12 / 13–19 m) worse by more than 0.003;
+3. |bias| not worse by more than 1 point;
+4. better on ≥ 67% of cutoffs and never worse than 0.005 on any cutoff;
+5. no product family, region or the new-series segment worse by more than 0.005;
+6. the test suite and the leakage audit pass.
 
 ```powershell
 python run_backtest.py --list
@@ -320,7 +339,7 @@ leakage paths), `artifacts/reports/error_decomposition_<name>.json`.
   company-total error from 5.4% to 8.9%, mostly beyond 6 months. The forecast therefore
   leans on the macro file's projections for 2027–28 — they must be stress-tested.
 * **Error decomposition (champion):**
-  * Error is **not concentrated**: half of it comes from 866 of 3,540 series; the top 20
+  * Error is **not concentrated**: half of it comes from 866 of 3,047 series; the top 20
     series cause 3.2%. There is no small set of SKUs to fix.
   * Getting every series' level exactly right would only lower WAPE from 0.290 to 0.272 —
     **~94% of the error is month-to-month noise**, so remaining gains are small and
@@ -328,6 +347,69 @@ leakage paths), `artifacts/reports/error_decomposition_<name>.json`.
   * **Systematic under-forecast is specific:** the vehicle-build families (Chassis −8.3% in
     6/6 cutoffs, Thermal −5.8%, Brake −5.0%), Middle East & Africa (−6.5%) and **new
     series < 24 months (WAPE 0.391, bias −8.1%)**. Industrial families are unbiased.
+
+### Phase C — challengers and the promoted model
+
+Full ranked report: `artifacts/reports/experiment_report.md` (`python scripts/experiment_report.py`).
+Every challenger ran on the same 6 cutoffs; the server re-run of the champion matches the
+laptop run exactly, so all numbers are comparable.
+
+| Experiment | WAPE | Δ | Total-month | Verdict |
+|---|---:|---:|---:|---|
+| **C9c — train on the price pull-forward months** | **0.2837** | **−0.0060** | 5.1% | **PROMOTED** (5/6 cutoffs better, 1 equal, none worse) |
+| C9b — also keep COVID / strike months | 0.2850 | −0.0047 | 5.7% | passes, weaker than C9c |
+| C9a — train on every observed month | 0.2864 | −0.0033 | 5.2% | rejected (worst cutoff −0.0048) |
+| C8 — blend: C4 + CatBoost | 0.2880 | −0.0017 | 4.9% | rejected (gain < 0.002) |
+| C4 — cross-series + 3-seed bag | 0.2883 | −0.0014 | 5.6% | rejected (gain < 0.002) |
+| C7 — blend: champion + CatBoost | 0.2888 | −0.0009 | 4.8% | rejected |
+| C1 — growth / family-macro features | 0.2890 | −0.0007 | 5.2% | rejected |
+| Champion | 0.2897 | — | 5.4% | |
+| C3a — intermittent-demand features | 0.2903 | +0.0006 | 5.4% | rejected |
+| C9d — keep only COVID / strike months | 0.2920 | +0.0023 | 5.9% | rejected |
+| C5 — CatBoost | 0.2925 | +0.0028 | **4.4%** | rejected (best company-level error) |
+| C6 — without the EV-adoption index | 0.2937 | +0.0040 | 5.7% | rejected: the EV index is real signal |
+| C3b / C3c — hurdle P(order) × size | 0.2947 / 0.2956 | +0.005 | 4.9% | rejected |
+| C2 — separate models for 1–6 / 7–19 m | 0.2952 | +0.0055 | 6.2% | rejected |
+
+**Why C9c wins.** The price-rise rule excluded four whole months (Nov 2022 – Feb 2023, every
+series) from the training target and filled them with a trailing mean in the lag features.
+The early-buying / payback effect it guarded against is about ±10%; losing the four most
+recent real months cost more. C9c improves **every** family, region, lifecycle stage,
+demand class and horizon bucket — most for **new series (WAPE 0.391 → 0.368, bias −8.1% →
+−6.4%)** and **Middle East & Africa (0.379 → 0.362)**, the two known weak spots — and every
+calendar month of the post-2022 backtests, including Jan–Feb of years without a price rise
+(it is not fitting a one-off). Model, features and parameters are the champion's; only the
+training months changed, so the leakage audit still applies.
+
+### Phase D — robustness and uncertainty (`python scripts/robustness_report.py`)
+
+* **Seed averaging and more training origins** change nothing material (0.2893 and 0.2896;
+  seed bagging is better on 5/6 cutoffs but by only 0.0004) — the champion is not a lucky seed.
+* **Cleaning sensitivity** (`scripts/cleaning_sensitivity.py`): each cleaning decision is
+  reversed, the champion re-trained, and every variant scored on the **same yardstick** —
+  the months no cleaning step touches — so no variant can win by redefining the truth:
+
+  | Variant | WAPE vs our cleaning | Bias | 19-month forecast |
+  |---|---:|---:|---:|
+  | Our cleaning | 0.2779 | −3.7% | 2.836 M |
+  | No stockout recovery (shipped = demand) | +0.0043 | −4.9% | +0.5% |
+  | Drop stockout months instead of recovering them | +0.0036 | −3.8% | +0.5% |
+  | No chip-shortage allocation uplift | +0.0002 | −3.6% | +0.0% |
+  | Keep event / pull-forward months in training | **−0.0032** | −1.2% | −0.5% |
+
+  Stockout recovery is confirmed; the training-exclusion result led to C9. Every decision
+  moves the forecast by at most ±0.5% — the forecast is robust to the cleaning choices.
+* **Macro stress** (`artifacts/reports/macro_stress.csv`, final model): combined downside
+  −6.9%, upside +4.9%; PMI ±3 points ±2.2%; auto production −2 pp −2.3%.
+* **No post-hoc corrections:** P50 instead of the mean, global or family bias factors all
+  lose walk-forward (`post_corrections.csv`) — the bias is not stable enough to correct.
+* **Calibrated bands by segment:** the split-conformal quantiles are now also stratified by
+  young/established series × volatile regions (MEA, LatAm). Leave-one-cutoff-out, the worst
+  segment's P10–P90 coverage rises from 75% to 79% with lower pinball loss and slightly
+  narrower bands (`interval_calibration.csv`) — no ad-hoc band widening is needed any more.
+* **Reliability:** error is flat across the horizon (0.26–0.30 for months 1–19;
+  `horizon_reliability.csv`). Series tiers (`reliability_tiers.csv`): A reliable (WAPE <
+  0.25) 861 series / 37% of volume, B usable 1,824 / 56%, C weak 316 / 6%, D unreliable 46 / 1%.
 
 ## Planning Intelligence engine — `python run_pipeline.py --stage intelligence`
 
@@ -348,15 +430,43 @@ the frontend contract), `exceptions.csv`, `market_signals.csv`, `lifecycle_alert
 | **Recommendation** | Rule per status / risk with procurement quantities (forecast and P90 for the next 6 months) |
 | **Exceptions** | High risk, SKU-specific surges/declines, sharp declines, lifecycle, shutdowns; ranked by units at stake × risk; top 10% + all lifecycle/shutdown items = ACT_NOW |
 
-**Interval reliability by segment** (champion backtest, leave-one-cutoff-out): the P10–P90
-band holds 82% at every horizon and 81–85% across demand classes and families, but only
-**73% for new series and 77% for Middle East & Africa**. For planning quantities their bands
-are widened by the factor that restores 80% on the backtest (×1.8 and ×1.55).
+**Interval reliability by segment** (final model backtest, leave-one-cutoff-out): with the
+Phase D stratified bands the P10–P90 band holds 79–87% in every lifecycle stage, region,
+demand class and horizon (`interval_reliability.csv`), so planning quantities use the
+bands as they are.
 
-**Current read-out (forecast from 2026-10):**
+**Current read-out (final model, forecast from 2026-10):**
 * **Market upturn:** total demand +13.6% YoY over the last 3 months (vs −0.6% over 12 months);
   Electrical Assemblies is outpacing the market, Chassis & Structural lagging it.
-* 50 SKU-specific surges and 23 declines; 32 series where the forecast contradicts a
+* 50 SKU-specific surges and 23 declines; 33 series where the forecast contradicts a
   sustained recent trend (flagged for planner judgement).
-* 589 exceptions, **137 ACT_NOW** (all 28 lifecycle items, 61 Orion-shutdown series, the
-  highest-risk / largest-volume items); 463 series HIGH risk.
+* 596 exceptions, **142 ACT_NOW** (all 28 lifecycle items, 61 Orion-shutdown series, the
+  highest-risk / largest-volume items); 464 series HIGH risk.
+
+## Frozen backend — `python run_pipeline.py --stage final`
+
+1. **Model selection** from the registry: the best challenger passing all six promotion
+   criteria, else the champion (`outputs/final/manifest.json` records the model, the reason,
+   the spec, the features, the backtest headline and SHA-256 fingerprints of every file).
+2. **Final forecast** with the selected model, the same lifecycle / launch / run-down /
+   shutdown rules as stage 4 and the stratified bands fitted on that model's own backtest.
+3. **Validation** (`validation_report.json`, all PASS): 58,219 rows in test order, no
+   duplicates / missing / negative values, integers, zero outside launch–EOL, P10 ≤ P50 ≤ P90,
+   hierarchy totals equal the SKU sums, next-12-month growth plausible, every active
+   series forecast.
+4. **Data contract** — `contracts/data_contract.yaml` lists every dataset the dashboard may
+   read (path, grain, primary key, columns, types, which view uses it);
+   `tests/test_contract.py` enforces it on every run.
+5. **Read-only API** over the contract (no computation, so the frontend always shows the
+   frozen, validated numbers):
+
+```powershell
+uvicorn api.app:app --reload
+```
+
+`/health`, `/kpis`, `/datasets`, `/datasets/{name}?col=value`, `/series/{sku}/{region}`
+(history + forecast + signals + anomalies), `/hierarchy?level=family`; docs at
+`http://127.0.0.1:8000/docs`.
+
+**Submission file:** `outputs/final/submission.csv`. Big files (forecast detail, history,
+model) are regenerated by the pipeline and published as a GitHub Release.

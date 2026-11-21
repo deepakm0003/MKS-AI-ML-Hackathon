@@ -1,0 +1,12 @@
+Scenario,Total_19m,Total_vs_base_pct,2026_vs_base_pct,2027_vs_base_pct,2028_vs_base_pct,Brake & Safety Systems_vs_base_pct,Chassis & Structural_vs_base_pct,Electrical Assemblies_vs_base_pct,Hydraulic Systems_vs_base_pct,Powertrain Components_vs_base_pct,Precision Machined Parts_vs_base_pct,Thermal Management_vs_base_pct
+Base (macro file),2835780,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+PMI -3,2785436,-1.78,-0.09,-2.74,-0.15,-0.1,-0.89,-3.28,-3.74,-1.15,-2.81,-1.74
+PMI +3,2899978,2.26,0.03,1.99,3.85,-0.05,1.53,4.51,4.98,1.94,2.99,1.88
+Auto production YoY -2pp,2751630,-2.97,0.0,-2.96,-4.23,-4.05,-3.33,-2.14,-2.0,-3.14,-2.41,-2.96
+Auto production YoY +2pp,2858943,0.82,0.0,0.96,0.81,0.19,1.23,2.14,-0.41,1.02,0.8,1.11
+New vehicle orders -5%,2799709,-1.27,0.0,-1.98,-0.09,-1.2,-1.53,-1.37,-1.09,-1.64,-0.74,-1.41
+New vehicle orders +5%,2853405,0.62,0.0,0.72,0.64,0.37,0.28,0.9,1.24,0.7,0.7,0.48
+Raw material cost +10%,2830459,-0.19,-0.21,-0.26,0.0,-0.28,-0.27,-0.12,0.1,-0.12,-0.27,-0.23
+EV adoption +5 pts,2888654,1.86,1.27,1.84,2.17,1.24,2.17,4.17,1.22,1.52,1.72,1.75
+Combined downside,2641361,-6.86,-0.32,-8.79,-4.87,-6.38,-6.45,-7.55,-7.64,-6.86,-6.91,-6.75
+Combined upside,2957092,4.28,0.43,4.37,5.64,0.87,3.36,8.46,6.64,4.4,5.15,3.92

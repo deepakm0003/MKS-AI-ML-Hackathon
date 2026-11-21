@@ -3,6 +3,9 @@
     python scripts/experiment_report.py   -> artifacts/reports/experiment_report.md
 """
 import json
+import sys
+
+sys.stdout.reconfigure(encoding="utf-8")
 from pathlib import Path
 
 import pandas as pd
@@ -15,7 +18,9 @@ m = lambda n: json.loads((ART / "experiments" / n / "metrics.json").read_text(en
 cm = m("champion")
 
 lines = ["# Experiment report — champion vs challengers", "",
-         "All runs: same cleaned demand panel, 6 rolling cutoffs (2022-10 → 2025-03), 19-month horizon.", "",
+         "All runs: same cleaned demand panel, 6 rolling cutoffs (2022-10 → 2025-03), 19-month horizon.",
+         "Minutes are wall-clock (c4 includes ~8 h of laptop sleep; C6, C9, seed_bag and origin_step1 ran "
+         "in parallel on the 56-core server, which reproduces the champion exactly).", "",
          "| Rank | Experiment | WAPE | Δ vs champion | Bias | MAE | 1–3 m | 4–6 m | 7–12 m | 13–19 m | "
          "Family-month | Total-month | Cutoffs won | Minutes | Verdict |",
          "|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|"]
@@ -39,6 +44,29 @@ for seg, label in segs.items():
 bias = pd.DataFrame({n: {k: v["Bias"] for k, v in m(n)["by_Product_Family"].items()} for n in ["champion"] + names})
 lines += ["### Bias by family (the champion's known weakness: vehicle-build families)", "",
           (100 * bias).round(1).to_markdown(), ""]
+# ---- aggregate accuracy (what planners see): family-month and company-month error
+agg = reg.set_index("experiment")[["WAPE", "WAPE_family_month", "WAPE_total_month"]].sort_values("WAPE_total_month")
+lines += ["## Aggregate accuracy (family-month and company-month WAPE)", "",
+          "Series-level WAPE decides promotion; the aggregate columns show which models planners would "
+          "trust for family and company totals.", "", (100 * agg).round(2).to_markdown(), ""]
+
+# ---- Phase D robustness tables (if generated)
+R = ART / "reports"
+extra = [("cleaning_sensitivity.csv", "Cleaning sensitivity (3 cutoffs, common yardstick of untouched months)",
+          ["Variant", "Description", "rows", "WAPE", "Bias", "WAPE_vs_baseline"]),
+         ("cleaning_sensitivity_forecast.csv", "Cleaning sensitivity - final 19-month forecast",
+          ["Variant", "Total_19m", "Total_19m_vs_base_pct"]),
+         ("post_corrections.csv", "Post-hoc corrections (walk-forward WAPE)", None),
+         ("interval_calibration.csv", "Interval calibration (leave-one-cutoff-out)", None),
+         ("reliability_tiers.csv", "Series reliability tiers (champion)", None)]
+for f, title, cols in extra:
+    if (R / f).exists():
+        t = pd.read_csv(R / f)
+        t = t[[c for c in (cols or t.columns) if c in t.columns]]
+        lines += [f"## {title}", "", t.round(4).to_markdown(index=False), ""]
+if (R / "recommendation.md").exists():
+    lines += [(R / "recommendation.md").read_text(encoding="utf-8")]
+
 out = ART / "reports" / "experiment_report.md"
 out.write_text("\n".join(lines), encoding="utf-8")
 print("\n".join(lines[:5 + len(reg) + 1]))

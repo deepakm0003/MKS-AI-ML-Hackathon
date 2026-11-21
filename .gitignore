@@ -40,3 +40,8 @@ artifacts/**/*.parquet
 artifacts/**/*.txt
 catboost_info/
 artifacts/logs/
+# frozen backend (Phase F): small contract files committed, big detail + model files go to releases
+!outputs/final/
+outputs/final/forecast_detail.csv
+outputs/final/model/
+outputs/final/history.csv

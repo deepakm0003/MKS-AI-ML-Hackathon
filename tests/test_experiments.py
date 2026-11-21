@@ -59,3 +59,37 @@ def test_promotion_rule():
     v = add_promotion_verdicts(reg, cfg).set_index("experiment")["verdict"]
     assert v["champion"] == "CHAMPION" and v["better"].startswith("PROMOTE") and v["lucky"].startswith("reject")
     assert v["biased"].startswith("reject") and "bias" in v["biased"]
+
+
+def test_blend_is_a_fixed_weight_average(tmp_path, monkeypatch):
+    import celeris.experiments as E
+    src = E.ART / "experiments" / "champion" / "predictions.parquet"
+    if not src.exists():
+        pytest.skip("run the champion backtest first")
+    p = pd.read_parquet(src)
+    p = p[p["cutoff"] == p["cutoff"].iloc[0]].head(3000)
+    for name, k in [("a", 1.0), ("b", 3.0)]:
+        d = tmp_path / "experiments" / name
+        d.mkdir(parents=True)
+        p.assign(f=p["f"] * k).sample(frac=1, random_state=1).to_parquet(d / "predictions.parquet")  # shuffled order
+    monkeypatch.setattr(E, "ART", tmp_path)
+    cfg = E.load_config()
+    spec = {"name": "ab", "blend": {"members": ["a", "b"], "weights": [0.5, 0.5]}}
+    E.run_blend("ab", spec, cfg)
+    out = pd.read_parquet(tmp_path / "experiments" / "ab" / "predictions.parquet")
+    ref = p.sort_values(["cutoff", "series", "h"])["f"].to_numpy() * 2.0
+    assert np.allclose(out["f"].to_numpy(), ref)
+    assert E.resolve("c7_blend_lgb_catboost")["blend"]["members"] == ["champion", "c5_catboost"]
+
+
+def test_training_exclusion_variants_keep_the_target():
+    from celeris.experiments import load_config
+    from celeris.robustness import EXCLUSION_SETS, demand_variant
+    d = pd.read_parquet(PROCESSED / "demand.parquet")
+    names = [v["demand_variant"] for v in load_config()["experiments"].values() if "demand_variant" in v]
+    assert names and set(names) <= set(EXCLUSION_SETS)
+    for n in names:
+        v = demand_variant(d, n).sort_index()
+        assert (v["Demand"].fillna(-1) == d["Demand"].fillna(-1)).all()          # same truth to score on
+        assert (v["Train_Weight"] == 0).sum() < (d["Train_Weight"] == 0).sum()    # fewer excluded months
+        assert (v.loc[d["Anomaly_Type"].eq("missing"), "Train_Weight"] == 0).all()

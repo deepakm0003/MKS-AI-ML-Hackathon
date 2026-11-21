@@ -1,0 +1,33 @@
+description: 'C8: 50/50 average of C4 (seed-bagged LightGBM + cross-series) and C5
+  (CatBoost) - fixed weights'
+model: lgb
+feature_set: base
+params:
+  objective: tweedie
+  tweedie_variance_power: 1.2
+  learning_rate: 0.03
+  num_leaves: 63
+  min_data_in_leaf: 200
+  feature_fraction: 0.7
+  bagging_fraction: 0.8
+  bagging_freq: 1
+  lambda_l2: 1.0
+  seed: 7
+  deterministic: true
+  force_row_wise: true
+  num_threads: 16
+  verbose: -1
+rounds: 1200
+train_first_origin: 2020-01
+train_origin_step: 2
+target_clip: 20
+blend:
+  members:
+  - c4_seed_bag_cross
+  - c5_catboost
+  weights:
+  - 0.5
+  - 0.5
+name: c8_blend_cross_catboost
+seeds:
+- 7

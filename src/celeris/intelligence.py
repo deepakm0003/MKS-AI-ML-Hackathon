@@ -56,12 +56,14 @@ def _pct_rank(s: pd.Series) -> pd.Series:
 
 
 # ----------------------------------------------------------------------------- reliability
-def interval_reliability(pred: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
+def interval_reliability(pred: pd.DataFrame, strata: bool = True) -> tuple[pd.DataFrame, dict]:
     """Leave-one-cutoff-out coverage of the SKU-level P10-P90 band by segment, and a band
-    widening factor for segments below the 80% target (calibrated on the same backtest)."""
+    widening factor for segments still below the 80% target (calibrated on the same backtest).
+    strata=True measures the Phase D stratified bands that the final forecast uses."""
     parts = []
     for c in sorted(pred["cutoff"].unique()):
-        q = fit_ratio_quantiles(pred[pred["cutoff"] != c].rename(columns={"f": "f_lgb_tweedie"}), "f_lgb_tweedie")
+        q = fit_ratio_quantiles(pred[pred["cutoff"] != c].rename(columns={"f": "f_lgb_tweedie"}), "f_lgb_tweedie",
+                                strata)
         parts.append(apply_ratio_quantiles(pred[pred["cutoff"] == c].reset_index(drop=True), "f", q))
     t = pd.concat(parts, ignore_index=True)
     t["covered"] = (t["y"] >= t["P10"]) & (t["y"] <= t["P90"])

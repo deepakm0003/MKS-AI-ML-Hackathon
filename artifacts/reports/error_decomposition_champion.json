@@ -4,7 +4,7 @@
   "WAPE": 0.28970238590757097,
   "Bias": -0.029821653179675504,
   "error_concentration": {
-    "series": 3540,
+    "series": 3047,
     "series_for_50pct_of_error": 866,
     "series_for_80pct_of_error": 1850,
     "top20_series_share_of_error": 0.032481592205331825,

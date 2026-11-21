@@ -22,7 +22,7 @@ TOT_ABS, TOT_Y = p["abs"].sum(), p["y"].sum()
 
 
 def table(by):
-    g = p.groupby(by).agg(y=("y", "sum"), abs=("abs", "sum"), err=("err", "sum"), rows=("y", "size"))
+    g = p.groupby(by, observed=True).agg(y=("y", "sum"), abs=("abs", "sum"), err=("err", "sum"), rows=("y", "size"))
     g["WAPE"] = g["abs"] / g["y"]
     g["Bias"] = g["err"] / g["y"]
     g["share_of_error"] = g["abs"] / TOT_ABS
@@ -50,10 +50,10 @@ rep["top_error_skus"] = sk.head(10).reset_index()[["SKU_ID", "WAPE", "Bias", "sh
 # 2. systematic bias: family / region / customer bias with consistency across cutoffs
 for seg in ["Product_Family", "Region", "Customer_Name"]:
     t = table(seg)
-    cons = p.groupby([seg, "cutoff"]).apply(lambda g: g["err"].sum() / g["y"].sum()).unstack()
+    cons = p.groupby([seg, "cutoff"], observed=True).apply(lambda g: g["err"].sum() / g["y"].sum()).unstack()
     t["cutoffs_under"] = (cons < 0).sum(1)
     t["cutoffs_over"] = (cons > 0).sum(1)
-    t["WAPE_std_across_cutoffs"] = p.groupby([seg, "cutoff"]).apply(lambda g: g["abs"].sum() / g["y"].sum()).unstack().std(1)
+    t["WAPE_std_across_cutoffs"] = p.groupby([seg, "cutoff"], observed=True).apply(lambda g: g["abs"].sum() / g["y"].sum()).unstack().std(1)
     rep[f"by_{seg}"] = t.round(4).reset_index().to_dict("records")
 
 # 3. horizon deterioration
@@ -67,7 +67,7 @@ for seg in ["Demand_Class", "Volume_Band", "Lifecycle", "cutoff"]:
     rep[f"by_{seg}"] = table(seg)[["WAPE", "Bias", "share_of_error", "share_of_demand", "rows"]].round(4).reset_index().to_dict("records")
 
 # 5. noise vs bias: error left if every series' total bias were removed
-sb = p.groupby(["cutoff", "SKU_ID", "Region"])
+sb = p.groupby(["cutoff", "SKU_ID", "Region"], observed=True)
 adj = p["f"] - sb["err"].transform("mean")
 rep["noise_vs_bias"] = {
     "WAPE_actual": float(TOT_ABS / TOT_Y),

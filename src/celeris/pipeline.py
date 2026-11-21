@@ -299,13 +299,21 @@ def run_intelligence(verbose: bool = True) -> dict:
                                market_changes, to_json_records)
     rd = lambda n: pd.read_parquet(PROCESSED / f"{n}.parquet")
     demand, sku = rd("demand"), rd("sku_master")
-    fc = pd.read_csv(ROOT_OUT / "forecast" / "forecast_detail.csv")
-    pred = pd.read_parquet(ROOT / "artifacts" / "experiments" / "champion" / "predictions.parquet")
+    # the frozen final forecast (Phase F) when it exists, else the stage-4 champion forecast
+    final = ROOT_OUT / "final" / "manifest.json"
+    if final.exists():
+        model_name = json.loads(final.read_text(encoding="utf-8"))["selected_model"]
+        fc = pd.read_csv(ROOT_OUT / "final" / "forecast_detail.csv")
+        strata = True
+    else:
+        model_name, strata = "champion", False
+        fc = pd.read_csv(ROOT_OUT / "forecast" / "forecast_detail.csv")
+    pred = pd.read_parquet(ROOT / "artifacts" / "experiments" / model_name / "predictions.parquet")
     stress = pd.read_csv(ROOT / "artifacts" / "reports" / "macro_stress.csv")
     reg = pd.read_csv(ROOT_OUT / "anomalies" / "anomaly_register.csv")
     struct = pd.read_csv(ROOT_OUT / "anomalies" / "structural_register.csv")
 
-    rel, widen = interval_reliability(pred)
+    rel, widen = interval_reliability(pred, strata)
     market = market_changes(demand, fc)
     sig = build_signals(demand, fc, pred, stress, reg, struct, sku, widen)
     sig = classify(sig, market)
@@ -327,6 +335,7 @@ def run_intelligence(verbose: bool = True) -> dict:
         json.dump(to_json_records(sig), f, indent=1)
     codes = pd.Series([c for cs in sig["reason_codes"] for c in cs]).value_counts()
     summary = {
+        "forecast_model": model_name,
         "series": int(len(sig)),
         "status_counts": sig["forecast_status"].value_counts().to_dict(),
         "risk_level_counts": sig["risk_level"].value_counts().to_dict(),
@@ -345,3 +354,9 @@ def run_intelligence(verbose: bool = True) -> dict:
         print(json.dumps({k: v for k, v in summary.items() if k != "market_signals"}, indent=1, default=str))
         print(market.to_string(index=False))
     return {"signals": sig, "exceptions": exc, "market": market, "lifecycle": life, "reliability": rel}
+
+
+def run_final_stage(verbose: bool = True) -> dict:
+    """Stage 7 (Phase F): select the model, freeze the final forecast, validate and export."""
+    from .final import run_final
+    return run_final(log=print if verbose else (lambda *a: None))

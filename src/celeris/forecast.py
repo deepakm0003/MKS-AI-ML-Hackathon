@@ -66,7 +66,9 @@ def train_final(P: Panel, params=None, rounds=N_ROUNDS, step=2):
 # ----------------------------------------------------------------------------- forecast
 def forecast_test(P: Panel, model, cols, test: pd.DataFrame, sku: pd.DataFrame,
                   demand: pd.DataFrame, events_monthly: pd.DataFrame, event_impact: pd.DataFrame,
-                  bt: pd.DataFrame, curves: dict) -> tuple[pd.DataFrame, dict]:
+                  bt: pd.DataFrame, curves: dict, band_q=None) -> tuple[pd.DataFrame, dict]:
+    """band_q: optional pre-fitted (stratified) ratio-quantile table from
+    intervals.fit_ratio_quantiles(..., strata=True); default = pooled table from bt."""
     o = LAST_HIST
     test = test.copy()
     test["h"] = test["Date"].map(MIDX) - o
@@ -141,7 +143,12 @@ def forecast_test(P: Panel, model, cols, test: pd.DataFrame, sku: pd.DataFrame,
     notes["rows_zero_by_lifecycle"] = int(dead.sum())
 
     # -- bands
-    q = fit_ratio_quantiles(bt, "f_lgb_tweedie")
+    if band_q is None:
+        q = fit_ratio_quantiles(bt, "f_lgb_tweedie")
+    else:
+        q = band_q
+        first = P.static["first_idx"].to_numpy(dtype=float)[out["series"].to_numpy()]
+        out["age"] = np.where(first <= o, o - first, np.nan)      # NaN = no history -> 'new' stratum
     out = apply_ratio_quantiles(out, "f_model", q)
     out.loc[dead, ["P10", "P50", "P90"]] = 0.0
     out["Forecast"] = out["f_model"].clip(lower=0)

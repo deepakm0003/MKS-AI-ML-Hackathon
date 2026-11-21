@@ -77,6 +77,28 @@ experiments:
   c6_no_ev_level:
     description: "C6: drop the EV-adoption features (stress test showed they act as a time-trend proxy)"
     drop_feature_prefix: ["m_EV_Adoptio"]
+  c7_blend_lgb_catboost:
+    description: "C7: 50/50 average of the champion (LightGBM) and C5 (CatBoost) forecasts - fixed weights, no fitting"
+    blend:
+      members: [champion, c5_catboost]
+      weights: [0.5, 0.5]
+  c8_blend_cross_catboost:
+    description: "C8: 50/50 average of C4 (seed-bagged LightGBM + cross-series) and C5 (CatBoost) - fixed weights"
+    blend:
+      members: [c4_seed_bag_cross, c5_catboost]
+      weights: [0.5, 0.5]
+  c9a_no_training_exclusions:
+    description: "C9a: train on every observed month (only missing months excluded); target unchanged"
+    demand_variant: no_training_exclusions
+  c9b_keep_event_months:
+    description: "C9b: keep event-window and price pull-forward months in training; one-off orders still excluded"
+    demand_variant: keep_event_months
+  c9c_keep_pull_forward:
+    description: "C9c: keep price pull-forward months in training; event windows and one-offs excluded"
+    demand_variant: keep_pull_forward
+  c9d_keep_event_windows:
+    description: "C9d: keep event-window months in training; pull-forward months and one-offs excluded"
+    demand_variant: keep_event_windows
   # ---- robustness (not promotion candidates on their own)
   seed_bag:
     description: "Champion averaged over 3 seeds"

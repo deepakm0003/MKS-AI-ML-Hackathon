@@ -179,10 +179,46 @@ def _segments(ev: pd.DataFrame, P: Panel) -> pd.DataFrame:
 
 
 # ----------------------------------------------------------------------------- runner
+def _finish(name: str, spec: dict, pred: pd.DataFrame, cfg: dict, t0: float, infos: dict) -> dict:
+    met = metrics(pred, "f", cfg["evaluation"]["horizon_buckets"])
+    met["seasonal_naive_overall"] = _m(pred["y"], pred["f_naive_seasonal"])
+    met["train_info"] = infos
+    met["minutes"] = round((time.time() - t0) / 60, 1)
+    d = ART / "experiments" / name
+    d.mkdir(parents=True, exist_ok=True)
+    pred.to_parquet(d / "predictions.parquet", index=False)
+    (d / "metrics.json").write_text(json.dumps(met, indent=2), encoding="utf-8")
+    (d / "spec.yaml").write_text(yaml.safe_dump(spec, sort_keys=False), encoding="utf-8")
+    update_registry(name, spec, met, cfg)
+    return met
+
+
+def run_blend(name: str, spec: dict, cfg: dict) -> dict:
+    """Fixed-weight average of finished experiments' backtest forecasts (no refit, no tuning:
+    the weights are set in the config, not learned on the folds)."""
+    t0 = time.time()
+    members, weights = spec["blend"]["members"], spec["blend"]["weights"]
+    preds = [pd.read_parquet(ART / "experiments" / m / "predictions.parquet") for m in members]
+    key = ["cutoff", "series", "h"]
+    base = preds[0].sort_values(key).reset_index(drop=True)
+    f = np.zeros(len(base))
+    for p, w in zip(preds, weights):
+        p = p.sort_values(key).reset_index(drop=True)
+        assert (p[key].values == base[key].values).all(), "members were not run on identical folds"
+        f += w * p["f"].to_numpy()
+    base["f"] = f
+    return _finish(name, spec, base, cfg, t0, {"members": members, "weights": weights})
+
+
 def run(name: str, store: FrameStore | None = None, verbose=True) -> dict:
     cfg = load_config()
     spec = resolve(name, cfg)
+    if "blend" in spec:
+        return run_blend(name, spec, cfg)
     ev_cfg = cfg["evaluation"]
+    if spec.get("demand_variant"):                 # C9: same target, different training months
+        from .robustness import VariantStore, demand_variant
+        store = VariantStore(demand_variant(pd.read_parquet(PROCESSED / "demand.parquet"), spec["demand_variant"]))
     store = store or FrameStore()
     P = store.panel(spec["feature_set"])
     t0 = time.time()
@@ -205,18 +241,7 @@ def run(name: str, store: FrameStore | None = None, verbose=True) -> dict:
             print(f"  [{name}] {C}: WAPE {m['WAPE']:.4f} bias {m['Bias']:+.4f} "
                   f"({info['n_train']:,} rows, {info['n_features']} feats, {time.time()-t1:.0f}s)", flush=True)
     pred = pd.concat(preds, ignore_index=True)
-    met = metrics(pred, "f", ev_cfg["horizon_buckets"])
-    met["seasonal_naive_overall"] = _m(pred["y"], pred["f_naive_seasonal"])
-    met["train_info"] = infos
-    met["minutes"] = round((time.time() - t0) / 60, 1)
-
-    d = ART / "experiments" / name
-    d.mkdir(parents=True, exist_ok=True)
-    pred.to_parquet(d / "predictions.parquet", index=False)
-    (d / "metrics.json").write_text(json.dumps(met, indent=2), encoding="utf-8")
-    (d / "spec.yaml").write_text(yaml.safe_dump(spec, sort_keys=False), encoding="utf-8")
-    update_registry(name, spec, met, cfg)
-    return met
+    return _finish(name, spec, pred, cfg, t0, infos)
 
 
 def update_registry(name: str, spec: dict, met: dict, cfg: dict) -> pd.DataFrame:

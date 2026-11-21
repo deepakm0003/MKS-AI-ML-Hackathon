@@ -1,0 +1,26 @@
+description: 'C5: CatBoost, Tweedie, same leakage-safe features'
+model: catboost
+feature_set: base
+params:
+  objective: tweedie
+  tweedie_variance_power: 1.2
+  learning_rate: 0.03
+  num_leaves: 63
+  min_data_in_leaf: 200
+  feature_fraction: 0.7
+  bagging_fraction: 0.8
+  bagging_freq: 1
+  lambda_l2: 1.0
+  seed: 7
+  deterministic: true
+  force_row_wise: true
+  num_threads: 16
+  verbose: -1
+rounds: 1200
+train_first_origin: 2020-01
+train_origin_step: 2
+target_clip: 20
+cb_iterations: 1000
+name: c5_catboost
+seeds:
+- 7

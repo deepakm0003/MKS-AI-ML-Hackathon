@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "checks": {
+    "row_count_matches_test": true,
+    "keys_match_test_in_order": true,
+    "no_duplicate_keys": true,
+    "no_missing_forecast": true,
+    "integer_forecast": true,
+    "no_negative_forecast": true,
+    "zero_outside_lifecycle": true,
+    "bands_ordered": true,
+    "hierarchy_total_equals_sku_sum": true,
+    "next12_vs_last12_plausible": true,
+    "every_active_series_forecast": true
+  },
+  "facts": {
+    "rows": 58219,
+    "rows_zero_by_lifecycle": 156,
+    "series": 3068,
+    "total_19m": 2818669,
+    "next12_vs_last12": 0.0609,
+    "methods": {
+      "global LightGBM": 57946,
+      "outside lifecycle (EOL / pre-launch): 0": 156,
+      "new launch: PMP-003 level x ramp-up curve": 48,
+      "new launch: PTC-005 level x ramp-up curve": 45,
+      "new launch: THM-001 level x ramp-up curve": 24
+    }
+  }
+}

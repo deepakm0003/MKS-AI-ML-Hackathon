@@ -1,0 +1,31 @@
+Segment,Value,pooled (stage 4),stratified (Phase D)
+Demand_Class,erratic,0.804,0.79
+Demand_Class,intermittent,0.862,0.865
+Demand_Class,lumpy,0.846,0.837
+Demand_Class,smooth,0.813,0.808
+Lifecycle,approaching EOL,0.806,0.791
+Lifecycle,declining,0.833,0.819
+Lifecycle,established,0.84,0.827
+Lifecycle,new (<24m),0.747,0.803
+Product_Family,Brake & Safety Systems,0.818,0.821
+Product_Family,Chassis & Structural,0.825,0.823
+Product_Family,Electrical Assemblies,0.826,0.818
+Product_Family,Hydraulic Systems,0.828,0.818
+Product_Family,Powertrain Components,0.837,0.833
+Product_Family,Precision Machined Parts,0.821,0.821
+Product_Family,Thermal Management,0.817,0.817
+Region,Asia Pacific,0.843,0.819
+Region,Europe,0.862,0.84
+Region,India,0.817,0.792
+Region,Latin America,0.789,0.826
+Region,Middle East & Africa,0.777,0.813
+Region,North America,0.862,0.843
+Volume_Band,Q1 low,0.805,0.814
+Volume_Band,Q2,0.824,0.819
+Volume_Band,Q3,0.832,0.824
+Volume_Band,Q4,0.831,0.825
+Volume_Band,Q5 high,0.833,0.827
+h_bucket,1-3m,0.826,0.823
+h_bucket,13-19m,0.824,0.822
+h_bucket,4-6m,0.824,0.82
+h_bucket,7-12m,0.826,0.823

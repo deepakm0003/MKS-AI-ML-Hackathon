@@ -1,0 +1,3 @@
+Method,Coverage_P10_P90,Worst_segment_coverage,Mean_abs_gap_to_80pct,Band_width_vs_forecast,Pinball_P10,Pinball_P90
+pooled (stage 4),0.8248,0.7471,0.0291,0.8923,2.589,3.8455
+stratified (Phase D),0.8219,0.79,0.0225,0.8887,2.5724,3.8247
