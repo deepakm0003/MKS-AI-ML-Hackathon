@@ -226,3 +226,40 @@ def scenario(req: ScenarioRequest):
         return SC.evaluate(emu, req.shocks, req.region_overlay, price=price, capacity=cap)
     except ValueError as e:
         raise HTTPException(400, str(e))
+
+
+# ----------------------------------------------------------------------------- shared filter options
+@lru_cache(maxsize=1)
+def _filter_options() -> dict:
+    """Every valid (family, SKU, region, channel, customer) combination in the recent history and
+    the forecast, index-encoded, so the global filter bar can cascade without extra calls."""
+    cols = ["Product_Family", "SKU_ID", "Region", "Sales_Channel", "Customer_Name"]
+    fc = _load("forecast_detail")
+    frames = [fc[cols + ["SKU_Description"]]]
+    if dataset_path("history").exists():
+        h = _load("history")
+        h = h[h["Date"] >= "2024-01"].merge(fc[["SKU_ID", "SKU_Description"]].drop_duplicates(), on="SKU_ID", how="left")
+        frames.append(h[cols + ["SKU_Description"]])
+    combo = pd.concat(frames).dropna(subset=cols).drop_duplicates(cols)
+    fam = sorted(combo["Product_Family"].unique())
+    reg = sorted(combo["Region"].unique())
+    chan = sorted(combo["Sales_Channel"].unique())
+    cust = sorted(combo["Customer_Name"].unique())
+    sk = combo.drop_duplicates("SKU_ID").sort_values("SKU_ID")
+    sku_ix = {s: i for i, s in enumerate(sk["SKU_ID"])}
+    ix = lambda vals: {v: i for i, v in enumerate(vals)}
+    fi, ri, ci, ui = ix(fam), ix(reg), ix(chan), ix(cust)
+    return {
+        "families": fam, "regions": reg, "channels": chan, "customers": cust,
+        "skus": [{"id": r.SKU_ID, "description": r.SKU_Description if isinstance(r.SKU_Description, str) else "",
+                  "family": fi[r.Product_Family]} for r in sk.itertuples()],
+        "combos": [[sku_ix[r.SKU_ID], ri[r.Region], ci[r.Sales_Channel], ui[r.Customer_Name]]
+                   for r in combo.itertuples()],
+        "combo_fields": ["sku", "region", "channel", "customer"],
+    }
+
+
+@app.get("/meta/filters")
+def meta_filters():
+    """Options for the global filter bar (family, SKU, region, channel, customer) with valid combinations."""
+    return _filter_options()

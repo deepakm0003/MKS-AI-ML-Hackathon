@@ -72,3 +72,15 @@ def test_scenario_lab(client):
     assert client.post("/scenario", json={"shocks": {"pmi": 40}}).status_code == 400
     assert client.post("/scenario", json={"shocks": {"oil": 1}}).status_code == 400
     assert "Downside" in client.get("/scenario/presets").json()
+
+
+def test_filter_options(client):
+    r = client.get("/meta/filters").json()
+    assert len(r["families"]) == 7 and len(r["regions"]) == 6 and len(r["channels"]) == 4
+    assert r["combo_fields"] == ["sku", "region", "channel", "customer"]
+    n_s, n_r, n_c, n_u = len(r["skus"]), len(r["regions"]), len(r["channels"]), len(r["customers"])
+    assert all(0 <= s < n_s and 0 <= g < n_r and 0 <= c < n_c and 0 <= u < n_u for s, g, c, u in r["combos"])
+    fc_series = {(row["SKU_ID"], row["Region"]) for row in
+                 client.get("/datasets/forecast_detail", params={"limit": 100000}).json()["rows"]}
+    combo_series = {(r["skus"][s]["id"], r["regions"][g]) for s, g, _, _ in r["combos"]}
+    assert fc_series <= combo_series                        # every forecast series is filterable

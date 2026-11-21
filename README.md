@@ -513,3 +513,39 @@ Rebuild the Scenario Lab emulator (about 4 minutes on the 56-core server):
 ```powershell
 python scripts/scenario_simulations.py --train 400 --holdout 40 --workers 14
 ```
+
+## Milestone 4 — Dashboard (`dashboard/`, Phase 1: shell)
+
+React + TypeScript + Vite control tower on top of the read-only API. Architecture, design
+research, design system and phase plan: `docs/dashboard_architecture.md`; live API shapes:
+`docs/api_contracts.md` (`python scripts/document_api.py`).
+
+Run (two terminals, from the project folder):
+
+```powershell
+uvicorn api.app:app --port 8000
+```
+
+```powershell
+npm --prefix dashboard install
+```
+
+```powershell
+npm --prefix dashboard run dev
+```
+
+Open http://localhost:5173. Tests and build:
+
+```powershell
+npm --prefix dashboard test
+```
+
+```powershell
+npm --prefix dashboard run build
+```
+
+Phase 1 delivers the app shell (sidebar with the six sections + Data Health and Anomaly
+Monitor, header with live model / validation status, global filter bar shared through the URL),
+the design system (validated dark palette, typography, states) and route placeholders that
+report live data readiness - no static or invented values.
+
