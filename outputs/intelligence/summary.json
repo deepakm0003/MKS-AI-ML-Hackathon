@@ -1,0 +1,244 @@
+{
+  "forecast_model": "c9c_keep_pull_forward",
+  "series": 3068,
+  "status_counts": {
+    "STABLE": 1252,
+    "GROWTH": 1049,
+    "HIGH_GROWTH": 591,
+    "RAMPING": 67,
+    "DECLINE": 50,
+    "SHARP_DECLINE": 31,
+    "END_OF_LIFE": 18,
+    "NEW_LAUNCH": 10
+  },
+  "risk_level_counts": {
+    "LOW": 1533,
+    "MEDIUM": 1071,
+    "HIGH": 464
+  },
+  "sustained_surge": 50,
+  "sustained_decline": 23,
+  "exceptions": 596,
+  "exceptions_by_tier": {
+    "REVIEW": 454,
+    "ACT_NOW": 142
+  },
+  "exceptions_by_trigger": {
+    "high forecast risk": 411,
+    "customer shutdown": 61,
+    "SKU-specific surge": 50,
+    "lifecycle": 28,
+    "sharp forecast decline": 24,
+    "SKU-specific decline": 22
+  },
+  "reason_code_counts": {
+    "MACRO_SENSITIVE_FAMILY": 1348,
+    "INTERMITTENT_DEMAND": 770,
+    "HIGH_FORECAST_VARIANCE": 612,
+    "LOW_HISTORICAL_ACCURACY": 606,
+    "RECENT_ORDER_GROWTH": 507,
+    "FAMILY_LAGGING_MARKET": 449,
+    "FAMILY_OUTPACING_MARKET": 439,
+    "SUPPLY_CONSTRAINED_HISTORY": 354,
+    "RECENT_ORDER_DECLINE": 194,
+    "REPEATED_DATA_CORRECTIONS": 164,
+    "SHORT_HISTORY": 77,
+    "CUSTOMER_SHUTDOWN_IN_WINDOW": 62,
+    "SUSTAINED_ORDER_GROWTH": 50,
+    "FORECAST_CONFLICTS_WITH_RECENT_TREND": 33,
+    "SUSTAINED_ORDER_DECLINE": 23,
+    "APPROACHING_EOL": 18,
+    "PREDECESSOR_RUNDOWN": 18,
+    "NEW_LAUNCH_RAMP": 10,
+    "CUSTOMER_SWITCHED": 6
+  },
+  "market_headline": {
+    "signal": "MARKET_UPTURN",
+    "yoy_last3m": 0.136,
+    "yoy_last12m": -0.006,
+    "forecast_next12_vs_last12": 0.061
+  },
+  "band_widening": {},
+  "market_signals": [
+    {
+      "Level": "family",
+      "Member": "Brake & Safety Systems",
+      "signal": "IN_LINE",
+      "acceleration": 0.14
+    },
+    {
+      "Level": "family",
+      "Member": "Chassis & Structural",
+      "signal": "LAGGING_MARKET",
+      "acceleration": 0.053
+    },
+    {
+      "Level": "family",
+      "Member": "Electrical Assemblies",
+      "signal": "OUTPACING_MARKET",
+      "acceleration": 0.174
+    },
+    {
+      "Level": "family",
+      "Member": "Hydraulic Systems",
+      "signal": "IN_LINE",
+      "acceleration": 0.162
+    },
+    {
+      "Level": "family",
+      "Member": "Powertrain Components",
+      "signal": "IN_LINE",
+      "acceleration": 0.156
+    },
+    {
+      "Level": "family",
+      "Member": "Precision Machined Parts",
+      "signal": "IN_LINE",
+      "acceleration": 0.2
+    },
+    {
+      "Level": "family",
+      "Member": "Thermal Management",
+      "signal": "IN_LINE",
+      "acceleration": 0.129
+    },
+    {
+      "Level": "region",
+      "Member": "Asia Pacific",
+      "signal": "IN_LINE",
+      "acceleration": 0.119
+    },
+    {
+      "Level": "region",
+      "Member": "Europe",
+      "signal": "IN_LINE",
+      "acceleration": 0.152
+    },
+    {
+      "Level": "region",
+      "Member": "India",
+      "signal": "IN_LINE",
+      "acceleration": 0.127
+    },
+    {
+      "Level": "region",
+      "Member": "Latin America",
+      "signal": "IN_LINE",
+      "acceleration": 0.135
+    },
+    {
+      "Level": "region",
+      "Member": "Middle East & Africa",
+      "signal": "IN_LINE",
+      "acceleration": 0.183
+    },
+    {
+      "Level": "region",
+      "Member": "North America",
+      "signal": "IN_LINE",
+      "acceleration": 0.152
+    },
+    {
+      "Level": "customer",
+      "Member": "Apex Tier One",
+      "signal": "IN_LINE",
+      "acceleration": 0.108
+    },
+    {
+      "Level": "customer",
+      "Member": "Atlas Mideast Components",
+      "signal": "IN_LINE",
+      "acceleration": 0.161
+    },
+    {
+      "Level": "customer",
+      "Member": "Crestline Manufacturing",
+      "signal": "IN_LINE",
+      "acceleration": 0.15
+    },
+    {
+      "Level": "customer",
+      "Member": "Falcon Gulf Motors",
+      "signal": "IN_LINE",
+      "acceleration": 0.181
+    },
+    {
+      "Level": "customer",
+      "Member": "Helios Auto Parts",
+      "signal": "IN_LINE",
+      "acceleration": 0.132
+    },
+    {
+      "Level": "customer",
+      "Member": "Kestrel Mobility",
+      "signal": "OUTPACING_MARKET",
+      "acceleration": 0.211
+    },
+    {
+      "Level": "customer",
+      "Member": "Meridian Assembly",
+      "signal": "IN_LINE",
+      "acceleration": 0.142
+    },
+    {
+      "Level": "customer",
+      "Member": "Nexon Motor Group",
+      "signal": "IN_LINE",
+      "acceleration": 0.16
+    },
+    {
+      "Level": "customer",
+      "Member": "Orion Driveline",
+      "signal": "IN_LINE",
+      "acceleration": 0.149
+    },
+    {
+      "Level": "customer",
+      "Member": "Quantum Drive Systems",
+      "signal": "IN_LINE",
+      "acceleration": 0.117
+    },
+    {
+      "Level": "customer",
+      "Member": "Solaris Automotive",
+      "signal": "IN_LINE",
+      "acceleration": 0.146
+    },
+    {
+      "Level": "customer",
+      "Member": "Vantara Auto",
+      "signal": "IN_LINE",
+      "acceleration": 0.137
+    },
+    {
+      "Level": "channel",
+      "Member": "Aftermarket",
+      "signal": "IN_LINE",
+      "acceleration": 0.114
+    },
+    {
+      "Level": "channel",
+      "Member": "Direct OEM",
+      "signal": "IN_LINE",
+      "acceleration": 0.152
+    },
+    {
+      "Level": "channel",
+      "Member": "Export",
+      "signal": "IN_LINE",
+      "acceleration": 0.154
+    },
+    {
+      "Level": "channel",
+      "Member": "Tier-1 Distributor",
+      "signal": "IN_LINE",
+      "acceleration": 0.138
+    },
+    {
+      "Level": "total",
+      "Member": "Total",
+      "signal": "MARKET_UPTURN",
+      "acceleration": 0.142
+    }
+  ]
+}

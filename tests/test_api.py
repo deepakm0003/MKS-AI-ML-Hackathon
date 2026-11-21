@@ -42,3 +42,33 @@ def test_series_drilldown(client):
 def test_hierarchy_total(client):
     rows = client.get("/hierarchy", params={"level": "total"}).json()
     assert len(rows) == 19
+
+
+INTEL_READY = (ROOT / "outputs" / "intelligence" / "intelligence_report.json").exists()
+
+
+@pytest.mark.skipif(not INTEL_READY, reason="run the intelligence stage first")
+def test_intelligence_endpoints(client):
+    r = client.get("/intelligence/report").json()
+    assert r["kpis"]["series"] == 3068 and r["briefing"]
+    crit = client.get("/intelligence/recommendations", params={"priority": "critical", "limit": 5}).json()
+    assert crit["total"] >= 1 and all(c["priority"] == "CRITICAL" for c in crit["cards"])
+    proc = client.get("/intelligence/recommendations", params={"owner": "procurement"}).json()
+    assert all("procurement" in c["owner"].lower() for c in proc["cards"])
+
+
+@pytest.mark.skipif(not (ROOT / "artifacts" / "scenarios" / "emulator.json").exists(), reason="build the emulator first")
+def test_scenario_lab(client):
+    cfg = client.get("/scenario/config").json()
+    assert set(cfg["sliders"]) == {"pmi", "auto_production", "vehicle_orders", "raw_material", "ev_adoption"}
+    base = client.post("/scenario", json={}).json()
+    assert base["total"]["change_pct"] == 0.0
+    down = client.post("/scenario", json={"shocks": {"pmi": -3, "auto_production": -2},
+                                          "region_overlay": {"Europe": -5}}).json()
+    assert down["total"]["change_pct"] < 0 and down["responses"]
+    eu = next(x for x in down["by_region"] if x["Region"] == "Europe")
+    others = [x["Change_pct"] for x in down["by_region"] if x["Region"] != "Europe"]
+    assert eu["Change_pct"] < min(others)
+    assert client.post("/scenario", json={"shocks": {"pmi": 40}}).status_code == 400
+    assert client.post("/scenario", json={"shocks": {"oil": 1}}).status_code == 400
+    assert "Downside" in client.get("/scenario/presets").json()

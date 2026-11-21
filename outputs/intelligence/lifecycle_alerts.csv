@@ -1,0 +1,7 @@
+Alert,SKU_ID,Date,Detail,Forecast_until_EOL,Forecast_until_2028_05
+NEW_LAUNCH,PTC-029,2027-03,"replaces PTC-005 (EV); regions: Asia Pacific, Latin America, Middle East & Africa",,1541.0
+APPROACHING_EOL,PTC-005,2027-05,EOL 2027-05; successor PTC-029,1511.0,
+NEW_LAUNCH,PMP-020,2027-06,"replaces PMP-003 (EV); regions: India, Latin America, Middle East & Africa, North America",,1997.0
+APPROACHING_EOL,PMP-003,2027-08,EOL 2027-08; successor PMP-020,2380.0,
+NEW_LAUNCH,THM-012,2027-10,"replaces THM-001 (Universal); regions: Europe, Latin America, North America",,980.0
+APPROACHING_EOL,THM-001,2027-12,EOL 2027-12; successor THM-012,4420.0,

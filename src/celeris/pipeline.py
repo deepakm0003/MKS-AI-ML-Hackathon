@@ -353,7 +353,13 @@ def run_intelligence(verbose: bool = True) -> dict:
     if verbose:
         print(json.dumps({k: v for k, v in summary.items() if k != "market_signals"}, indent=1, default=str))
         print(market.to_string(index=False))
-    return {"signals": sig, "exceptions": exc, "market": market, "lifecycle": life, "reliability": rel}
+    # Milestone 3: planning-intelligence engine (revenue, segmentation, procurement, capacity,
+    # supply risk, multi-level signals, exceptions, recommendations, briefing, scenarios)
+    from .intel.report import run_report
+    hier_p = ROOT_OUT / ("final" if final.exists() else "forecast") / "forecast_hierarchy.csv"
+    intel = run_report(sig, fc, pred, model_name, pd.read_csv(hier_p), log=print if verbose else (lambda *a: None))
+    return {"signals": sig, "exceptions": exc, "market": market, "lifecycle": life, "reliability": rel,
+            "intelligence": intel}
 
 
 def run_final_stage(verbose: bool = True) -> dict:

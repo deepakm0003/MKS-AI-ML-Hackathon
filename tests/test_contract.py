@@ -15,7 +15,7 @@ def test_dataset_conforms(name):
 
 def test_contract_names_views_for_every_dataset():
     views = {d.get("view") for d in load_contract()["datasets"].values()}
-    assert {"forecast", "accuracy", "planning", "anomalies", "data_quality"} <= views
+    assert {"forecast", "accuracy", "planning", "anomalies", "data_quality", "executive", "risk", "scenario"} <= views
 
 
 def test_final_validation_passed():

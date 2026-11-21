@@ -1,0 +1,31 @@
+Segment,Value,Rows,Coverage_P10_P90,Below_P10,Above_P90
+h_bucket,1-3m,52273,0.823,0.088,0.09
+h_bucket,13-19m,122034,0.822,0.088,0.09
+h_bucket,4-6m,52129,0.82,0.089,0.091
+h_bucket,7-12m,104553,0.823,0.087,0.09
+Demand_Class,erratic,7467,0.79,0.106,0.104
+Demand_Class,intermittent,82691,0.865,0.065,0.07
+Demand_Class,lumpy,1212,0.837,0.085,0.078
+Demand_Class,smooth,239619,0.808,0.095,0.097
+Volume_Band,Q1 low,66200,0.814,0.093,0.093
+Volume_Band,Q2,66197,0.819,0.09,0.091
+Volume_Band,Q3,66196,0.824,0.089,0.087
+Volume_Band,Q4,66197,0.825,0.086,0.089
+Volume_Band,Q5 high,66199,0.827,0.083,0.09
+Lifecycle,approaching EOL,1497,0.791,0.083,0.126
+Lifecycle,declining,48540,0.819,0.094,0.087
+Lifecycle,established,230179,0.827,0.085,0.088
+Lifecycle,new (<24m),50773,0.803,0.095,0.103
+Product_Family,Brake & Safety Systems,46902,0.821,0.078,0.1
+Product_Family,Chassis & Structural,47348,0.823,0.068,0.109
+Product_Family,Electrical Assemblies,46740,0.818,0.102,0.08
+Product_Family,Hydraulic Systems,49486,0.818,0.105,0.076
+Product_Family,Powertrain Components,47640,0.833,0.097,0.07
+Product_Family,Precision Machined Parts,48943,0.821,0.093,0.086
+Product_Family,Thermal Management,43930,0.817,0.071,0.112
+Region,Asia Pacific,55349,0.819,0.086,0.095
+Region,Europe,55473,0.84,0.079,0.081
+Region,India,55732,0.792,0.105,0.103
+Region,Latin America,54816,0.826,0.085,0.088
+Region,Middle East & Africa,56111,0.813,0.091,0.096
+Region,North America,53508,0.843,0.081,0.077

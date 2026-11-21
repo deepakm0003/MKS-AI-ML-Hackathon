@@ -334,3 +334,212 @@ datasets:
     view: data_quality
     format: json
     required_keys: [validation_status]
+
+  # ---------------------------------------------------------------- Milestone 3: planning intelligence
+  intelligence_report:
+    path: outputs/intelligence/intelligence_report.json
+    stage: intelligence
+    view: executive
+    description: KPIs, executive briefing, top recommendations, segment matrix, capacity flags, market signals, scenario presets.
+    format: json
+    required_keys: [generated_at, kpis, briefing, top_recommendations, rule_counts, segment_matrix, capacity, market]
+
+  recommendations:
+    path: outputs/intelligence/recommendations.json
+    stage: intelligence
+    view: planning
+    description: Every exception rendered as an action card (priority, owner, finding, action, trade-off, window, evidence).
+    format: json
+
+  timeline:
+    path: outputs/intelligence/timeline.csv
+    stage: intelligence
+    view: executive
+    description: Company units and revenue per month - history (shipped and unconstrained) into the forecast with P10/P90.
+    primary_key: [Date]
+    columns:
+      Date: month
+      Part: string                      # history | forecast
+      Units_shipped: float
+      Units_unconstrained: float
+      Revenue_shipped: float
+      Revenue_unconstrained: float
+      Units_forecast: float
+      Units_P10: float
+      Units_P90: float
+      Revenue_forecast: float
+      Revenue_P10: float
+      Revenue_P90: float
+
+  mix:
+    path: outputs/intelligence/mix.csv
+    stage: intelligence
+    view: executive
+    primary_key: [Dimension, Member]
+    columns:
+      Dimension: string                 # Product_Family | Region | Sales_Channel
+      Member: string
+      Units_last12: float
+      Revenue_last12: float
+      Units_next12: float
+      Revenue_next12: float
+      Units_change_pct: float
+      Revenue_change_pct: float
+
+  price_book:
+    path: outputs/intelligence/price_book.csv
+    stage: intelligence
+    view: executive
+    primary_key: [SKU_ID]
+    columns:
+      SKU_ID: string
+      Price_2026: float
+      Price_source: string
+      Price_2027: float
+      Price_2028: float
+
+  demand_signals:
+    path: outputs/intelligence/demand_signals.csv
+    stage: intelligence
+    view: explorer
+    description: Momentum, outlook, mix shift, seasonality and market-relative signal per family / region / family x region / customer / channel / powertrain.
+    primary_key: [Level, Member]
+    columns:
+      Level: string
+      Member: string
+      YoY_last3m: float
+      YoY_last12m: float
+      Forecast_next12_vs_last12: float
+      Mix_shift_pts: float
+      Peak_months: string
+      Direction: string                 # GROWING | STABLE | DECLINING
+      Signal: string                    # OUTPACING_MARKET | LAGGING_MARKET | MIXED | IN_LINE | MARKET_*
+
+  series_risk:
+    path: outputs/intelligence/series_risk.csv
+    stage: intelligence
+    view: risk
+    description: Per SKU x Region signals, risk components, value at risk, segment and confidence.
+    primary_key: [SKU_ID, Region]
+    columns:
+      SKU_ID: string
+      Region: string
+      risk_score: float
+      risk_level: string
+      confidence: string                # HIGH | MEDIUM | LOW
+      Segment: string
+      revenue_next12: float
+      revenue_downside_next12: float
+      revenue_upside_next12: float
+      forecast_anomaly: bool
+
+  exceptions_ranked:
+    path: outputs/intelligence/exceptions_ranked.csv
+    stage: intelligence
+    view: risk
+    primary_key: [exception_id]
+    columns:
+      exception_id: string
+      rule_id: string
+      level: string
+      scope: string
+      severity: string
+      impact_usd: float
+      urgency_months: int
+      confidence: string
+      priority_score: float
+      priority: string                  # CRITICAL | HIGH | MEDIUM
+      evidence: string                  # JSON
+
+  segmentation:
+    path: outputs/intelligence/segmentation.csv
+    stage: intelligence
+    view: planning
+    primary_key: [SKU_ID, Region]
+    columns:
+      SKU_ID: string
+      Region: string
+      Revenue_next12: float
+      ABC: string
+      XYZ: string
+      Segment: string
+      Service_level: float
+      Planning_approach: string
+
+  procurement_next_cycle:
+    path: outputs/intelligence/procurement_next_cycle.csv
+    stage: intelligence
+    view: planning
+    description: Deliveries in the next 3 months per SKU x Region at the segment's service level.
+    primary_key: [SKU_ID, Region]
+    columns:
+      SKU_ID: string
+      Region: string
+      Segment: string
+      Leadtime_P50: float
+      Leadtime_cover: float
+      Safety_buffer: float
+      Cover_value_usd: float
+
+  procurement_plan:
+    path: outputs/intelligence/procurement_plan.csv
+    stage: intelligence
+    view: planning
+    description: Procurement plan from P90 forecasts - per SKU x Region x delivery month.
+    primary_key: [Date, SKU_ID, Region]
+    columns:
+      Date: month
+      SKU_ID: string
+      Region: string
+      Forecast: float
+      P50: float
+      P90: float
+      Leadtime_cover: float
+      Safety_buffer: float
+      Order_release_month: string
+
+  capacity_check:
+    path: outputs/intelligence/capacity_check.csv
+    stage: intelligence
+    view: planning
+    primary_key: [Product_Family, Region]
+    columns:
+      Product_Family: string
+      Region: string
+      Demonstrated_3m_throughput: float
+      Peak_3m_load_P50: float
+      Peak_3m_load_P90: float
+      Utilisation_P50: float
+      Utilisation_P90: float
+      Capacity_flag: string
+
+  supply_risk:
+    path: outputs/intelligence/supply_risk.csv
+    stage: intelligence
+    view: planning
+    primary_key: [Product_Family, Region]
+    columns:
+      Product_Family: string
+      Region: string
+      Shortage_months_36m: float
+      Lost_units_36m: float
+      Supply_risk_score: float
+      Supply_risk_level: string
+
+  scenario_presets:
+    path: outputs/intelligence/scenario_presets.json
+    stage: intelligence
+    view: scenario
+    format: json
+    required_keys: ["Base case", "Downside", "Upside", "PMI -3"]
+
+  emulator_validation:
+    path: artifacts/scenarios/emulator_validation.csv
+    stage: scenario simulations
+    view: scenario
+    primary_key: [scenario_id]
+    columns:
+      scenario_id: string
+      total_sim_pct: float
+      total_emulated_pct: float
+      total_abs_err_pts: float

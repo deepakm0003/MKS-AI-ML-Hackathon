@@ -45,3 +45,10 @@ artifacts/logs/
 outputs/final/forecast_detail.csv
 outputs/final/model/
 outputs/final/history.csv
+# planning intelligence (Milestone 3): small dashboard files committed, large per-row files regenerated
+!outputs/intelligence/
+outputs/intelligence/procurement_plan.csv
+outputs/intelligence/series_signals.csv
+outputs/intelligence/series_signals.json
+outputs/intelligence/series_risk.csv
+outputs/intelligence/exceptions.csv

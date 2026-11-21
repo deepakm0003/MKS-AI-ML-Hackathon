@@ -1,0 +1,43 @@
+Product_Family,Region,Shortage_months_36m,Non_chip_shortages_36m,Capacity_or_tooling_36m,Supplier_or_logistics_36m,Lost_units_36m,Mean_fill_rate_36m,Chip_allocation_months_all,Shortage_months_all,Dominant_reason_36m,Supply_risk_score,Supply_risk_level
+Brake & Safety Systems,Asia Pacific,8,8,2,6,157,51.32,0.0,23,Supplier quality hold,10.8,LOW
+Brake & Safety Systems,Europe,12,12,8,4,314,48.49,0.0,34,Capacity constraint,38.9,LOW
+Brake & Safety Systems,India,13,13,6,7,571,31.7,0.0,29,Supplier quality hold,68.2,MEDIUM
+Brake & Safety Systems,Latin America,19,19,9,10,508,45.77,0.0,32,Supplier quality hold,73.1,MEDIUM
+Brake & Safety Systems,Middle East & Africa,7,7,4,3,96,39.77,0.0,11,Capacity constraint,17.0,LOW
+Brake & Safety Systems,North America,15,15,10,5,448,35.27,0.0,39,Capacity constraint,71.4,MEDIUM
+Chassis & Structural,Asia Pacific,9,9,6,3,142,42.68,0.0,41,Tooling breakdown,19.4,LOW
+Chassis & Structural,Europe,18,18,7,11,354,44.14,0.0,33,Supplier quality hold,66.7,MEDIUM
+Chassis & Structural,India,13,13,7,6,277,43.62,0.0,34,Capacity constraint,47.3,MEDIUM
+Chassis & Structural,Latin America,16,16,7,9,253,44.05,0.0,30,Supplier quality hold,55.6,MEDIUM
+Chassis & Structural,Middle East & Africa,19,19,10,9,189,36.56,0.0,26,Tooling breakdown,67.1,MEDIUM
+Chassis & Structural,North America,12,12,6,6,228,35.35,0.0,26,Tooling breakdown,48.0,MEDIUM
+Electrical Assemblies,Asia Pacific,16,16,8,8,244,42.11,658.0,690,Logistics delay,58.2,MEDIUM
+Electrical Assemblies,Europe,11,11,5,6,126,44.37,692.0,714,Logistics delay,20.7,LOW
+Electrical Assemblies,India,11,11,4,7,196,35.61,678.0,705,Logistics delay,41.2,LOW
+Electrical Assemblies,Latin America,28,28,10,18,347,42.64,692.0,724,Logistics delay,83.1,HIGH
+Electrical Assemblies,Middle East & Africa,23,23,11,12,181,40.99,337.0,368,Logistics delay,68.6,MEDIUM
+Electrical Assemblies,North America,9,9,4,5,171,37.23,616.0,632,Supplier quality hold,28.7,LOW
+Hydraulic Systems,Asia Pacific,20,20,8,12,229,47.52,0.0,41,Logistics delay,61.5,MEDIUM
+Hydraulic Systems,Europe,19,19,9,10,261,51.28,0.0,38,Supplier quality hold,59.8,MEDIUM
+Hydraulic Systems,India,22,22,13,9,413,44.55,0.0,35,Capacity constraint,77.1,HIGH
+Hydraulic Systems,Latin America,16,16,10,6,241,41.38,0.0,35,Tooling breakdown,57.6,MEDIUM
+Hydraulic Systems,Middle East & Africa,20,20,11,9,188,40.64,0.0,30,Capacity constraint,66.8,MEDIUM
+Hydraulic Systems,North America,16,16,7,9,232,42.68,0.0,30,Logistics delay,55.1,MEDIUM
+Powertrain Components,Asia Pacific,11,11,4,7,316,37.25,0.0,31,Supplier quality hold,47.9,MEDIUM
+Powertrain Components,Europe,13,13,6,7,241,51.53,0.0,33,Logistics delay,35.5,LOW
+Powertrain Components,India,10,10,5,5,154,45.6,0.0,39,Logistics delay,17.9,LOW
+Powertrain Components,Latin America,11,11,5,6,150,43.03,0.0,29,Logistics delay,25.0,LOW
+Powertrain Components,Middle East & Africa,13,13,6,7,87,50.36,0.0,26,Logistics delay,22.3,LOW
+Powertrain Components,North America,11,11,6,5,156,49.75,0.0,34,Tooling breakdown,19.3,LOW
+Precision Machined Parts,Asia Pacific,26,26,14,12,670,40.26,0.0,41,Capacity constraint,92.1,HIGH
+Precision Machined Parts,Europe,19,19,10,9,495,35.96,0.0,43,Capacity constraint,84.8,HIGH
+Precision Machined Parts,India,8,8,4,4,200,44.03,0.0,27,Capacity constraint,24.2,LOW
+Precision Machined Parts,Latin America,18,18,9,9,365,36.91,0.0,41,Capacity constraint,76.8,HIGH
+Precision Machined Parts,Middle East & Africa,17,17,6,11,208,38.75,0.0,31,Supplier quality hold,60.8,MEDIUM
+Precision Machined Parts,North America,15,15,6,9,344,44.07,0.0,28,Supplier quality hold,55.2,MEDIUM
+Thermal Management,Asia Pacific,7,7,4,3,178,35.74,0.0,37,Capacity constraint,27.3,LOW
+Thermal Management,Europe,14,14,11,3,294,35.71,0.0,35,Capacity constraint,60.6,MEDIUM
+Thermal Management,India,19,19,7,12,484,45.93,0.0,45,Supplier quality hold,71.2,MEDIUM
+Thermal Management,Latin America,14,14,6,8,354,46.0,0.0,27,Supplier quality hold,50.2,MEDIUM
+Thermal Management,Middle East & Africa,15,15,9,6,177,44.4,0.0,23,Capacity constraint,39.5,LOW
+Thermal Management,North America,17,17,9,8,577,39.3,0.0,35,Tooling breakdown,77.5,HIGH

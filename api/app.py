@@ -128,3 +128,101 @@ def hierarchy_view(level: str = "total", member: str | None = None):
     if member:
         h = h[h["Member"] == member]
     return _records(h[["Member", "Date", "h", "Forecast", "P10", "P50", "P90"]])
+
+
+# ----------------------------------------------------------------------------- planning intelligence
+from pydantic import BaseModel, Field  # noqa: E402
+
+INTEL = Path(__file__).resolve().parents[1] / "outputs" / "intelligence"
+SCEN = Path(__file__).resolve().parents[1] / "artifacts" / "scenarios"
+
+
+@lru_cache(maxsize=1)
+def _report() -> dict:
+    p = INTEL / "intelligence_report.json"
+    if not p.exists():
+        raise HTTPException(503, "planning intelligence not generated yet - run the intelligence stage")
+    import json
+    return json.loads(p.read_text(encoding="utf-8"))
+
+
+@lru_cache(maxsize=1)
+def _cards() -> list:
+    import json
+    p = INTEL / "recommendations.json"
+    if not p.exists():
+        raise HTTPException(503, "recommendations not generated yet")
+    return json.loads(p.read_text(encoding="utf-8"))
+
+
+@app.get("/intelligence/report")
+def intelligence_report():
+    """KPIs, executive briefing, top recommendations, segment matrix, capacity, market, scenario presets."""
+    return _report()
+
+
+@app.get("/intelligence/briefing")
+def intelligence_briefing():
+    r = _report()
+    return {"kpis": r["kpis"], "briefing": r["briefing"]}
+
+
+@app.get("/intelligence/recommendations")
+def recommendations(priority: str | None = None, owner: str | None = None, level: str | None = None,
+                    rule_id: str | None = None, q: str | None = None, limit: int = Query(50, le=1000)):
+    """Ranked recommendation cards; filter by priority, owner (substring), level, rule or free text in scope."""
+    c = _cards()
+    if priority:
+        c = [x for x in c if x["priority"] == priority.upper()]
+    if owner:
+        c = [x for x in c if owner.lower() in x["owner"].lower()]
+    if level:
+        c = [x for x in c if x["level"] == level]
+    if rule_id:
+        c = [x for x in c if x["rule_id"] == rule_id]
+    if q:
+        c = [x for x in c if q.lower() in x["scope"].lower()]
+    return {"total": len(c), "cards": c[:limit]}
+
+
+@lru_cache(maxsize=1)
+def _scenario_ctx():
+    if not (SCEN / "emulator.json").exists():
+        raise HTTPException(503, "scenario emulator not built - run scripts/scenario_simulations.py")
+    from celeris.intel import scenarios as SC
+    return (SC, SC.load(SCEN / "emulator.json"), pd.read_csv(INTEL / "scenario_prices.csv"),
+            pd.read_csv(INTEL / "capacity_check.csv"))
+
+
+class ScenarioRequest(BaseModel):
+    shocks: dict[str, float] = Field(default_factory=dict, description="pmi, auto_production, vehicle_orders, raw_material, ev_adoption")
+    region_overlay: dict[str, float] = Field(default_factory=dict, description="planner assumption: % change by region")
+
+
+@app.get("/scenario/config")
+def scenario_config():
+    SC, emu, _, _ = _scenario_ctx()
+    return {"sliders": {k: {"column": v[0], "kind": v[1], "min": v[2], "max": v[3], "unit": v[4]} for k, v in SC.SHOCKS.items()},
+            "presets": SC.PRESETS, "regions": sorted({c[1] for c in emu["cells"]})}
+
+
+@app.get("/scenario/presets")
+def scenario_presets():
+    import json
+    p = INTEL / "scenario_presets.json"
+    if not p.exists():
+        raise HTTPException(503, "scenario presets not generated yet")
+    return json.loads(p.read_text(encoding="utf-8"))
+
+
+@app.post("/scenario")
+def scenario(req: ScenarioRequest):
+    """Instant what-if: emulated re-forecast of the frozen model + optional region overlays."""
+    SC, emu, price, cap = _scenario_ctx()
+    unknown = set(req.shocks) - set(SC.SHOCKS)
+    if unknown:
+        raise HTTPException(400, f"unknown shocks {sorted(unknown)}")
+    try:
+        return SC.evaluate(emu, req.shocks, req.region_overlay, price=price, capacity=cap)
+    except ValueError as e:
+        raise HTTPException(400, str(e))
