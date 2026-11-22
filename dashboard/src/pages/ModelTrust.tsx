@@ -20,17 +20,19 @@ interface ManifestData {
   frozen_at: string;
 }
 
+interface SegmentMetrics { WAPE: number; Bias: number; MAE: number; RMSE: number }
+
 interface BacktestMetrics {
-  overall: { WAPE: number; Bias: number; MAE: number; RMSE: number };
-  by_horizon_bucket: Record<string, number>;
-  by_Product_Family: Record<string, number>;
-  by_Region: Record<string, number>;
-  by_Demand_Class: Record<string, number>;
-  by_Volume_Band: Record<string, number>;
-  by_Lifecycle: Record<string, number>;
+  overall: SegmentMetrics;
+  by_horizon_bucket: Record<string, SegmentMetrics>;
+  by_Product_Family: Record<string, SegmentMetrics>;
+  by_Region: Record<string, SegmentMetrics>;
+  by_Demand_Class: Record<string, SegmentMetrics>;
+  by_Volume_Band: Record<string, SegmentMetrics>;
+  by_Lifecycle: Record<string, SegmentMetrics>;
   family_month: { WAPE: number };
   total_month: { WAPE: number };
-  seasonal_naive_overall: number;
+  seasonal_naive_overall: { WAPE: number; Bias: number; MAE: number; RMSE: number };
 }
 
 interface ExperimentRow {
@@ -88,11 +90,11 @@ export function ModelTrust() {
   const horizonChart = useMemo(() => {
     if (!bt?.by_horizon_bucket) return null;
     const order = ["1-3m", "4-6m", "7-12m", "13-19m"];
-    const cats = order.filter((k) => bt.by_horizon_bucket[k] != null);
+    const cats = order.filter((k) => bt.by_horizon_bucket[k]?.WAPE != null);
     if (!cats.length) return null;
     return verticalBarsOption(
       cats,
-      [{ name: "WAPE", data: cats.map((k) => bt.by_horizon_bucket[k]) }],
+      [{ name: "WAPE", data: cats.map((k) => bt.by_horizon_bucket[k].WAPE) }],
       { valueFormatter: (v) => fmtPct(v, 1), showLabels: true, yAxisName: "WAPE" },
     );
   }, [bt]);
@@ -261,13 +263,13 @@ export function ModelTrust() {
                   <div key={s.title} style={{ marginBottom: 16 }}>
                     <h4 style={{ fontSize: 13, fontWeight: 600, color: "var(--text-2)", marginBottom: 8 }}>{s.title}</h4>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                      {Object.entries(s.data).sort((a, b) => a[1] - b[1]).map(([k, v]) => (
+                      {Object.entries(s.data).sort((a, b) => a[1].WAPE - b[1].WAPE).map(([k, v]) => (
                         <div key={k} style={{
                           display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 10px",
                           borderRadius: 6, background: "var(--surface-2)", fontSize: 12,
                         }}>
                           <span style={{ color: "var(--text-3)" }}>{k}</span>
-                          <strong style={{ color: v < 0.1 ? STATUS.good : v < 0.2 ? STATUS.warning : STATUS.serious }}>{fmtPct(v as number, 1)}</strong>
+                          <strong style={{ color: v.WAPE < 0.1 ? STATUS.good : v.WAPE < 0.3 ? STATUS.warning : STATUS.serious }}>{fmtPct(v.WAPE, 1)}</strong>
                         </div>
                       ))}
                     </div>
