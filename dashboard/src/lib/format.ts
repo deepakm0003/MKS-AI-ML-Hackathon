@@ -44,3 +44,9 @@ export function fmtMonthShort(ym: string): string {
   const name = new Date(Date.UTC(y, m - 1, 1)).toLocaleDateString("en-US", { month: "short", timeZone: "UTC" });
   return `${name} ${String(y).slice(2)}`;
 }
+
+/** Format as percentage (0.28 -> "28%") */
+export function fmtPct(v: number | null | undefined, digits = 1): string {
+  if (!ok(v)) return "—";
+  return `${(v * 100).toFixed(digits)}%`;
+}

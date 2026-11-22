@@ -1,61 +1,77 @@
-/* Celeris design tokens - "premium industrial intelligence".
+/* Celeris design tokens - "Premium Professional Dark Theme".
  *
- * Every colour below was checked, not eyeballed:
- *  - text and status colours: WCAG contrast on the navy surfaces (text-3 >= 4.6:1 on surface-2,
- *    critical 4.7:1 on surface-1) - see docs/dashboard_architecture.md;
- *  - the categorical data palette: the dataviz skill's validator in dark mode on surface-1
- *    (lightness band, chroma floor, adjacent CVD dE >= 8.4, normal-vision dE >= 19.3, >= 3:1).
- * Components reference roles (--surface-1, --text-2, --series-3 ...), never raw hex.
+ * Sophisticated dark background inspired by modern SaaS platforms.
+ * Professional blue/cyan accent with clean gray hierarchy.
+ * Elegant, minimal, high-contrast for readability.
  */
 :root {
   color-scheme: dark;
 
-  /* surfaces: navy-tinted, never pure black; elevation = lighter surface + border */
-  --bg: #0a101c;
-  --surface-1: #111a2b;          /* cards, chart surface */
-  --surface-2: #16223a;          /* raised: hover rows, popovers */
-  --surface-3: #1c2a45;          /* selected / pressed */
-  --border: #22304a;
-  --border-strong: #2e3f5f;
-  --overlay: rgba(4, 8, 16, 0.72);
+  /* Premium dark surfaces - deep but not black */
+  --bg: #0d1117;                 /* deep charcoal */
+  --surface-1: #161b22;          /* cards - slightly lighter */
+  --surface-2: #1c2128;          /* elevated surfaces */
+  --surface-3: #22272e;          /* selected / hover */
+  --border: #30363d;
+  --border-strong: #484f58;
+  --overlay: rgba(13, 17, 23, 0.9);
 
-  /* text */
-  --text-1: #e8eef7;             /* primary */
-  --text-2: #a9b6cb;             /* secondary */
-  --text-3: #7d8ca6;             /* muted, captions */
-  --text-inverse: #0a101c;
+  /* text - clean white to gray hierarchy */
+  --text-1: #f0f6fc;             /* primary - crisp white */
+  --text-2: #c9d1d9;             /* secondary - light gray */
+  --text-3: #8b949e;             /* muted - medium gray */
+  --text-inverse: #0d1117;
 
-  /* brand accent (UI chrome only: active nav, focus, primary buttons) */
-  --accent: #22d3ee;
-  --accent-strong: #06b6d4;
-  --accent-soft: rgba(34, 211, 238, 0.12);
-  --accent-border: rgba(34, 211, 238, 0.38);
+  /* Professional blue/cyan accent - like the reference image */
+  --accent-primary: #58a6ff;     /* professional cyan-blue */
+  --accent-secondary: #1f6feb;   /* darker blue */
+  --accent-tertiary: #79c0ff;    /* lighter cyan */
+  --accent-strong: #1f6feb;
+  --accent-soft: rgba(88, 166, 255, 0.1);
+  --accent-border: rgba(88, 166, 255, 0.4);
+  --accent-glow: rgba(88, 166, 255, 0.3);
 
-  /* status (reserved: meaning only, always with an icon + label) */
-  --good: #10b981;               /* emerald - positive growth, PASS */
-  --good-soft: rgba(16, 185, 129, 0.14);
-  --warning: #f5a524;
-  --warning-soft: rgba(245, 165, 36, 0.14);
-  --serious: #ec835a;
-  --serious-soft: rgba(236, 131, 90, 0.14);
-  --critical: #e5534b;           /* muted red - risk, CRITICAL */
-  --critical-soft: rgba(229, 83, 75, 0.14);
+  /* Subtle gradients */
+  --gradient-primary: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
+  --gradient-surface: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
 
-  /* categorical data palette (fixed order, never cycled; validated dark on surface-1) */
-  --series-1: #1a9fc8;           /* cyan  */
-  --series-2: #d95926;           /* orange */
-  --series-3: #199e70;           /* aqua */
-  --series-4: #c98500;           /* yellow */
-  --series-5: #d55181;           /* magenta */
-  --series-6: #0ca30c;           /* green */
-  --series-7: #9085e9;           /* violet */
-  --series-other: #5b6b85;       /* folded "Other" */
+  /* status - professional, not garish */
+  --good: #3fb950;               /* clean green */
+  --good-secondary: #2ea043;
+  --good-soft: rgba(63, 185, 80, 0.15);
+  --warning: #d29922;            /* muted gold */
+  --warning-secondary: #bb8009;
+  --warning-soft: rgba(210, 153, 34, 0.15);
+  --serious: #f85149;            /* soft red */
+  --serious-soft: rgba(248, 81, 73, 0.15);
+  --critical: #f85149;           /* soft red */
+  --critical-secondary: #da3633;
+  --critical-soft: rgba(248, 81, 73, 0.15);
+  --info: #58a6ff;               /* blue */
+  --info-soft: rgba(88, 166, 255, 0.15);
+  --purple: #bc8cff;             /* soft purple */
+  --purple-soft: rgba(188, 140, 255, 0.15);
 
-  /* chart anatomy */
-  --chart-grid: rgba(169, 182, 203, 0.10);
-  --chart-axis: #3a4a66;
-  --chart-forecast-band: rgba(26, 159, 200, 0.18);
-  --chart-history: #a9b6cb;
+  /* Professional data palette - blues and grays only */
+  --series-1: #58a6ff;           /* cyan-blue */
+  --series-2: #1f6feb;           /* dark blue */
+  --series-3: #79c0ff;           /* light cyan */
+  --series-4: #a5d6ff;           /* pale blue */
+  --series-5: #8b949e;           /* medium gray */
+  --series-6: #6e7681;           /* darker gray */
+  --series-7: #484f58;           /* steel gray */
+  --series-8: #c9d1d9;           /* light gray */
+  --series-9: #3fb950;           /* accent green */
+  --series-10: #bc8cff;          /* accent purple */
+  --series-other: #6e7681;       /* neutral gray */
+
+  /* chart anatomy - professional dark */
+  --chart-grid: rgba(139, 148, 158, 0.1);
+  --chart-axis: #484f58;
+  --chart-forecast-band: rgba(88, 166, 255, 0.15);
+  --chart-history: #8b949e;
+  --chart-highlight: rgba(88, 166, 255, 0.2);
+  --chart-zoom-handle: #58a6ff;
 
   /* typography */
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -65,10 +81,13 @@
   --fs-13: 0.8125rem;
   --fs-14: 0.875rem;
   --fs-16: 1rem;
+  --fs-18: 1.125rem;
   --fs-20: 1.25rem;
   --fs-24: 1.5rem;
+  --fs-28: 1.75rem;
   --fs-32: 2rem;
   --fs-40: 2.5rem;
+  --fs-48: 3rem;
   --fw-regular: 400;
   --fw-medium: 500;
   --fw-semibold: 600;
@@ -87,26 +106,34 @@
   --sp-8: 32px;
   --sp-10: 40px;
   --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
 
-  /* shape and depth */
+  /* shape and depth - subtle, professional */
   --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-pill: 999px;
-  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35);
-  --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--border);
-  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-2: 0 4px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--border);
+  --shadow-3: 0 12px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px var(--border-strong);
+  --shadow-glow: 0 0 16px rgba(37, 99, 235, 0.15);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent-primary);
 
   /* layout */
-  --sidebar-w: 268px;
-  --sidebar-w-collapsed: 68px;
-  --header-h: 64px;
-  --content-max: 1600px;
+  --sidebar-w: 280px;
+  --sidebar-w-collapsed: 72px;
+  --header-h: 72px;
+  --content-max: 1800px;
 
-  /* motion: subtle, never decorative */
+  /* motion: smooth and responsive */
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --dur-fast: 120ms;
-  --dur-base: 200ms;
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 400ms;
 }
 
 @media (prefers-reduced-motion: reduce) {

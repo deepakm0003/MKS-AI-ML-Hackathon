@@ -10,11 +10,23 @@ import { DEFAULT_PATH, VIEWS } from "./routes";
 const SystemPage = lazy(() => import("./pages/SystemPage").then((m) => ({ default: m.SystemPage })));
 const ExecutiveOverview = lazy(() => import("./pages/ExecutiveOverview").then((m) => ({ default: m.ExecutiveOverview })));
 const DemandExplorer = lazy(() => import("./pages/DemandExplorer").then((m) => ({ default: m.DemandExplorer })));
+const RiskExceptions = lazy(() => import("./pages/RiskExceptions").then((m) => ({ default: m.RiskExceptions })));
+const PlanningProcurement = lazy(() => import("./pages/PlanningProcurement").then((m) => ({ default: m.PlanningProcurement })));
+const ScenarioLab = lazy(() => import("./pages/ScenarioLab").then((m) => ({ default: m.ScenarioLab })));
+const ModelTrust = lazy(() => import("./pages/ModelTrust").then((m) => ({ default: m.ModelTrust })));
+const DataHealth = lazy(() => import("./pages/DataHealth").then((m) => ({ default: m.DataHealth })));
+const AnomalyMonitor = lazy(() => import("./pages/AnomalyMonitor").then((m) => ({ default: m.AnomalyMonitor })));
 
 /** Views that are built; the rest keep their live-readiness placeholder until their phase. */
 const BUILT: Record<string, () => JSX.Element> = {
   "/overview": () => <ExecutiveOverview />,
   "/explorer": () => <DemandExplorer />,
+  "/risk": () => <RiskExceptions />,
+  "/planning": () => <PlanningProcurement />,
+  "/scenarios": () => <ScenarioLab />,
+  "/trust": () => <ModelTrust />,
+  "/data-health": () => <DataHealth />,
+  "/anomalies": () => <AnomalyMonitor />,
 };
 
 const lazyPage = (el: JSX.Element) => <Suspense fallback={<LoadingState label="Loading view" />}>{el}</Suspense>;

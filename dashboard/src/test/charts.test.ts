@@ -74,11 +74,11 @@ describe("ranked bars option", () => {
   ];
   it("ranks by the chosen measure with the largest bar on top and one hue", () => {
     const o = rankedBarsOption(rows, "Revenue_next12") as {
-      yAxis: { data: string[] }; series: { data: number[]; itemStyle: { color: string } }[];
+      yAxis: { data: string[] }; series: { data: Array<{ value: number; itemStyle: unknown }> }[];
     };
     expect(o.yAxis.data).toEqual(["India", "Europe"]);                  // ECharts draws the last category on top
-    expect(o.series[0].data).toEqual([130, 310]);
-    expect(typeof o.series[0].itemStyle.color).toBe("string");
+    expect(o.series[0].data.map(d => d.value)).toEqual([130, 310]);
+    expect(typeof o.series[0].data[0].itemStyle).toBe("object");
     const g = rankedBarsOption(rows, "Units_change_pct") as { yAxis: { data: string[] } };
     expect(g.yAxis.data).toEqual(["Europe", "India"]);
   });

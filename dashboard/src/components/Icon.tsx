@@ -29,11 +29,11 @@ const PATHS = {
 
 export type IconName = keyof typeof PATHS;
 
-export function Icon({ name, size = 18, className, title }: { name: IconName; size?: number; className?: string; title?: string }) {
+export function Icon({ name, size = 18, className, title, style }: { name: IconName; size?: number; className?: string; title?: string; style?: Record<string, string | number> }) {
   return (
     <svg
       width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75}
-      strokeLinecap="round" strokeLinejoin="round" className={className}
+      strokeLinecap="round" strokeLinejoin="round" className={className} style={style}
       aria-hidden={title ? undefined : true} role={title ? "img" : undefined}
     >
       {title && <title>{title}</title>}
