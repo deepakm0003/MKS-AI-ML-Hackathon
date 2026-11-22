@@ -4,7 +4,7 @@ import { LoadingState } from "./components/ui";
 import { FilterProvider } from "./filters/FilterContext";
 import { AppShell } from "./layout/AppShell";
 import { NotFound, ViewPlaceholder } from "./pages/ViewPlaceholder";
-import { DEFAULT_PATH, VIEWS } from "./routes";
+import { VIEWS } from "./routes";
 
 // chart pages load on demand, so the shell paints before the chart library arrives
 const SystemPage = lazy(() => import("./pages/SystemPage").then((m) => ({ default: m.SystemPage })));
@@ -18,6 +18,7 @@ const DataHealth = lazy(() => import("./pages/DataHealth").then((m) => ({ defaul
 const AnomalyMonitor = lazy(() => import("./pages/AnomalyMonitor").then((m) => ({ default: m.AnomalyMonitor })));
 const ExceptionList = lazy(() => import("./pages/ExceptionList").then((m) => ({ default: m.ExceptionList })));
 const CalendarForecast = lazy(() => import("./pages/CalendarForecast").then((m) => ({ default: m.CalendarForecast })));
+const LandingPage = lazy(() => import("./pages/LandingPage").then((m) => ({ default: m.LandingPage })));
 
 /** Views that are built; the rest keep their live-readiness placeholder until their phase. */
 const BUILT: Record<string, () => JSX.Element> = {
@@ -39,8 +40,12 @@ export function AppRoutes() {
   return (
     <FilterProvider>
       <Routes>
+        {/* Landing page — fullscreen, no sidebar */}
+        <Route path="/home" element={lazyPage(<LandingPage />)} />
+
         <Route element={<AppShell />}>
-          <Route index element={<Navigate to={DEFAULT_PATH} replace />} />
+          {/* Root "/" → landing */}
+          <Route index element={<Navigate to="/home" replace />} />
           {VIEWS.map((v) => (
             <Route key={v.path} path={v.path} element={BUILT[v.path] ? lazyPage(BUILT[v.path]()) : <ViewPlaceholder view={v} />} />
           ))}
