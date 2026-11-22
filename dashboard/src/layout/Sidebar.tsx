@@ -18,9 +18,9 @@ export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onNavigate }:
     >
       <div className="sidebar__brand">
         <span className="brand-mark" aria-hidden>
-          <svg viewBox="0 0 32 32" width="32" height="32">
-            <rect width="32" height="32" rx="8" fill="var(--surface-3)" />
-            <path d="M8 21l5-6 4 4 7-9" stroke="var(--accent)" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <svg viewBox="0 0 32 32" width="28" height="28">
+            <rect width="32" height="32" rx="6" fill="#141414" />
+            <path d="M7 22l5-7 4 5 4-6 5-5" stroke="#c7ff32" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </span>
         <span className="sidebar__brandtext">

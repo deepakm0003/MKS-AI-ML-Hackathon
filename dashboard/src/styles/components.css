@@ -24,6 +24,17 @@
   background: var(--accent-strong);
 }
 
+/* lime primary action — same as --primary, alias used in pages */
+.btn--accent {
+  background: var(--accent);
+  color: var(--text-inverse);
+  font-weight: var(--fw-semibold);
+}
+
+.btn--accent:hover:not(:disabled) {
+  background: var(--accent-strong);
+}
+
 .btn--ghost {
   background: var(--surface-1);
   border-color: var(--border);
@@ -122,25 +133,25 @@
 
 .badge--good {
   background: var(--good-soft);
-  border-color: rgba(16, 185, 129, 0.35);
+  border-color: rgba(199, 255, 50, 0.3);
   color: var(--good);
 }
 
 .badge--warning {
   background: var(--warning-soft);
-  border-color: rgba(245, 165, 36, 0.35);
+  border-color: rgba(245, 185, 66, 0.3);
   color: var(--warning);
 }
 
 .badge--serious {
   background: var(--serious-soft);
-  border-color: rgba(236, 131, 90, 0.35);
+  border-color: rgba(255, 92, 92, 0.25);
   color: var(--serious);
 }
 
 .badge--critical {
   background: var(--critical-soft);
-  border-color: rgba(229, 83, 75, 0.4);
+  border-color: rgba(255, 92, 92, 0.4);
   color: var(--critical);
 }
 
@@ -613,13 +624,13 @@
 }
 
 .kpi--accent {
-  background: linear-gradient(160deg, rgba(34, 211, 238, 0.08) 0%, var(--surface-1) 55%);
+  background: linear-gradient(160deg, rgba(199, 255, 50, 0.07) 0%, var(--surface-1) 55%);
   border-color: var(--accent-border);
 }
 
 .kpi--critical {
-  background: linear-gradient(160deg, rgba(229, 83, 75, 0.10) 0%, var(--surface-1) 55%);
-  border-color: rgba(229, 83, 75, 0.4);
+  background: linear-gradient(160deg, rgba(255, 92, 92, 0.08) 0%, var(--surface-1) 55%);
+  border-color: rgba(255, 92, 92, 0.4);
 }
 
 .kpi__label {
@@ -1400,3 +1411,4 @@
     max-width: 200px;
   }
 }
+

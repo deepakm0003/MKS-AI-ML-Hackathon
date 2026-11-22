@@ -70,10 +70,10 @@ export function timelineOption(v: TimelineView, metric: Metric, opts: { showShip
     tooltip: {
       trigger: "axis",
       axisPointer: { type: "cross", lineStyle: { color: CHART.highlight, width: 1, type: "dashed" } },
-      backgroundColor: "rgba(22, 27, 34, 0.95)",
-      borderColor: "#30363d",
+      backgroundColor: "rgba(20, 20, 20, 0.97)",
+      borderColor: "#282828",
       borderWidth: 1,
-      textStyle: { color: "#f0f6fc", fontSize: 12 },
+      textStyle: { color: "#ffffff", fontSize: 12 },
       padding: [10, 14],
       formatter: (params: { dataIndex: number }[]) => {
         const i = params[0]?.dataIndex ?? 0;
@@ -224,10 +224,10 @@ export function rankedBarsOption(rows: BreakdownRow[], value: BarValue): ECharts
     grid: { left: 12, right: isPct ? 48 : 120, top: 8, bottom: 8, containLabel: true },
     tooltip: {
       trigger: "item",
-      backgroundColor: "rgba(22, 27, 34, 0.95)",
-      borderColor: "#30363d",
+      backgroundColor: "rgba(20, 20, 20, 0.97)",
+      borderColor: "#282828",
       borderWidth: 1,
-      textStyle: { color: "#f0f6fc", fontSize: 12 },
+      textStyle: { color: "#ffffff", fontSize: 12 },
       padding: [10, 14],
       formatter: (p: { dataIndex: number }) => {
         const r = sorted[p.dataIndex];
@@ -317,10 +317,10 @@ export function verticalBarsOption(
     tooltip: {
       trigger: "axis",
       axisPointer: { type: "shadow" },
-      backgroundColor: "rgba(22, 27, 34, 0.95)",
-      borderColor: "#30363d",
+      backgroundColor: "rgba(20, 20, 20, 0.97)",
+      borderColor: "#282828",
       borderWidth: 1,
-      textStyle: { color: "#f0f6fc", fontSize: 12 },
+      textStyle: { color: "#ffffff", fontSize: 12 },
       padding: [10, 14],
       formatter: (params: { seriesName: string; color: string; value: number; axisValueLabel: string }[]) => {
         const lines = [`<div style="font-weight:600;margin-bottom:6px;font-size:13px;">${params[0].axisValueLabel}</div>`];
@@ -369,10 +369,10 @@ export function genericRankedBarsOption(
     grid: { left: 12, right: opts.subFormatter ? 120 : 60, top: 8, bottom: 8, containLabel: true },
     tooltip: {
       trigger: "item",
-      backgroundColor: "rgba(22, 27, 34, 0.95)",
-      borderColor: "#30363d",
+      backgroundColor: "rgba(20, 20, 20, 0.97)",
+      borderColor: "#282828",
       borderWidth: 1,
-      textStyle: { color: "#f0f6fc", fontSize: 12 },
+      textStyle: { color: "#ffffff", fontSize: 12 },
       padding: [10, 14],
       formatter: (p: { dataIndex: number }) => {
         const r = sorted[p.dataIndex];
@@ -415,10 +415,10 @@ export function scatterOption(
     grid: { left: 12, right: 16, top: 16, bottom: 8, containLabel: true },
     tooltip: {
       trigger: "item",
-      backgroundColor: "rgba(22, 27, 34, 0.95)",
-      borderColor: "#30363d",
+      backgroundColor: "rgba(20, 20, 20, 0.97)",
+      borderColor: "#282828",
       borderWidth: 1,
-      textStyle: { color: "#f0f6fc", fontSize: 12 },
+      textStyle: { color: "#ffffff", fontSize: 12 },
       padding: [10, 14],
       formatter: (p: { dataIndex: number }) => {
         const pt = points[p.dataIndex];

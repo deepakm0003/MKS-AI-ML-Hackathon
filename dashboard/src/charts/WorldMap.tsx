@@ -106,10 +106,10 @@ export function WorldMap({ regions, height = 340, title }: {
 
       tooltip: {
         trigger: "item",
-        backgroundColor: "rgba(22,27,34,0.96)",
-        borderColor: "#30363d",
+        backgroundColor: "rgba(20,20,20,0.97)",
+        borderColor: "#282828",
         borderWidth: 1,
-        textStyle: { color: "#f0f6fc", fontSize: 12 },
+        textStyle: { color: "#ffffff", fontSize: 12 },
         padding: [10, 14],
         formatter(p: { name: string; data?: { _risk: number; _label: string } }) {
           if (!p.data) return p.name;
@@ -117,7 +117,7 @@ export function WorldMap({ regions, height = 340, title }: {
           const color = riskColor(p.data._risk ?? 0);
           return [
             `<b style="font-size:13px">${p.name}</b>`,
-            p.data._label ? `<div style="color:#8b949e;font-size:11px;margin-top:4px">${p.data._label}</div>` : "",
+            p.data._label ? `<div style="color:#707070;font-size:11px;margin-top:4px">${p.data._label}</div>` : "",
             `<div style="margin-top:4px">Risk: <b style="color:${color}">${pct}%</b></div>`,
           ].join("");
         },
@@ -125,20 +125,18 @@ export function WorldMap({ regions, height = 340, title }: {
 
       geo: {
         map: "world",
-        roam: true,            // scroll = zoom, drag = pan
-        // Key: use pixel offsets so the map fills exactly the canvas
+        roam: true,
         left: 0, right: 0, top: 0, bottom: 0,
-        // Initial view — centred on populated world, zoom slightly past 1 to crop poles
         center: [20, 20],
         zoom: 1.1,
         scaleLimit: { min: 0.8, max: 20 },
         itemStyle: {
-          areaColor: "#1c2128",
-          borderColor: "#2d333b",
+          areaColor: "#1c1c1c",
+          borderColor: "#2a2a2a",
           borderWidth: 0.5,
         },
         emphasis: {
-          itemStyle: { areaColor: "#22272e" },
+          itemStyle: { areaColor: "#242424" },
           label: { show: false },
         },
         label: { show: false },
@@ -192,9 +190,9 @@ export function WorldMap({ regions, height = 340, title }: {
       <button type="button" onClick={resetZoom}
         style={{
           position: "absolute", top: 8, right: 8, zIndex: 10,
-          width: 26, height: 26, borderRadius: 6,
-          background: "rgba(22,27,34,0.85)", border: "1px solid #30363d",
-          color: "#8b949e", fontSize: 14, cursor: "pointer",
+          width: 26, height: 26, borderRadius: 4,
+          background: "rgba(20,20,20,0.9)", border: "1px solid #282828",
+          color: "#707070", fontSize: 14, cursor: "pointer",
           display: "flex", alignItems: "center", justifyContent: "center",
         }}
         title="Reset zoom"
@@ -203,8 +201,8 @@ export function WorldMap({ regions, height = 340, title }: {
       {/* Legend */}
       <div style={{
         position: "absolute", bottom: 8, left: 8, zIndex: 10,
-        display: "flex", gap: 10, fontSize: 11, color: "#8b949e",
-        background: "rgba(13,17,23,0.8)", padding: "4px 10px", borderRadius: 6,
+        display: "flex", gap: 10, fontSize: 11, color: "#707070",
+        background: "rgba(8,8,8,0.85)", padding: "4px 10px", borderRadius: 4,
         pointerEvents: "none",
       }}>
         {([

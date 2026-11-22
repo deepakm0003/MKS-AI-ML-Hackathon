@@ -104,8 +104,8 @@ export function PlanningProcurement() {
     return verticalBarsOption(
       dates,
       [
-        { name: "Forecast", data: dates.map((d) => byMonth[d].forecast), color: SERIES[0] },
-        { name: "P90", data: dates.map((d) => byMonth[d].p90), color: SERIES[4] },
+        { name: "Forecast", data: dates.map((d) => byMonth[d].forecast), color: SERIES[0] },  // lime
+        { name: "P90",      data: dates.map((d) => byMonth[d].p90),      color: SERIES[1] },  // blue
       ],
       { valueFormatter: (v) => fmtInt(v), rotateLabels: true, yAxisName: "Units" },
     );
@@ -122,8 +122,8 @@ export function PlanningProcurement() {
     return verticalBarsOption(
       rows.map((r) => `${r.Product_Family} · ${r.Region}`),
       [
-        { name: "P50", data: rows.map((r) => r.Utilisation_P50), color: SERIES[2] },
-        { name: "P90", data: rows.map((r) => r.Utilisation_P90), color: STATUS.serious },
+        { name: "P50", data: rows.map((r) => r.Utilisation_P50), color: SERIES[0] },   // lime
+        { name: "P90", data: rows.map((r) => r.Utilisation_P90), color: STATUS.warning }, // amber
       ],
       { valueFormatter: (v) => fmtPctRaw(v), rotateLabels: true, yAxisName: "Utilisation" },
     );

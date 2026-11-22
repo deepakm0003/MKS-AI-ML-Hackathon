@@ -53,7 +53,7 @@ export function FilterBar() {
             <><strong>{matching.toLocaleString()}</strong> of {total?.toLocaleString()} series</>
           )}
         </span>
-        <button type="button" className="btn btn--ghost btn--sm" onClick={() => dispatch({ type: "clearAll" })} disabled={!active}>
+        <button type="button" className="btn btn--ghost btn--sm" onClick={() => dispatch({ type: "clearAll" })}>
           Clear all{active ? ` (${active})` : ""}
         </button>
         <button type="button" className="btn btn--ghost btn--sm" onClick={share} title="Copy a link to this filtered view">
