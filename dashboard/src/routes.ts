@@ -85,6 +85,13 @@ export const VIEWS: ViewDef[] = [
     covers: { required: [], optional: ["Exception list for planners", "Data download"] },
     sources: ["recommendations", "exceptions_ranked"],
   },
+  {
+    path: "/calendar", label: "Calendar Forecast", icon: "calendar", group: "workspace", phase: 9,
+    purpose: "Select any date range within the 19-month horizon and explore demand, revenue, insights and procurement requirements for that period.",
+    questions: ["What is the forecast for Q1 2027?", "How does demand build month by month?", "Which families drive the next 6 months?"],
+    covers: { required: [], optional: ["What-if scenarios", "Data download"] },
+    sources: ["forecast_detail", "timeline", "breakdown", "recommendations", "series_signals"],
+  },
 ];
 
 export const DEFAULT_PATH = "/overview";

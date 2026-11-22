@@ -17,6 +17,7 @@ const ModelTrust = lazy(() => import("./pages/ModelTrust").then((m) => ({ defaul
 const DataHealth = lazy(() => import("./pages/DataHealth").then((m) => ({ default: m.DataHealth })));
 const AnomalyMonitor = lazy(() => import("./pages/AnomalyMonitor").then((m) => ({ default: m.AnomalyMonitor })));
 const ExceptionList = lazy(() => import("./pages/ExceptionList").then((m) => ({ default: m.ExceptionList })));
+const CalendarForecast = lazy(() => import("./pages/CalendarForecast").then((m) => ({ default: m.CalendarForecast })));
 
 /** Views that are built; the rest keep their live-readiness placeholder until their phase. */
 const BUILT: Record<string, () => JSX.Element> = {
@@ -29,6 +30,7 @@ const BUILT: Record<string, () => JSX.Element> = {
   "/data-health": () => <DataHealth />,
   "/anomalies": () => <AnomalyMonitor />,
   "/exceptions": () => <ExceptionList />,
+  "/calendar": () => <CalendarForecast />,
 };
 
 const lazyPage = (el: JSX.Element) => <Suspense fallback={<LoadingState label="Loading view" />}>{el}</Suspense>;
