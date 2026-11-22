@@ -45,11 +45,11 @@ export function ExceptionList() {
   const exportToCsv = () => {
     if (filtered.length === 0) return;
     
-    const headers = ["ID", "Priority", "Type", "Scope", "Title", "Finding", "Action", "Owner", "Impact_USD", "Window", "Confidence"];
+    const headers = ["ID", "Priority", "Rule", "Scope", "Title", "Finding", "Action", "Owner", "Impact_USD", "Window", "Confidence"];
     const rows = filtered.map((c) => [
       c.id,
       c.priority,
-      c.type,
+      c.rule_id,
       c.scope,
       c.title,
       c.finding.replace(/"/g, '""'),
@@ -263,13 +263,13 @@ export function ExceptionList() {
                       <Icon name="dot" size={10} /> Owner: <strong>{c.owner}</strong>
                     </span>
                     <span>
-                      <Icon name="dot" size={10} /> Type: {c.type}
+                      <Icon name="dot" size={10} /> Rule: {c.rule_id}
                     </span>
                     <span>
                       <Icon name="dot" size={10} /> Window: {c.window}
                     </span>
                     <span>
-                      <Icon name="dot" size={10} /> Confidence: {c.confidence}%
+                      <Icon name="dot" size={10} /> Confidence: {c.confidence}
                     </span>
                   </div>
                 </li>
