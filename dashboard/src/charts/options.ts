@@ -279,7 +279,7 @@ export function rankedBarsOption(rows: BreakdownRow[], value: BarValue): ECharts
       emphasis: {
         focus: "self",
         itemStyle: {
-          color: SERIES[2],
+          opacity: 0.5,
         },
       },
     }],
@@ -351,7 +351,7 @@ export function verticalBarsOption(
         show: true, position: "top", color: CHART.text, fontSize: 11, fontWeight: 500,
         formatter: (p: { value: number }) => fmt(p.value),
       } : undefined,
-      emphasis: { focus: "series" as const, itemStyle: { color: s.color ?? SERIES[(i + 2) % SERIES.length] } },
+      emphasis: { focus: "series" as const, itemStyle: { opacity: 0.5 } },
     })),
   };
 }
@@ -399,7 +399,7 @@ export function genericRankedBarsOption(
           return r.sub !== undefined && opts.subFormatter ? `${base}  ${opts.subFormatter(r.sub as unknown as number)}` : base;
         },
       },
-      emphasis: { focus: "self", itemStyle: { color: opts.color ?? SERIES[2] } },
+      emphasis: { focus: "self", itemStyle: { opacity: 0.5 } },
     }],
   };
 }

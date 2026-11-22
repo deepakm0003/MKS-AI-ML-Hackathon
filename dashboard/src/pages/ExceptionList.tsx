@@ -235,74 +235,84 @@ export function ExceptionList() {
         </div>
       )}
 
-      {/* ── Filter controls ──────────────────────────────────── */}
-      <div className="ov-grid">
-        {/* Priority filter */}
-        <div className="ov-grid__main">
-          <Card title="Filter by priority" subtitle="Show only exceptions at selected severity level">
-            <div style={{ padding: "12px 20px 20px", display: "flex", flexWrap: "wrap", gap: 8 }}>
-              {(["ALL", ...uniquePriorities] as const).map((p) => {
-                const active = priorityFilter === p;
-                const col    = p === "ALL" ? "var(--accent)" : priorityColor(p);
-                return (
-                  <button
-                    key={p} type="button"
-                    onClick={() => setPriorityFilter(p as PriorityFilter)}
-                    style={{
-                      height: 34, padding: "0 14px", borderRadius: "var(--radius-md)",
-                      border: `1px solid ${active ? col : "var(--border)"}`,
-                      background: active ? (p === "ALL" ? "var(--accent-soft)" : priorityBg(p)) : "transparent",
-                      color: active ? col : "var(--text-3)",
-                      fontWeight: active ? 600 : 400, fontSize: 13, cursor: "pointer",
-                      transition: "all 0.12s",
-                    }}
-                  >
-                    {p === "ALL" ? "All" : p}
-                    {p !== "ALL" && recs.status === "success" && (
-                      <span style={{ marginLeft: 7, opacity: 0.65, fontWeight: 400 }}>
-                        {allCards.filter((c) => c.priority === p).length}
-                      </span>
-                    )}
-                    {p === "ALL" && recs.status === "success" && (
-                      <span style={{ marginLeft: 7, opacity: 0.65, fontWeight: 400 }}>{allCards.length}</span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </Card>
+      {/* ── Compact horizontal filter bar ────────────────────── */}
+      <div style={{
+        background: "var(--surface-1)",
+        border: "1px solid var(--border)",
+        borderRadius: "var(--radius-lg)",
+        padding: "14px 20px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 12,
+      }}>
+        {/* Priority row */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: "0.08em", width: 90, flexShrink: 0 }}>
+            Priority
+          </span>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+            {(["ALL", ...uniquePriorities] as const).map((p) => {
+              const active = priorityFilter === p;
+              const col    = p === "ALL" ? "var(--accent)" : priorityColor(p);
+              const count  = p === "ALL" ? allCards.length : allCards.filter((c) => c.priority === p).length;
+              return (
+                <button
+                  key={p} type="button"
+                  onClick={() => setPriorityFilter(p as PriorityFilter)}
+                  style={{
+                    height: 28, padding: "0 12px", borderRadius: "var(--radius-md)",
+                    border: `1px solid ${active ? col : "var(--border)"}`,
+                    background: active ? (p === "ALL" ? "var(--accent-soft)" : priorityBg(p)) : "transparent",
+                    color: active ? col : "var(--text-3)",
+                    fontWeight: active ? 600 : 400, fontSize: 12, cursor: "pointer",
+                    transition: "border-color 0.12s, background 0.12s, color 0.12s",
+                    display: "inline-flex", alignItems: "center", gap: 6,
+                  }}
+                  onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLElement).style.color = "var(--text-2)"; }}
+                  onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLElement).style.color = "var(--text-3)"; }}
+                >
+                  {p === "ALL" ? "All" : p}
+                  <span style={{ opacity: 0.6, fontWeight: 400 }}>{count}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Owner filter */}
-        <div className="ov-grid__side">
-          <Card title="Filter by owner" subtitle="Show only exceptions assigned to this team">
-            <div style={{ padding: "12px 20px 20px", display: "flex", flexWrap: "wrap", gap: 8 }}>
-              {(["ALL", ...uniqueOwners]).map((o) => {
-                const active = ownerFilter === o;
-                return (
-                  <button
-                    key={o} type="button"
-                    onClick={() => setOwnerFilter(o)}
-                    style={{
-                      height: 30, padding: "0 12px", borderRadius: "var(--radius-md)",
-                      border: `1px solid ${active ? "var(--accent)" : "var(--border)"}`,
-                      background: active ? "var(--accent-soft)" : "transparent",
-                      color: active ? "var(--accent)" : "var(--text-3)",
-                      fontWeight: active ? 600 : 400, fontSize: 12, cursor: "pointer",
-                      transition: "all 0.12s",
-                    }}
-                  >
-                    {o === "ALL" ? "All" : o}
-                    {recs.status === "success" && (
-                      <span style={{ marginLeft: 6, opacity: 0.6, fontWeight: 400 }}>
-                        {o === "ALL" ? allCards.length : allCards.filter((c) => c.owner === o).length}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </Card>
+        {/* Divider */}
+        <div style={{ height: 1, background: "var(--border)" }} />
+
+        {/* Owner row */}
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 10, flexWrap: "wrap" }}>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: "0.08em", width: 90, flexShrink: 0, paddingTop: 4 }}>
+            Owner
+          </span>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6, flex: 1 }}>
+            {(["ALL", ...uniqueOwners]).map((o) => {
+              const active = ownerFilter === o;
+              const count  = o === "ALL" ? allCards.length : allCards.filter((c) => c.owner === o).length;
+              return (
+                <button
+                  key={o} type="button"
+                  onClick={() => setOwnerFilter(o)}
+                  style={{
+                    height: 28, padding: "0 12px", borderRadius: "var(--radius-md)",
+                    border: `1px solid ${active ? "var(--accent)" : "var(--border)"}`,
+                    background: active ? "var(--accent-soft)" : "transparent",
+                    color: active ? "var(--accent)" : "var(--text-3)",
+                    fontWeight: active ? 600 : 400, fontSize: 12, cursor: "pointer",
+                    transition: "border-color 0.12s, background 0.12s, color 0.12s",
+                    display: "inline-flex", alignItems: "center", gap: 6,
+                  }}
+                  onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLElement).style.color = "var(--text-2)"; }}
+                  onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLElement).style.color = "var(--text-3)"; }}
+                >
+                  {o === "ALL" ? "All" : o}
+                  <span style={{ opacity: 0.6, fontWeight: 400 }}>{count}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
