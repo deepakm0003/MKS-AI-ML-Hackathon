@@ -185,7 +185,8 @@ export function DataHealth() {
           rows.length > 0 ? (
             <div style={{ padding: "8px 20px 20px" }}>
               <DataTable columns={issueCols} rows={rows} caption="DQ issue log"
-                maxHeight={500} initialSort={{ key: "file", dir: "asc" }} />
+                maxHeight={500} initialSort={{ key: "file", dir: "asc" }}
+                exportable={true} exportFilename="dq_issue_log" />
             </div>
           ) : <EmptyState title="No issues" message="No data quality corrections were needed." icon="check" />}
       </Card>

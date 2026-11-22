@@ -240,7 +240,8 @@ export function PlanningProcurement() {
                 nextCycle.data.rows.length > 0 ? (
                   <div style={{ padding: "8px 20px 20px" }}>
                     <DataTable columns={nextCols} rows={nextCycle.data.rows} caption="Procurement next cycle"
-                      maxHeight={400} initialSort={{ key: "value", dir: "desc" }} />
+                      maxHeight={400} initialSort={{ key: "value", dir: "desc" }}
+                      exportable={true} exportFilename="procurement_next_cycle" />
                   </div>
                 ) : <EmptyState title="No next-cycle data" icon="database" />}
           </Card>
@@ -282,7 +283,8 @@ export function PlanningProcurement() {
             seg.data.rows.length > 0 ? (
               <div style={{ padding: "8px 20px 20px" }}>
                 <DataTable columns={segCols} rows={seg.data.rows} caption="ABC-XYZ segmentation"
-                  maxHeight={420} initialSort={{ key: "rev", dir: "desc" }} />
+                  maxHeight={420} initialSort={{ key: "rev", dir: "desc" }}
+                  exportable={true} exportFilename="abc_xyz_segmentation" />
               </div>
             ) : <EmptyState title="No segmentation data" icon="database" />}
       </Card>
@@ -315,7 +317,8 @@ export function PlanningProcurement() {
             plan.data.rows.length > 0 ? (
               <div style={{ padding: "8px 20px 20px" }}>
                 <DataTable columns={planCols} rows={plan.data.rows} caption="Procurement plan"
-                  maxHeight={420} initialSort={{ key: "date", dir: "asc" }} />
+                  maxHeight={420} initialSort={{ key: "date", dir: "asc" }}
+                  exportable={true} exportFilename="procurement_plan" />
               </div>
             ) : <EmptyState title="No plan data" icon="database" />}
       </Card>

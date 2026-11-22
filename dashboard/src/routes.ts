@@ -78,6 +78,13 @@ export const VIEWS: ViewDef[] = [
     covers: { required: ["Anomaly monitor"], optional: ["Stockouts & lost sales"] },
     sources: ["anomaly_register", "structural_register", "event_impact", "history"],
   },
+  {
+    path: "/exceptions", label: "Exception List", icon: "risk", group: "workspace", phase: 9,
+    purpose: "All actionable exceptions with filters by priority and owner, sortable and exportable to CSV.",
+    questions: ["What needs my immediate attention?", "Which exceptions are assigned to procurement?", "How much revenue is at risk?"],
+    covers: { required: [], optional: ["Exception list for planners", "Data download"] },
+    sources: ["recommendations", "exceptions_ranked"],
+  },
 ];
 
 export const DEFAULT_PATH = "/overview";
