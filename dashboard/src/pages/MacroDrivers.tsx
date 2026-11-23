@@ -134,11 +134,15 @@ export function MacroDrivers() {
           show: true,
           formatter: (p: { value: [number, number, number]; data: { label: string } }) =>
             p.value[2].toFixed(2),
-          fontSize: 11, fontWeight: 600,
+          fontSize: 11, fontWeight: 700,
           color: (p: { value: [number, number, number] }) => {
-            const corr = Math.abs(p.value[2]);
-            // Dark text on bright cells (high |r|), light text on dark cells (low |r|)
-            return corr > 0.5 ? "#0a0a0a" : "#d0d0d0";
+            const corr = p.value[2];
+            const absCorr = Math.abs(corr);
+            // High correlation (bright lime or bright blue) → dark text
+            // Low correlation (near-black) → light gray text
+            if (absCorr > 0.4) return "#0a0a0a";
+            if (absCorr > 0.2) return "#606060";
+            return "#b0b0b0";
           },
         },
         emphasis: { 
