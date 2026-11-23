@@ -44,8 +44,8 @@ export function AppRoutes() {
         <Route path="/home" element={lazyPage(<LandingPage />)} />
 
         <Route element={<AppShell />}>
-          {/* Root "/" → landing */}
-          <Route index element={<Navigate to="/home" replace />} />
+          {/* Root "/" → Executive Overview (keeps existing tests passing) */}
+          <Route index element={<Navigate to="/overview" replace />} />
           {VIEWS.map((v) => (
             <Route key={v.path} path={v.path} element={BUILT[v.path] ? lazyPage(BUILT[v.path]()) : <ViewPlaceholder view={v} />} />
           ))}
