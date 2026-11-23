@@ -290,6 +290,29 @@ class ScenarioRequest(BaseModel):
     region_overlay: dict[str, float] = Field(default_factory=dict, description="planner assumption: % change by region")
 
 
+# ----------------------------------------------------------------------------- static files (production deployment)
+from fastapi.staticfiles import StaticFiles  # noqa: E402
+from fastapi.responses import FileResponse  # noqa: E402
+
+DIST = Path(__file__).resolve().parents[1] / "dashboard" / "dist"
+
+if DIST.exists():
+    app.mount("/assets", StaticFiles(directory=str(DIST / "assets")), name="assets")
+
+    @app.get("/", response_class=FileResponse)
+    def serve_root():
+        return FileResponse(DIST / "index.html")
+
+    @app.get("/{path:path}", response_class=FileResponse)
+    def serve_spa(path: str):
+        """Serve static files, fallback to index.html for SPA routing."""
+        file = DIST / path
+        if file.exists() and file.is_file():
+            return FileResponse(file)
+        # SPA fallback for /overview, /scenarios, etc.
+        return FileResponse(DIST / "index.html")
+
+
 @app.get("/scenario/config")
 def scenario_config():
     SC, emu, _, _ = _scenario_ctx()
