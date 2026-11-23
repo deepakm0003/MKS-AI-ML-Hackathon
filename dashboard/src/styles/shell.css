@@ -37,6 +37,11 @@
   padding: 0 var(--sp-4);
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.sidebar__brand:hover {
+  background: var(--surface-2);
 }
 
 .brand-mark {

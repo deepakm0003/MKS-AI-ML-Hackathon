@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Icon } from "../components/Icon";
 import { VIEWS, type ViewDef } from "../routes";
 
@@ -10,13 +10,21 @@ const GROUPS: { key: ViewDef["group"]; label: string }[] = [
 export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onNavigate }: {
   collapsed: boolean; onToggleCollapse: () => void; mobileOpen: boolean; onNavigate: () => void;
 }) {
-  const { search } = useLocation();          // keep the global filters when switching views
+  const { search } = useLocation();
+  const navigate   = useNavigate();
+
   return (
     <aside
       className={`sidebar ${collapsed ? "sidebar--collapsed" : ""} ${mobileOpen ? "sidebar--open" : ""}`}
       aria-label="Main navigation"
     >
-      <div className="sidebar__brand">
+      <button
+        type="button"
+        className="sidebar__brand"
+        onClick={() => navigate("/home")}
+        title="Back to home"
+        style={{ background: "transparent", border: "none", cursor: "pointer", width: "100%", textAlign: "left" }}
+      >
         <span className="brand-mark" aria-hidden>
           <svg viewBox="0 0 32 32" width="28" height="28">
             <rect width="32" height="32" rx="6" fill="#141414" />
@@ -27,7 +35,7 @@ export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onNavigate }:
           <span className="brand-name">CELERIS</span>
           <span className="brand-sub">Demand Control Tower</span>
         </span>
-      </div>
+      </button>
 
       <nav className="sidebar__nav">
         {GROUPS.map((g) => (
