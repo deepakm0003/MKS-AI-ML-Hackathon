@@ -110,7 +110,7 @@ export function MacroDrivers() {
     });
     return {
       animation: false,
-      grid: { left: 160, right: 60, top: 60, bottom: 20 },
+      grid: { left: 160, right: 60, top: 60, bottom: 80 },
       tooltip: {
         trigger: "item",
         backgroundColor: "rgba(20,20,20,0.97)",
@@ -121,8 +121,8 @@ export function MacroDrivers() {
           return `<b>${families[fi]}</b><br/>${indicators[ii]}<br/>Corr: <b>${corr.toFixed(3)}</b><br/>${p.data.label}`;
         },
       },
-      xAxis: { type: "category", data: indShort, axisLabel: { color: "#707070", fontSize: 10, rotate: 20 }, axisLine: { lineStyle: { color: "#282828" } }, splitLine: { show: false } },
-      yAxis: { type: "category", data: families, axisLabel: { color: "#a1a1a1", fontSize: 11, width: 155, overflow: "truncate" }, axisLine: { lineStyle: { color: "#282828" } }, splitLine: { show: false } },
+      xAxis: { type: "category", data: indShort, axisLabel: { color: "#c0c0c0", fontSize: 11, rotate: 45, fontWeight: 500 }, axisLine: { lineStyle: { color: "#383838" } }, splitLine: { show: false } },
+      yAxis: { type: "category", data: families, axisLabel: { color: "#c0c0c0", fontSize: 11, width: 155, overflow: "truncate", fontWeight: 500 }, axisLine: { lineStyle: { color: "#383838" } }, splitLine: { show: false } },
       visualMap: {
         min: -1, max: 1, show: false,
         inRange: { color: ["#3478f6","#141414","#c7ff32"] },
