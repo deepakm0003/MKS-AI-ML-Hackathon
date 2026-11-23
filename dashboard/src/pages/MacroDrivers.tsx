@@ -134,20 +134,16 @@ export function MacroDrivers() {
           show: true,
           formatter: (p: { value: [number, number, number]; data: { label: string } }) =>
             p.value[2].toFixed(2),
-          fontSize: 11, fontWeight: 700,
-          color: (p: { value: [number, number, number] }) => {
-            const corr = p.value[2];
-            const absCorr = Math.abs(corr);
-            // High correlation (bright lime or bright blue) → dark text
-            // Low correlation (near-black) → light gray text
-            if (absCorr > 0.4) return "#0a0a0a";
-            if (absCorr > 0.2) return "#606060";
-            return "#b0b0b0";
-          },
+          fontSize: 12, fontWeight: 700,
+          color: "#ffffff",
+          textShadowColor: "rgba(0,0,0,0.9)",
+          textShadowBlur: 3,
+          textShadowOffsetX: 0,
+          textShadowOffsetY: 1,
         },
         emphasis: { 
           itemStyle: { borderColor: "#c7ff32", borderWidth: 2 },
-          label: { fontSize: 13, color: "#080808", fontWeight: 700 },
+          label: { fontSize: 14, color: "#ffffff", fontWeight: 700, textShadowBlur: 4 },
         },
         itemStyle: { borderColor: "#0a0a0a", borderWidth: 1 },
       }],
