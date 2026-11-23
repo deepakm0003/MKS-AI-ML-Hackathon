@@ -540,6 +540,57 @@ datasets:
     stage: scenario simulations
     view: scenario
     primary_key: [scenario_id]
+
+  # ---------------------------------------------------------------- Milestone 3: macro drivers
+  lead_lag:
+    path: outputs/drivers/lead_lag.csv
+    stage: drivers
+    view: macro_drivers
+    description: Pearson r between each macro indicator and each product family at lags 0-12 months (post-COVID).
+    primary_key: [Product_Family, Indicator, Lag]
+    columns:
+      Product_Family: string
+      Indicator: string
+      Lag: int
+      Corr: float
+      N: int
+
+  best_lags:
+    path: outputs/drivers/best_lags.csv
+    stage: drivers
+    view: macro_drivers
+    description: Champion lag (highest |r|) per product family x indicator pair.
+    primary_key: [Product_Family, Indicator]
+    columns:
+      Product_Family: string
+      Indicator: string
+      Lag: int
+      Corr: float
+      N: int
+
+  lag_stability:
+    path: outputs/drivers/lag_stability.csv
+    stage: drivers
+    view: macro_drivers
+    description: Lag stability check - 2021-23 vs 2024-26 half-period comparison.
+    primary_key: [Product_Family, Indicator]
+    columns:
+      Product_Family: string
+      Indicator: string
+      Lag_2021_23: int
+      Corr_2021_23: float
+      Lag_2024_26: int
+      Corr_2024_26: float
+      Lag_Shift: int
+      Stable: bool
+
+  ev_shift:
+    path: outputs/drivers/ev_shift.json
+    stage: drivers
+    view: macro_drivers
+    description: EV vs ICE powertrain share by year 2019-2026 and correlation with EV adoption index.
+    format: json
+    required_keys: [ev_share_pct_by_year, ice_share_pct_by_year, corr_ev_index_vs_ev_share]
     columns:
       scenario_id: string
       total_sim_pct: float

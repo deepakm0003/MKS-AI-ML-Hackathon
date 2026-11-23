@@ -18,7 +18,8 @@ const DataHealth = lazy(() => import("./pages/DataHealth").then((m) => ({ defaul
 const AnomalyMonitor = lazy(() => import("./pages/AnomalyMonitor").then((m) => ({ default: m.AnomalyMonitor })));
 const ExceptionList = lazy(() => import("./pages/ExceptionList").then((m) => ({ default: m.ExceptionList })));
 const CalendarForecast = lazy(() => import("./pages/CalendarForecast").then((m) => ({ default: m.CalendarForecast })));
-const LandingPage = lazy(() => import("./pages/LandingPage").then((m) => ({ default: m.LandingPage })));
+const MacroDrivers     = lazy(() => import("./pages/MacroDrivers").then((m) => ({ default: m.MacroDrivers })));
+const LandingPage      = lazy(() => import("./pages/LandingPage").then((m) => ({ default: m.LandingPage })));
 
 /** Views that are built; the rest keep their live-readiness placeholder until their phase. */
 const BUILT: Record<string, () => JSX.Element> = {
@@ -32,6 +33,7 @@ const BUILT: Record<string, () => JSX.Element> = {
   "/anomalies": () => <AnomalyMonitor />,
   "/exceptions": () => <ExceptionList />,
   "/calendar": () => <CalendarForecast />,
+  "/macro": () => <MacroDrivers />,
 };
 
 const lazyPage = (el: JSX.Element) => <Suspense fallback={<LoadingState label="Loading view" />}>{el}</Suspense>;

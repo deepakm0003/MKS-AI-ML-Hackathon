@@ -2,18 +2,19 @@
  * ECharts, imported modularly (only the chart types and components the dashboard uses) and
  * themed from the design tokens - one place to change the look of every chart.
  */
-import { BarChart, LineChart } from "echarts/charts";
+import { BarChart, HeatmapChart, LineChart, ScatterChart } from "echarts/charts";
 import {
   AriaComponent, DataZoomComponent, GridComponent, LegendComponent, MarkAreaComponent, MarkLineComponent,
-  TooltipComponent,
+  TooltipComponent, VisualMapComponent,
 } from "echarts/components";
 import * as echarts from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { CHART, SERIES } from "../theme/chart";
 
 echarts.use([
-  LineChart, BarChart, GridComponent, TooltipComponent, LegendComponent, MarkLineComponent, MarkAreaComponent,
-  DataZoomComponent, AriaComponent, CanvasRenderer,
+  LineChart, BarChart, HeatmapChart, ScatterChart,
+  GridComponent, TooltipComponent, LegendComponent, MarkLineComponent, MarkAreaComponent,
+  DataZoomComponent, AriaComponent, VisualMapComponent, CanvasRenderer,
 ]);
 
 const axis = {

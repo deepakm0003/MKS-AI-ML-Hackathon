@@ -92,6 +92,13 @@ export const VIEWS: ViewDef[] = [
     covers: { required: [], optional: ["What-if scenarios", "Data download"] },
     sources: ["forecast_detail", "timeline", "breakdown", "recommendations", "series_signals"],
   },
+  {
+    path: "/macro", label: "Macro Drivers", icon: "explorer", group: "workspace", phase: 9,
+    purpose: "Lead/lag heatmap: which macro indicator leads which product family, by how many months, and whether the lag is stable.",
+    questions: ["Which indicator leads Electrical Assemblies?", "Is the auto-production lag stable over time?", "How fast is EV share growing?"],
+    covers: { required: [], optional: ["macro lead/lag heatmap"] },
+    sources: ["lead_lag", "best_lags", "lag_stability", "ev_shift"],
+  },
 ];
 
 export const DEFAULT_PATH = "/overview";
