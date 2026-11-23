@@ -274,15 +274,6 @@ export function CalendarForecast() {
             monthly model outputs — no daily extrapolation.
           </p>
         </div>
-        <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-          <button
-            type="button" className="btn btn--ghost"
-            disabled={all.status !== "success" || !selectedMonths.length}
-            onClick={() => downloadCsv(periodRows, rangeStart, rangeEnd)}
-          >
-            <Icon name="download" size={14} /> Export CSV
-          </button>
-        </div>
       </div>
 
       {/* ── Preset quick-select ────────────────────────────── */}
@@ -474,6 +465,16 @@ export function CalendarForecast() {
                 <div>Horizon: <strong style={{ color: "var(--text-2)" }}>Nov 2026 – May 2028</strong></div>
                 <div style={{ marginTop: 6, fontSize: 11 }}>Forecasts are monthly — no daily extrapolation.</div>
               </div>
+              <button
+                type="button"
+                className="btn btn--accent"
+                disabled={all.status !== "success" || !selectedMonths.length}
+                onClick={() => downloadCsv(periodRows, rangeStart, rangeEnd)}
+                style={{ width: "100%", marginTop: 4 }}
+              >
+                <Icon name="download" size={15} />
+                Export CSV · {selectedMonths.length}m selected
+              </button>
             </div>
           </Card>
 

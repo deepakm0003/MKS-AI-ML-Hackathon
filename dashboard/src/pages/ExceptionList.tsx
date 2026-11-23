@@ -163,13 +163,6 @@ export function ExceptionList() {
               <Icon name="close" size={14} /> Clear filters
             </button>
           )}
-          <button
-            type="button" className="btn btn--accent"
-            onClick={exportToCsv}
-            disabled={recs.status !== "success" || !filtered.length}
-          >
-            <Icon name="download" size={14} /> Export CSV
-          </button>
         </div>
       </div>
 
@@ -313,6 +306,24 @@ export function ExceptionList() {
               );
             })}
           </div>
+        </div>
+
+        {/* Divider */}
+        <div style={{ height: 1, background: "var(--border)" }} />
+
+        {/* Export row */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: "0.08em", width: 90, flexShrink: 0 }}>
+            Export
+          </span>
+          <button
+            type="button" className="btn btn--accent btn--sm"
+            onClick={exportToCsv}
+            disabled={recs.status !== "success" || !filtered.length}
+          >
+            <Icon name="download" size={13} />
+            Export CSV · {filtered.length} exception{filtered.length !== 1 ? "s" : ""}
+          </button>
         </div>
       </div>
 
