@@ -36,10 +36,10 @@ export const VIEWS: ViewDef[] = [
   },
   {
     path: "/risk", number: "03", label: "Risk & Exceptions", icon: "risk", group: "workspace", phase: 6,
-    purpose: "Ranked exceptions, capacity risks, fragile supply and forecast anomalies.",
-    questions: ["Which items need a decision now?", "Where will demand exceed demonstrated throughput?",
-      "Which supply bases are fragile?"],
-    covers: { required: [], optional: ["Ranked exception list", "Capacity planning", "Stockouts & lost sales"] },
+    purpose: "Regional, capacity and supply risk, plus every actionable exception — filter by priority, owner or rule, search and export to CSV.",
+    questions: ["Which items need a decision now?", "Which exceptions belong to procurement?",
+      "Where will demand exceed demonstrated throughput?", "Which supply bases are fragile?"],
+    covers: { required: [], optional: ["Ranked exception list", "Exception list for planners", "Capacity planning", "Stockouts & lost sales", "Data download"] },
     sources: ["exceptions_ranked", "recommendations", "capacity_check", "supply_risk", "series_risk"],
   },
   {
@@ -77,13 +77,6 @@ export const VIEWS: ViewDef[] = [
     questions: ["Which months were errors and which were real events?", "How was unconstrained demand recovered?"],
     covers: { required: ["Anomaly monitor"], optional: ["Stockouts & lost sales"] },
     sources: ["anomaly_register", "structural_register", "event_impact", "history"],
-  },
-  {
-    path: "/exceptions", label: "Exception List", icon: "risk", group: "workspace", phase: 9,
-    purpose: "All actionable exceptions with filters by priority and owner, sortable and exportable to CSV.",
-    questions: ["What needs my immediate attention?", "Which exceptions are assigned to procurement?", "How much revenue is at risk?"],
-    covers: { required: [], optional: ["Exception list for planners", "Data download"] },
-    sources: ["recommendations", "exceptions_ranked"],
   },
   {
     path: "/calendar", label: "Calendar Forecast", icon: "calendar", group: "workspace", phase: 9,

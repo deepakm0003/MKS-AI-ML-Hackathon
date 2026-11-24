@@ -110,14 +110,13 @@ function pipelineSteps(facts: Partial<Facts>, man: Manifest | null) {
 const FEATURES = [
   { icon: "📊", title: "Executive Overview",    path: "/overview",    desc: "Revenue, demand and 19-month forecast on one continuous timeline." },
   { icon: "🔍", title: "Demand Explorer",        path: "/explorer",    desc: "Drill from family → SKU → region → customer with continuous history–forecast view." },
-  { icon: "⚠️", title: "Risk & Exceptions",      path: "/risk",        desc: "Ranked exceptions, capacity risks and world-map regional overview." },
+  { icon: "⚠️", title: "Risk & Exceptions",      path: "/risk",        desc: "Regional, capacity and supply risk plus the full exception list — filter, search, export." },
   { icon: "📦", title: "Planning & Procurement", path: "/planning",    desc: "P90 procurement plan, ABC-XYZ segmentation, lead-time buffers." },
   { icon: "🧪", title: "Scenario Lab",           path: "/scenarios",   desc: "What-if macro shocks — PMI, auto production, EV — answered instantly." },
   { icon: "🗓️", title: "Calendar Forecast",      path: "/calendar",    desc: "Pick any date range and explore demand, revenue and procurement needs." },
   { icon: "🛡️", title: "Model Trust",            path: "/trust",       desc: "Backtest audit: WAPE by horizon, segment and experiment registry." },
   { icon: "🔬", title: "Anomaly Monitor",        path: "/anomalies",   desc: "Every flagged data point with recovery methodology explained." },
   { icon: "📡", title: "Data Health",            path: "/data-health", desc: "Every raw-data correction logged — original → fixed — with rule applied." },
-  { icon: "🚨", title: "Exception List",         path: "/exceptions",  desc: "Every actionable exception, filterable by priority, owner and impact." },
 ];
 
 const _FEATURES = FEATURES; void _FEATURES; // kept for future use

@@ -1412,3 +1412,22 @@
   }
 }
 
+
+/* Risk & Exceptions: exception list toolbar (priority, owner, rule, search, export) */
+.risk-queue__filters {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  padding: 4px 20px 8px;
+}
+.risk-queue__chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.risk-queue__select,
+.risk-queue__search {
+  height: 30px; padding: 0 10px; font: inherit; font-size: 12px;
+  color: var(--text-1); background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+}
+.risk-queue__select { max-width: 240px; }
+.risk-queue__search { flex: 1 1 200px; min-width: 160px; }
+.risk-queue__select:focus-visible,
+.risk-queue__search:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.risk-queue__export { margin-left: auto; }
+.risk-queue__list { max-height: 720px; overflow-y: auto; }

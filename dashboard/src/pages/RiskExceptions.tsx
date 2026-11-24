@@ -5,7 +5,7 @@ import { useApi } from "../api/useApi";
 import { useRecommendations } from "../api/views";
 import { useFilters } from "../filters/FilterContext";
 import { EChart } from "../charts/EChart";
-import { verticalBarsOption } from "../charts/options";
+import { genericRankedBarsOption, verticalBarsOption } from "../charts/options";
 import { WorldMap, type RegionData } from "../charts/WorldMap";
 import { DataTable, type Column } from "../components/DataTable";
 import { Icon } from "../components/Icon";
@@ -39,6 +39,24 @@ type PriorityFilter = "all" | "CRITICAL" | "HIGH" | "MEDIUM";
 const CONF_TONE: Record<string, "good" | "warning" | "serious"> = { HIGH: "good", MEDIUM: "warning", LOW: "serious" };
 const PRIO_TONE: Record<string, "critical" | "serious" | "warning"> = { CRITICAL: "critical", HIGH: "serious", MEDIUM: "warning" };
 const PRIO_COLOR: Record<string, string> = { CRITICAL: STATUS.serious, HIGH: STATUS.warning, MEDIUM: SERIES[2] };
+
+const ruleLabel = (r: string) => r.replace(/_/g, " ").toLowerCase().replace(/^./, (c) => c.toUpperCase());
+
+/** Download the given exception cards as CSV (every field quoted, quotes escaped). */
+function downloadExceptionsCsv(cards: RecommendationCard[]) {
+  const head = ["ID", "Priority", "Rule", "Level", "Scope", "Title", "Finding", "Action", "Trade_off", "Owner",
+    "Impact_USD", "Window", "Confidence"];
+  const q = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const lines = cards.map((c) => [c.id, c.priority, c.rule_id, c.level, c.scope, c.title, c.finding, c.action,
+    c.trade_off ?? "", c.owner, Math.round(c.impact_usd), c.window, c.confidence].map(q).join(","));
+  const blob = new Blob([[head.join(","), ...lines].join("\n")], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `exceptions_${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
 // Capacity utilisation is stored as a decimal (1.13 = 113%) — multiply by 100 to get %
 const utilPct = (v: number) => Math.round(v * 100);
@@ -184,10 +202,12 @@ function ownerImpactOption(cards: RecommendationCard[]) {
 /** 03 Risk & Exceptions */
 export function RiskExceptions() {
   const [priority, setPriority] = useState<PriorityFilter>("all");
+  const [owner, setOwner]       = useState<string>("all");
+  const [rule, setRule]         = useState<string>("all");
+  const [query, setQuery]       = useState("");
   const [open, setOpen]         = useState<string | null>(null);
 
-  const recs    = useRecommendations(priority === "all" ? {} : { priority });
-  // totals and counts must cover EVERY card, not the default first page of 50
+  // every card (not the default first page of 50): KPIs, charts and the queue all use it
   const allRecs = useRecommendations({ limit: 1000 });
   const capAll    = useApi((s) => api.dataset<CapacityRow>("capacity_check", { limit: 1000 }, s), []);
   const supplyAll = useApi((s) => api.dataset<SupplyRiskRow>("supply_risk", { limit: 1000 }, s), []);
@@ -199,8 +219,23 @@ export function RiskExceptions() {
   const cap = capAll.status === "success" ? { ...capAll, data: { ...capAll.data, rows: keep(capAll.data.rows) } } : capAll;
   const supply = supplyAll.status === "success" ? { ...supplyAll, data: { ...supplyAll.data, rows: keep(supplyAll.data.rows) } } : supplyAll;
 
-  const cards    = recs.status    === "success" ? recs.data.cards    : [];
   const allCards = allRecs.status === "success" ? allRecs.data.cards : [];
+
+  // exception queue: priority, owner, rule and free-text filters
+  const owners = useMemo(() => Array.from(new Set(allCards.map((c) => c.owner))).sort(), [allCards]);
+  const rules  = useMemo(() => Array.from(new Set(allCards.map((c) => c.rule_id))).sort(), [allCards]);
+  const cards = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    return allCards.filter((c) =>
+      (priority === "all" || c.priority === priority) &&
+      (owner === "all" || c.owner === owner) &&
+      (rule === "all" || c.rule_id === rule) &&
+      (!needle || `${c.title} ${c.scope} ${c.finding} ${c.action}`.toLowerCase().includes(needle)));
+  }, [allCards, priority, owner, rule, query]);
+  const cardsImpact = cards.reduce((s, c) => s + c.impact_usd, 0);
+  const queueFiltered = priority !== "all" || owner !== "all" || rule !== "all" || query.trim() !== "";
+  const clearQueue = () => { setPriority("all"); setOwner("all"); setRule("all"); setQuery(""); };
+  const prioCount = (p: PriorityFilter) => (p === "all" ? allCards : allCards.filter((c) => c.priority === p)).length;
 
   const totalImpact   = allCards.reduce((s, c) => s + c.impact_usd, 0);
   const criticalCount = allRecs.status === "success" ? (allRecs.data.by_priority.CRITICAL ?? 0) : 0;
@@ -296,6 +331,15 @@ export function RiskExceptions() {
 
   const ownerChart = useMemo(() => allCards.length ? ownerImpactOption(allCards) : null, [allCards]);
 
+  const ruleChart = useMemo(() => {
+    if (!allCards.length) return null;
+    const counts: Record<string, number> = {};
+    for (const c of allCards) counts[c.rule_id] = (counts[c.rule_id] ?? 0) + 1;
+    const items = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 10)
+      .map(([label, value]) => ({ label: ruleLabel(label), value }));
+    return genericRankedBarsOption(items, { valueFormatter: (v) => fmtInt(v), color: SERIES[1] });
+  }, [allCards]);
+
   const supplyCols = useMemo<Column<SupplyRiskRow>[]>(() => [
     { key: "family", label: "Family", value: (r) => r.Product_Family },
     { key: "region", label: "Region", value: (r) => r.Region },
@@ -318,8 +362,8 @@ export function RiskExceptions() {
           <p className="eyebrow">Risk & Exceptions · Ranked by business impact</p>
           <h2 className="page__title">What needs a decision, and where could it go wrong</h2>
           <p className="page__lead">
-            Ranked exceptions from the forecast and history, capacity risks from demonstrated throughput,
-            and fragile supply bases — every card carries its evidence.
+            Where the risk sits (regions, capacity, supply), then the full exception list — filter by priority,
+            owner or rule, search it, and export it to CSV. Every card carries its finding, action and evidence.
           </p>
         </div>
       </div>
@@ -414,53 +458,78 @@ export function RiskExceptions() {
         </Card>
       </div>
 
-      {/* Capacity heatmap + planning window */}
-      <div className="ov-grid">
-        <div className="ov-grid__main">
-          <Card title="Capacity utilisation heatmap" subtitle="P90 utilisation by family × region (values > 100% = above demonstrated throughput)">
-            {cap.status === "loading" ? <Skeleton height={220} /> :
-              cap.status === "error" ? <ErrorState error={cap.error} onRetry={cap.retry} compact /> :
-                <div style={{ padding: "12px 20px 20px" }}>
-                  <CapacityHeatmap rows={cap.data.rows} />
-                </div>
-            }
-          </Card>
-        </div>
-        <div className="ov-grid__side">
-          <Card title="Exceptions by planning window" subtitle="When does each exception need a decision?">
-            {allRecs.status === "loading" ? <Skeleton height={220} /> :
-              urgencyChart ? (
-                <div style={{ padding: "12px 20px 20px" }}>
-                  <EChart height={220} label="Exceptions by planning window" option={urgencyChart} />
-                </div>
-              ) : <EmptyState title="No data" icon="database" />}
-          </Card>
-        </div>
+      {/* Planning window + rule type */}
+      <div className="grid grid--2">
+        <Card title="Exceptions by planning window" subtitle="When does each exception need a decision?">
+          {allRecs.status === "loading" ? <Skeleton height={240} /> :
+            urgencyChart ? (
+              <div style={{ padding: "12px 20px 20px" }}>
+                <EChart height={240} label="Exceptions by planning window" option={urgencyChart} />
+              </div>
+            ) : <EmptyState title="No data" icon="database" />}
+        </Card>
+        <Card title="Exceptions by rule" subtitle="Which business rules raised them (top 10) — pick one in the queue below to filter">
+          {allRecs.status === "loading" ? <Skeleton height={240} /> :
+            ruleChart ? (
+              <div style={{ padding: "12px 20px 20px" }}>
+                <EChart height={240} label="Exceptions by rule" option={ruleChart} />
+              </div>
+            ) : <EmptyState title="No data" icon="database" />}
+        </Card>
       </div>
+
+      {/* Capacity heatmap */}
+      <Card title="Capacity utilisation heatmap" subtitle="P90 utilisation by family × region (values > 100% = above demonstrated throughput)">
+        {cap.status === "loading" ? <Skeleton height={220} /> :
+          cap.status === "error" ? <ErrorState error={cap.error} onRetry={cap.retry} compact /> :
+            <div style={{ padding: "12px 20px 20px" }}>
+              <CapacityHeatmap rows={cap.data.rows} />
+            </div>
+        }
+      </Card>
 
       {/* Exception queue */}
       <Card
-        title="Exception resolution queue"
-        subtitle="Ranked by impact × severity × urgency × confidence — expand a card for finding, action and evidence"
-        actions={
-          <div style={{ display: "flex", gap: "6px" }}>
+        title="Exception list"
+        subtitle={allRecs.status === "success"
+          ? `${fmtInt(cards.length)} of ${fmtInt(allCards.length)} exceptions · ${fmtUsd(cardsImpact, 1)} at stake · ranked by impact × severity × urgency × confidence`
+          : "Every actionable exception, ranked by impact × severity × urgency × confidence"}
+      >
+        <div className="risk-queue__filters">
+          <div className="risk-queue__chips" role="group" aria-label="Priority">
             {(["all", "CRITICAL", "HIGH", "MEDIUM"] as const).map((p) => (
-              <button key={p} type="button"
+              <button key={p} type="button" aria-pressed={priority === p}
                 className={`btn btn--sm ${priority === p ? "btn--accent" : "btn--ghost"}`}
                 onClick={() => setPriority(p)}>
-                {p === "all" ? "All" : p}
-                {p !== "all" && allRecs.status === "success" && (allRecs.data.by_priority[p as "CRITICAL" | "HIGH" | "MEDIUM"] ?? 0) > 0
-                  ? ` (${allRecs.data.by_priority[p as "CRITICAL" | "HIGH" | "MEDIUM"]})` : ""}
+                {p === "all" ? "All" : p} <span className="muted">{prioCount(p)}</span>
               </button>
             ))}
           </div>
-        }
-      >
+          <select className="risk-queue__select" aria-label="Owner" value={owner} onChange={(e) => setOwner(e.target.value)}>
+            <option value="all">All owners</option>
+            {owners.map((o) => <option key={o} value={o}>{o} ({allCards.filter((c) => c.owner === o).length})</option>)}
+          </select>
+          <select className="risk-queue__select" aria-label="Rule" value={rule} onChange={(e) => setRule(e.target.value)}>
+            <option value="all">All rules</option>
+            {rules.map((r) => <option key={r} value={r}>{ruleLabel(r)} ({allCards.filter((c) => c.rule_id === r).length})</option>)}
+          </select>
+          <input className="risk-queue__search" type="search" placeholder="Search title, scope, finding…" aria-label="Search exceptions"
+            value={query} onChange={(e) => setQuery(e.target.value)} />
+          {queueFiltered && (
+            <button type="button" className="btn btn--ghost btn--sm" onClick={clearQueue}>
+              <Icon name="close" size={13} /> Clear
+            </button>
+          )}
+          <button type="button" className="btn btn--accent btn--sm risk-queue__export" onClick={() => downloadExceptionsCsv(cards)}
+            disabled={!cards.length}>
+            <Icon name="download" size={13} /> Export CSV · {cards.length}
+          </button>
+        </div>
         <div style={{ padding: "8px 20px 20px" }}>
-          {recs.status === "loading" ? <Skeleton lines={6} /> :
-            recs.status === "error" ? <ErrorState error={recs.error} onRetry={recs.retry} /> :
-              cards.length === 0 ? <EmptyState title="No exceptions in this filter" icon="check" /> : (
-                <ol className="actions" style={{ padding: 0, listStyle: "none" }}>
+          {allRecs.status === "loading" ? <Skeleton lines={6} /> :
+            allRecs.status === "error" ? <ErrorState error={allRecs.error} onRetry={allRecs.retry} /> :
+              cards.length === 0 ? <EmptyState title="No exceptions match these filters" icon="filter" /> : (
+                <ol className="actions risk-queue__list" style={{ padding: 0, listStyle: "none" }}>
                   {cards.map((c) => (
                     <li key={c.id} className={`action ${open === c.id ? "action--open" : ""}`}
                       style={{ borderLeftColor: PRIO_COLOR[c.priority] ?? "var(--border-strong)" }}>

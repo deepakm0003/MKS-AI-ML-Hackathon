@@ -16,7 +16,6 @@ const ScenarioLab = lazy(() => import("./pages/ScenarioLab").then((m) => ({ defa
 const ModelTrust = lazy(() => import("./pages/ModelTrust").then((m) => ({ default: m.ModelTrust })));
 const DataHealth = lazy(() => import("./pages/DataHealth").then((m) => ({ default: m.DataHealth })));
 const AnomalyMonitor = lazy(() => import("./pages/AnomalyMonitor").then((m) => ({ default: m.AnomalyMonitor })));
-const ExceptionList = lazy(() => import("./pages/ExceptionList").then((m) => ({ default: m.ExceptionList })));
 const CalendarForecast = lazy(() => import("./pages/CalendarForecast").then((m) => ({ default: m.CalendarForecast })));
 const MacroDrivers     = lazy(() => import("./pages/MacroDrivers").then((m) => ({ default: m.MacroDrivers })));
 const LandingPage      = lazy(() => import("./pages/LandingPage").then((m) => ({ default: m.LandingPage })));
@@ -31,7 +30,6 @@ const BUILT: Record<string, () => JSX.Element> = {
   "/trust": () => <ModelTrust />,
   "/data-health": () => <DataHealth />,
   "/anomalies": () => <AnomalyMonitor />,
-  "/exceptions": () => <ExceptionList />,
   "/calendar": () => <CalendarForecast />,
   "/macro": () => <MacroDrivers />,
 };
@@ -51,6 +49,8 @@ export function AppRoutes() {
           {VIEWS.map((v) => (
             <Route key={v.path} path={v.path} element={BUILT[v.path] ? lazyPage(BUILT[v.path]()) : <ViewPlaceholder view={v} />} />
           ))}
+          {/* the Exception List was merged into Risk & Exceptions: keep old links working */}
+          <Route path="/exceptions" element={<Navigate to="/risk" replace />} />
           <Route path="/system" element={lazyPage(<SystemPage />)} />
           <Route path="*" element={<NotFound />} />
         </Route>
