@@ -8,10 +8,10 @@ Messy ERP data cleaned and explained, true demand recovered, a validated 19-mont
 
 | | |
 |---|---|
-| 📊 **Presentation (12 slides, PDF)** | [docs/deck/celeris_presentation.pdf](docs/deck/celeris_presentation.pdf) |
-| 🌐 **Live demo** | **http://192.168.2.254:8060** — college GPU server (college network / VPN) · [API docs](http://192.168.2.254:8060/docs) |
-| 📄 **Submission** | [outputs/final/submission.csv](outputs/final/submission.csv) — 58,219 rows, all validation checks PASS |
-| 📚 **Full technical write-up** | [docs/TECHNICAL.md](docs/TECHNICAL.md) |
+| **Presentation (12 slides, PDF)** | [docs/deck/celeris_presentation.pdf](docs/deck/celeris_presentation.pdf) |
+| **Live demo** | **http://192.168.2.254:8060** — college GPU server (college network / VPN) · [API docs](http://192.168.2.254:8060/docs) |
+| **Submission** | [outputs/final/submission.csv](outputs/final/submission.csv) — 58,219 rows, all validation checks PASS |
+| **Full technical write-up** | [docs/TECHNICAL.md](docs/TECHNICAL.md) |
 
 ---
 
