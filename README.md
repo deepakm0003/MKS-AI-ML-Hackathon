@@ -21,8 +21,8 @@ Accuracy = 1 − WAPE on a **6-cutoff rolling-origin backtest** over the full 19
 
 | Level | Accuracy | Seasonal-naive baseline |
 |---|---|---|
-| Company × month | **94.9%** | — |
-| Product family × month | **92.7%** | — |
+| Company × month | **94.9%** | 91.8% |
+| Product family × month | **92.7%** | 89.5% |
 | SKU × region × month | **71.6%** | 62.2% |
 
 | Demand class | Series | Model | Baseline | Gain |
