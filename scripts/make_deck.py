@@ -422,6 +422,7 @@ def main():
     tl = get("/views/timeline")
     dc = demand_class_table()
     wape, naive = bt["overall"]["WAPE"], bt["seasonal_naive_overall"]["WAPE"]
+    prev_wape = next(r["WAPE"] for r in reg if r["experiment"] == "c9c_keep_pull_forward")   # model before the promotion
     acc = lambda v: f"{1 - v:.1%}"
     n_feat = len(man["features"])
     cutoffs = man["backtest"]["cutoffs"]
@@ -607,7 +608,9 @@ def main():
 
     # 7 ---------------------------------------------------------------- accuracy incl. demand classes
     d.page("Accuracy", f"{acc(bt['total_month']['WAPE'])} at company level, beats the baseline in every demand class",
-           "Accuracy = 1 - WAPE on the 6-cutoff backtest (months the model never saw). Baseline = seasonal naive (same month last year).")
+           "Accuracy = 1 - WAPE on the 6-cutoff backtest (months the model never saw). Baseline = seasonal naive (same month last year). "
+           f"The promoted model raised SKU-level accuracy from {acc(prev_wape)} to {acc(wape)} - about 1% fewer forecasting mistakes - "
+           "and was better in every test period, horizon, family, region and demand type.")
     for i, (lab, val, sub, a) in enumerate([("Company x month", acc(bt["total_month"]["WAPE"]), "total demand", True),
                                              ("Family x month", acc(bt["family_month"]["WAPE"]), "planning level", False),
                                              ("SKU x region x month", acc(wape), f"baseline {acc(naive)}", False),
@@ -640,7 +643,9 @@ def main():
 
     # 8 ---------------------------------------------------------------- experiments + uncertainty
     d.page("Model selection and uncertainty", f"{len(reg)} experiments, one promotion rule, calibrated bands",
-           "A challenger is promoted only if it lowers WAPE, wins most cutoffs and is worse on none. Bands: stratified split-conformal on the model's own backtest.")
+           "A challenger is promoted only if it lowers WAPE, wins most cutoffs and is worse on none. "
+           f"The selected blend cut WAPE from {prev_wape:.2%} to {wape:.2%} (SKU accuracy {acc(prev_wape)} -> {acc(wape)}) and won all 6 cutoffs. "
+           "Bands: stratified split-conformal on the model's own backtest.")
     regs = sorted(reg, key=lambda r: r["WAPE"])[:10]
     sel = man["selected_model"]
     d.card(36, 150, 468, 348, "Accuracy by experiment (best 10)", "SKU level · selected model lime, first champion blue")

@@ -27,8 +27,8 @@ Accuracy = 1 − WAPE on a **6-cutoff rolling-origin backtest** over the full 19
 
 | Demand class | Series | Model | Baseline | Gain |
 |---|---|---|---|---|
-| Smooth | 2,207 | **72.4%** | 62.9% | +9.5 pts |
-| Intermittent | 759 | **71.2%** | 60.6% | +10.6 pts |
+| Smooth | 2,207 | **72.4%** | 62.9% | +9.4 pts |
+| Intermittent | 759 | **71.2%** | 60.6% | +10.7 pts |
 | Erratic | 68 | **65.7%** | 56.6% | +9.1 pts |
 | Lumpy | 13 | **66.2%** | 55.9% | +10.3 pts |
 
