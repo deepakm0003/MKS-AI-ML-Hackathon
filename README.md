@@ -45,8 +45,24 @@ Accuracy = 1 − WAPE on a **6-cutoff rolling-origin backtest** over the full 19
 | **Model Trust** | **Upload & Forecast** |
 | ![Model Trust](docs/deck/screens/trust.png) | ![Upload & Forecast](docs/deck/screens/upload.png) |
 
-12 views: Landing · Executive Overview · Demand Explorer · Risk & Exceptions · Planning & Procurement · Scenario Lab ·
-Model Trust · Upload & Forecast · Calendar Forecast · Macro Drivers · Data Health · Anomaly Monitor.
+### The 12 views
+
+| View | What it answers |
+|---|---|
+| **Landing** | the headline story: live demand chart, forecast, revenue, accuracy, pipeline |
+| **Executive Overview** | how much demand and revenue, is it growing, what could go wrong, what to do now |
+| **Demand Explorer** | drill family → SKU → region → customer; seasonality, order patterns, lifecycle |
+| **Risk & Exceptions** | world risk map, capacity heatmap, supply risk, all 351 actions with filters, search and CSV |
+| **Planning & Procurement** | what to order next cycle, safety buffers, ABC-XYZ service levels, capacity |
+| **Scenario Lab** | what if PMI / auto production / EV adoption changes — demand and revenue respond instantly |
+| **Model Trust** | accuracy by horizon and segment, 19 experiments, band calibration, why this model |
+| **Upload & Forecast** | upload your own CSV → same pipeline + frozen model → forecast, accuracy, CSV and PDF |
+| **Calendar Forecast** | any date range inside the horizon: demand, revenue, growth, range, drivers |
+| **Macro Drivers** | which indicator leads which family, by how many months, and is the lag stable |
+| **Data Health** | 42,223 fixes by type and file, cleaning rules, before → after per raw file |
+| **Anomaly Monitor** | 21,951 flagged months on the demand line, with type, reason and action |
+
+Global filters (family, SKU, region, channel, customer) apply to every view and travel in the URL, so any view can be shared.
 
 ---
 
@@ -118,6 +134,78 @@ sequenceDiagram
 ```
 
 Uploading the official `train.csv` + `test.csv` reproduces the frozen submission **exactly** (tested).
+
+---
+
+## How it works — stage by stage
+
+### 1 · Data cleaning — every fix logged
+The raw ERP extract had **248,248** sales rows with duplicates, reloaded records, date and label variants, unit
+errors and gaps. Cleaning produced **244,566** rows (one per date × SKU × region) and logged **42,223** fixes,
+each with the original value, the corrected value and the rule.
+
+| Fix | Rows | Rule (short) |
+|---|---|---|
+| Label variants (region, channel, customer, SKU) | 15,733 | map every spelling to the canonical label |
+| Date formats and typos | 10,097 | parse all formats; repair year typos from Year/Month |
+| Missing values recovered | 6,316 | units from revenue ÷ price; region / family from the SKU master |
+| Duplicates and reloaded records | 3,682 | keep the latest load of each record and key |
+| Price fixes | 1,792 | reconcile with the SKU reference price (2% tolerance) |
+| Unit errors (×10 blocks, sign, packs) | 1,394 | rebuild from revenue and the stockout file |
+
+Hard validation checks (one row per key, no negative units, revenue reconciles, all SKUs known) all **PASS**.
+
+### 2 · Anomalies and true demand — learn demand, not shipments
+When a product is out of stock, shipments fall but customers still want it. Training on shipments would forecast
+too low, so the pipeline rebuilds **unconstrained demand** first. **21,951** months are flagged on 2,932 series:
+
+| Category | Months | Action |
+|---|---|---|
+| Stockout | 8,617 | demand = shipments + measured shortfall (stockout file, diff-in-diff vs peers) |
+| Real event (strike, shutdown, price pull-forward) | 7,033 | kept as history; excluded from training only if its impact was measured as material |
+| Data error | 4,478 | corrected in stage 1 |
+| Missing month | 1,352 | flagged; never treated as zero sales |
+| One-off spike | 246 | kept in history, excluded from training |
+| Unexplained drop | 225 | flagged for review |
+
+### 3 · Drivers and features — 87 inputs, no look-ahead
+- **Macro lead / lag:** auto production and new-vehicle orders lead demand by 3–4 months, PMI by 1–2 months; each
+  link is checked for stability over time. EV share grew from 0% to 9.8% (2019 → 2026) and is modelled.
+- **Feature groups:** demand history (lags 1–12, rolling statistics, same month last year), seasonality (family ×
+  region index), lifecycle (age, months to EOL, launch ramp), macro leads, calendar and events (holidays,
+  shutdowns, strikes), attributes (family, region, channel, customer).
+- Every feature uses only data up to the forecast origin; only the calendar, lifecycle dates, scheduled events and
+  the macro file are known in advance.
+
+### 4 · Model and validation — tested like production
+- **One global LightGBM** over all 3,068 series (Tweedie loss on demand ÷ series scale), direct multi-horizon:
+  each row asks "standing at this month, what will demand be *h* months later?" for h = 1…19.
+- **Rolling-origin backtest:** 6 cutoffs (2022-10 → 2025-03), each forecasting the next 19 months, never scored on
+  training months.
+- **19 experiments** under identical folds; a challenger is promoted only if it lowers WAPE by ≥ 0.2 points, wins ≥ 4
+  of 6 cutoffs and is not worse on any cutoff, horizon or segment. Selected: **C9c** (keeps price pull-forward
+  months in training) — WAPE 28.37% vs 28.97% for the first champion.
+- A later tuning sweep on the GPU (tree size, learning rate, loss, regularisation, seeds) moved WAPE by < 0.1 point:
+  the model is at its ceiling for the available information.
+
+### 5 · Uncertainty, rules and freeze
+- **P10 / P50 / P90 bands:** stratified split-conformal (size × horizon × age × volatility) fitted on the model's own
+  backtest; held-out P10–P90 coverage ≈ 80–86% at every level. Aggregates (family, region, total) are exact sums of
+  SKU forecasts with level-specific bands.
+- **Business rules the model cannot learn:** zero outside launch → EOL, new launches from the predecessor's level ×
+  a ramp-up curve, predecessor run-down while the successor ramps, scheduled customer shutdowns.
+- **Freeze:** the final forecast, model and bands are written to `outputs/final/` with a SHA-256 manifest; 11
+  validation checks (row count and order match `test.csv`, integers, no negatives, bands ordered, hierarchy sums…)
+  all **PASS**.
+
+### 6 · Planning intelligence — from forecast to decisions
+- **351 ranked actions** (62 critical, 201 high) scored by impact × severity × urgency × confidence, each with a
+  finding, action, owner, decision window and evidence.
+- **Procurement:** next-cycle cover **$560.9M** (639K units, 3-month lead time), safety buffer 181K units,
+  ABC-XYZ service levels (revenue-weighted 93.1%).
+- **Capacity and supply risk:** 3-month P90 load vs demonstrated throughput per family × region (8 above),
+  shortage history and lost demand per supply base.
+- **Scenarios:** macro shocks re-forecast through the frozen model (Scenario Lab).
 
 ---
 
