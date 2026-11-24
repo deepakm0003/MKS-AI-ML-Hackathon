@@ -21,7 +21,7 @@ echo "✓ Dependencies installed"
 
 # 3. Run pipeline
 echo
-echo "Running pipeline (generates all outputs, ~5 min)..."
+echo "Running pipeline (generates all outputs; includes the 6-cutoff backtest, roughly 40-60 min)..."
 python3 run_pipeline.py
 echo "✓ Pipeline complete"
 

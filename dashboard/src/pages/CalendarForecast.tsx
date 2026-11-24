@@ -2,12 +2,18 @@
  * Calendar Forecast & Date Range Explorer
  *
  * Forecast horizon: 2026-11 → 2028-05 (19 months, monthly granularity).
- * All aggregation happens client-side from /datasets/forecast_detail (58 k rows, cached).
+ * Breakdowns and the CSV download come from /datasets/forecast_detail (58 k rows, cached) with the
+ * global filters applied in the browser. Monthly P10 / P90, revenue and the comparison with the
+ * previous period come from /views/timeline, so they use the calibrated aggregate bands (a sum of
+ * SKU-level P10 / P90 would overstate the range) and real history for prior periods.
  * Date selection is month-based — the model produces monthly forecasts, not daily ones.
  */
 import { useMemo, useState } from "react";
 import { api } from "../api/client";
 import { useApi } from "../api/useApi";
+import { useTimeline } from "../api/views";
+import { useFilters } from "../filters/FilterContext";
+import { DIMS, type Dim } from "../filters/model";
 import { EChart } from "../charts/EChart";
 import { verticalBarsOption } from "../charts/options";
 import { Icon } from "../components/Icon";
@@ -119,25 +125,53 @@ export function CalendarForecast() {
   const [chartView, setChartView] = useState<"chart" | "table">("chart");
 
   const all = useApi((s) => api.dataset<ForecastRow>("forecast_detail", { limit: 100000 }, s), []);
+  const tl = useTimeline();
+  const { filters } = useFilters();
 
   // ── computed ──────────────────────────────────────────────
-  const rows = all.status === "success" ? all.data.rows : [];
+  const COL: Record<Dim, keyof ForecastRow> = {
+    family: "Product_Family", sku: "SKU_ID", region: "Region", channel: "Sales_Channel", customer: "Customer_Name",
+  };
+  const rows = useMemo(() => (all.status === "success" ? all.data.rows : []).filter((r) =>
+    DIMS.every((d) => !filters[d].length || filters[d].includes(String(r[COL[d]])))),
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [all.status, all.data, filters]);
+
+  // calibrated monthly band, revenue and history for the current filters
+  const tlMonth = useMemo(() => {
+    const m = new Map<YM, { units: number; p10: number; p90: number; revenue: number }>();
+    if (tl.status === "success") for (const f of tl.data.forecast)
+      m.set(f.Date, { units: f.Units_forecast, p10: f.Units_P10 ?? 0, p90: f.Units_P90 ?? 0, revenue: f.Revenue_forecast });
+    return m;
+  }, [tl.status, tl.data]);
+  const histMonth = useMemo(() => {
+    const m = new Map<YM, number>();
+    if (tl.status === "success") for (const h of tl.data.history) m.set(h.Date, h.Units_unconstrained);
+    return m;
+  }, [tl.status, tl.data]);
 
   const selectedMonths = useMemo(() => monthsInRange(rangeStart, rangeEnd), [rangeStart, rangeEnd]);
 
-  const { units, p10, p50, p90, rows: periodRows } =
-    useMemo(() => aggregate(rows, selectedMonths), [rows, selectedMonths]);
+  const { units, rows: periodRows } = useMemo(() => aggregate(rows, selectedMonths), [rows, selectedMonths]);
+  const p10 = selectedMonths.reduce((s, m) => s + (tlMonth.get(m)?.p10 ?? 0), 0);
+  const p90 = selectedMonths.reduce((s, m) => s + (tlMonth.get(m)?.p90 ?? 0), 0);
+  const p50 = units;
+  const revenue = selectedMonths.reduce((s, m) => s + (tlMonth.get(m)?.revenue ?? 0), 0);
 
   // per-month totals for calendar cells + chart
   const byMonth = useMemo(() => {
     const m = new Map<YM, { units: number; p10: number; p90: number }>();
     for (const r of rows) {
       const e = m.get(r.Date) ?? { units: 0, p10: 0, p90: 0 };
-      e.units += r.Forecast; e.p10 += r.P10; e.p90 += r.P90;
+      e.units += r.Forecast;
       m.set(r.Date, e);
     }
+    for (const [ym, e] of m) {             // calibrated band for the filtered aggregate
+      e.p10 = tlMonth.get(ym)?.p10 ?? e.units;
+      e.p90 = tlMonth.get(ym)?.p90 ?? e.units;
+    }
     return m;
-  }, [rows]);
+  }, [rows, tlMonth]);
 
   const maxUnits = useMemo(
     () => Math.max(...FORECAST_MONTHS.map((m) => byMonth.get(m)?.units ?? 0), 1),
@@ -148,10 +182,20 @@ export function CalendarForecast() {
   const prev = useMemo(() => prevEquivPeriod(selectedMonths), [selectedMonths]);
   const prevUnits = useMemo(() => {
     if (!prev) return null;
-    const prevMonths = monthsInRange(prev.start, prev.end);
-    // prev period may be history — only count forecast rows that exist
-    return rows.filter((r) => prevMonths.includes(r.Date as YM)).reduce((s, r) => s + r.Forecast, 0);
-  }, [rows, prev]);
+    // the previous window may be history, forecast or both: recovered demand for history months,
+    // the forecast for forecast months
+    const out: YM[] = [];
+    const [y0, m0] = prev.start.split("-").map(Number);
+    const [y1, m1] = prev.end.split("-").map(Number);
+    for (let i = y0 * 12 + m0 - 1; i <= y1 * 12 + m1 - 1; i++) out.push(`${Math.floor(i / 12)}-${String((i % 12) + 1).padStart(2, "0")}`);
+    let total = 0;
+    for (const ym of out) {
+      const v = histMonth.get(ym) ?? byMonth.get(ym)?.units;
+      if (v === undefined) return null;
+      total += v;
+    }
+    return total;
+  }, [prev, histMonth, byMonth]);
 
   const growth = prevUnits && prevUnits > 0 ? (units - prevUnits) / prevUnits : null;
 
@@ -226,13 +270,13 @@ export function CalendarForecast() {
     const monthRows = rows.filter((r) => r.Date === selectedMonth);
     return {
       units:   monthRows.reduce((s, r) => s + r.Forecast, 0),
-      p10:     monthRows.reduce((s, r) => s + r.P10, 0),
-      p90:     monthRows.reduce((s, r) => s + r.P90, 0),
+      p10:     tlMonth.get(selectedMonth)?.p10 ?? 0,
+      p90:     tlMonth.get(selectedMonth)?.p90 ?? 0,
       byFamily: byDim(monthRows, "Product_Family"),
       byRegion: byDim(monthRows, "Region"),
       topSKUs:  byDim(monthRows, "SKU_ID").slice(0, 8),
     };
-  }, [rows, selectedMonth]);
+  }, [rows, selectedMonth, tlMonth]);
 
   /* ── range validation ────────────────────────────────────── */
   const setStart = (v: YM) => {
@@ -529,23 +573,23 @@ export function CalendarForecast() {
           <KpiTile
             label="Total forecast demand" emphasis="accent"
             value={fmtInt(units)} unit="units"
-            sub={`${selectedMonths.length}m period · ${ymLabel(rangeStart)} – ${ymLabel(rangeEnd)}`}
-            footnote="Sum of monthly P50 forecasts"
+            sub={`${selectedMonths.length}m period · ${ymLabel(rangeStart)} – ${ymLabel(rangeEnd)} · ${tl.status === "success" ? _fmtUsd(revenue, 2) : "…"} revenue`}
+            footnote="Sum of monthly forecasts · revenue at the announced list prices"
           />
           <KpiTile
             label="Demand growth"
             emphasis={growth !== null && growth >= 0 ? "accent" : undefined}
             value={growth !== null ? fmtPct(growth, 1) : "—"}
             sub={growth !== null
-              ? `vs prev ${selectedMonths.length}-month period`
-              : "No prior equivalent period in forecast"}
+              ? `vs the previous ${selectedMonths.length} months (actual demand where in history)`
+              : "Previous period not available"}
             footnote="Previous equivalent window"
           />
           <KpiTile
             label="P10 – P90 range"
             value={`${fmtInt(p10)} – ${fmtInt(p90)}`}
             sub={`Band width: ±${fmtInt((p90 - p10) / 2)}`}
-            footnote="Calibrated uncertainty bounds"
+            footnote={tl.status === "success" ? `Sum of monthly bands · ${tl.data.band_method}` : "Calibrated uncertainty bounds"}
           />
           <KpiTile
             label="SKU-regions"
@@ -658,7 +702,7 @@ export function CalendarForecast() {
                 },
                 {
                   k: "Growth vs prior period",
-                  v: growth !== null ? `${fmtPct(growth, 1)} vs equiv. ${selectedMonths.length}-month window` : "Prior period outside forecast window",
+                  v: growth !== null ? `${fmtPct(growth, 1)} vs the previous ${selectedMonths.length} months` : "Previous period not available",
                   col: growth !== null ? (growth >= 0 ? "var(--accent)" : "var(--critical)") : "var(--text-3)",
                 },
                 {

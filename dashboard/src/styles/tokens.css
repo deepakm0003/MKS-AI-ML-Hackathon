@@ -42,9 +42,9 @@
   --blue-border: rgba(52, 120, 246, 0.35);
 
   /* ── Semantic ─────────────────────────────────────────────── */
-  --good:          #c7ff32;
-  --good-secondary:#a3d416;
-  --good-soft:     rgba(199, 255, 50, 0.1);
+  --good:          #34d399;   /* emerald: status only - lime stays the forecast / accent colour */
+  --good-secondary:#10b981;
+  --good-soft:     rgba(52, 211, 153, 0.12);
   --warning:       #f5b942;
   --warning-secondary: #d49520;
   --warning-soft:  rgba(245, 185, 66, 0.12);

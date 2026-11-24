@@ -1,168 +1,105 @@
 import { useMemo } from "react";
-import { api } from "../api/client";
-import { useApi } from "../api/useApi";
-import { useRecommendations } from "../api/views";
+import type { PlanningView } from "../api/types";
+import { usePlanningView, useRecommendations } from "../api/views";
 import { EChart } from "../charts/EChart";
 import { verticalBarsOption } from "../charts/options";
 import { DataTable, type Column } from "../components/DataTable";
 import { Icon } from "../components/Icon";
 import { KpiTile } from "../components/KpiTile";
 import { Badge, Card, EmptyState, ErrorState, Skeleton } from "../components/ui";
-import { fmtInt, fmtPct, fmtUsd } from "../lib/format";
+import { useFilters } from "../filters/FilterContext";
+import { fmtInt, fmtMonthShort, fmtPct, fmtUnits, fmtUsd } from "../lib/format";
 import { SERIES, STATUS } from "../theme/chart";
 
-interface SegmentationRow {
-  SKU_ID: string;
-  Region: string;
-  Revenue_next12: number;
-  ABC: string;
-  XYZ: string;
-  Segment: string;
-  Service_level: number;
-  Planning_approach: string;
-}
+type NextRow = PlanningView["next_cycle"]["rows"][number];
+type SegRow = PlanningView["segmentation"]["rows"][number];
+type CapRow = PlanningView["capacity"][number];
+type MonthRow = PlanningView["monthly"][number];
 
-interface ProcurementNextRow {
-  SKU_ID: string;
-  Region: string;
-  Segment: string;
-  Leadtime_P50: number;
-  Leadtime_cover: number;
-  Safety_buffer: number;
-  Cover_value_usd: number;
-}
+/* Capacity flags exactly as src/celeris/intel/supply.py writes them. */
+const FLAG: Record<string, { label: string; tone: "critical" | "warning" | "serious" | "good" }> = {
+  ABOVE_DEMONSTRATED_THROUGHPUT: { label: "Above demonstrated throughput", tone: "critical" },
+  TIGHT: { label: "Tight (≥ 95%)", tone: "warning" },
+  UPSIDE_ABOVE_THROUGHPUT: { label: "Upside (P90) above throughput", tone: "serious" },
+  OK: { label: "OK", tone: "good" },
+};
 
-interface ProcurementPlanRow {
-  Date: string;
-  SKU_ID: string;
-  Region: string;
-  Forecast: number;
-  P50: number;
-  P90: number;
-  Leadtime_cover: number;
-  Safety_buffer: number;
-  Order_release_month: string;
-}
-
-interface CapacityRow {
-  Product_Family: string;
-  Region: string;
-  Demonstrated_3m_throughput: number;
-  Peak_3m_load_P50: number;
-  Peak_3m_load_P90: number;
-  Utilisation_P50: number;
-  Utilisation_P90: number;
-  Capacity_flag: string;
-}
-
-/** Null-safe month formatter, e.g. 2.3 -> "2.3 mo" */
-const fmtMo = (v: number | null | undefined): string =>
-  v != null && Number.isFinite(v) ? `${v.toFixed(1)} mo` : "—";
-
-/** Null-safe percent formatter, e.g. 85 -> "85%" */
-const fmtPctRaw = (v: number | null | undefined): string =>
-  v != null && Number.isFinite(v) ? `${v.toFixed(0)}%` : "—";
-
-/** 04 Planning & Procurement — P90 procurement plan, ABC-XYZ segmentation, capacity, lead-time buffers. */
+/** 04 Planning & Procurement — P90 procurement plan, ABC-XYZ policy, capacity and lead-time buffers. */
 export function PlanningProcurement() {
-  const seg = useApi((s) => api.dataset<SegmentationRow>("segmentation", {}, s), []);
-  const nextCycle = useApi((s) => api.dataset<ProcurementNextRow>("procurement_next_cycle", {}, s), []);
-  const plan = useApi((s) => api.dataset<ProcurementPlanRow>("procurement_plan", { limit: 500 }, s), []);
-  const cap = useApi((s) => api.dataset<CapacityRow>("capacity_check", {}, s), []);
+  const st = usePlanningView(500);
   const recs = useRecommendations({ limit: 8 });
+  const { active } = useFilters();
+  const d = st.status === "success" ? st.data : undefined;
+  const k = d?.kpis;
 
-  // KPI computations
-  const totalCover = nextCycle.status === "success" ? nextCycle.data.rows.reduce((s, r) => s + (r.Cover_value_usd ?? 0), 0) : 0;
-  const totalBuffer = nextCycle.status === "success" ? nextCycle.data.rows.reduce((s, r) => s + (r.Safety_buffer ?? 0), 0) : 0;
-  const itemCount = nextCycle.status === "success" ? nextCycle.data.total : 0;
-  const avgService = seg.status === "success" && seg.data.rows.length > 0
-    ? seg.data.rows.reduce((s, r) => s + (r.Service_level ?? 0), 0) / seg.data.rows.length : 0;
+  const planChart = useMemo(() => d && d.monthly.length ? verticalBarsOption(
+    d.monthly.map((m) => fmtMonthShort(m.Date)),
+    [{ name: "Forecast", data: d.monthly.map((m) => m.Forecast), color: SERIES[0] },
+      { name: "Sum of SKU P90", data: d.monthly.map((m) => m.P90), color: SERIES[1] }],
+    { valueFormatter: (v) => fmtInt(v), rotateLabels: true, yAxisName: "Units" }) : null, [d]);
 
-  // Segment distribution bar chart
   const segChart = useMemo(() => {
-    if (seg.status !== "success" || !seg.data.rows.length) return null;
-    const counts: Record<string, number> = {};
-    for (const r of seg.data.rows) counts[r.Segment] = (counts[r.Segment] ?? 0) + 1;
-    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-    return verticalBarsOption(
-      sorted.map(([k]) => k),
-      [{ name: "SKUs", data: sorted.map(([, v]) => v) }],
-      { valueFormatter: (v) => fmtInt(v), showLabels: true },
-    );
-  }, [seg]);
+    if (!d || !d.segments.length) return null;
+    const s = [...d.segments].sort((a, b) => b.Revenue_next12 - a.Revenue_next12);
+    return verticalBarsOption(s.map((r) => r.Segment), [{ name: "Revenue share next 12 m", data: s.map((r) => 100 * (r.Revenue_share ?? 0)) }],
+      { valueFormatter: (v) => `${v.toFixed(1)}%`, showLabels: true });
+  }, [d]);
 
-  // Procurement plan by month chart
-  const planChart = useMemo(() => {
-    if (plan.status !== "success" || !plan.data.rows.length) return null;
-    const byMonth: Record<string, { forecast: number; p90: number }> = {};
-    for (const r of plan.data.rows) {
-      if (!byMonth[r.Date]) byMonth[r.Date] = { forecast: 0, p90: 0 };
-      byMonth[r.Date].forecast += r.Forecast ?? 0;
-      byMonth[r.Date].p90 += r.P90 ?? 0;
-    }
-    const dates = Object.keys(byMonth).sort();
-    return verticalBarsOption(
-      dates,
-      [
-        { name: "Forecast", data: dates.map((d) => byMonth[d].forecast), color: SERIES[0] },  // lime
-        { name: "P90",      data: dates.map((d) => byMonth[d].p90),      color: SERIES[1] },  // blue
-      ],
-      { valueFormatter: (v) => fmtInt(v), rotateLabels: true, yAxisName: "Units" },
-    );
-  }, [plan]);
-
-  // Capacity utilization chart
   const capChart = useMemo(() => {
-    if (cap.status !== "success" || !cap.data.rows.length) return null;
-    const rows = [...cap.data.rows]
-      .filter((r) => r.Utilisation_P90 != null && r.Utilisation_P50 != null)
-      .sort((a, b) => (b.Utilisation_P90 ?? 0) - (a.Utilisation_P90 ?? 0))
-      .slice(0, 12);
-    if (!rows.length) return null;
-    return verticalBarsOption(
-      rows.map((r) => `${r.Product_Family} · ${r.Region}`),
-      [
-        { name: "P50", data: rows.map((r) => r.Utilisation_P50), color: SERIES[0] },   // lime
-        { name: "P90", data: rows.map((r) => r.Utilisation_P90), color: STATUS.warning }, // amber
-      ],
-      { valueFormatter: (v) => fmtPctRaw(v), rotateLabels: true, yAxisName: "Utilisation" },
-    );
-  }, [cap]);
+    if (!d || !d.capacity.length) return null;
+    const rows = [...d.capacity].sort((a, b) => b.Utilisation_P50 - a.Utilisation_P50).slice(0, 14);
+    // utilisation is stored as a ratio (1.06 = 106% of the demonstrated 3-month throughput)
+    return verticalBarsOption(rows.map((r) => `${r.Product_Family} · ${r.Region}`),
+      [{ name: "Forecast load (P50)", data: rows.map((r) => 100 * r.Utilisation_P50), color: SERIES[0] },
+        { name: "Upside load (P90)", data: rows.map((r) => 100 * r.Utilisation_P90), color: STATUS.warning }],
+      { valueFormatter: (v) => `${v.toFixed(0)}%`, rotateLabels: true, yAxisName: "% of demonstrated throughput" });
+  }, [d]);
 
-  // Table columns — all formatters are null-safe
-  const segCols = useMemo<Column<SegmentationRow>[]>(() => [
-    { key: "sku", label: "SKU", value: (r) => r.SKU_ID },
+  const nextCols = useMemo<Column<NextRow>[]>(() => [
+    { key: "sku", label: "SKU", value: (r) => r.SKU_ID, render: (r) => <span className="mono">{r.SKU_ID}</span> },
     { key: "region", label: "Region", value: (r) => r.Region },
-    { key: "rev", label: "Revenue next 12m", value: (r) => r.Revenue_next12, render: (r) => fmtUsd(r.Revenue_next12), align: "right" },
-    { key: "abc", label: "ABC", value: (r) => r.ABC, render: (r) => <Badge tone="accent">{r.ABC}</Badge> },
-    { key: "xyz", label: "XYZ", value: (r) => r.XYZ, render: (r) => <Badge tone="neutral">{r.XYZ}</Badge> },
-    { key: "segment", label: "Segment", value: (r) => r.Segment },
+    { key: "segment", label: "Segment", value: (r) => r.Segment, render: (r) => <Badge tone="accent" icon={null}>{r.Segment}</Badge> },
     { key: "sl", label: "Service level", value: (r) => r.Service_level, render: (r) => fmtPct(r.Service_level, 0), align: "right" },
-    { key: "approach", label: "Planning approach", value: (r) => r.Planning_approach ?? "—" },
-  ], []);
-
-  const nextCols = useMemo<Column<ProcurementNextRow>[]>(() => [
-    { key: "sku", label: "SKU", value: (r) => r.SKU_ID },
-    { key: "region", label: "Region", value: (r) => r.Region },
-    { key: "segment", label: "Segment", value: (r) => r.Segment, render: (r) => <Badge tone="accent">{r.Segment}</Badge> },
-    { key: "lt", label: "Leadtime P50", value: (r) => r.Leadtime_P50, render: (r) => fmtMo(r.Leadtime_P50), align: "right" },
-    { key: "cover", label: "Leadtime cover", value: (r) => r.Leadtime_cover, render: (r) => fmtMo(r.Leadtime_cover), align: "right" },
+    { key: "p50", label: "Forecast, next 3 m", value: (r) => r.Leadtime_P50, render: (r) => fmtInt(r.Leadtime_P50), align: "right" },
+    { key: "cover", label: "Cover at service level", value: (r) => r.Leadtime_cover, render: (r) => fmtInt(r.Leadtime_cover), align: "right" },
     { key: "buffer", label: "Safety buffer", value: (r) => r.Safety_buffer, render: (r) => fmtInt(r.Safety_buffer), align: "right" },
     { key: "value", label: "Cover value", value: (r) => r.Cover_value_usd, render: (r) => fmtUsd(r.Cover_value_usd), align: "right" },
   ], []);
 
-  const planCols = useMemo<Column<ProcurementPlanRow>[]>(() => [
-    { key: "date", label: "Delivery month", value: (r) => r.Date },
-    { key: "sku", label: "SKU", value: (r) => r.SKU_ID },
+  const segCols = useMemo<Column<SegRow>[]>(() => [
+    { key: "sku", label: "SKU", value: (r) => r.SKU_ID, render: (r) => <span className="mono">{r.SKU_ID}</span> },
     { key: "region", label: "Region", value: (r) => r.Region },
-    { key: "forecast", label: "Forecast", value: (r) => r.Forecast, render: (r) => fmtInt(r.Forecast), align: "right" },
-    { key: "p90", label: "P90", value: (r) => r.P90, render: (r) => fmtInt(r.P90), align: "right" },
-    { key: "cover", label: "Leadtime cover", value: (r) => r.Leadtime_cover, render: (r) => fmtMo(r.Leadtime_cover), align: "right" },
-    { key: "buffer", label: "Safety buffer", value: (r) => r.Safety_buffer, render: (r) => fmtInt(r.Safety_buffer), align: "right" },
-    { key: "order", label: "Order release", value: (r) => r.Order_release_month, render: (r) => (
-      <span style={{ color: "var(--accent)" }}>{r.Order_release_month ?? "—"}</span>
-    ) },
+    { key: "rev", label: "Revenue next 12 m", value: (r) => r.Revenue_next12, render: (r) => fmtUsd(r.Revenue_next12), align: "right" },
+    { key: "segment", label: "Segment", value: (r) => r.Segment, render: (r) => <Badge tone="accent" icon={null}>{r.Segment}</Badge> },
+    { key: "sl", label: "Service level", value: (r) => r.Service_level, render: (r) => fmtPct(r.Service_level, 0), align: "right" },
+    { key: "approach", label: "Planning approach", value: (r) => r.Planning_approach ?? "—" },
   ], []);
+
+  const monthCols = useMemo<Column<MonthRow>[]>(() => [
+    { key: "date", label: "Delivery month", value: (r) => r.Date, render: (r) => fmtMonthShort(r.Date) },
+    { key: "fc", label: "Forecast units", value: (r) => r.Forecast, render: (r) => fmtInt(r.Forecast), align: "right" },
+    { key: "p90", label: "Sum of SKU P90", value: (r) => r.P90, render: (r) => fmtInt(r.P90), align: "right" },
+    { key: "rev", label: "Forecast revenue", value: (r) => r.Revenue, render: (r) => fmtUsd(r.Revenue), align: "right" },
+  ], []);
+
+  const capCols = useMemo<Column<CapRow>[]>(() => [
+    { key: "fam", label: "Family", value: (r) => r.Product_Family },
+    { key: "reg", label: "Region", value: (r) => r.Region },
+    { key: "thr", label: "Demonstrated 3-m throughput", value: (r) => r.Demonstrated_3m_throughput, render: (r) => fmtInt(r.Demonstrated_3m_throughput), align: "right" },
+    { key: "p50", label: "Peak 3-m load (P50)", value: (r) => r.Peak_3m_load_P50, render: (r) => fmtInt(r.Peak_3m_load_P50), align: "right" },
+    { key: "u50", label: "Utilisation P50", value: (r) => r.Utilisation_P50, render: (r) => fmtPct(r.Utilisation_P50, 0), align: "right" },
+    { key: "u90", label: "Utilisation P90", value: (r) => r.Utilisation_P90, render: (r) => fmtPct(r.Utilisation_P90, 0), align: "right" },
+    { key: "flag", label: "Flag", value: (r) => r.Capacity_flag, render: (r) => {
+      const f = FLAG[r.Capacity_flag] ?? { label: r.Capacity_flag, tone: "warning" as const };
+      return <Badge tone={f.tone}>{f.label}</Badge>;
+    } },
+  ], []);
+
+  const flagCounts = useMemo(() => {
+    const c: Record<string, number> = {};
+    for (const r of d?.capacity ?? []) c[r.Capacity_flag] = (c[r.Capacity_flag] ?? 0) + 1;
+    return c;
+  }, [d]);
 
   return (
     <div className="page">
@@ -171,83 +108,58 @@ export function PlanningProcurement() {
           <p className="eyebrow">Planning & Procurement · 19-month horizon</p>
           <h2 className="page__title">What to order, how much buffer, and who owns each action</h2>
           <p className="page__lead">
-            P90 procurement plan from the frozen forecast, calibrated lead-time buffers, ABC-XYZ
-            segmentation with service-level policy, and capacity check against demonstrated throughput.
+            Procurement plan from the frozen forecast with calibrated 3-month lead-time buffers, ABC-XYZ service-level policy
+            and a capacity check against demonstrated throughput{active > 0 ? " — for the current filters" : ""}.
           </p>
         </div>
       </div>
 
-      {/* KPI row */}
-      <section className="kpi-row" aria-label="Procurement summary">
-        <KpiTile
-          label="Total cover value" emphasis="accent" loading={nextCycle.status === "loading"}
-          value={fmtUsd(totalCover, 1)}
-          sub="3-month delivery cover at segment service levels"
-          footnote="From the procurement_next_cycle plan"
-        />
-        <KpiTile
-          label="Total safety buffer" loading={nextCycle.status === "loading"}
-          value={fmtInt(totalBuffer)} unit="units"
-          sub="Sum of P90 safety buffers across all SKUs"
-          footnote="Calibrated to demand uncertainty"
-        />
-        <KpiTile
-          label="Items to order" loading={nextCycle.status === "loading"}
-          value={itemCount ? String(itemCount) : "—"} unit="SKU × region"
-          sub="Distinct procurement lines in the next cycle"
-          footnote="From the procurement plan"
-        />
-        <KpiTile
-          label="Avg service level" loading={seg.status === "loading"}
-          value={avgService ? fmtPct(avgService, 0) : "—"}
-          sub="Weighted by ABC-XYZ segment policy"
-          footnote="Segment-specific service targets"
-        />
-      </section>
+      {st.status === "error" ? <Card><ErrorState error={st.error} onRetry={st.retry} /></Card> : (
+        <section className="kpi-row" aria-label="Procurement summary">
+          <KpiTile label="Next-cycle cover value" emphasis="accent" loading={!k} value={fmtUsd(k?.cover_value_usd, 1)}
+            sub={k ? `${fmtUnits(k.cover_units, 1)} units for deliveries in the next 3 months` : undefined}
+            footnote="At each segment's service level" />
+          <KpiTile label="Safety buffer" loading={!k} value={fmtUnits(k?.buffer_units, 1)} unit="units"
+            sub={k ? `${fmtUsd(k.buffer_value_usd, 1)} above the forecast of ${fmtUnits(k.forecast_units_next3, 1)} units` : undefined}
+            footnote="Calibrated 3-month lead-time quantiles" />
+          <KpiTile label="Procurement lines" loading={!k} value={k ? fmtInt(k.lines) : undefined} unit="SKU × region"
+            sub={k?.make_to_order_lines ? `${fmtInt(k.make_to_order_lines)} make-to-order lines (< 1 unit / month)` : "Lines in the next cycle"} />
+          <KpiTile label="Service level" loading={!k} value={fmtPct(k?.service_level_revenue_weighted, 1)}
+            sub="Revenue-weighted target across ABC-XYZ segments" footnote="A-X/Y 95% … C-Y/Z 80%" />
+        </section>
+      )}
 
-      {/* Segment distribution + Procurement plan by month */}
       <div className="ov-grid">
         <div className="ov-grid__main">
-          <Card title="Procurement plan by month" subtitle="Total forecast and P90 units per delivery month, all SKUs">
-            {plan.status === "loading" ? <Skeleton height={280} /> :
-              plan.status === "error" ? <ErrorState error={plan.error} onRetry={plan.retry} /> :
-                planChart ? (
-                  <div style={{ padding: "16px 20px 20px" }}>
-                    <EChart height={280} label="Procurement plan by month, forecast and P90" option={planChart} />
-                  </div>
-                ) : <EmptyState title="No plan data" icon="database" />}
+          <Card title="Procurement plan by month" subtitle="Forecast units and the sum of SKU-level P90 per delivery month (all lines in the selection)">
+            {st.status === "loading" ? <Skeleton height={280} /> : planChart ? (
+              <div style={{ padding: "16px 20px 20px" }}><EChart height={280} label="Procurement plan by month" option={planChart} /></div>
+            ) : st.status === "success" ? <EmptyState title="No plan data for these filters" icon="filter" /> : null}
           </Card>
         </div>
         <div className="ov-grid__side">
-          <Card title="ABC-XYZ segmentation" subtitle="Distribution of SKU × region across inventory segments">
-            {seg.status === "loading" ? <Skeleton height={280} /> :
-              seg.status === "error" ? <ErrorState error={seg.error} onRetry={seg.retry} /> :
-                segChart ? (
-                  <div style={{ padding: "16px 20px 20px" }}>
-                    <EChart height={280} label="ABC-XYZ segment distribution" option={segChart} />
-                  </div>
-                ) : <EmptyState title="No segmentation data" icon="database" />}
+          <Card title="ABC-XYZ segments" subtitle="Share of next-12-month revenue by segment">
+            {st.status === "loading" ? <Skeleton height={280} /> : segChart ? (
+              <div style={{ padding: "16px 20px 20px" }}><EChart height={280} label="Revenue share by ABC-XYZ segment" option={segChart} /></div>
+            ) : st.status === "success" ? <EmptyState title="No segments" icon="filter" /> : null}
           </Card>
         </div>
       </div>
 
-      {/* Procurement next cycle + Recommended actions */}
       <div className="ov-grid">
         <div className="ov-grid__main">
-          <Card title="Procurement — next cycle" subtitle="Deliveries in the next 3 months at each segment's service level">
-            {nextCycle.status === "loading" ? <Skeleton height={320} /> :
-              nextCycle.status === "error" ? <ErrorState error={nextCycle.error} onRetry={nextCycle.retry} /> :
-                nextCycle.data.rows.length > 0 ? (
-                  <div style={{ padding: "8px 20px 20px" }}>
-                    <DataTable columns={nextCols} rows={nextCycle.data.rows} caption="Procurement next cycle"
-                      maxHeight={400} initialSort={{ key: "value", dir: "desc" }}
-                      exportable={true} exportFilename="procurement_next_cycle" />
-                  </div>
-                ) : <EmptyState title="No next-cycle data" icon="database" />}
+          <Card title="Procurement — next cycle"
+            subtitle={d ? `Largest ${fmtInt(d.next_cycle.rows.length)} of ${fmtInt(d.next_cycle.total)} lines by cover value · units cover deliveries in the next 3 months` : "Next cycle"}>
+            {st.status === "loading" ? <Skeleton height={320} /> : d && d.next_cycle.rows.length ? (
+              <div style={{ padding: "8px 20px 20px" }}>
+                <DataTable columns={nextCols} rows={d.next_cycle.rows} caption="Procurement next cycle" maxHeight={400}
+                  initialSort={{ key: "value", dir: "desc" }} exportable exportFilename="procurement_next_cycle" />
+              </div>
+            ) : st.status === "success" ? <EmptyState title="No next-cycle lines" icon="filter" /> : null}
           </Card>
         </div>
         <div className="ov-grid__side">
-          <Card title="Recommended actions" subtitle="Top planner actions from the intelligence engine">
+          <Card title="Recommended actions" subtitle="Top planner actions for the current filters">
             {recs.status === "loading" ? <Skeleton height={320} /> :
               recs.status === "error" ? <ErrorState error={recs.error} onRetry={recs.retry} /> :
                 recs.data.cards.length > 0 ? (
@@ -276,52 +188,45 @@ export function PlanningProcurement() {
         </div>
       </div>
 
-      {/* Segmentation table */}
-      <Card title="ABC-XYZ segmentation matrix" subtitle="Revenue share, variability class and planning approach per SKU × region">
-        {seg.status === "loading" ? <Skeleton height={400} /> :
-          seg.status === "error" ? <ErrorState error={seg.error} onRetry={seg.retry} /> :
-            seg.data.rows.length > 0 ? (
-              <div style={{ padding: "8px 20px 20px" }}>
-                <DataTable columns={segCols} rows={seg.data.rows} caption="ABC-XYZ segmentation"
-                  maxHeight={420} initialSort={{ key: "rev", dir: "desc" }}
-                  exportable={true} exportFilename="abc_xyz_segmentation" />
-              </div>
-            ) : <EmptyState title="No segmentation data" icon="database" />}
+      <Card title="Capacity check" subtitle="Peak 3-month forecast load as % of the highest 3-month volume shipped in the last 3 years (a labelled proxy — there is no capacity table)">
+        {st.status === "loading" ? <Skeleton height={320} /> : d && capChart ? (
+          <div style={{ padding: "16px 20px 20px", display: "flex", flexDirection: "column", gap: 16 }}>
+            <EChart height={300} label="Capacity utilisation by family and region" option={capChart} />
+            <div className="badge-row">
+              {Object.entries(flagCounts).map(([flag, n]) => {
+                const f = FLAG[flag] ?? { label: flag, tone: "warning" as const };
+                return <Badge key={flag} tone={f.tone}>{f.label}: {n}</Badge>;
+              })}
+            </div>
+            <DataTable columns={capCols} rows={d.capacity} caption="Capacity check" maxHeight={320}
+              initialSort={{ key: "u50", dir: "desc" }} exportable exportFilename="capacity_check" />
+          </div>
+        ) : st.status === "success" ? <EmptyState title="No capacity rows for these filters" icon="filter" /> : null}
       </Card>
 
-      {/* Capacity check */}
-      <Card title="Capacity check" subtitle="Demonstrated 3-month throughput vs peak forecast load, P50 and P90 utilization">
-        {cap.status === "loading" ? <Skeleton height={320} /> :
-          cap.status === "error" ? <ErrorState error={cap.error} onRetry={cap.retry} /> :
-            cap.data.rows.length > 0 && capChart ? (
-              <div style={{ padding: "16px 20px 20px" }}>
-                <EChart height={300} label="Capacity utilization by family and region, P50 and P90" option={capChart} />
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
-                  {[...new Set(cap.data.rows.map((r) => r.Capacity_flag))].map((flag) => {
-                    const count = cap.data.rows.filter((r) => r.Capacity_flag === flag).length;
-                    return (
-                      <Badge key={flag} tone={flag === "AT_RISK" ? "critical" : flag === "WATCH" ? "warning" : "good"}>
-                        {flag}: {count}
-                      </Badge>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : <EmptyState title="No capacity data" icon="database" />}
-      </Card>
-
-      {/* Procurement plan table */}
-      <Card title="Procurement plan detail" subtitle="P90 forecast per SKU × region × delivery month, with order release month and lead-time cover">
-        {plan.status === "loading" ? <Skeleton height={400} /> :
-          plan.status === "error" ? <ErrorState error={plan.error} onRetry={plan.retry} /> :
-            plan.data.rows.length > 0 ? (
+      <div className="ov-grid">
+        <div className="ov-grid__main">
+          <Card title="ABC-XYZ segmentation"
+            subtitle={d ? `Largest ${fmtInt(d.segmentation.rows.length)} of ${fmtInt(d.segmentation.total)} series by revenue — service level and planning approach` : "Segmentation"}>
+            {st.status === "loading" ? <Skeleton height={400} /> : d && d.segmentation.rows.length ? (
               <div style={{ padding: "8px 20px 20px" }}>
-                <DataTable columns={planCols} rows={plan.data.rows} caption="Procurement plan"
-                  maxHeight={420} initialSort={{ key: "date", dir: "asc" }}
-                  exportable={true} exportFilename="procurement_plan" />
+                <DataTable columns={segCols} rows={d.segmentation.rows} caption="ABC-XYZ segmentation" maxHeight={420}
+                  initialSort={{ key: "rev", dir: "desc" }} exportable exportFilename="abc_xyz_segmentation" />
               </div>
-            ) : <EmptyState title="No plan data" icon="database" />}
-      </Card>
+            ) : st.status === "success" ? <EmptyState title="No segmentation rows" icon="filter" /> : null}
+          </Card>
+        </div>
+        <div className="ov-grid__side">
+          <Card title="Monthly plan" subtitle="Totals per delivery month">
+            {st.status === "loading" ? <Skeleton height={400} /> : d && d.monthly.length ? (
+              <div style={{ padding: "8px 20px 20px" }}>
+                <DataTable columns={monthCols} rows={d.monthly} caption="Monthly procurement plan" maxHeight={420}
+                  exportable exportFilename="procurement_plan_monthly" />
+              </div>
+            ) : st.status === "success" ? <EmptyState title="No plan rows" icon="filter" /> : null}
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }

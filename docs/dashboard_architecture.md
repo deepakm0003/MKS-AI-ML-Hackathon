@@ -173,3 +173,15 @@ seasonality, zero months, lifecycle) and **history vs forecast on one timeline**
 
 New contract datasets `sku_lifecycle` and `series_profile` are exports of existing pipeline tables
 (no new calculation).
+
+## 11. Page aggregations and serving fixes
+
+| Piece | Where | What it does |
+|---|---|---|
+| Server-side page views | `api/pages.py` | `GET /views/planning` (procurement KPIs, monthly plan, ABC-XYZ mix, next-cycle lines, capacity), `GET /views/anomalies` (counts by category / type, flagged months on the demand series, exact points for one SKU × region), `GET /views/data-health` (issue counts, cleaning rules, before / after profile of every raw file). Totals are computed over the FULL datasets with the global filters; tables get the top rows plus the true total. `tests/test_pages_api.py` checks the totals equal the frozen outputs. |
+| No truncated sums | Risk, Planning, Anomaly Monitor, Data Health | pages never add up the first page of `/datasets/*` (default `limit`); small datasets are fetched whole, large ones aggregated on the server |
+| Calendar bands | `CalendarForecast.tsx` | P10 / P90 from the calibrated monthly bands of `/views/timeline` (a sum of SKU bands overstates the range); the previous period uses recovered history where it falls in history |
+| Landing page | `LandingPage.tsx` | every figure from the API (briefing, backtest metrics, manifest, timeline, registries); the hero chart is the real last 12 months + 19-month forecast; "—" while a request is pending, and one failed request never blanks the others |
+| Status colour | `theme/chart.ts`, `tokens.css` | "good" is emerald `#34d399`, so a status is never confused with the lime forecast series / accent |
+| Production serving | `api/app.py` | SPA routes registered last; API paths (exact first segment) return a JSON 404 instead of `index.html`; the `/api` prefix the build uses is stripped by the API |
+

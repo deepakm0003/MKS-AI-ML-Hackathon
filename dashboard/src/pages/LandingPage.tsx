@@ -6,6 +6,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { request } from "../api/client";
+import type { TimelineView } from "../api/types";
 
 /* ─────────────────────────────────────────────────────────────
    Types
@@ -19,20 +20,33 @@ interface BacktestMetrics {
   by_horizon_bucket: Record<string, { WAPE: number }>;
 }
 interface Health  { validation: string; selected_model: string; frozen_at: string }
-interface Briefing { kpis: { units_next12: number; revenue_next12: number; units_19m: number; units_19m_p10: number; units_19m_p90: number; exceptions: number; series: number; units_next12_vs_last12: number; revenue_next12_vs_last12: number } }
+interface Briefing { kpis: { units_next12: number; revenue_next12: number; units_19m: number; units_19m_p10: number; units_19m_p90: number; exceptions: number; series: number; units_next12_vs_last12: number; revenue_next12_vs_last12: number; exceptions_by_priority: Partial<Record<"CRITICAL" | "HIGH" | "MEDIUM", number>> } }
+interface Manifest { selected_model: string; features: string[]; backtest: { cutoffs: string[] }; validation: string }
+interface Facts { experiments: number; dqIssues: number; anomalies: number }
 
+/** Every figure on this page comes from the API - nothing is typed in, and a missing value shows "—". */
 function useLandingData() {
   const [bt, setBt] = useState<BacktestMetrics | null>(null);
   const [h,  setH]  = useState<Health | null>(null);
   const [b,  setB]  = useState<Briefing | null>(null);
+  const [tl, setTl] = useState<TimelineView | null>(null);
+  const [man, setMan] = useState<Manifest | null>(null);
+  const [facts, setFacts] = useState<Partial<Facts>>({});
   useEffect(() => {
-    Promise.all([
-      request<BacktestMetrics>("/datasets/backtest_metrics"),
-      request<Health>("/health"),
-      request<Briefing>("/intelligence/briefing"),
-    ]).then(([bt, h, b]) => { setBt(bt); setH(h); setB(b); }).catch(() => {});
+    // each request settles on its own, so one failure never blanks the rest of the page
+    request<BacktestMetrics>("/datasets/backtest_metrics").then(setBt).catch(() => {});
+    request<Health>("/health").then(setH).catch(() => {});
+    request<Briefing>("/intelligence/briefing").then(setB).catch(() => {});
+    request<TimelineView>("/views/timeline").then(setTl).catch(() => {});
+    request<Manifest>("/datasets/manifest").then(setMan).catch(() => {});
+    request<{ total: number }>("/datasets/experiment_registry", { query: { limit: 1 } })
+      .then((r) => setFacts((f) => ({ ...f, experiments: r.total }))).catch(() => {});
+    request<{ total_issues: number }>("/datasets/dq_report")
+      .then((r) => setFacts((f) => ({ ...f, dqIssues: r.total_issues }))).catch(() => {});
+    request<{ total: number }>("/datasets/anomaly_register", { query: { limit: 1 } })
+      .then((r) => setFacts((f) => ({ ...f, anomalies: r.total }))).catch(() => {});
   }, []);
-  return { bt, h, b };
+  return { bt, h, b, tl, man, facts };
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -58,14 +72,19 @@ function useCounter(target: number, run: boolean, duration = 1600) {
   const [val, setVal] = useState(0);
   useEffect(() => {
     if (!run) return;
+    // background tabs pause requestAnimationFrame: show the real value instead of a stuck 0
+    if (typeof document !== "undefined" && document.visibilityState !== "visible") { setVal(target); return; }
     const start = performance.now();
+    let frame = 0;
     const tick = (now: number) => {
       const p = Math.min((now - start) / duration, 1);
       const ease = 1 - Math.pow(1 - p, 3);
       setVal(Math.round(ease * target));
-      if (p < 1) requestAnimationFrame(tick);
+      if (p < 1) frame = requestAnimationFrame(tick);
     };
-    requestAnimationFrame(tick);
+    frame = requestAnimationFrame(tick);
+    const settle = window.setTimeout(() => setVal(target), duration + 150);   // in case frames never run
+    return () => { cancelAnimationFrame(frame); window.clearTimeout(settle); setVal(target); };
   }, [run, target, duration]);
   return val;
 }
@@ -73,17 +92,20 @@ function useCounter(target: number, run: boolean, duration = 1600) {
 /* ─────────────────────────────────────────────────────────────
    Helpers
 ───────────────────────────────────────────────────────────── */
-const fmtPct = (n: number) => `${(n * 100).toFixed(1)}%`;
+const fmtPct = (n: number | undefined) => (n === undefined || !Number.isFinite(n) ? "—" : `${(n * 100).toFixed(1)}%`);
+const fmtK = (n: number | undefined) => (n === undefined ? "—" : n >= 1000 ? `${Math.round(n / 1000)}k` : String(n));
 
 /* ─────────────────────────────────────────────────────────────
    Static data
 ───────────────────────────────────────────────────────────── */
-const PIPELINE = [
-  { n: "01", title: "Data Cleaning",       color: "#3478f6", detail: "42k corrections · 30+ issue types · machine-readable DQ report" },
-  { n: "02", title: "Anomaly Detection",   color: "#77aaff", detail: "Diff-in-diff stockout recovery · 21k flagged points · event impact" },
-  { n: "03", title: "Feature Engineering", color: "#a5d6ff", detail: "87 features · ordering cycle · lag stability · EV shift · macro leads" },
-  { n: "04", title: "Forecasting",         color: "#c7ff32", detail: "LightGBM C9c · 6-cutoff backtest · P10/P50/P90 · coherent hierarchy" },
-];
+function pipelineSteps(facts: Partial<Facts>, man: Manifest | null) {
+  return [
+    { n: "01", title: "Data Cleaning",       color: "#3478f6", detail: `${fmtK(facts.dqIssues)} corrections logged · machine-readable DQ report` },
+    { n: "02", title: "Anomaly Detection",   color: "#77aaff", detail: `Diff-in-diff stockout recovery · ${fmtK(facts.anomalies)} flagged months · event impact` },
+    { n: "03", title: "Feature Engineering", color: "#a5d6ff", detail: `${man ? man.features.length : "—"} features · ordering cycle · lag stability · EV shift · macro leads` },
+    { n: "04", title: "Forecasting",         color: "#c7ff32", detail: `Global LightGBM · ${man ? man.backtest.cutoffs.length : "—"}-cutoff backtest · P10/P50/P90 · coherent hierarchy` },
+  ];
+}
 
 const FEATURES = [
   { icon: "📊", title: "Executive Overview",    path: "/overview",    desc: "Revenue, demand and 19-month forecast on one continuous timeline." },
@@ -95,21 +117,23 @@ const FEATURES = [
   { icon: "🛡️", title: "Model Trust",            path: "/trust",       desc: "Backtest audit: WAPE by horizon, segment and experiment registry." },
   { icon: "🔬", title: "Anomaly Monitor",        path: "/anomalies",   desc: "Every flagged data point with recovery methodology explained." },
   { icon: "📡", title: "Data Health",            path: "/data-health", desc: "Every raw-data correction logged — original → fixed — with rule applied." },
-  { icon: "🚨", title: "Exception List",         path: "/exceptions",  desc: "All 351 actionable exceptions filterable by priority, owner and impact." },
+  { icon: "🚨", title: "Exception List",         path: "/exceptions",  desc: "Every actionable exception, filterable by priority, owner and impact." },
 ];
 
 const _FEATURES = FEATURES; void _FEATURES; // kept for future use
 
-const MODEL_FACTS = [
-  { label: "Algorithm",      value: "Global LightGBM · Tweedie loss" },
-  { label: "Features",       value: "87 engineered features" },
-  { label: "Backtest",       value: "6 rolling-origin cutoffs" },
-  { label: "Horizon",        value: "19 months (Nov 2026 – May 2028)" },
-  { label: "SKU-regions",    value: "3,068 active series" },
-  { label: "Experiments",    value: "19 challengers evaluated" },
-  { label: "Champion",       value: "C9c · keep pull-forward months" },
-  { label: "Validation",     value: "All contract checks PASS" },
-];
+function modelFacts(man: Manifest | null, b: Briefing | null, facts: Partial<Facts>, h: Health | null) {
+  return [
+    { label: "Algorithm",      value: "Global LightGBM · Tweedie loss" },
+    { label: "Features",       value: man ? `${man.features.length} engineered features` : "—" },
+    { label: "Backtest",       value: man ? `${man.backtest.cutoffs.length} rolling-origin cutoffs` : "—" },
+    { label: "Horizon",        value: "19 months (Nov 2026 – May 2028)" },
+    { label: "SKU-regions",    value: b ? `${b.kpis.series.toLocaleString()} forecast series` : "—" },
+    { label: "Experiments",    value: facts.experiments !== undefined ? `${facts.experiments} experiments in the registry` : "—" },
+    { label: "Selected model", value: man ? man.selected_model.replace(/_/g, " ") : "—" },
+    { label: "Validation",     value: h ? `Final checks ${h.validation}` : "—" },
+  ];
+}
 
 /* ─────────────────────────────────────────────────────────────
    Shared styles
@@ -138,10 +162,10 @@ function Reveal({ children, delay = 0, style }: { children: React.ReactNode; del
 
 /** Animated counter KPI card */
 function KpiCard({ label, rawValue, display, sub, accent, blue }: {
-  label: string; rawValue: number; display: (n: number) => string; sub: string; accent?: boolean; blue?: boolean;
+  label: string; rawValue: number | undefined; display: (n: number) => string; sub: string; accent?: boolean; blue?: boolean;
 }) {
   const { ref, vis } = useInView();
-  const val = useCounter(rawValue, vis);
+  const val = useCounter(rawValue ?? 0, vis && rawValue !== undefined);
   const col = accent ? "#c7ff32" : blue ? "#58a6ff" : "#ffffff";
   const border = accent ? "rgba(199,255,50,0.3)" : blue ? "rgba(88,166,255,0.2)" : "#1f1f1f";
   const bg     = accent ? "rgba(199,255,50,0.04)" : blue ? "rgba(88,166,255,0.03)" : "#0f0f0f";
@@ -151,7 +175,7 @@ function KpiCard({ label, rawValue, display, sub, accent, blue }: {
       onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = ""; (e.currentTarget as HTMLElement).style.borderColor = border; }}
     >
       <div style={{ fontSize: 11, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.09em", marginBottom: 12 }}>{label}</div>
-      <div style={{ fontSize: 36, fontWeight: 700, color: col, lineHeight: 1, fontVariantNumeric: "tabular-nums", marginBottom: 8 }}>{display(val)}</div>
+      <div style={{ fontSize: 36, fontWeight: 700, color: col, lineHeight: 1, fontVariantNumeric: "tabular-nums", marginBottom: 8 }}>{rawValue === undefined ? "—" : display(vis ? val : rawValue)}</div>
       <div style={{ fontSize: 12, color: "#555" }}>{sub}</div>
     </div>
   );
@@ -189,19 +213,23 @@ function AccBar({ label, wape, baseline, delay = 0, vis }: { label: string; wape
 ───────────────────────────────────────────────────────────── */
 export function LandingPage() {
   const navigate = useNavigate();
-  const { bt, h, b } = useLandingData();
+  const { bt, h, b, tl, man, facts } = useLandingData();
+  const PIPELINE = pipelineSteps(facts, man);
+  const MODEL_FACTS = modelFacts(man, b, facts, h);
 
-  /* ── derived metrics (fall back to real known values while loading) */
-  const wape       = bt?.overall.WAPE     ?? 0.2837;
-  const baseline   = bt?.seasonal_naive_overall?.WAPE ?? 0.3782;
-  const fmWAPE     = bt?.family_month.WAPE ?? 0.0733;
-  const tmWAPE     = bt?.total_month.WAPE  ?? 0.0515;
-  const mae        = bt?.overall.MAE       ?? 13.43;
-  const bias       = bt?.overall.Bias      ?? -0.0284;
-  const imp        = ((baseline - wape) / baseline * 100);
-  const units19    = b?.kpis.units_19m             ?? 2818668;
-  const revenue12  = b?.kpis.revenue_next12        ?? 1609864090;
-  const growthU    = b?.kpis.units_next12_vs_last12 ?? 0.061;
+  /* ── derived metrics: undefined until the API answers (shown as "—", never a typed-in value) */
+  const wape       = bt?.overall.WAPE;
+  const baseline   = bt?.seasonal_naive_overall?.WAPE;
+  const fmWAPE     = bt?.family_month.WAPE;
+  const tmWAPE     = bt?.total_month.WAPE;
+  const mae        = bt?.overall.MAE;
+  const bias       = bt?.overall.Bias;
+  const imp        = wape !== undefined && baseline ? ((baseline - wape) / baseline * 100) : undefined;
+  const units19    = b?.kpis.units_19m;
+  const revenue12  = b?.kpis.revenue_next12;
+  const growthU    = b?.kpis.units_next12_vs_last12;
+  const growthRev  = b?.kpis.revenue_next12_vs_last12;
+  const prio       = b?.kpis.exceptions_by_priority;
 
   const families = bt?.by_Product_Family
     ? Object.entries(bt.by_Product_Family).sort((a, x) => a[1].WAPE - x[1].WAPE)
@@ -416,7 +444,7 @@ export function LandingPage() {
             opacity: heroIn ? 1 : 0, transform: heroIn ? "none" : "translateX(24px)",
             transition: "opacity 1s ease 0.5s, transform 1s ease 0.5s",
           }}>
-            <HeroChart units19={units19} growth={growthU} wape={wape} />
+            <HeroChart tl={tl} units19={units19} growth={growthU} wape={wape} />
           </div>
         </div>
       </section>
@@ -427,10 +455,13 @@ export function LandingPage() {
       <section style={{ position: "relative", zIndex: 1, ...SECTION }}>
         <Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
-            <KpiCard label="19-month forecast"  rawValue={Math.round(units19 / 1e3)} display={(n) => `${n}K`}      sub="units (Nov 2026 – May 2028)" accent />
-            <KpiCard label="Forecast revenue"   rawValue={Math.round(revenue12 / 1e6)} display={(n) => `$${n}M`}  sub={`+${fmtPct(growthU)} vs last 12m`} />
-            <KpiCard label="SKU-region series"  rawValue={3068} display={(n) => n.toLocaleString()} sub="active demand series" blue />
-            <KpiCard label="Exceptions flagged" rawValue={351}  display={(n) => String(n)} sub="62 critical · 201 high" />
+            <KpiCard label="19-month forecast"  rawValue={units19 === undefined ? undefined : Math.round(units19 / 1e3)} display={(n) => `${n.toLocaleString()}K`} sub="units (Nov 2026 – May 2028)" accent />
+            <KpiCard label="Revenue, next 12 months" rawValue={revenue12 === undefined ? undefined : Math.round(revenue12 / 1e6)}
+              display={(n) => (n >= 1000 ? `$${(n / 1000).toFixed(2)}B` : `$${n}M`)}
+              sub={growthRev === undefined ? "vs last 12 months" : `${growthRev >= 0 ? "+" : ""}${fmtPct(growthRev)} vs last 12 months`} />
+            <KpiCard label="SKU-region series"  rawValue={b?.kpis.series} display={(n) => n.toLocaleString()} sub="forecast series" blue />
+            <KpiCard label="Exceptions flagged" rawValue={b?.kpis.exceptions} display={(n) => String(n)}
+              sub={prio ? `${prio.CRITICAL ?? 0} critical · ${prio.HIGH ?? 0} high` : "ranked by business impact"} />
           </div>
         </Reveal>
       </section>
@@ -445,7 +476,7 @@ export function LandingPage() {
             Forecast accuracy you can measure.
           </h2>
           <p style={{ fontSize: 14, color: "#555", maxWidth: 520 }}>
-            Validated across 6 rolling-origin cutoffs, 19-month horizon and 224k scored SKU-region-months.
+            Validated on {bt ? Object.keys((bt as unknown as { by_cutoff: Record<string, unknown> }).by_cutoff ?? {}).length || "—" : "—"} rolling-origin cutoffs with a 19-month horizon.
           </p>
         </Reveal>
 
@@ -456,18 +487,18 @@ export function LandingPage() {
             <div style={{ padding: "36px 36px", background: "rgba(199,255,50,0.03)", border: "1px solid rgba(199,255,50,0.15)", borderRadius: 14, height: "100%" }}>
               <div style={{ fontSize: 10, fontWeight: 700, color: "#555", textTransform: "uppercase", letterSpacing: "0.09em", marginBottom: 20 }}>Overall WAPE · 6-cutoff average</div>
               <div style={{ display: "flex", alignItems: "baseline", gap: 14, marginBottom: 10 }}>
-                <span style={{ fontSize: 72, fontWeight: 800, color: "#c7ff32", lineHeight: 1 }}>{(wape * 100).toFixed(1)}%</span>
+                <span style={{ fontSize: 72, fontWeight: 800, color: "#c7ff32", lineHeight: 1 }}>{fmtPct(wape)}</span>
                 <div>
                   <div style={{ fontSize: 13, color: "#666" }}>WAPE</div>
-                  <div style={{ fontSize: 12, color: "#c7ff32", marginTop: 2 }}>−{imp.toFixed(0)}% vs baseline</div>
+                  <div style={{ fontSize: 12, color: "#c7ff32", marginTop: 2 }}>{imp === undefined ? "—" : `−${imp.toFixed(0)}% vs baseline`}</div>
                 </div>
               </div>
               <p style={{ fontSize: 13, color: "#555", marginBottom: 28 }}>
-                {imp.toFixed(0)}% improvement over seasonal naive ({(baseline * 100).toFixed(1)}%)
+                {imp === undefined ? "—" : `${imp.toFixed(0)}% lower error than seasonal naive (${fmtPct(baseline)})`}
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                 {[
-                  { k: "MAE",           v: mae.toFixed(1) },
+                  { k: "MAE",           v: mae === undefined ? "—" : mae.toFixed(1) },
                   { k: "Bias",          v: fmtPct(bias) },
                   { k: "Family-month",  v: fmtPct(fmWAPE) },
                   { k: "Company-month", v: fmtPct(tmWAPE) },
@@ -485,17 +516,11 @@ export function LandingPage() {
           <Reveal delay={0.2}>
             <div ref={accRef} style={{ padding: "36px 36px", background: "#0a0a0a", border: "1px solid #161616", borderRadius: 14, height: "100%" }}>
               <div style={{ fontSize: 10, fontWeight: 700, color: "#555", textTransform: "uppercase", letterSpacing: "0.09em", marginBottom: 24 }}>WAPE by product family</div>
-              {(families.length > 0 ? families : [
-                ["Electrical Assemblies",    { WAPE: 0.263 }],
-                ["Powertrain Components",    { WAPE: 0.276 }],
-                ["Chassis & Structural",     { WAPE: 0.276 }],
-                ["Thermal Management",       { WAPE: 0.279 }],
-                ["Brake & Safety Systems",   { WAPE: 0.277 }],
-                ["Precision Machined Parts", { WAPE: 0.289 }],
-                ["Hydraulic Systems",        { WAPE: 0.295 }],
-              ] as [string, { WAPE: number }][]).map(([fam, m], i) => (
-                <AccBar key={fam} label={fam} wape={m.WAPE} baseline={baseline} delay={i * 0.08} vis={accVis} />
-              ))}
+              {families.length === 0 || baseline === undefined
+                ? <div style={{ fontSize: 12, color: "#555" }}>Loading backtest accuracy…</div>
+                : families.map(([fam, m], i) => (
+                  <AccBar key={fam} label={fam} wape={m.WAPE} baseline={baseline} delay={i * 0.08} vis={accVis} />
+                ))}
             </div>
           </Reveal>
         </div>
@@ -506,17 +531,17 @@ export function LandingPage() {
             <div style={{ fontSize: 10, fontWeight: 700, color: "#555", textTransform: "uppercase", letterSpacing: "0.09em", marginBottom: 24 }}>WAPE by forecast horizon</div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
               {[
-                { label: "Near-term",  range: "1–3 months",   wape: bt?.by_horizon_bucket?.["1-3m"]?.WAPE  ?? 0.278, blue: false },
-                { label: "Mid-range",  range: "4–6 months",   wape: bt?.by_horizon_bucket?.["4-6m"]?.WAPE  ?? 0.274, blue: false },
-                { label: "Planning",   range: "7–12 months",  wape: bt?.by_horizon_bucket?.["7-12m"]?.WAPE ?? 0.281, blue: false },
-                { label: "Strategic",  range: "13–19 months", wape: bt?.by_horizon_bucket?.["13-19m"]?.WAPE ?? 0.293, blue: true  },
+                { label: "Near-term",  range: "1–3 months",   wape: bt?.by_horizon_bucket?.["1-3m"]?.WAPE, blue: false },
+                { label: "Mid-range",  range: "4–6 months",   wape: bt?.by_horizon_bucket?.["4-6m"]?.WAPE, blue: false },
+                { label: "Planning",   range: "7–12 months",  wape: bt?.by_horizon_bucket?.["7-12m"]?.WAPE, blue: false },
+                { label: "Strategic",  range: "13–19 months", wape: bt?.by_horizon_bucket?.["13-19m"]?.WAPE, blue: true  },
               ].map(({ label, range, wape: w, blue }, i) => (
                 <div key={label} style={{ padding: "20px", background: "#0d0d0d", border: `1px solid ${blue ? "rgba(88,166,255,0.15)" : "#161616"}`, borderRadius: 10 }}>
                   <div style={{ fontSize: 10, color: "#555", marginBottom: 10 }}>{label}</div>
-                  <div style={{ fontSize: 28, fontWeight: 700, color: blue ? "#58a6ff" : "#c7ff32", marginBottom: 6 }}>{(w * 100).toFixed(1)}%</div>
+                  <div style={{ fontSize: 28, fontWeight: 700, color: blue ? "#58a6ff" : "#c7ff32", marginBottom: 6 }}>{fmtPct(w)}</div>
                   <div style={{ fontSize: 11, color: "#555" }}>{range}</div>
                   <div style={{ marginTop: 12, height: 3, background: "#1a1a1a", borderRadius: 2, overflow: "hidden" }}>
-                    <div style={{ height: "100%", width: accVis ? `${w * 100}%` : "0%", background: blue ? "#58a6ff" : "#c7ff32", borderRadius: 2, transition: `width 1s ease ${i * 0.12}s` }} />
+                    <div style={{ height: "100%", width: accVis && w !== undefined ? `${w * 100}%` : "0%", background: blue ? "#58a6ff" : "#c7ff32", borderRadius: 2, transition: `width 1s ease ${i * 0.12}s` }} />
                   </div>
                 </div>
               ))}
@@ -628,7 +653,7 @@ export function LandingPage() {
    HeroChart — premium architecture animation
    Isometric-style grid + animated forecast line + glowing bars
 ───────────────────────────────────────────────────────────── */
-function HeroChart({ units19, growth, wape }: { units19: number; growth: number; wape: number }) {
+function HeroChart({ tl, units19, growth, wape }: { tl: TimelineView | null; units19?: number; growth?: number; wape?: number }) {
   const [phase, setPhase] = useState(0); // 0=hidden 1=grid 2=bars 3=line 4=done
   const [tick,  setTick]  = useState(0);
 
@@ -651,16 +676,14 @@ function HeroChart({ units19, growth, wape }: { units19: number; growth: number;
 
   const W = 500, H = 300;
 
-  // 31 months: 12 history + 19 forecast — relative demand shape
-  const DATA = [
-    // history (gray) — real shape normalised
-    72, 78, 68, 84, 88, 80, 74, 91, 86, 79, 95, 87,
-    // forecast (lime) — upward trend with realistic variation
-    94, 101, 97, 107, 114, 110, 117, 124, 119, 115, 121, 127, 129, 134, 128, 131, 137, 141, 138,
-  ];
-  const HIST = 12;
-  const mn = Math.min(...DATA), mx = Math.max(...DATA);
-  const norm = (v: number) => (v - mn) / (mx - mn);
+  // the real last 12 months of recovered demand + the 19-month forecast (company total)
+  const hist = tl ? tl.history.slice(-12) : [];
+  const fore = tl ? tl.forecast : [];
+  const DATA = [...hist.map((x) => x.Units_unconstrained), ...fore.map((x) => x.Units_forecast)];
+  const DATES = [...hist.map((x) => x.Date), ...fore.map((x) => x.Date)];
+  const HIST = hist.length;
+  const mx = Math.max(1, ...DATA);
+  const norm = (v: number) => v / mx;             // bars start at a true zero line
 
   const BAR_W = 12, GAP = 4;
   const totalW = DATA.length * (BAR_W + GAP);
@@ -687,8 +710,8 @@ function HeroChart({ units19, growth, wape }: { units19: number; growth: number;
   // scan line x position
   const scanX = offsetX + (tick / 100) * totalW;
 
-  // forecast endpoint
-  const fcEnd = fPts[fPts.length - 1];
+  // forecast endpoint (absent until the data arrives)
+  const fcEnd = fPts[fPts.length - 1] ?? { x: offsetX, y: CHART_Y + CHART_H };
 
   // total path lengths (approximate)
   const hLen = 450, fLen = 700;
@@ -823,8 +846,12 @@ function HeroChart({ units19, growth, wape }: { units19: number; growth: number;
               strokeLinecap="round" className="f-line" />
           )}
 
+          {DATA.length === 0 && (
+            <text x={W / 2} y={CHART_Y + CHART_H / 2} textAnchor="middle" fill="#555" fontSize={11}>Loading forecast…</text>
+          )}
+
           {/* glowing endpoint dot */}
-          <g className="fc-dot">
+          <g className="fc-dot" style={{ display: DATA.length ? undefined : "none" }}>
             <circle cx={fcEnd.x} cy={fcEnd.y} r={18} fill="url(#dotGlow)" />
             <circle cx={fcEnd.x} cy={fcEnd.y} r={6}  fill="rgba(199,255,50,0.15)" />
             <circle cx={fcEnd.x} cy={fcEnd.y} r={3}  fill="#c7ff32" />
@@ -834,34 +861,22 @@ function HeroChart({ units19, growth, wape }: { units19: number; growth: number;
             />
           </g>
 
-          {/* month axis ticks */}
-          {["N'26","D","J'27","F","M","A","M","J","J","A","S","O","N","D","J'28","F","M","A","M'28"].map((label, i) => {
-            if (i % 3 !== 0) return null;
-            const x = offsetX + (i + 12) * (BAR_W + GAP) + BAR_W / 2;
-            if (x > offsetX + totalW) return null;
-            return (
-              <text key={i} x={x} y={H - 6} textAnchor="middle" fill="#444" fontSize={8}>{label}</text>
-            );
-          })}
-          {/* history axis ticks */}
-          {["2026-01","02","03","04","05","06","07","08","09","10","11","12"].map((_, i) => {
+          {/* month axis ticks, from the real dates */}
+          {DATES.map((ym, i) => {
             if (i % 4 !== 0) return null;
+            const [y, m] = ym.split("-");
+            const label = `${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][Number(m) - 1]} ${y.slice(2)}`;
             const x = offsetX + i * (BAR_W + GAP) + BAR_W / 2;
-            const labels = ["Jan","May","Sep","Jan"];
-            return (
-              <text key={`h${i}`} x={x} y={H - 6} textAnchor="middle" fill="#333" fontSize={8}>
-                {labels[Math.floor(i / 4)]}
-              </text>
-            );
+            return <text key={ym} x={x} y={H - 6} textAnchor="middle" fill={i >= HIST ? "#555" : "#3a3a3a"} fontSize={8}>{label}</text>;
           })}
         </svg>
 
         {/* bottom stats */}
         <div style={{ display: "flex", gap: 24, padding: "0 20px", borderTop: "1px solid rgba(255,255,255,0.04)", paddingTop: 14 }}>
           {[
-            { k: "19M TOTAL",  v: `${(units19 / 1e6).toFixed(2)}M u` },
-            { k: "GROWTH",     v: `+${(growth * 100).toFixed(1)}%` },
-            { k: "WAPE",       v: `${(wape * 100).toFixed(1)}%` },
+            { k: "19M TOTAL",  v: units19 === undefined ? "—" : `${(units19 / 1e6).toFixed(2)}M u` },
+            { k: "NEXT 12M",   v: growth === undefined ? "—" : `${growth >= 0 ? "+" : ""}${(growth * 100).toFixed(1)}%` },
+            { k: "WAPE",       v: fmtPct(wape) },
           ].map(({ k, v }) => (
             <div key={k}>
               <div style={{ fontSize: 9, color: "#555", letterSpacing: "0.1em", textTransform: "uppercase" }}>{k}</div>

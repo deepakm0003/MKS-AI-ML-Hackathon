@@ -18,7 +18,7 @@ cd MKS-AI-ML-Hackathon/celeris-control-tower
 # Install Python dependencies
 pip install -r requirements.txt
 
-# Run the pipeline to generate all outputs (takes ~5 minutes)
+# Run the pipeline to generate all outputs (roughly 40-60 minutes: it includes the 6-cutoff backtest)
 python run_pipeline.py
 
 # Verify outputs exist
@@ -45,7 +45,7 @@ Create a startup script `start_server.sh`:
 cd /path/to/celeris-control-tower
 uvicorn api.app:app --host 0.0.0.0 --port 8000 &
 echo "API running on http://your-server-ip:8000"
-echo "Dashboard at http://your-server-ip:8000/index.html"
+echo "Dashboard at http://your-server-ip:8000"
 ```
 
 Make it executable and run:
@@ -57,27 +57,13 @@ chmod +x start_server.sh
 
 ## Step 4: Serve the frontend via the API
 
-Add this to `api/app.py` after the existing routes:
+Nothing to add: `api/app.py` already serves `dashboard/dist` when it exists. Notes:
 
-```python
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
-
-# Serve the React build
-app.mount("/assets", StaticFiles(directory="dashboard/dist/assets"), name="assets")
-
-@app.get("/")
-def root():
-    return FileResponse("dashboard/dist/index.html")
-
-@app.get("/{path:path}")
-def catch_all(path: str):
-    # Try static file first, fallback to index.html for SPA routing
-    file = Path("dashboard/dist") / path
-    if file.exists() and file.is_file():
-        return FileResponse(file)
-    return FileResponse("dashboard/dist/index.html")
-```
+* The static / SPA routes are registered **after** every API router, so `/scenario/*`, `/meta/filters`
+  and the other API routes are never answered with `index.html`. An unknown API path returns a JSON 404.
+* The built dashboard calls `/api/<route>`. The API strips that prefix itself, so the same build works
+  behind nginx (which strips it too, Option 3) and when uvicorn serves everything on port 8000.
+* Files are only served from inside `dashboard/dist`.
 
 Restart the server and visit `http://your-server-ip:8000`
 

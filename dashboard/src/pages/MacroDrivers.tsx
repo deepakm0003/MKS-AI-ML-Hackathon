@@ -398,7 +398,13 @@ export function MacroDrivers() {
       {/* ── EV shift ────────────────────────────────────────── */}
       <Card
         title="EV / ICE powertrain shift 2019–2026"
-        subtitle={`EV share: 0% → 9.8% · ICE share: 24.1% → 13.0% · r(EV index, EV share) = ${evShift.status === "success" ? (evShift.data as unknown as EvShift)?.corr_ev_index_vs_ev_share?.toFixed(3) : "…"}`}
+        subtitle={(() => {
+          const ev = evShift.status === "success" ? (evShift.data as unknown as EvShift) : null;
+          if (!ev?.ev_share_pct_by_year || !ev.ice_share_pct_by_year) return "Share of demand by powertrain, per year";
+          const ys = Object.keys(ev.ev_share_pct_by_year).sort();
+          const [a, b] = [ys[0], ys[ys.length - 1]];
+          return `EV share ${ev.ev_share_pct_by_year[a]}% → ${ev.ev_share_pct_by_year[b]}% · ICE share ${ev.ice_share_pct_by_year[a]}% → ${ev.ice_share_pct_by_year[b]}% (${a}–${b}) · r(EV index, EV share) = ${ev.corr_ev_index_vs_ev_share?.toFixed(3)}`;
+        })()}
       >
         {evShift.status === "loading" ? <Skeleton height={220} /> :
           evShift.status === "error" ? <ErrorState error={evShift.error} onRetry={evShift.retry} /> :
@@ -410,8 +416,13 @@ export function MacroDrivers() {
                 return ev ? (
                   <div style={{ display: "flex", gap: 16, marginTop: 14, flexWrap: "wrap" }}>
                     {[
-                      { k: "EV share 2019", v: `${ev.ev_share_pct_by_year["2019"]}%` },
-                      { k: "EV share 2026", v: `${ev.ev_share_pct_by_year["2026"]}%`, accent: true },
+                      ...(() => {
+                        const ys = Object.keys(ev.ev_share_pct_by_year).sort();
+                        return [
+                          { k: `EV share ${ys[0]}`, v: `${ev.ev_share_pct_by_year[ys[0]]}%` },
+                          { k: `EV share ${ys[ys.length - 1]}`, v: `${ev.ev_share_pct_by_year[ys[ys.length - 1]]}%`, accent: true },
+                        ];
+                      })(),
                       { k: "ICE share 2019", v: `${ev.ice_share_pct_by_year["2019"]}%` },
                       { k: "ICE share 2026", v: `${ev.ice_share_pct_by_year["2026"]}%` },
                       { k: "r(EV index, EV share)", v: ev.corr_ev_index_vs_ev_share?.toFixed(3), accent: true },

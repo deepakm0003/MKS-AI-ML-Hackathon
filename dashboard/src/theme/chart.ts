@@ -16,7 +16,7 @@ export const SERIES = [
 export const SERIES_OTHER = "#484848";
 
 export const STATUS = {
-  good:     "#c7ff32",
+  good:     "#34d399",   // emerald - distinct from the lime forecast series / accent
   warning:  "#f5b942",
   serious:  "#ff5c5c",
   critical: "#ff5c5c",

@@ -23,10 +23,12 @@ app = FastAPI(title="Celeris demand control tower API", version=load_contract()[
               description="Frozen forecasts, accuracy, anomalies, data quality and planning intelligence.")
 
 from api.explorer import router as explorer_router  # noqa: E402
+from api.pages import router as pages_router  # noqa: E402
 from api.views import router as views_router  # noqa: E402
 
 app.include_router(views_router)
 app.include_router(explorer_router)
+app.include_router(pages_router)
 
 
 @lru_cache(maxsize=32)
@@ -290,29 +292,6 @@ class ScenarioRequest(BaseModel):
     region_overlay: dict[str, float] = Field(default_factory=dict, description="planner assumption: % change by region")
 
 
-# ----------------------------------------------------------------------------- static files (production deployment)
-from fastapi.staticfiles import StaticFiles  # noqa: E402
-from fastapi.responses import FileResponse  # noqa: E402
-
-DIST = Path(__file__).resolve().parents[1] / "dashboard" / "dist"
-
-if DIST.exists():
-    app.mount("/assets", StaticFiles(directory=str(DIST / "assets")), name="assets")
-
-    @app.get("/", response_class=FileResponse)
-    def serve_root():
-        return FileResponse(DIST / "index.html")
-
-    @app.get("/{path:path}", response_class=FileResponse)
-    def serve_spa(path: str):
-        """Serve static files, fallback to index.html for SPA routing."""
-        file = DIST / path
-        if file.exists() and file.is_file():
-            return FileResponse(file)
-        # SPA fallback for /overview, /scenarios, etc.
-        return FileResponse(DIST / "index.html")
-
-
 @app.get("/scenario/config")
 def scenario_config():
     SC, emu, _, _ = _scenario_ctx()
@@ -377,3 +356,48 @@ def _filter_options() -> dict:
 def meta_filters():
     """Options for the global filter bar (family, SKU, region, channel, customer) with valid combinations."""
     return _filter_options()
+
+
+# ----------------------------------------------------------------------------- static files (production deployment)
+# Registered LAST on purpose: the catch-all route below would otherwise answer API paths
+# (e.g. /scenario/config, /meta/filters) with index.html. API-looking paths that no route
+# handled get a JSON 404 instead of the SPA page.
+from fastapi.staticfiles import StaticFiles  # noqa: E402
+from fastapi.responses import FileResponse  # noqa: E402
+
+DIST = Path(__file__).resolve().parents[1] / "dashboard" / "dist"
+
+
+@app.middleware("http")
+async def strip_api_prefix(request, call_next):
+    """The built dashboard calls /api/<route> (the Vite dev proxy and the nginx option strip the
+    prefix). When uvicorn serves the dashboard itself (deploy.sh), strip it here so /api/views/...
+    reaches the API instead of falling through to the SPA's index.html."""
+    path = request.scope["path"]
+    if path == "/api" or path.startswith("/api/"):
+        request.scope["path"] = path[4:] or "/"
+        request.scope["raw_path"] = request.scope["path"].encode()
+    return await call_next(request)
+
+
+if DIST.exists():
+    app.mount("/assets", StaticFiles(directory=str(DIST / "assets")), name="assets")
+
+    @app.get("/", response_class=FileResponse)
+    def serve_root():
+        return FileResponse(DIST / "index.html")
+
+    # first path segment of every API route (exact match: the SPA page /scenarios is not the API /scenario/*)
+    API_SEGMENTS = {"views", "datasets", "intelligence", "scenario", "series", "hierarchy", "meta", "health",
+                    "kpis", "contract", "docs", "openapi.json", "redoc"}
+
+    @app.get("/{path:path}", response_class=FileResponse)
+    def serve_spa(path: str):
+        """Serve static files, fallback to index.html for SPA routing."""
+        if path.split("/", 1)[0] in API_SEGMENTS:
+            raise HTTPException(404, f"no API route /{path}")
+        file = (DIST / path).resolve()
+        if file.is_file() and DIST.resolve() in file.parents:
+            return FileResponse(file)
+        # SPA fallback for /overview, /scenarios, etc.
+        return FileResponse(DIST / "index.html")

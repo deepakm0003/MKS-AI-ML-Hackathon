@@ -45,3 +45,17 @@ export function useLifecycle() {
   const q = toViewQuery(filters);
   return useApi((s) => api.lifecycle(q, s), [JSON.stringify(q)]);
 }
+
+/** Server-side planning aggregation for the current global filters (full data, never a truncated slice). */
+export function usePlanningView(top = 500) {
+  const { filters } = useFilters();
+  const q = toViewQuery(filters);
+  return useApi((s) => api.planningView(q, top, s), [top, JSON.stringify(q)]);
+}
+
+/** Anomaly counts, flagged months and register rows for the current global filters. */
+export function useAnomaliesView(top = 500) {
+  const { filters } = useFilters();
+  const q = toViewQuery(filters);
+  return useApi((s) => api.anomaliesView(q, top, s), [top, JSON.stringify(q)]);
+}

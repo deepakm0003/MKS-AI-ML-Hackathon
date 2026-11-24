@@ -173,7 +173,7 @@ export function ScenarioLab() {
         <KpiTile
           label="Revenue change" loading={loading}
           value={total && total.change_revenue != null ? fmtUsd(total.change_revenue, 1) : "—"}
-          sub={total && total.change_revenue != null ? `${fmtPctChange(total.change_revenue / (total.base_revenue ?? 1) * 100, 1)}` : undefined}
+          sub={total && total.change_revenue != null ? `${fmtPctChange(total.base_revenue ? total.change_revenue / total.base_revenue : null, 1)}` : undefined}
           footnote="At announced list prices"
         />
       </section>

@@ -1,4 +1,5 @@
 import type {
+  AnomaliesView, DataHealthView, PlanningView,
   Briefing, BreakdownView, DatasetIndex, DrilldownView, DrillLevel, FilterOptions, Health, Kpis, LifecycleView, Paged,
   PresetResult, Recommendations, ScenarioConfig, ScenarioResult, SeasonalityView, SeriesDetail, TimelineView,
 } from "./types";
@@ -102,6 +103,12 @@ export const api = {
   lifecycle: (filters: FilterQuery, signal?: AbortSignal) => request<LifecycleView>("/views/lifecycle", { query: filters, signal }),
   series: (sku: string, region: string, signal?: AbortSignal) =>
     request<SeriesDetail>(`/series/${encodeURIComponent(sku)}/${encodeURIComponent(region)}`, { signal }),
+  planningView: (filters: FilterQuery, top = 500, signal?: AbortSignal) =>
+    request<PlanningView>("/views/planning", { query: { top, ...filters }, signal }),
+  anomaliesView: (filters: FilterQuery, top = 500, signal?: AbortSignal) =>
+    request<AnomaliesView>("/views/anomalies", { query: { top, ...filters }, signal }),
+  dataHealthView: (query: { file?: string; category?: string; top?: number } = {}, signal?: AbortSignal) =>
+    request<DataHealthView>("/views/data-health", { query, signal }),
   scenarioPresets: (signal?: AbortSignal) => request<Record<string, PresetResult>>("/scenario/presets", { signal }),
   scenarioConfig: (signal?: AbortSignal) => request<ScenarioConfig>("/scenario/config", { signal }),
   scenario: (body: { shocks: Record<string, number>; region_overlay?: Record<string, number> }, signal?: AbortSignal) =>

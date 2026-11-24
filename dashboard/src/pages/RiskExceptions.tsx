@@ -3,6 +3,7 @@ import { api } from "../api/client";
 import type { RecommendationCard } from "../api/types";
 import { useApi } from "../api/useApi";
 import { useRecommendations } from "../api/views";
+import { useFilters } from "../filters/FilterContext";
 import { EChart } from "../charts/EChart";
 import { verticalBarsOption } from "../charts/options";
 import { WorldMap, type RegionData } from "../charts/WorldMap";
@@ -186,9 +187,17 @@ export function RiskExceptions() {
   const [open, setOpen]         = useState<string | null>(null);
 
   const recs    = useRecommendations(priority === "all" ? {} : { priority });
-  const allRecs = useRecommendations({});
-  const cap     = useApi((s) => api.dataset<CapacityRow>("capacity_check", {}, s), []);
-  const supply  = useApi((s) => api.dataset<SupplyRiskRow>("supply_risk", {}, s), []);
+  // totals and counts must cover EVERY card, not the default first page of 50
+  const allRecs = useRecommendations({ limit: 1000 });
+  const capAll    = useApi((s) => api.dataset<CapacityRow>("capacity_check", { limit: 1000 }, s), []);
+  const supplyAll = useApi((s) => api.dataset<SupplyRiskRow>("supply_risk", { limit: 1000 }, s), []);
+  // capacity and supply risk are per family x region: apply those two global filters
+  const { filters } = useFilters();
+  const keep = <T extends { Product_Family: string; Region: string }>(rows: T[]) => rows.filter((r) =>
+    (!filters.family.length || filters.family.includes(r.Product_Family)) &&
+    (!filters.region.length || filters.region.includes(r.Region)));
+  const cap = capAll.status === "success" ? { ...capAll, data: { ...capAll.data, rows: keep(capAll.data.rows) } } : capAll;
+  const supply = supplyAll.status === "success" ? { ...supplyAll, data: { ...supplyAll.data, rows: keep(supplyAll.data.rows) } } : supplyAll;
 
   const cards    = recs.status    === "success" ? recs.data.cards    : [];
   const allCards = allRecs.status === "success" ? allRecs.data.cards : [];

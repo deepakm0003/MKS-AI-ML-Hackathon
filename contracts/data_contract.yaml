@@ -540,6 +540,11 @@ datasets:
     stage: scenario simulations
     view: scenario
     primary_key: [scenario_id]
+    columns:
+      scenario_id: string
+      total_sim_pct: float
+      total_emulated_pct: float
+      total_abs_err_pts: float
 
   # ---------------------------------------------------------------- Milestone 3: macro drivers
   lead_lag:
@@ -591,11 +596,6 @@ datasets:
     description: EV vs ICE powertrain share by year 2019-2026 and correlation with EV adoption index.
     format: json
     required_keys: [ev_share_pct_by_year, ice_share_pct_by_year, corr_ev_index_vs_ev_share]
-    columns:
-      scenario_id: string
-      total_sim_pct: float
-      total_emulated_pct: float
-      total_abs_err_pts: float
 
   sku_lifecycle:
     path: outputs/intelligence/sku_lifecycle.csv

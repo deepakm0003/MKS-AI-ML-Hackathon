@@ -308,3 +308,58 @@ export interface SeriesDetail {
     Successor_SKU: string | null; Powertrain_Application: string; SKU_Description: string; Size_Class: string } | null;
   risk?: Record<string, string | number | null> | null;
 }
+
+/* ---------------------------------------------------------------- page aggregations (api/pages.py) */
+export interface PlanningView {
+  filters: Record<string, string[]>;
+  kpis: {
+    lines: number; cover_units: number; forecast_units_next3: number; buffer_units: number;
+    cover_value_usd: number; buffer_value_usd: number | null; service_level_revenue_weighted: number | null;
+    series: number; make_to_order_lines: number | null;
+  };
+  monthly: { Date: string; Forecast: number; P90: number; Revenue: number }[];
+  segments: { Segment: string; ABC: string; XYZ: string; Series: number; Revenue_next12: number; Service_level: number; Revenue_share: number | null }[];
+  next_cycle: { total: number; rows: { SKU_ID: string; Region: string; Product_Family: string; Segment: string; Service_level: number;
+    Leadtime_P50: number; Leadtime_cover: number; Safety_buffer: number; Cover_value_usd: number }[] };
+  segmentation: { total: number; rows: { SKU_ID: string; Region: string; Product_Family: string; Revenue_next12: number; ABC: string;
+    XYZ: string; Segment: string; Service_level: number; Planning_approach: string }[] };
+  capacity: { Product_Family: string; Region: string; Demonstrated_3m_throughput: number; Peak_3m_load_P50: number;
+    Peak_3m_load_P90: number; Utilisation_P50: number; Utilisation_P90: number; Capacity_flag: string;
+    First_window_above_throughput: string | null }[];
+}
+
+export interface AnomalyRegisterRow {
+  Date: string; SKU_ID: string; Region: string; Product_Family: string; Customer_Name?: string; Type: string; Category: string;
+  Detection: string; Reason: string; Action: string; Confidence: string; Units_Shipped: number | null; Demand: number | null;
+  Expected: number | null;
+}
+
+export interface AnomaliesView {
+  filters: Record<string, string[]>;
+  total: number;
+  series_affected: number;
+  by_category: Record<string, number>;
+  by_type: { type: string; label: string; count: number }[];
+  timeline: { Date: string; Demand: number; Shipped: number }[];
+  flagged_months: { Date: string; count: number; by_category: Record<string, number> }[];
+  single_series: boolean;
+  points: { Date: string; Type: string; Category: string; Reason: string; Action: string; Units_Shipped: number | null;
+    Demand: number | null; Expected: number | null; Confidence: string }[] | null;
+  rows: AnomalyRegisterRow[];
+  structural: { total: number; rows: { Type: string; Date: string; SKU_ID: string; Region: string; Detail: string; Evidence: string; Action: string }[] };
+}
+
+export interface DataHealthView {
+  total: number;
+  total_all_files: number;
+  rows_affected: number;
+  by_issue_type: { issue_type: string; count: number }[];
+  by_category: Record<string, number>;
+  by_file: Record<string, number>;
+  rule_summary: { file: string; category: string; issue_type: string; action: string; rows: number }[];
+  before_after: { file: string; rows_before: number; rows_after: number; columns_before: number; columns_after: number;
+    null_cells_before: number; null_cells_after: number; nulls_by_column_before: Record<string, number>;
+    nulls_by_column_after: Record<string, number> }[];
+  rows: { file: string; row_ref: string; date: string; sku_id: string; region: string; issue_type: string; category: string;
+    field: string; original: string; corrected: string; action: string; rule: string }[];
+}
