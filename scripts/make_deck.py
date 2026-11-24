@@ -445,7 +445,7 @@ def main():
     d.screen("home", 488, 140, 436)
     d.text("GITHUB", 488, 432, 7.5, T3, BOLD)
     d.link(GITHUB.replace("https://", ""), GITHUB, 488, 446)
-    d.text("LIVE DEMO (college server)", 488, 468, 7.5, T3, BOLD)
+    d.text("LIVE DEMO", 488, 468, 7.5, T3, BOLD)
     d.link(LIVE.replace("http://", ""), LIVE, 488, 482)
 
     # 2 ---------------------------------------------------------------- challenge & answer
