@@ -4,6 +4,50 @@ Demand forecasting & planning control tower for Celeris Automobili Industrial
 (MKS AI/ML Hackathon, Phase 2): 598 SKUs x 6 regions, history 2019-01 → 2026-10,
 forecast 2026-11 → 2028-05.
 
+| | |
+|---|---|
+| **Presentation (12-slide PDF)** | [docs/deck/celeris_presentation.pdf](docs/deck/celeris_presentation.pdf) — architecture, data flow, model, accuracy, dashboard |
+| **Live demo** | **http://192.168.2.254:8060** — the full control tower and API, running on the college GPU server (reachable on the college network / VPN) |
+| **API docs (live)** | http://192.168.2.254:8060/docs |
+| **Submission** | [outputs/final/submission.csv](outputs/final/submission.csv) — 58,219 rows, validated |
+
+**Headline results** (6-cutoff rolling backtest, months the model never saw):
+company-month accuracy **94.9%**, family-month **92.7%**, SKU x region x month **71.6%** (vs 62.2% for
+seasonal naive), better than the baseline in every demand class; 19-month forecast **2.82M units**,
+**$1.61B** revenue over the next 12 months, **351** ranked actions.
+
+## Live deployment
+
+The whole system runs as one service on the college GPU server (Ubuntu, Tesla P100, 56 cores):
+a single `uvicorn` process serves both the FastAPI backend and the built React dashboard on port 8060.
+
+```text
+browser ──> http://192.168.2.254:8060 ──> uvicorn (FastAPI)
+                                            ├─ /views, /datasets, /intelligence, /scenario  -> frozen, contract-checked outputs
+                                            ├─ /score/*  -> Upload & Forecast jobs (same pipeline + frozen model)
+                                            └─ /         -> dashboard/dist (React build)
+cron: @reboot + every 5 min -> celeris_start.sh (restarts the app if /health does not answer)
+```
+
+**Why deploying it matters**
+
+- **Judges and users can try it, not just read about it** — every page, filter, scenario and download
+  works on live data, without installing Python or Node.
+- **Upload & Forecast works for real** — anyone on the network can upload a `train.csv` / `test.csv`
+  format file and get the forecast, accuracy and a PDF report from the frozen model in seconds.
+- **One process, one port** — the API also serves the dashboard, so there is no separate web server
+  to configure and nothing to keep in sync between frontend and backend.
+- **Self-healing** — a cron watchdog restarts the app after a server reboot or a crash (back within
+  about 5 minutes), so the demo stays up through the judging period.
+- **Same numbers everywhere** — the server serves the same frozen, SHA-256-fingerprinted outputs as the
+  repo; uploading the official files on the live site reproduces the submission exactly.
+- **GPU next door** — model experiments run on the same machine's GPU, and only a model that passes the
+  promotion rule is frozen and served.
+- **Production-like** — health endpoint, background jobs, logs and a documented one-command restart,
+  i.e. the system is run like a service, not a notebook.
+
+How to deploy it yourself: `deploy.sh` (pipeline → build → serve) or [DEPLOYMENT.md](DEPLOYMENT.md).
+
 ## Setup
 
 Python 3.11. From this folder (PowerShell):
