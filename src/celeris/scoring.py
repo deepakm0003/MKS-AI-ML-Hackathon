@@ -314,7 +314,12 @@ def score(history: pd.DataFrame | None = None, request: pd.DataFrame | None = No
 
     # ---- 4. features + frozen model + the same lifecycle / launch / shutdown rules and bands
     dv = demand_variant(demand, fz["variant"]).sort_index() if fz["variant"] else demand
-    P = Panel(dv, sku, macro, evm, req, feature_set=fz["spec"]["feature_set"])
+    # the panel universe = history series + the official test series + the requested series, exactly as in
+    # the frozen run: cross-series features (family / customer aggregates) depend on which series exist,
+    # so forecasting a subset must not change them
+    ucols = ["SKU_ID", "Region", "Sales_Channel", "Customer_Name"]
+    universe = pd.concat([req[ucols], ref["test"][ucols]], ignore_index=True).drop_duplicates(SERIES)
+    P = Panel(dv, sku, macro, evm, universe, feature_set=fz["spec"]["feature_set"])
     progress("features", "done")
     progress("score", "running")
     curves = fz["curves"]

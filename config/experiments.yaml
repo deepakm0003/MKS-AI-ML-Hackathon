@@ -106,3 +106,95 @@ experiments:
   origin_step1:
     description: "Champion trained on every origin month instead of every second"
     train_origin_step: 1
+  # ---- T1: tuning wave 1 on top of C9c (same folds, same promotion rule vs c9c)
+  t1_leaves127:
+    description: "C9c + num_leaves 127, min_data_in_leaf 100"
+    demand_variant: keep_pull_forward
+    params: {num_leaves: 127, min_data_in_leaf: 100}
+  t1_leaves255_slow:
+    description: "C9c + num_leaves 255, min_data_in_leaf 300, lr 0.02, 2000 rounds"
+    demand_variant: keep_pull_forward
+    params: {num_leaves: 255, min_data_in_leaf: 300, learning_rate: 0.02}
+    rounds: 2000
+  t1_tweedie11:
+    description: "C9c + Tweedie variance power 1.1"
+    demand_variant: keep_pull_forward
+    params: {tweedie_variance_power: 1.1}
+  t1_tweedie135:
+    description: "C9c + Tweedie variance power 1.35"
+    demand_variant: keep_pull_forward
+    params: {tweedie_variance_power: 1.35}
+  t1_ff05_l2:
+    description: "C9c + feature_fraction 0.5, lambda_l2 5"
+    demand_variant: keep_pull_forward
+    params: {feature_fraction: 0.5, lambda_l2: 5.0}
+  t1_lr02_2000:
+    description: "C9c + lr 0.02, 2000 rounds"
+    demand_variant: keep_pull_forward
+    params: {learning_rate: 0.02}
+    rounds: 2000
+  t1_leaves31_2000:
+    description: "C9c + num_leaves 31, 2000 rounds"
+    demand_variant: keep_pull_forward
+    params: {num_leaves: 31}
+    rounds: 2000
+  t1_seedbag3:
+    description: "C9c averaged over 3 seeds"
+    demand_variant: keep_pull_forward
+    seeds: [7, 11, 23]
+  # ---- T2: wave 2 - blends of the two best training-month variants, new information features
+  t2_c9b_seedbag3:
+    description: "C9b averaged over 3 seeds"
+    demand_variant: keep_event_months
+    seeds: [7, 11, 23]
+  t2_blend_c9c_c9b:
+    description: "50/50 average of C9c and C9b (fixed weights)"
+    blend:
+      members: [c9c_keep_pull_forward, c9b_keep_event_months]
+      weights: [0.5, 0.5]
+  t2_blend_sb:
+    description: "50/50 average of seed-bagged C9c and seed-bagged C9b (fixed weights)"
+    blend:
+      members: [t1_seedbag3, t2_c9b_seedbag3]
+      weights: [0.5, 0.5]
+  t2_price:
+    description: "C9c + announced price-change features (next / last January rise, months to rise, surcharge)"
+    demand_variant: keep_pull_forward
+    feature_set: base+price
+  t2_cross_c9c:
+    description: "C9c training months + cross-series (family / customer) features"
+    demand_variant: keep_pull_forward
+    feature_set: base+cross
+  t2_cross_price:
+    description: "C9c + cross-series + price-change features"
+    demand_variant: keep_pull_forward
+    feature_set: base+cross+price
+  t2_blend_cross_c9b:
+    description: "50/50 average of t2_cross_c9c and C9b (fixed weights)"
+    blend:
+      members: [t2_cross_c9c, c9b_keep_event_months]
+      weights: [0.5, 0.5]
+  t2_blend_cross_c9c:
+    description: "50/50 average of t2_cross_c9c and C9c (fixed weights)"
+    blend:
+      members: [t2_cross_c9c, c9c_keep_pull_forward]
+      weights: [0.5, 0.5]
+  t2_blend_cross_sb:
+    description: "50/50 average of t2_cross_c9c and seed-bagged C9b (fixed weights)"
+    blend:
+      members: [t2_cross_c9c, t2_c9b_seedbag3]
+      weights: [0.5, 0.5]
+  t2_blend_three:
+    description: "Equal average of t2_cross_c9c, C9c and C9b (fixed weights)"
+    blend:
+      members: [t2_cross_c9c, c9c_keep_pull_forward, c9b_keep_event_months]
+      weights: [0.3334, 0.3333, 0.3333]
+  t3_cross_c9b:
+    description: "C9b training months + cross-series features"
+    demand_variant: keep_event_months
+    feature_set: base+cross
+  t3_blend_cross_both:
+    description: "50/50 average of t2_cross_c9c and t3_cross_c9b (fixed weights)"
+    blend:
+      members: [t2_cross_c9c, t3_cross_c9b]
+      weights: [0.5, 0.5]

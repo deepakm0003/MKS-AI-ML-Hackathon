@@ -50,8 +50,10 @@ def select_model(reg: pd.DataFrame | None = None) -> tuple[str, str]:
 class Member:
     """One fitted model behind a common predict(DataFrame) interface (scale-free output)."""
 
-    def __init__(self, model, cols: list, kind: str, cats: list | None = None):
+    def __init__(self, model, cols: list, kind: str, cats: list | None = None,
+                 feature_set: str | None = None, variant: str | None = None):
         self.model, self.cols, self.kind, self.cats = model, cols, kind, cats or []
+        self.feature_set, self.variant = feature_set, variant     # None = the caller's panel
 
     def predict(self, X: pd.DataFrame):
         Z = X[self.cols]
@@ -82,6 +84,28 @@ class Ensemble:
     def predict(self, X):
         return np.sum([w * m.predict(X) for m, w in zip(self.members, self.weights)], axis=0)
 
+    @property
+    def multi_panel(self) -> bool:
+        """True when members were trained on different feature sets / training-month variants."""
+        return len({(m.feature_set, m.variant) for m in self.members}) > 1
+
+    def predict_frame(self, P: Panel, o: int, eligible, fr: pd.DataFrame) -> np.ndarray:
+        """Scaled forecasts for the rows of fr (series x target month at origin o). A single-panel
+        model predicts on fr itself (identical to the frozen single-model path); a multi-panel blend
+        lets each member predict on its own sibling panel of P, aligned on series x target month."""
+        from .backtest import predict_lgb
+        if not self.multi_panel:
+            return predict_lgb(self, self.cols, fr)
+        key = fr[["series", "target_idx"]]
+        hs = sorted(int(t) - o for t in fr["target_idx"].unique())
+        out = np.zeros(len(fr))
+        for m, w in zip(self.members, self.weights):
+            frm = P.sibling(m.feature_set or "base", m.variant).frame(o, horizons=hs, need_target=False,
+                                                                      eligible=eligible)
+            frm = frm.assign(_f=predict_lgb(m, m.cols, frm))[["series", "target_idx", "_f"]]
+            out += w * key.merge(frm, on=["series", "target_idx"], how="left")["_f"].fillna(0).to_numpy()
+        return out
+
     def save(self, path: Path) -> list[str]:
         return [m.save(path, f"final_model_{i}_{m.kind}") for i, m in enumerate(self.members)]
 
@@ -101,13 +125,14 @@ def _training_frame(spec: dict, P: Panel) -> pd.DataFrame:
     return train[(train["w"] > 0) & train["scale"].notna()]
 
 
-def _members(name: str, P: Panel, cache: dict, log) -> tuple[list, list, int | None]:
-    """Fitted members (and weights) for one experiment, trained on all history."""
+def _members(name: str, P: Panel, cache: dict, log, multi: bool = False) -> tuple[list, list, int | None]:
+    """Fitted members (and weights) for one experiment, trained on all history. Inside a blend
+    (multi=True) every leaf member is trained on its own sibling panel (feature set + variant)."""
     spec = resolve(name)
     if "blend" in spec:
         mem, wts, n = [], [], None
         for m, w in zip(spec["blend"]["members"], spec["blend"]["weights"]):
-            ms, ws, n_m = _members(m, P, cache, log)
+            ms, ws, n_m = _members(m, P, cache, log, multi=True)
             mem += ms
             wts += [w * x for x in ws]
             n = n or n_m
@@ -118,7 +143,10 @@ def _members(name: str, P: Panel, cache: dict, log) -> tuple[list, list, int | N
         return [Member(booster, card["features"], "lgb")], [1.0], card.get("trained_rows")
     if spec.get("horizon_models") or spec.get("model", "lgb") not in ("lgb", "catboost"):
         raise NotImplementedError(f"final training for {name} is not wired up")
-    key = (spec["feature_set"], spec["train_first_origin"], spec["train_origin_step"])
+    fs, variant = (spec["feature_set"], spec.get("demand_variant")) if multi else (None, None)
+    if multi:
+        P = P.sibling(fs, variant)
+    key = (spec["feature_set"], variant, spec["train_first_origin"], spec["train_origin_step"])
     if key not in cache:
         cache.clear()
         cache[key] = _training_frame(spec, P)
@@ -133,9 +161,9 @@ def _members(name: str, P: Panel, cache: dict, log) -> tuple[list, list, int | N
         m.fit(Pool(train[cols].assign(**{c: train[c].astype(str) for c in cats}),
                    (train["y"] / train["scale"]).clip(upper=spec["target_clip"]), weight=train["scale"],
                    cat_features=cats))
-        return [Member(m, cols, "catboost", cats)], [1.0], len(train)
+        return [Member(m, cols, "catboost", cats, fs, variant)], [1.0], len(train)
     log(f"training {name} (LightGBM) on {len(train):,} rows, {len(cols)} features, seeds {spec['seeds']}")
-    ms = [Member(_fit_lgb(spec, train, cols, s), cols, "lgb") for s in spec["seeds"]]
+    ms = [Member(_fit_lgb(spec, train, cols, s), cols, "lgb", None, fs, variant) for s in spec["seeds"]]
     return ms, [1 / len(ms)] * len(ms), len(train)
 
 
@@ -249,6 +277,7 @@ def run_final(name: str | None = None, log=print) -> dict:
         "selected_model": name, "selection_reason": reason, "spec": spec,
         "features": cols, "trained_rows": n_train, "model_files": model_files,
         "model_weights": model.weights, "member_features": [m.cols for m in model.members],
+        "member_specs": [{"feature_set": m.feature_set, "demand_variant": m.variant} for m in model.members],
         "demand_variant": variant,
         "history_end": MONTHS[LAST_HIST], "forecast_window": [MONTHS[LAST_HIST + 1], MONTHS[LAST_HIST + 19]],
         "backtest": {"cutoffs": cfg["evaluation"]["cutoffs"], **met["overall"],
@@ -272,15 +301,17 @@ def load_final_model() -> tuple[Ensemble, list, dict]:
     feature list and the manifest."""
     man = json.loads((OUT / "manifest.json").read_text(encoding="utf-8"))
     members = []
-    for f, cols in zip(man["model_files"], man["member_features"]):
+    specs = man.get("member_specs") or [{}] * len(man["model_files"])
+    for f, cols, ms in zip(man["model_files"], man["member_features"], specs):
         path = OUT / "model" / f
+        fs, variant = ms.get("feature_set"), ms.get("demand_variant")
         if f.endswith(".cbm"):
             from catboost import CatBoostRegressor
             m = CatBoostRegressor()
             m.load_model(str(path))
             members.append(Member(m, cols, "catboost", [c for c in cols if c in ("Product_Family", "Region",
-                                  "Customer_Name", "Sales_Channel", "Business_Unit", "Powertrain")]))
+                                  "Customer_Name", "Sales_Channel", "Business_Unit", "Powertrain")], fs, variant))
         else:
-            members.append(Member(lgb.Booster(model_file=str(path)), cols, "lgb"))
+            members.append(Member(lgb.Booster(model_file=str(path)), cols, "lgb", None, fs, variant))
     model = Ensemble(members, man["model_weights"])
     return model, model.cols, man

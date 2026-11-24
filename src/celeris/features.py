@@ -35,6 +35,8 @@ class Panel:
                  events_monthly: pd.DataFrame, extra_series: pd.DataFrame | None = None,
                  feature_set: str = "base"):
         self.feature_set = feature_set      # "base" (champion) or "base+cross"
+        self._inputs = (demand, sku, macro, events_monthly, extra_series)
+        self._siblings: dict = {}
         d = demand
         keys = d[["SKU_ID", "Region"]].drop_duplicates()
         if extra_series is not None:   # test series with no history (new launches)
@@ -104,6 +106,23 @@ class Panel:
         ce = events_monthly[events_monthly["Event_Type"].eq("Customer Event") &
                             events_monthly["Description"].str.contains("shutdown|strike", case=False)]
         self.cust_event = {(r["Scope_Customer"], r["Scope_Region"], r["Date"]): r["Month_Share"] for _, r in ce.iterrows()}
+        # announced list-price changes (known in advance): January rises and mid-year surcharges, in %
+        pc = events_monthly[events_monthly["Event_Type"].eq("Price Change") & events_monthly["Scope_Type"].eq("Global")]
+        pct = pc.drop_duplicates("Date").set_index("Date")["Pct"].astype(float)
+        self.price_jan = np.array([pct.get(m, 0.0) if m.endswith("-01") else 0.0 for m in MONTHS], dtype=np.float32)
+        self.price_surcharge = np.array([pct.get(m, 0.0) if not m.endswith("-01") else 0.0 for m in MONTHS], dtype=np.float32)
+
+    def sibling(self, feature_set: str, variant: str | None) -> "Panel":
+        """The same inputs (incl. any shocked macro) with another feature set and/or training-month
+        variant - used by blends whose members were trained on different variants."""
+        key = (feature_set, variant)
+        if key not in self._siblings:
+            demand, sku, macro, evm, extra = self._inputs
+            if variant:
+                from .robustness import demand_variant
+                demand = demand_variant(demand, variant).sort_index()
+            self._siblings[key] = Panel(demand, sku, macro, evm, extra, feature_set=feature_set)
+        return self._siblings[key]
 
     # ------------------------------------------------------------------ per-origin features
     def series_features(self, o: int) -> pd.DataFrame:
@@ -199,6 +218,14 @@ class Panel:
             fr["target_idx"] = t
             cm = int(MONTHS[t][5:])
             fr["target_month"] = cm
+            if "price" in self.feature_set:          # early buying before a rise, payback after it
+                to_jan = (13 - cm) % 12 or 12          # months from the target month to the next January
+                nxt = t + to_jan
+                fr["pr_months_to_rise"] = to_jan
+                fr["pr_next_pct"] = float(self.price_jan[nxt]) if nxt < len(MONTHS) and to_jan <= 3 else 0.0
+                last = t - (cm - 1)                    # this year's January
+                fr["pr_last_pct"] = float(self.price_jan[last]) if cm <= 3 else 0.0
+                fr["pr_surcharge"] = float(self.price_surcharge[t])
             fr["seas_idx"] = [si.at[cm, g] if g in si.columns else 1.0 for g in grp[ok]]
             fr["seas_idx_origin"] = [si.at[int(MONTHS[o][5:]), g] if g in si.columns else 1.0 for g in grp[ok]]
             # same month last year / two years ago (latest one at or before the origin)

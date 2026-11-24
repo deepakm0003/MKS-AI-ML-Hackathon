@@ -1,43 +1,43 @@
 {
-  "forecast_model": "c9c_keep_pull_forward",
+  "forecast_model": "t3_blend_cross_both",
   "series": 3068,
   "status_counts": {
-    "STABLE": 1252,
-    "GROWTH": 1049,
-    "HIGH_GROWTH": 591,
+    "STABLE": 1328,
+    "GROWTH": 952,
+    "HIGH_GROWTH": 592,
+    "DECLINE": 71,
     "RAMPING": 67,
-    "DECLINE": 50,
-    "SHARP_DECLINE": 31,
+    "SHARP_DECLINE": 30,
     "END_OF_LIFE": 18,
     "NEW_LAUNCH": 10
   },
   "risk_level_counts": {
-    "LOW": 1533,
-    "MEDIUM": 1071,
-    "HIGH": 464
+    "LOW": 1531,
+    "MEDIUM": 1075,
+    "HIGH": 462
   },
   "sustained_surge": 50,
   "sustained_decline": 23,
-  "exceptions": 596,
+  "exceptions": 595,
   "exceptions_by_tier": {
-    "REVIEW": 454,
+    "REVIEW": 453,
     "ACT_NOW": 142
   },
   "exceptions_by_trigger": {
-    "high forecast risk": 411,
+    "high forecast risk": 412,
     "customer shutdown": 61,
     "SKU-specific surge": 50,
     "lifecycle": 28,
-    "sharp forecast decline": 24,
+    "sharp forecast decline": 22,
     "SKU-specific decline": 22
   },
   "reason_code_counts": {
-    "MACRO_SENSITIVE_FAMILY": 1348,
     "INTERMITTENT_DEMAND": 770,
     "HIGH_FORECAST_VARIANCE": 612,
     "LOW_HISTORICAL_ACCURACY": 606,
     "RECENT_ORDER_GROWTH": 507,
     "FAMILY_LAGGING_MARKET": 449,
+    "MACRO_SENSITIVE_FAMILY": 439,
     "FAMILY_OUTPACING_MARKET": 439,
     "SUPPLY_CONSTRAINED_HISTORY": 354,
     "RECENT_ORDER_DECLINE": 194,
@@ -45,10 +45,10 @@
     "SHORT_HISTORY": 77,
     "CUSTOMER_SHUTDOWN_IN_WINDOW": 62,
     "SUSTAINED_ORDER_GROWTH": 50,
-    "FORECAST_CONFLICTS_WITH_RECENT_TREND": 33,
+    "FORECAST_CONFLICTS_WITH_RECENT_TREND": 34,
     "SUSTAINED_ORDER_DECLINE": 23,
-    "APPROACHING_EOL": 18,
     "PREDECESSOR_RUNDOWN": 18,
+    "APPROACHING_EOL": 18,
     "NEW_LAUNCH_RAMP": 10,
     "CUSTOMER_SWITCHED": 6
   },
@@ -56,7 +56,7 @@
     "signal": "MARKET_UPTURN",
     "yoy_last3m": 0.136,
     "yoy_last12m": -0.006,
-    "forecast_next12_vs_last12": 0.061
+    "forecast_next12_vs_last12": 0.054
   },
   "band_widening": {},
   "market_signals": [

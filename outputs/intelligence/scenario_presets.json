@@ -4,75 +4,75 @@
   "region_overlay": {},
   "method": "exact model re-forecast (simulated)",
   "total": {
-   "base_units": 2818669,
-   "scenario_units": 2818669,
+   "base_units": 2814345,
+   "scenario_units": 2814345,
    "change_units": 0,
    "change_pct": 0.0,
-   "base_revenue": 2536706487,
-   "scenario_revenue": 2536706487,
+   "base_revenue": 2536960516,
+   "scenario_revenue": 2536960516,
    "change_revenue": 0
   },
   "by_family": [
    {
     "Product_Family": "Brake & Safety Systems",
-    "Base": 536494.6,
-    "Scenario": 536494.6,
-    "Base_revenue": 291345503.46,
-    "Scenario_revenue": 291345503.46,
+    "Base": 530087.21,
+    "Scenario": 530087.21,
+    "Base_revenue": 287750023.51,
+    "Scenario_revenue": 287750023.51,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Product_Family": "Chassis & Structural",
-    "Base": 433277.67,
-    "Scenario": 433277.67,
-    "Base_revenue": 268924970.16,
-    "Scenario_revenue": 268924970.16,
+    "Base": 432075.81,
+    "Scenario": 432075.81,
+    "Base_revenue": 268636601.79,
+    "Scenario_revenue": 268636601.79,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Product_Family": "Electrical Assemblies",
-    "Base": 286133.1,
-    "Scenario": 286133.1,
-    "Base_revenue": 445215245.75,
-    "Scenario_revenue": 445215245.75,
+    "Base": 287779.7,
+    "Scenario": 287779.7,
+    "Base_revenue": 447864167.68,
+    "Scenario_revenue": 447864167.68,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Product_Family": "Hydraulic Systems",
-    "Base": 332242.97,
-    "Scenario": 332242.97,
-    "Base_revenue": 336064214.93,
-    "Scenario_revenue": 336064214.93,
+    "Base": 333963.4,
+    "Scenario": 333963.4,
+    "Base_revenue": 337564415.35,
+    "Scenario_revenue": 337564415.35,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Product_Family": "Powertrain Components",
-    "Base": 363166.21,
-    "Scenario": 363166.21,
-    "Base_revenue": 434574162.65,
-    "Scenario_revenue": 434574162.65,
+    "Base": 363182.83,
+    "Scenario": 363182.83,
+    "Base_revenue": 434909630.8,
+    "Scenario_revenue": 434909630.8,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Product_Family": "Precision Machined Parts",
-    "Base": 439003.2,
-    "Scenario": 439003.2,
-    "Base_revenue": 361426923.54,
-    "Scenario_revenue": 361426923.54,
+    "Base": 440486.52,
+    "Scenario": 440486.52,
+    "Base_revenue": 362229230.11,
+    "Scenario_revenue": 362229230.11,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Product_Family": "Thermal Management",
-    "Base": 428351.18,
-    "Scenario": 428351.18,
-    "Base_revenue": 399155466.02,
-    "Scenario_revenue": 399155466.02,
+    "Base": 426769.99,
+    "Scenario": 426769.99,
+    "Base_revenue": 398006446.37,
+    "Scenario_revenue": 398006446.37,
     "Change_pct": 0.0,
     "Change_units": 0.0
    }
@@ -80,55 +80,55 @@
   "by_region": [
    {
     "Region": "Asia Pacific",
-    "Base": 505731.16,
-    "Scenario": 505731.16,
-    "Base_revenue": 460955950.56,
-    "Scenario_revenue": 460955950.56,
+    "Base": 505890.71,
+    "Scenario": 505890.71,
+    "Base_revenue": 461948610.98,
+    "Scenario_revenue": 461948610.98,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Region": "Europe",
-    "Base": 540178.86,
-    "Scenario": 540178.86,
-    "Base_revenue": 490162688.93,
-    "Scenario_revenue": 490162688.93,
+    "Base": 537976.07,
+    "Scenario": 537976.07,
+    "Base_revenue": 489001742.29,
+    "Scenario_revenue": 489001742.29,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Region": "India",
-    "Base": 514509.49,
-    "Scenario": 514509.49,
-    "Base_revenue": 457465941.44,
-    "Scenario_revenue": 457465941.44,
+    "Base": 519338.09,
+    "Scenario": 519338.09,
+    "Base_revenue": 462621579.8,
+    "Scenario_revenue": 462621579.8,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Region": "Latin America",
-    "Base": 462053.22,
-    "Scenario": 462053.22,
-    "Base_revenue": 419558813.15,
-    "Scenario_revenue": 419558813.15,
+    "Base": 457794.56,
+    "Scenario": 457794.56,
+    "Base_revenue": 416523062.3,
+    "Scenario_revenue": 416523062.3,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Region": "Middle East & Africa",
-    "Base": 261339.41,
-    "Scenario": 261339.41,
-    "Base_revenue": 233933701.75,
-    "Scenario_revenue": 233933701.75,
+    "Base": 261897.83,
+    "Scenario": 261897.83,
+    "Base_revenue": 234953933.16,
+    "Scenario_revenue": 234953933.16,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Region": "North America",
-    "Base": 534856.78,
-    "Scenario": 534856.78,
-    "Base_revenue": 474629390.66,
-    "Scenario_revenue": 474629390.66,
+    "Base": 531448.21,
+    "Scenario": 531448.21,
+    "Base_revenue": 471911587.09,
+    "Scenario_revenue": 471911587.09,
     "Change_pct": 0.0,
     "Change_units": 0.0
    }
@@ -136,172 +136,172 @@
   "by_month": [
    {
     "Date": "2026-11",
-    "Base": 161335.79,
-    "Scenario": 161335.79,
-    "Base_revenue": 138744052.26,
-    "Scenario_revenue": 138744052.26,
+    "Base": 158993.77,
+    "Scenario": 158993.77,
+    "Base_revenue": 136562054.42,
+    "Scenario_revenue": 136562054.42,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2026-12",
-    "Base": 144458.97,
-    "Scenario": 144458.97,
-    "Base_revenue": 125411459.76,
-    "Scenario_revenue": 125411459.76,
+    "Base": 142759.86,
+    "Scenario": 142759.86,
+    "Base_revenue": 123948131.22,
+    "Scenario_revenue": 123948131.22,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2027-01",
-    "Base": 152425.97,
-    "Scenario": 152425.97,
-    "Base_revenue": 136414909.27,
-    "Scenario_revenue": 136414909.27,
+    "Base": 151596.23,
+    "Scenario": 151596.23,
+    "Base_revenue": 135667153.55,
+    "Scenario_revenue": 135667153.55,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2027-02",
-    "Base": 140314.87,
-    "Scenario": 140314.87,
-    "Base_revenue": 126795107.86,
-    "Scenario_revenue": 126795107.86,
+    "Base": 139959.79,
+    "Scenario": 139959.79,
+    "Base_revenue": 126522790.94,
+    "Scenario_revenue": 126522790.94,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2027-03",
-    "Base": 159336.67,
-    "Scenario": 159336.67,
-    "Base_revenue": 141770827.4,
-    "Scenario_revenue": 141770827.4,
+    "Base": 157796.02,
+    "Scenario": 157796.02,
+    "Base_revenue": 140293086.71,
+    "Scenario_revenue": 140293086.71,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2027-04",
-    "Base": 160545.33,
-    "Scenario": 160545.33,
-    "Base_revenue": 145166651.82,
-    "Scenario_revenue": 145166651.82,
+    "Base": 157512.77,
+    "Scenario": 157512.77,
+    "Base_revenue": 142304650.47,
+    "Scenario_revenue": 142304650.47,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2027-05",
-    "Base": 158711.09,
-    "Scenario": 158711.09,
-    "Base_revenue": 141490469.23,
-    "Scenario_revenue": 141490469.23,
+    "Base": 156050.95,
+    "Scenario": 156050.95,
+    "Base_revenue": 139106357.55,
+    "Scenario_revenue": 139106357.55,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2027-06",
-    "Base": 147748.99,
-    "Scenario": 147748.99,
-    "Base_revenue": 132756777.42,
-    "Scenario_revenue": 132756777.42,
+    "Base": 145565.13,
+    "Scenario": 145565.13,
+    "Base_revenue": 130830896.06,
+    "Scenario_revenue": 130830896.06,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2027-07",
-    "Base": 145677.5,
-    "Scenario": 145677.5,
-    "Base_revenue": 130491008.82,
-    "Scenario_revenue": 130491008.82,
+    "Base": 145396.88,
+    "Scenario": 145396.88,
+    "Base_revenue": 130372197.35,
+    "Scenario_revenue": 130372197.35,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2027-08",
-    "Base": 133189.43,
-    "Scenario": 133189.43,
-    "Base_revenue": 119830004.64,
-    "Scenario_revenue": 119830004.64,
+    "Base": 133566.71,
+    "Scenario": 133566.71,
+    "Base_revenue": 120509640.89,
+    "Scenario_revenue": 120509640.89,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2027-09",
-    "Base": 151891.14,
-    "Scenario": 151891.14,
-    "Base_revenue": 134275216.57,
-    "Scenario_revenue": 134275216.57,
+    "Base": 152604.78,
+    "Scenario": 152604.78,
+    "Base_revenue": 135338028.81,
+    "Scenario_revenue": 135338028.81,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2027-10",
-    "Base": 152520.64,
-    "Scenario": 152520.64,
-    "Base_revenue": 136717605.79,
-    "Scenario_revenue": 136717605.79,
+    "Base": 153709.28,
+    "Scenario": 153709.28,
+    "Base_revenue": 138340330.9,
+    "Scenario_revenue": 138340330.9,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2027-11",
-    "Base": 147638.19,
-    "Scenario": 147638.19,
-    "Base_revenue": 131182778.77,
-    "Scenario_revenue": 131182778.77,
+    "Base": 149026.99,
+    "Scenario": 149026.99,
+    "Base_revenue": 132864225.98,
+    "Scenario_revenue": 132864225.98,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2027-12",
-    "Base": 132581.66,
-    "Scenario": 132581.66,
-    "Base_revenue": 118914475.71,
-    "Scenario_revenue": 118914475.71,
+    "Base": 132643.6,
+    "Scenario": 132643.6,
+    "Base_revenue": 119393906.65,
+    "Scenario_revenue": 119393906.65,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2028-01",
-    "Base": 136636.38,
-    "Scenario": 136636.38,
-    "Base_revenue": 125905272.51,
-    "Scenario_revenue": 125905272.51,
+    "Base": 138025.37,
+    "Scenario": 138025.37,
+    "Base_revenue": 127541725.21,
+    "Scenario_revenue": 127541725.21,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2028-02",
-    "Base": 134556.39,
-    "Scenario": 134556.39,
-    "Base_revenue": 125701784.56,
-    "Scenario_revenue": 125701784.56,
+    "Base": 135737.14,
+    "Scenario": 135737.14,
+    "Base_revenue": 127150897.27,
+    "Scenario_revenue": 127150897.27,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2028-03",
-    "Base": 152374.36,
-    "Scenario": 152374.36,
-    "Base_revenue": 140240459.47,
-    "Scenario_revenue": 140240459.47,
+    "Base": 154306.0,
+    "Scenario": 154306.0,
+    "Base_revenue": 142419065.45,
+    "Scenario_revenue": 142419065.45,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2028-04",
-    "Base": 153889.46,
-    "Scenario": 153889.46,
-    "Base_revenue": 143894581.12,
-    "Scenario_revenue": 143894581.12,
+    "Base": 154683.18,
+    "Scenario": 154683.18,
+    "Base_revenue": 144956933.21,
+    "Scenario_revenue": 144956933.21,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2028-05",
-    "Base": 152836.09,
-    "Scenario": 152836.09,
-    "Base_revenue": 141003043.5,
-    "Scenario_revenue": 141003043.5,
+    "Base": 154411.02,
+    "Scenario": 154411.02,
+    "Base_revenue": 142838442.96,
+    "Scenario_revenue": 142838442.96,
     "Change_pct": 0.0,
     "Change_units": 0.0
    }
@@ -310,260 +310,248 @@
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 97.8
+    "Utilisation_pct": 96.7
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Europe",
+    "Utilisation_pct": 98.0
+   },
+   {
+    "Product_Family": "Brake & Safety Systems",
+    "Region": "India",
+    "Utilisation_pct": 100.8
+   },
+   {
+    "Product_Family": "Brake & Safety Systems",
+    "Region": "Latin America",
+    "Utilisation_pct": 96.4
+   },
+   {
+    "Product_Family": "Brake & Safety Systems",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 100.9
+   },
+   {
+    "Product_Family": "Brake & Safety Systems",
+    "Region": "North America",
+    "Utilisation_pct": 102.8
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 96.6
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "Europe",
+    "Utilisation_pct": 98.1
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "India",
     "Utilisation_pct": 100.6
    },
    {
-    "Product_Family": "Brake & Safety Systems",
-    "Region": "India",
-    "Utilisation_pct": 101.2
-   },
-   {
-    "Product_Family": "Brake & Safety Systems",
+    "Product_Family": "Chassis & Structural",
     "Region": "Latin America",
-    "Utilisation_pct": 99.7
-   },
-   {
-    "Product_Family": "Brake & Safety Systems",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 103.2
-   },
-   {
-    "Product_Family": "Brake & Safety Systems",
-    "Region": "North America",
-    "Utilisation_pct": 105.3
+    "Utilisation_pct": 99.1
    },
    {
     "Product_Family": "Chassis & Structural",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 104.9
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "North America",
+    "Utilisation_pct": 92.1
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
     "Region": "Asia Pacific",
+    "Utilisation_pct": 98.3
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "Europe",
+    "Utilisation_pct": 96.0
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "India",
     "Utilisation_pct": 97.8
    },
    {
-    "Product_Family": "Chassis & Structural",
-    "Region": "Europe",
-    "Utilisation_pct": 99.9
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "India",
-    "Utilisation_pct": 98.9
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "Latin America",
-    "Utilisation_pct": 101.2
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 106.0
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "North America",
-    "Utilisation_pct": 93.6
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 98.7
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "Europe",
-    "Utilisation_pct": 97.4
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "India",
-    "Utilisation_pct": 98.1
-   },
-   {
     "Product_Family": "Electrical Assemblies",
     "Region": "Latin America",
-    "Utilisation_pct": 98.6
+    "Utilisation_pct": 96.3
    },
    {
     "Product_Family": "Electrical Assemblies",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 86.0
+    "Utilisation_pct": 84.4
    },
    {
     "Product_Family": "Electrical Assemblies",
     "Region": "North America",
-    "Utilisation_pct": 97.0
+    "Utilisation_pct": 95.6
    },
    {
     "Product_Family": "Hydraulic Systems",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 91.2
+    "Utilisation_pct": 91.4
    },
    {
     "Product_Family": "Hydraulic Systems",
     "Region": "Europe",
-    "Utilisation_pct": 92.9
+    "Utilisation_pct": 91.9
    },
    {
     "Product_Family": "Hydraulic Systems",
-    "Region": "India",
-    "Utilisation_pct": 93.4
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "Latin America",
-    "Utilisation_pct": 92.4
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 80.2
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "North America",
-    "Utilisation_pct": 98.1
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 93.7
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Europe",
-    "Utilisation_pct": 89.4
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "India",
-    "Utilisation_pct": 91.3
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Latin America",
-    "Utilisation_pct": 92.0
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 91.7
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "North America",
-    "Utilisation_pct": 89.4
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 97.6
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "Europe",
-    "Utilisation_pct": 94.3
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
     "Region": "India",
     "Utilisation_pct": 93.9
    },
    {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Latin America",
+    "Utilisation_pct": 90.8
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 79.7
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "North America",
+    "Utilisation_pct": 96.6
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 93.5
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Europe",
+    "Utilisation_pct": 88.2
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "India",
+    "Utilisation_pct": 92.3
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Latin America",
+    "Utilisation_pct": 89.5
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 91.1
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "North America",
+    "Utilisation_pct": 87.9
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 96.5
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Europe",
+    "Utilisation_pct": 92.9
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "India",
+    "Utilisation_pct": 92.7
+   },
+   {
     "Product_Family": "Precision Machined Parts",
     "Region": "Latin America",
-    "Utilisation_pct": 95.0
+    "Utilisation_pct": 91.7
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 87.8
+    "Utilisation_pct": 87.9
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "North America",
-    "Utilisation_pct": 92.3
+    "Utilisation_pct": 90.4
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 99.7
+    "Utilisation_pct": 99.1
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Europe",
-    "Utilisation_pct": 96.5
+    "Utilisation_pct": 94.8
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "India",
-    "Utilisation_pct": 103.8
+    "Utilisation_pct": 103.3
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Latin America",
-    "Utilisation_pct": 97.7
+    "Utilisation_pct": 96.3
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 97.7
+    "Utilisation_pct": 96.0
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "North America",
-    "Utilisation_pct": 100.6
+    "Utilisation_pct": 97.1
    }
   ],
   "planning_risks": [
    {
     "type": "CAPACITY",
     "scope": "Chassis & Structural | Middle East & Africa",
-    "utilisation_pct": 106.0,
-    "base_utilisation_pct": 106.0
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | North America",
-    "utilisation_pct": 105.3,
-    "base_utilisation_pct": 105.3
+    "utilisation_pct": 104.9,
+    "base_utilisation_pct": 104.9
    },
    {
     "type": "CAPACITY",
     "scope": "Thermal Management | India",
-    "utilisation_pct": 103.8,
-    "base_utilisation_pct": 103.8
+    "utilisation_pct": 103.3,
+    "base_utilisation_pct": 103.3
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Brake & Safety Systems | North America",
+    "utilisation_pct": 102.8,
+    "base_utilisation_pct": 102.8
    },
    {
     "type": "CAPACITY",
     "scope": "Brake & Safety Systems | Middle East & Africa",
-    "utilisation_pct": 103.2,
-    "base_utilisation_pct": 103.2
+    "utilisation_pct": 100.9,
+    "base_utilisation_pct": 100.9
    },
    {
     "type": "CAPACITY",
     "scope": "Brake & Safety Systems | India",
-    "utilisation_pct": 101.2,
-    "base_utilisation_pct": 101.2
+    "utilisation_pct": 100.8,
+    "base_utilisation_pct": 100.8
    },
    {
     "type": "CAPACITY",
-    "scope": "Chassis & Structural | Latin America",
-    "utilisation_pct": 101.2,
-    "base_utilisation_pct": 101.2
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | Europe",
-    "utilisation_pct": 100.6,
-    "base_utilisation_pct": 100.6
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Thermal Management | North America",
+    "scope": "Chassis & Structural | India",
     "utilisation_pct": 100.6,
     "base_utilisation_pct": 100.6
    }
@@ -582,368 +570,368 @@
   "region_overlay": {},
   "method": "exact model re-forecast (simulated)",
   "total": {
-   "base_units": 2818669,
-   "scenario_units": 2624657,
-   "change_units": -194012,
-   "change_pct": -6.88,
-   "base_revenue": 2536706487,
-   "scenario_revenue": 2358250168,
-   "change_revenue": -178456319
+   "base_units": 2814345,
+   "scenario_units": 2641319,
+   "change_units": -173027,
+   "change_pct": -6.15,
+   "base_revenue": 2536960516,
+   "scenario_revenue": 2375027813,
+   "change_revenue": -161932703
   },
   "by_family": [
    {
     "Product_Family": "Brake & Safety Systems",
-    "Base": 536494.6,
-    "Scenario": 502431.23,
-    "Base_revenue": 291345503.46,
-    "Scenario_revenue": 272840840.43,
-    "Change_pct": -6.35,
-    "Change_units": -34063.36
+    "Base": 530087.21,
+    "Scenario": 500635.84,
+    "Base_revenue": 287750023.51,
+    "Scenario_revenue": 271683209.81,
+    "Change_pct": -5.56,
+    "Change_units": -29451.37
    },
    {
     "Product_Family": "Chassis & Structural",
-    "Base": 433277.67,
-    "Scenario": 406524.13,
-    "Base_revenue": 268924970.16,
-    "Scenario_revenue": 252331749.76,
-    "Change_pct": -6.17,
-    "Change_units": -26753.54
+    "Base": 432075.81,
+    "Scenario": 408753.62,
+    "Base_revenue": 268636601.79,
+    "Scenario_revenue": 254084453.34,
+    "Change_pct": -5.4,
+    "Change_units": -23322.19
    },
    {
     "Product_Family": "Electrical Assemblies",
-    "Base": 286133.1,
-    "Scenario": 263803.33,
-    "Base_revenue": 445215245.75,
-    "Scenario_revenue": 410496252.11,
+    "Base": 287779.7,
+    "Scenario": 265344.41,
+    "Base_revenue": 447864167.68,
+    "Scenario_revenue": 412858900.23,
     "Change_pct": -7.8,
-    "Change_units": -22329.77
+    "Change_units": -22435.29
    },
    {
     "Product_Family": "Hydraulic Systems",
-    "Base": 332242.97,
-    "Scenario": 305885.59,
-    "Base_revenue": 336064214.93,
-    "Scenario_revenue": 309394314.02,
-    "Change_pct": -7.93,
-    "Change_units": -26357.39
+    "Base": 333963.4,
+    "Scenario": 311824.03,
+    "Base_revenue": 337564415.35,
+    "Scenario_revenue": 315110018.96,
+    "Change_pct": -6.63,
+    "Change_units": -22139.37
    },
    {
     "Product_Family": "Powertrain Components",
-    "Base": 363166.21,
-    "Scenario": 338318.51,
-    "Base_revenue": 434574162.65,
-    "Scenario_revenue": 404865970.62,
-    "Change_pct": -6.84,
-    "Change_units": -24847.71
+    "Base": 363182.83,
+    "Scenario": 340198.3,
+    "Base_revenue": 434909630.8,
+    "Scenario_revenue": 407311053.91,
+    "Change_pct": -6.33,
+    "Change_units": -22984.53
    },
    {
     "Product_Family": "Precision Machined Parts",
-    "Base": 439003.2,
-    "Scenario": 408166.16,
-    "Base_revenue": 361426923.54,
-    "Scenario_revenue": 335998374.93,
-    "Change_pct": -7.02,
-    "Change_units": -30837.03
+    "Base": 440486.52,
+    "Scenario": 412988.51,
+    "Base_revenue": 362229230.11,
+    "Scenario_revenue": 339523575.79,
+    "Change_pct": -6.24,
+    "Change_units": -27498.01
    },
    {
     "Product_Family": "Thermal Management",
-    "Base": 428351.18,
-    "Scenario": 399527.84,
-    "Base_revenue": 399155466.02,
-    "Scenario_revenue": 372322665.65,
-    "Change_pct": -6.73,
-    "Change_units": -28823.35
+    "Base": 426769.99,
+    "Scenario": 401574.12,
+    "Base_revenue": 398006446.37,
+    "Scenario_revenue": 374456600.57,
+    "Change_pct": -5.9,
+    "Change_units": -25195.87
    }
   ],
   "by_region": [
    {
     "Region": "Asia Pacific",
-    "Base": 505731.16,
-    "Scenario": 471595.24,
-    "Base_revenue": 460955950.56,
-    "Scenario_revenue": 429374643.85,
-    "Change_pct": -6.75,
-    "Change_units": -34135.93
+    "Base": 505890.71,
+    "Scenario": 475393.54,
+    "Base_revenue": 461948610.98,
+    "Scenario_revenue": 433060234.63,
+    "Change_pct": -6.03,
+    "Change_units": -30497.17
    },
    {
     "Region": "Europe",
-    "Base": 540178.86,
-    "Scenario": 503422.6,
-    "Base_revenue": 490162688.93,
-    "Scenario_revenue": 455921119.14,
-    "Change_pct": -6.8,
-    "Change_units": -36756.26
+    "Base": 537976.07,
+    "Scenario": 505187.32,
+    "Base_revenue": 489001742.29,
+    "Scenario_revenue": 458025666.69,
+    "Change_pct": -6.09,
+    "Change_units": -32788.75
    },
    {
     "Region": "India",
-    "Base": 514509.49,
-    "Scenario": 479849.31,
-    "Base_revenue": 457465941.44,
-    "Scenario_revenue": 425779401.88,
-    "Change_pct": -6.74,
-    "Change_units": -34660.18
+    "Base": 519338.09,
+    "Scenario": 487463.34,
+    "Base_revenue": 462621579.8,
+    "Scenario_revenue": 432999836.3,
+    "Change_pct": -6.14,
+    "Change_units": -31874.75
    },
    {
     "Region": "Latin America",
-    "Base": 462053.22,
-    "Scenario": 428389.82,
-    "Base_revenue": 419558813.15,
-    "Scenario_revenue": 388311617.4,
-    "Change_pct": -7.29,
-    "Change_units": -33663.41
+    "Base": 457794.56,
+    "Scenario": 428936.89,
+    "Base_revenue": 416523062.3,
+    "Scenario_revenue": 389326519.36,
+    "Change_pct": -6.3,
+    "Change_units": -28857.67
    },
    {
     "Region": "Middle East & Africa",
-    "Base": 261339.41,
-    "Scenario": 243284.59,
-    "Base_revenue": 233933701.75,
-    "Scenario_revenue": 217508452.45,
-    "Change_pct": -6.91,
-    "Change_units": -18054.83
+    "Base": 261897.83,
+    "Scenario": 245796.28,
+    "Base_revenue": 234953933.16,
+    "Scenario_revenue": 220051471.1,
+    "Change_pct": -6.15,
+    "Change_units": -16101.54
    },
    {
     "Region": "North America",
-    "Base": 534856.78,
-    "Scenario": 498115.23,
-    "Base_revenue": 474629390.66,
-    "Scenario_revenue": 441354932.79,
-    "Change_pct": -6.87,
-    "Change_units": -36741.55
+    "Base": 531448.21,
+    "Scenario": 498541.46,
+    "Base_revenue": 471911587.09,
+    "Scenario_revenue": 441564084.52,
+    "Change_pct": -6.19,
+    "Change_units": -32906.76
    }
   ],
   "by_month": [
    {
     "Date": "2026-11",
-    "Base": 161335.79,
-    "Scenario": 161335.79,
-    "Base_revenue": 138744052.26,
-    "Scenario_revenue": 138744052.26,
+    "Base": 158993.77,
+    "Scenario": 158993.77,
+    "Base_revenue": 136562054.42,
+    "Scenario_revenue": 136562054.42,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2026-12",
-    "Base": 144458.97,
-    "Scenario": 143988.45,
-    "Base_revenue": 125411459.76,
-    "Scenario_revenue": 124985704.67,
-    "Change_pct": -0.33,
-    "Change_units": -470.53
+    "Base": 142759.86,
+    "Scenario": 141939.14,
+    "Base_revenue": 123948131.22,
+    "Scenario_revenue": 123226004.36,
+    "Change_pct": -0.57,
+    "Change_units": -820.72
    },
    {
     "Date": "2027-01",
-    "Base": 152425.97,
-    "Scenario": 143678.48,
-    "Base_revenue": 136414909.27,
-    "Scenario_revenue": 127784044.07,
-    "Change_pct": -5.74,
-    "Change_units": -8747.49
+    "Base": 151596.23,
+    "Scenario": 144433.81,
+    "Base_revenue": 135667153.55,
+    "Scenario_revenue": 128741282.09,
+    "Change_pct": -4.72,
+    "Change_units": -7162.42
    },
    {
     "Date": "2027-02",
-    "Base": 140314.87,
-    "Scenario": 129894.41,
-    "Base_revenue": 126795107.86,
-    "Scenario_revenue": 117016494.27,
-    "Change_pct": -7.43,
-    "Change_units": -10420.46
+    "Base": 139959.79,
+    "Scenario": 130374.16,
+    "Base_revenue": 126522790.94,
+    "Scenario_revenue": 117541257.04,
+    "Change_pct": -6.85,
+    "Change_units": -9585.63
    },
    {
     "Date": "2027-03",
-    "Base": 159336.67,
-    "Scenario": 145007.96,
-    "Base_revenue": 141770827.4,
-    "Scenario_revenue": 128703013.63,
-    "Change_pct": -8.99,
-    "Change_units": -14328.71
+    "Base": 157796.02,
+    "Scenario": 144294.19,
+    "Base_revenue": 140293086.71,
+    "Scenario_revenue": 127981528.05,
+    "Change_pct": -8.56,
+    "Change_units": -13501.83
    },
    {
     "Date": "2027-04",
-    "Base": 160545.33,
-    "Scenario": 146616.81,
-    "Base_revenue": 145166651.82,
-    "Scenario_revenue": 132258839.34,
-    "Change_pct": -8.68,
-    "Change_units": -13928.52
+    "Base": 157512.77,
+    "Scenario": 144503.55,
+    "Base_revenue": 142304650.47,
+    "Scenario_revenue": 130214046.36,
+    "Change_pct": -8.26,
+    "Change_units": -13009.22
    },
    {
     "Date": "2027-05",
-    "Base": 158711.09,
-    "Scenario": 138032.78,
-    "Base_revenue": 141490469.23,
-    "Scenario_revenue": 122864904.95,
-    "Change_pct": -13.03,
-    "Change_units": -20678.31
+    "Base": 156050.95,
+    "Scenario": 143094.91,
+    "Base_revenue": 139106357.55,
+    "Scenario_revenue": 127131555.84,
+    "Change_pct": -8.3,
+    "Change_units": -12956.04
    },
    {
     "Date": "2027-06",
-    "Base": 147748.99,
-    "Scenario": 125451.04,
-    "Base_revenue": 132756777.42,
-    "Scenario_revenue": 112225356.47,
-    "Change_pct": -15.09,
-    "Change_units": -22297.95
+    "Base": 145565.13,
+    "Scenario": 130934.07,
+    "Base_revenue": 130830896.06,
+    "Scenario_revenue": 117001175.13,
+    "Change_pct": -10.05,
+    "Change_units": -14631.06
    },
    {
     "Date": "2027-07",
-    "Base": 145677.5,
-    "Scenario": 126465.32,
-    "Base_revenue": 130491008.82,
-    "Scenario_revenue": 112864684.02,
-    "Change_pct": -13.19,
-    "Change_units": -19212.18
+    "Base": 145396.88,
+    "Scenario": 131808.76,
+    "Base_revenue": 130372197.35,
+    "Scenario_revenue": 117499793.12,
+    "Change_pct": -9.35,
+    "Change_units": -13588.11
    },
    {
     "Date": "2027-08",
-    "Base": 133189.43,
-    "Scenario": 115766.99,
-    "Base_revenue": 119830004.64,
-    "Scenario_revenue": 103844037.31,
-    "Change_pct": -13.08,
-    "Change_units": -17422.44
+    "Base": 133566.71,
+    "Scenario": 121253.2,
+    "Base_revenue": 120509640.89,
+    "Scenario_revenue": 108747514.75,
+    "Change_pct": -9.22,
+    "Change_units": -12313.51
    },
    {
     "Date": "2027-09",
-    "Base": 151891.14,
-    "Scenario": 134402.78,
-    "Base_revenue": 134275216.57,
-    "Scenario_revenue": 118630878.55,
-    "Change_pct": -11.51,
-    "Change_units": -17488.36
+    "Base": 152604.78,
+    "Scenario": 140879.21,
+    "Base_revenue": 135338028.81,
+    "Scenario_revenue": 124414458.97,
+    "Change_pct": -7.68,
+    "Change_units": -11725.56
    },
    {
     "Date": "2027-10",
-    "Base": 152520.64,
-    "Scenario": 141956.88,
-    "Base_revenue": 136717605.79,
-    "Scenario_revenue": 126912765.98,
-    "Change_pct": -6.93,
-    "Change_units": -10563.76
+    "Base": 153709.28,
+    "Scenario": 143408.11,
+    "Base_revenue": 138340330.9,
+    "Scenario_revenue": 128568628.15,
+    "Change_pct": -6.7,
+    "Change_units": -10301.17
    },
    {
     "Date": "2027-11",
-    "Base": 147638.19,
-    "Scenario": 141158.65,
-    "Base_revenue": 131182778.77,
-    "Scenario_revenue": 125320015.07,
-    "Change_pct": -4.39,
-    "Change_units": -6479.54
+    "Base": 149026.99,
+    "Scenario": 141222.96,
+    "Base_revenue": 132864225.98,
+    "Scenario_revenue": 125660622.77,
+    "Change_pct": -5.24,
+    "Change_units": -7804.03
    },
    {
     "Date": "2027-12",
-    "Base": 132581.66,
-    "Scenario": 127282.77,
-    "Base_revenue": 118914475.71,
-    "Scenario_revenue": 114089858.37,
-    "Change_pct": -4.0,
-    "Change_units": -5298.89
+    "Base": 132643.6,
+    "Scenario": 126045.57,
+    "Base_revenue": 119393906.65,
+    "Scenario_revenue": 113306502.83,
+    "Change_pct": -4.97,
+    "Change_units": -6598.02
    },
    {
     "Date": "2028-01",
-    "Base": 136636.38,
-    "Scenario": 131483.29,
-    "Base_revenue": 125905272.51,
-    "Scenario_revenue": 121020354.31,
-    "Change_pct": -3.77,
-    "Change_units": -5153.09
+    "Base": 138025.37,
+    "Scenario": 130476.46,
+    "Base_revenue": 127541725.21,
+    "Scenario_revenue": 120418414.32,
+    "Change_pct": -5.47,
+    "Change_units": -7548.91
    },
    {
     "Date": "2028-02",
-    "Base": 134556.39,
-    "Scenario": 127399.55,
-    "Base_revenue": 125701784.56,
-    "Scenario_revenue": 118976607.8,
-    "Change_pct": -5.32,
-    "Change_units": -7156.84
+    "Base": 135737.14,
+    "Scenario": 126442.77,
+    "Base_revenue": 127150897.27,
+    "Scenario_revenue": 118369968.28,
+    "Change_pct": -6.85,
+    "Change_units": -9294.36
    },
    {
     "Date": "2028-03",
-    "Base": 152374.36,
-    "Scenario": 147558.84,
-    "Base_revenue": 140240459.47,
-    "Scenario_revenue": 135823771.83,
-    "Change_pct": -3.16,
-    "Change_units": -4815.52
+    "Base": 154306.0,
+    "Scenario": 146446.26,
+    "Base_revenue": 142419065.45,
+    "Scenario_revenue": 135119974.13,
+    "Change_pct": -5.09,
+    "Change_units": -7859.75
    },
    {
     "Date": "2028-04",
-    "Base": 153889.46,
-    "Scenario": 148976.68,
-    "Base_revenue": 143894581.12,
-    "Scenario_revenue": 139365155.85,
-    "Change_pct": -3.19,
-    "Change_units": -4912.78
+    "Base": 154683.18,
+    "Scenario": 147480.19,
+    "Base_revenue": 144956933.21,
+    "Scenario_revenue": 138232046.79,
+    "Change_pct": -4.66,
+    "Change_units": -7202.99
    },
    {
     "Date": "2028-05",
-    "Base": 152836.09,
-    "Scenario": 148199.33,
-    "Base_revenue": 141003043.5,
-    "Scenario_revenue": 136819628.79,
-    "Change_pct": -3.03,
-    "Change_units": -4636.76
+    "Base": 154411.02,
+    "Scenario": 147287.73,
+    "Base_revenue": 142838442.96,
+    "Scenario_revenue": 136290985.21,
+    "Change_pct": -4.61,
+    "Change_units": -7123.29
    }
   ],
   "capacity": [
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 93.5
+    "Utilisation_pct": 91.8
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Europe",
-    "Utilisation_pct": 95.1
+    "Utilisation_pct": 93.2
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "India",
-    "Utilisation_pct": 94.6
+    "Utilisation_pct": 93.9
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Latin America",
-    "Utilisation_pct": 94.2
+    "Utilisation_pct": 91.0
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 99.8
+    "Utilisation_pct": 97.6
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "North America",
-    "Utilisation_pct": 100.6
+    "Utilisation_pct": 99.1
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 93.7
+    "Utilisation_pct": 93.0
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "Europe",
-    "Utilisation_pct": 95.0
+    "Utilisation_pct": 93.6
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "India",
-    "Utilisation_pct": 94.5
+    "Utilisation_pct": 95.3
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "Latin America",
-    "Utilisation_pct": 96.0
+    "Utilisation_pct": 93.8
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 102.1
+    "Utilisation_pct": 101.2
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "North America",
-    "Utilisation_pct": 89.6
+    "Utilisation_pct": 88.9
    },
    {
     "Product_Family": "Electrical Assemblies",
@@ -953,102 +941,102 @@
    {
     "Product_Family": "Electrical Assemblies",
     "Region": "Europe",
+    "Utilisation_pct": 88.5
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "India",
+    "Utilisation_pct": 92.3
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "Latin America",
+    "Utilisation_pct": 90.6
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 82.0
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "North America",
+    "Utilisation_pct": 93.5
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 88.6
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Europe",
+    "Utilisation_pct": 89.1
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "India",
     "Utilisation_pct": 89.4
    },
    {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "India",
-    "Utilisation_pct": 90.7
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
+    "Product_Family": "Hydraulic Systems",
     "Region": "Latin America",
-    "Utilisation_pct": 91.0
+    "Utilisation_pct": 85.7
    },
    {
-    "Product_Family": "Electrical Assemblies",
+    "Product_Family": "Hydraulic Systems",
     "Region": "Middle East & Africa",
+    "Utilisation_pct": 77.8
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "North America",
+    "Utilisation_pct": 94.2
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 91.8
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Europe",
     "Utilisation_pct": 83.2
    },
    {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "North America",
-    "Utilisation_pct": 94.3
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 88.1
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "Europe",
-    "Utilisation_pct": 89.3
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
+    "Product_Family": "Powertrain Components",
     "Region": "India",
-    "Utilisation_pct": 88.4
+    "Utilisation_pct": 87.8
    },
    {
-    "Product_Family": "Hydraulic Systems",
+    "Product_Family": "Powertrain Components",
     "Region": "Latin America",
-    "Utilisation_pct": 85.0
+    "Utilisation_pct": 84.1
    },
    {
-    "Product_Family": "Hydraulic Systems",
+    "Product_Family": "Powertrain Components",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 77.9
+    "Utilisation_pct": 87.6
    },
    {
-    "Product_Family": "Hydraulic Systems",
+    "Product_Family": "Powertrain Components",
     "Region": "North America",
-    "Utilisation_pct": 94.9
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 92.0
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Europe",
     "Utilisation_pct": 83.7
    },
    {
-    "Product_Family": "Powertrain Components",
-    "Region": "India",
-    "Utilisation_pct": 88.0
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Latin America",
-    "Utilisation_pct": 84.4
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 88.0
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "North America",
-    "Utilisation_pct": 85.1
-   },
-   {
     "Product_Family": "Precision Machined Parts",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 92.9
+    "Utilisation_pct": 93.3
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "Europe",
-    "Utilisation_pct": 88.9
+    "Utilisation_pct": 88.8
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "India",
-    "Utilisation_pct": 90.0
+    "Utilisation_pct": 89.7
    },
    {
     "Product_Family": "Precision Machined Parts",
@@ -1058,12 +1046,12 @@
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 85.3
+    "Utilisation_pct": 85.8
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "North America",
-    "Utilisation_pct": 86.0
+    "Utilisation_pct": 85.0
    },
    {
     "Product_Family": "Thermal Management",
@@ -1073,51 +1061,45 @@
    {
     "Product_Family": "Thermal Management",
     "Region": "Europe",
-    "Utilisation_pct": 89.1
+    "Utilisation_pct": 88.1
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "India",
-    "Utilisation_pct": 96.0
+    "Utilisation_pct": 96.7
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Latin America",
-    "Utilisation_pct": 89.8
+    "Utilisation_pct": 90.0
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 93.5
+    "Utilisation_pct": 92.2
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "North America",
-    "Utilisation_pct": 92.7
+    "Utilisation_pct": 91.2
    }
   ],
   "planning_risks": [
    {
     "type": "CAPACITY",
     "scope": "Chassis & Structural | Middle East & Africa",
-    "utilisation_pct": 102.1,
-    "base_utilisation_pct": 106.0
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | North America",
-    "utilisation_pct": 100.6,
-    "base_utilisation_pct": 105.3
+    "utilisation_pct": 101.2,
+    "base_utilisation_pct": 104.9
    },
    {
     "type": "DEMAND_DROP",
     "scope": "Brake & Safety Systems",
-    "change_pct": -6.35
+    "change_pct": -5.56
    },
    {
     "type": "DEMAND_DROP",
     "scope": "Chassis & Structural",
-    "change_pct": -6.17
+    "change_pct": -5.4
    },
    {
     "type": "DEMAND_DROP",
@@ -1127,27 +1109,27 @@
    {
     "type": "DEMAND_DROP",
     "scope": "Hydraulic Systems",
-    "change_pct": -7.93
+    "change_pct": -6.63
    },
    {
     "type": "DEMAND_DROP",
     "scope": "Powertrain Components",
-    "change_pct": -6.84
+    "change_pct": -6.33
    },
    {
     "type": "DEMAND_DROP",
     "scope": "Precision Machined Parts",
-    "change_pct": -7.02
+    "change_pct": -6.24
    },
    {
     "type": "DEMAND_DROP",
     "scope": "Thermal Management",
-    "change_pct": -6.73
+    "change_pct": -5.9
    }
   ],
   "responses": [
-   "Demand -6.9% vs base: slow purchase-order releases to the scenario forecast, keep safety stock only on A-class items, and review fixed supplier commitments.",
-   "Most exposed family: Hydraulic Systems (-7.9%) - prioritise it in the inventory and capacity review."
+   "Demand -6.2% vs base: slow purchase-order releases to the scenario forecast, keep safety stock only on A-class items, and review fixed supplier commitments.",
+   "Most exposed family: Electrical Assemblies (-7.8%) - prioritise it in the inventory and capacity review."
   ]
  },
  "Upside": {
@@ -1160,438 +1142,438 @@
   "region_overlay": {},
   "method": "exact model re-forecast (simulated)",
   "total": {
-   "base_units": 2818669,
-   "scenario_units": 2955754,
-   "change_units": 137085,
-   "change_pct": 4.86,
-   "base_revenue": 2536706487,
-   "scenario_revenue": 2678799063,
-   "change_revenue": 142092577
+   "base_units": 2814345,
+   "scenario_units": 2924789,
+   "change_units": 110444,
+   "change_pct": 3.92,
+   "base_revenue": 2536960516,
+   "scenario_revenue": 2648363574,
+   "change_revenue": 111403058
   },
   "by_family": [
    {
     "Product_Family": "Brake & Safety Systems",
-    "Base": 536494.6,
-    "Scenario": 541617.42,
-    "Base_revenue": 291345503.46,
-    "Scenario_revenue": 294080306.83,
-    "Change_pct": 0.95,
-    "Change_units": 5122.82
+    "Base": 530087.21,
+    "Scenario": 538005.91,
+    "Base_revenue": 287750023.51,
+    "Scenario_revenue": 292050223.82,
+    "Change_pct": 1.49,
+    "Change_units": 7918.7
    },
    {
     "Product_Family": "Chassis & Structural",
-    "Base": 433277.67,
-    "Scenario": 449576.6,
-    "Base_revenue": 268924970.16,
-    "Scenario_revenue": 279128672.7,
-    "Change_pct": 3.76,
-    "Change_units": 16298.94
+    "Base": 432075.81,
+    "Scenario": 444817.43,
+    "Base_revenue": 268636601.79,
+    "Scenario_revenue": 276634974.02,
+    "Change_pct": 2.95,
+    "Change_units": 12741.62
    },
    {
     "Product_Family": "Electrical Assemblies",
-    "Base": 286133.1,
-    "Scenario": 312696.98,
-    "Base_revenue": 445215245.75,
-    "Scenario_revenue": 486890199.84,
-    "Change_pct": 9.28,
-    "Change_units": 26563.88
+    "Base": 287779.7,
+    "Scenario": 306247.21,
+    "Base_revenue": 447864167.68,
+    "Scenario_revenue": 476834302.43,
+    "Change_pct": 6.42,
+    "Change_units": 18467.51
    },
    {
     "Product_Family": "Hydraulic Systems",
-    "Base": 332242.97,
-    "Scenario": 354754.47,
-    "Base_revenue": 336064214.93,
-    "Scenario_revenue": 359016404.94,
-    "Change_pct": 6.78,
-    "Change_units": 22511.49
+    "Base": 333963.4,
+    "Scenario": 352821.84,
+    "Base_revenue": 337564415.35,
+    "Scenario_revenue": 356779942.26,
+    "Change_pct": 5.65,
+    "Change_units": 18858.43
    },
    {
     "Product_Family": "Powertrain Components",
-    "Base": 363166.21,
-    "Scenario": 382000.16,
-    "Base_revenue": 434574162.65,
-    "Scenario_revenue": 457326369.11,
-    "Change_pct": 5.19,
-    "Change_units": 18833.94
+    "Base": 363182.83,
+    "Scenario": 378255.21,
+    "Base_revenue": 434909630.8,
+    "Scenario_revenue": 453098764.04,
+    "Change_pct": 4.15,
+    "Change_units": 15072.38
    },
    {
     "Product_Family": "Precision Machined Parts",
-    "Base": 439003.2,
-    "Scenario": 467018.67,
-    "Base_revenue": 361426923.54,
-    "Scenario_revenue": 384669188.49,
-    "Change_pct": 6.38,
-    "Change_units": 28015.47
+    "Base": 440486.52,
+    "Scenario": 462131.7,
+    "Base_revenue": 362229230.11,
+    "Scenario_revenue": 380169665.84,
+    "Change_pct": 4.91,
+    "Change_units": 21645.18
    },
    {
     "Product_Family": "Thermal Management",
-    "Base": 428351.18,
-    "Scenario": 448089.81,
-    "Base_revenue": 399155466.02,
-    "Scenario_revenue": 417687921.44,
-    "Change_pct": 4.61,
-    "Change_units": 19738.63
+    "Base": 426769.99,
+    "Scenario": 442509.82,
+    "Base_revenue": 398006446.37,
+    "Scenario_revenue": 412795701.12,
+    "Change_pct": 3.69,
+    "Change_units": 15739.83
    }
   ],
   "by_region": [
    {
     "Region": "Asia Pacific",
-    "Base": 505731.16,
-    "Scenario": 528386.24,
-    "Base_revenue": 460955950.56,
-    "Scenario_revenue": 485096148.39,
-    "Change_pct": 4.48,
-    "Change_units": 22655.08
+    "Base": 505890.71,
+    "Scenario": 524761.93,
+    "Base_revenue": 461948610.98,
+    "Scenario_revenue": 481473690.48,
+    "Change_pct": 3.73,
+    "Change_units": 18871.22
    },
    {
     "Region": "Europe",
-    "Base": 540178.86,
-    "Scenario": 566534.87,
-    "Base_revenue": 490162688.93,
-    "Scenario_revenue": 517747510.79,
-    "Change_pct": 4.88,
-    "Change_units": 26356.01
+    "Base": 537976.07,
+    "Scenario": 558456.01,
+    "Base_revenue": 489001742.29,
+    "Scenario_revenue": 509956894.96,
+    "Change_pct": 3.81,
+    "Change_units": 20479.94
    },
    {
     "Region": "India",
-    "Base": 514509.49,
-    "Scenario": 538501.16,
-    "Base_revenue": 457465941.44,
-    "Scenario_revenue": 481968445.73,
-    "Change_pct": 4.66,
-    "Change_units": 23991.67
+    "Base": 519338.09,
+    "Scenario": 539540.72,
+    "Base_revenue": 462621579.8,
+    "Scenario_revenue": 482463464.66,
+    "Change_pct": 3.89,
+    "Change_units": 20202.63
    },
    {
     "Region": "Latin America",
-    "Base": 462053.22,
-    "Scenario": 483408.77,
-    "Base_revenue": 419558813.15,
-    "Scenario_revenue": 441904482.41,
-    "Change_pct": 4.62,
-    "Change_units": 21355.55
+    "Base": 457794.56,
+    "Scenario": 475008.8,
+    "Base_revenue": 416523062.3,
+    "Scenario_revenue": 434102229.68,
+    "Change_pct": 3.76,
+    "Change_units": 17214.23
    },
    {
     "Region": "Middle East & Africa",
-    "Base": 261339.41,
-    "Scenario": 279745.46,
-    "Base_revenue": 233933701.75,
-    "Scenario_revenue": 252411186.47,
-    "Change_pct": 7.04,
-    "Change_units": 18406.05
+    "Base": 261897.83,
+    "Scenario": 276204.34,
+    "Base_revenue": 234953933.16,
+    "Scenario_revenue": 248898598.29,
+    "Change_pct": 5.46,
+    "Change_units": 14306.51
    },
    {
     "Region": "North America",
-    "Base": 534856.78,
-    "Scenario": 559177.59,
-    "Base_revenue": 474629390.66,
-    "Scenario_revenue": 499671289.57,
-    "Change_pct": 4.55,
-    "Change_units": 24320.81
+    "Base": 531448.21,
+    "Scenario": 550817.33,
+    "Base_revenue": 471911587.09,
+    "Scenario_revenue": 491468695.44,
+    "Change_pct": 3.64,
+    "Change_units": 19369.12
    }
   ],
   "by_month": [
    {
     "Date": "2026-11",
-    "Base": 161335.79,
-    "Scenario": 161335.79,
-    "Base_revenue": 138744052.26,
-    "Scenario_revenue": 138744052.26,
+    "Base": 158993.77,
+    "Scenario": 158993.77,
+    "Base_revenue": 136562054.42,
+    "Scenario_revenue": 136562054.42,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2026-12",
-    "Base": 144458.97,
-    "Scenario": 148250.43,
-    "Base_revenue": 125411459.76,
-    "Scenario_revenue": 128660701.61,
-    "Change_pct": 2.62,
-    "Change_units": 3791.45
+    "Base": 142759.86,
+    "Scenario": 145522.3,
+    "Base_revenue": 123948131.22,
+    "Scenario_revenue": 126323661.31,
+    "Change_pct": 1.94,
+    "Change_units": 2762.44
    },
    {
     "Date": "2027-01",
-    "Base": 152425.97,
-    "Scenario": 155444.36,
-    "Base_revenue": 136414909.27,
-    "Scenario_revenue": 139263592.63,
-    "Change_pct": 1.98,
-    "Change_units": 3018.39
+    "Base": 151596.23,
+    "Scenario": 154492.59,
+    "Base_revenue": 135667153.55,
+    "Scenario_revenue": 138349645.99,
+    "Change_pct": 1.91,
+    "Change_units": 2896.35
    },
    {
     "Date": "2027-02",
-    "Base": 140314.87,
-    "Scenario": 144985.57,
-    "Base_revenue": 126795107.86,
-    "Scenario_revenue": 131470341.18,
-    "Change_pct": 3.33,
-    "Change_units": 4670.7
+    "Base": 139959.79,
+    "Scenario": 144458.67,
+    "Base_revenue": 126522790.94,
+    "Scenario_revenue": 130885083.49,
+    "Change_pct": 3.21,
+    "Change_units": 4498.88
    },
    {
     "Date": "2027-03",
-    "Base": 159336.67,
-    "Scenario": 168935.09,
-    "Base_revenue": 141770827.4,
-    "Scenario_revenue": 151119935.22,
-    "Change_pct": 6.02,
-    "Change_units": 9598.42
+    "Base": 157796.02,
+    "Scenario": 165960.69,
+    "Base_revenue": 140293086.71,
+    "Scenario_revenue": 148236630.47,
+    "Change_pct": 5.17,
+    "Change_units": 8164.66
    },
    {
     "Date": "2027-04",
-    "Base": 160545.33,
-    "Scenario": 168747.04,
-    "Base_revenue": 145166651.82,
-    "Scenario_revenue": 153354126.03,
-    "Change_pct": 5.11,
-    "Change_units": 8201.71
+    "Base": 157512.77,
+    "Scenario": 167953.24,
+    "Base_revenue": 142304650.47,
+    "Scenario_revenue": 152331639.18,
+    "Change_pct": 6.63,
+    "Change_units": 10440.47
    },
    {
     "Date": "2027-05",
-    "Base": 158711.09,
-    "Scenario": 165654.56,
-    "Base_revenue": 141490469.23,
-    "Scenario_revenue": 148229415.49,
-    "Change_pct": 4.37,
-    "Change_units": 6943.47
+    "Base": 156050.95,
+    "Scenario": 162278.55,
+    "Base_revenue": 139106357.55,
+    "Scenario_revenue": 145060054.3,
+    "Change_pct": 3.99,
+    "Change_units": 6227.6
    },
    {
     "Date": "2027-06",
-    "Base": 147748.99,
-    "Scenario": 153699.56,
-    "Base_revenue": 132756777.42,
-    "Scenario_revenue": 138576392.81,
-    "Change_pct": 4.03,
-    "Change_units": 5950.57
+    "Base": 145565.13,
+    "Scenario": 150301.9,
+    "Base_revenue": 130830896.06,
+    "Scenario_revenue": 135472868.69,
+    "Change_pct": 3.25,
+    "Change_units": 4736.76
    },
    {
     "Date": "2027-07",
-    "Base": 145677.5,
-    "Scenario": 151166.22,
-    "Base_revenue": 130491008.82,
-    "Scenario_revenue": 136121006.26,
-    "Change_pct": 3.77,
-    "Change_units": 5488.72
+    "Base": 145396.88,
+    "Scenario": 149834.07,
+    "Base_revenue": 130372197.35,
+    "Scenario_revenue": 134852772.36,
+    "Change_pct": 3.05,
+    "Change_units": 4437.2
    },
    {
     "Date": "2027-08",
-    "Base": 133189.43,
-    "Scenario": 139122.02,
-    "Base_revenue": 119830004.64,
-    "Scenario_revenue": 125868497.35,
-    "Change_pct": 4.45,
-    "Change_units": 5932.59
+    "Base": 133566.71,
+    "Scenario": 137679.06,
+    "Base_revenue": 120509640.89,
+    "Scenario_revenue": 124719620.84,
+    "Change_pct": 3.08,
+    "Change_units": 4112.35
    },
    {
     "Date": "2027-09",
-    "Base": 151891.14,
-    "Scenario": 160269.15,
-    "Base_revenue": 134275216.57,
-    "Scenario_revenue": 142705578.87,
-    "Change_pct": 5.52,
-    "Change_units": 8378.01
+    "Base": 152604.78,
+    "Scenario": 158725.82,
+    "Base_revenue": 135338028.81,
+    "Scenario_revenue": 141335609.9,
+    "Change_pct": 4.01,
+    "Change_units": 6121.05
    },
    {
     "Date": "2027-10",
-    "Base": 152520.64,
-    "Scenario": 161099.87,
-    "Base_revenue": 136717605.79,
-    "Scenario_revenue": 145690762.63,
-    "Change_pct": 5.62,
-    "Change_units": 8579.23
+    "Base": 153709.28,
+    "Scenario": 159091.12,
+    "Base_revenue": 138340330.9,
+    "Scenario_revenue": 143867944.31,
+    "Change_pct": 3.5,
+    "Change_units": 5381.84
    },
    {
     "Date": "2027-11",
-    "Base": 147638.19,
-    "Scenario": 156575.79,
-    "Base_revenue": 131182778.77,
-    "Scenario_revenue": 140404182.68,
-    "Change_pct": 6.05,
-    "Change_units": 8937.61
+    "Base": 149026.99,
+    "Scenario": 154679.31,
+    "Base_revenue": 132864225.98,
+    "Scenario_revenue": 138580734.73,
+    "Change_pct": 3.79,
+    "Change_units": 5652.32
    },
    {
     "Date": "2027-12",
-    "Base": 132581.66,
-    "Scenario": 142338.4,
-    "Base_revenue": 118914475.71,
-    "Scenario_revenue": 129294143.99,
-    "Change_pct": 7.36,
-    "Change_units": 9756.73
+    "Base": 132643.6,
+    "Scenario": 141491.14,
+    "Base_revenue": 119393906.65,
+    "Scenario_revenue": 128359612.4,
+    "Change_pct": 6.67,
+    "Change_units": 8847.55
    },
    {
     "Date": "2028-01",
-    "Base": 136636.38,
-    "Scenario": 147610.85,
-    "Base_revenue": 125905272.51,
-    "Scenario_revenue": 137773029.54,
-    "Change_pct": 8.03,
-    "Change_units": 10974.48
+    "Base": 138025.37,
+    "Scenario": 148403.23,
+    "Base_revenue": 127541725.21,
+    "Scenario_revenue": 138154773.5,
+    "Change_pct": 7.52,
+    "Change_units": 10377.86
    },
    {
     "Date": "2028-02",
-    "Base": 134556.39,
-    "Scenario": 147250.97,
-    "Base_revenue": 125701784.56,
-    "Scenario_revenue": 139303190.14,
-    "Change_pct": 9.43,
-    "Change_units": 12694.58
+    "Base": 135737.14,
+    "Scenario": 145202.23,
+    "Base_revenue": 127150897.27,
+    "Scenario_revenue": 137112373.51,
+    "Change_pct": 6.97,
+    "Change_units": 9465.09
    },
    {
     "Date": "2028-03",
-    "Base": 152374.36,
-    "Scenario": 160719.11,
-    "Base_revenue": 140240459.47,
-    "Scenario_revenue": 149360782.42,
-    "Change_pct": 5.48,
-    "Change_units": 8344.75
+    "Base": 154306.0,
+    "Scenario": 159640.3,
+    "Base_revenue": 142419065.45,
+    "Scenario_revenue": 148194600.31,
+    "Change_pct": 3.46,
+    "Change_units": 5334.3
    },
    {
     "Date": "2028-04",
-    "Base": 153889.46,
-    "Scenario": 161745.78,
-    "Base_revenue": 143894581.12,
-    "Scenario_revenue": 152920415.57,
-    "Change_pct": 5.11,
-    "Change_units": 7856.31
+    "Base": 154683.18,
+    "Scenario": 160129.24,
+    "Base_revenue": 144956933.21,
+    "Scenario_revenue": 151051677.44,
+    "Change_pct": 3.52,
+    "Change_units": 5446.06
    },
    {
     "Date": "2028-05",
-    "Base": 152836.09,
-    "Scenario": 160803.53,
-    "Base_revenue": 141003043.5,
-    "Scenario_revenue": 149938916.66,
-    "Change_pct": 5.21,
-    "Change_units": 7967.44
+    "Base": 154411.02,
+    "Scenario": 159951.9,
+    "Base_revenue": 142838442.96,
+    "Scenario_revenue": 148912216.36,
+    "Change_pct": 3.59,
+    "Change_units": 5540.88
    }
   ],
   "capacity": [
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 100.6
+    "Utilisation_pct": 99.6
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Europe",
-    "Utilisation_pct": 103.0
+    "Utilisation_pct": 100.0
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "India",
-    "Utilisation_pct": 103.7
+    "Utilisation_pct": 104.7
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Latin America",
-    "Utilisation_pct": 101.8
+    "Utilisation_pct": 99.0
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 106.6
+    "Utilisation_pct": 105.5
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "North America",
-    "Utilisation_pct": 107.9
+    "Utilisation_pct": 105.9
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "Asia Pacific",
+    "Utilisation_pct": 101.0
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "Europe",
     "Utilisation_pct": 102.0
    },
    {
     "Product_Family": "Chassis & Structural",
-    "Region": "Europe",
-    "Utilisation_pct": 104.1
-   },
-   {
-    "Product_Family": "Chassis & Structural",
     "Region": "India",
-    "Utilisation_pct": 102.6
+    "Utilisation_pct": 104.7
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "Latin America",
-    "Utilisation_pct": 105.3
+    "Utilisation_pct": 103.2
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 111.5
+    "Utilisation_pct": 110.2
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "North America",
-    "Utilisation_pct": 97.6
+    "Utilisation_pct": 95.3
    },
    {
     "Product_Family": "Electrical Assemblies",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 107.0
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "Europe",
-    "Utilisation_pct": 105.9
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "India",
-    "Utilisation_pct": 105.7
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "Latin America",
     "Utilisation_pct": 105.6
    },
    {
     "Product_Family": "Electrical Assemblies",
+    "Region": "Europe",
+    "Utilisation_pct": 102.0
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "India",
+    "Utilisation_pct": 105.2
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "Latin America",
+    "Utilisation_pct": 103.6
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 94.6
+    "Utilisation_pct": 91.3
    },
    {
     "Product_Family": "Electrical Assemblies",
     "Region": "North America",
-    "Utilisation_pct": 103.4
+    "Utilisation_pct": 101.6
    },
    {
     "Product_Family": "Hydraulic Systems",
     "Region": "Asia Pacific",
+    "Utilisation_pct": 98.2
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Europe",
     "Utilisation_pct": 98.1
    },
    {
     "Product_Family": "Hydraulic Systems",
-    "Region": "Europe",
-    "Utilisation_pct": 99.5
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
     "Region": "India",
-    "Utilisation_pct": 99.3
+    "Utilisation_pct": 100.1
    },
    {
     "Product_Family": "Hydraulic Systems",
     "Region": "Latin America",
-    "Utilisation_pct": 98.0
+    "Utilisation_pct": 96.4
    },
    {
     "Product_Family": "Hydraulic Systems",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 84.2
+    "Utilisation_pct": 83.0
    },
    {
     "Product_Family": "Hydraulic Systems",
     "Region": "North America",
-    "Utilisation_pct": 103.1
+    "Utilisation_pct": 102.3
    },
    {
     "Product_Family": "Powertrain Components",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 99.3
+    "Utilisation_pct": 98.6
    },
    {
     "Product_Family": "Powertrain Components",
     "Region": "Europe",
-    "Utilisation_pct": 94.2
+    "Utilisation_pct": 92.7
    },
    {
     "Product_Family": "Powertrain Components",
@@ -1601,254 +1583,226 @@
    {
     "Product_Family": "Powertrain Components",
     "Region": "Latin America",
-    "Utilisation_pct": 98.1
+    "Utilisation_pct": 95.2
    },
    {
     "Product_Family": "Powertrain Components",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 97.1
+    "Utilisation_pct": 96.6
    },
    {
     "Product_Family": "Powertrain Components",
     "Region": "North America",
-    "Utilisation_pct": 93.3
+    "Utilisation_pct": 92.1
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 102.9
+    "Utilisation_pct": 102.7
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "Europe",
-    "Utilisation_pct": 99.6
+    "Utilisation_pct": 98.6
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "India",
-    "Utilisation_pct": 99.7
+    "Utilisation_pct": 99.0
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "Latin America",
-    "Utilisation_pct": 101.1
+    "Utilisation_pct": 97.5
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 94.3
+    "Utilisation_pct": 93.0
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "North America",
-    "Utilisation_pct": 97.1
+    "Utilisation_pct": 95.1
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 102.9
+    "Utilisation_pct": 102.7
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Europe",
-    "Utilisation_pct": 100.0
+    "Utilisation_pct": 97.6
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "India",
-    "Utilisation_pct": 107.3
+    "Utilisation_pct": 107.7
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Latin America",
-    "Utilisation_pct": 101.8
+    "Utilisation_pct": 100.1
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 103.4
+    "Utilisation_pct": 101.7
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "North America",
-    "Utilisation_pct": 104.2
+    "Utilisation_pct": 100.8
    }
   ],
   "planning_risks": [
    {
     "type": "CAPACITY",
     "scope": "Chassis & Structural | Middle East & Africa",
-    "utilisation_pct": 111.5,
-    "base_utilisation_pct": 106.0
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | North America",
-    "utilisation_pct": 107.9,
-    "base_utilisation_pct": 105.3
+    "utilisation_pct": 110.2,
+    "base_utilisation_pct": 104.9
    },
    {
     "type": "CAPACITY",
     "scope": "Thermal Management | India",
-    "utilisation_pct": 107.3,
-    "base_utilisation_pct": 103.8
+    "utilisation_pct": 107.7,
+    "base_utilisation_pct": 103.3
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Brake & Safety Systems | North America",
+    "utilisation_pct": 105.9,
+    "base_utilisation_pct": 102.8
    },
    {
     "type": "CAPACITY",
     "scope": "Electrical Assemblies | Asia Pacific",
-    "utilisation_pct": 107.0,
-    "base_utilisation_pct": 98.7
+    "utilisation_pct": 105.6,
+    "base_utilisation_pct": 98.3
    },
    {
     "type": "CAPACITY",
     "scope": "Brake & Safety Systems | Middle East & Africa",
-    "utilisation_pct": 106.6,
-    "base_utilisation_pct": 103.2
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Electrical Assemblies | Europe",
-    "utilisation_pct": 105.9,
-    "base_utilisation_pct": 97.4
+    "utilisation_pct": 105.5,
+    "base_utilisation_pct": 100.9
    },
    {
     "type": "CAPACITY",
     "scope": "Electrical Assemblies | India",
-    "utilisation_pct": 105.7,
-    "base_utilisation_pct": 98.1
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Electrical Assemblies | Latin America",
-    "utilisation_pct": 105.6,
-    "base_utilisation_pct": 98.6
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Chassis & Structural | Latin America",
-    "utilisation_pct": 105.3,
-    "base_utilisation_pct": 101.2
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Thermal Management | North America",
-    "utilisation_pct": 104.2,
-    "base_utilisation_pct": 100.6
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Chassis & Structural | Europe",
-    "utilisation_pct": 104.1,
-    "base_utilisation_pct": 99.9
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | India",
-    "utilisation_pct": 103.7,
-    "base_utilisation_pct": 101.2
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Electrical Assemblies | North America",
-    "utilisation_pct": 103.4,
-    "base_utilisation_pct": 97.0
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Thermal Management | Middle East & Africa",
-    "utilisation_pct": 103.4,
-    "base_utilisation_pct": 97.7
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Hydraulic Systems | North America",
-    "utilisation_pct": 103.1,
-    "base_utilisation_pct": 98.1
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | Europe",
-    "utilisation_pct": 103.0,
-    "base_utilisation_pct": 100.6
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Thermal Management | Asia Pacific",
-    "utilisation_pct": 102.9,
-    "base_utilisation_pct": 99.7
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Precision Machined Parts | Asia Pacific",
-    "utilisation_pct": 102.9,
-    "base_utilisation_pct": 97.6
+    "utilisation_pct": 105.2,
+    "base_utilisation_pct": 97.8
    },
    {
     "type": "CAPACITY",
     "scope": "Chassis & Structural | India",
-    "utilisation_pct": 102.6,
-    "base_utilisation_pct": 98.9
+    "utilisation_pct": 104.7,
+    "base_utilisation_pct": 100.6
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Brake & Safety Systems | India",
+    "utilisation_pct": 104.7,
+    "base_utilisation_pct": 100.8
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Electrical Assemblies | Latin America",
+    "utilisation_pct": 103.6,
+    "base_utilisation_pct": 96.3
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Chassis & Structural | Latin America",
+    "utilisation_pct": 103.2,
+    "base_utilisation_pct": 99.1
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Precision Machined Parts | Asia Pacific",
+    "utilisation_pct": 102.7,
+    "base_utilisation_pct": 96.5
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Thermal Management | Asia Pacific",
+    "utilisation_pct": 102.7,
+    "base_utilisation_pct": 99.1
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Hydraulic Systems | North America",
+    "utilisation_pct": 102.3,
+    "base_utilisation_pct": 96.6
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Electrical Assemblies | Europe",
+    "utilisation_pct": 102.0,
+    "base_utilisation_pct": 96.0
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Chassis & Structural | Europe",
+    "utilisation_pct": 102.0,
+    "base_utilisation_pct": 98.1
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Thermal Management | Middle East & Africa",
+    "utilisation_pct": 101.7,
+    "base_utilisation_pct": 96.0
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Electrical Assemblies | North America",
+    "utilisation_pct": 101.6,
+    "base_utilisation_pct": 95.6
    },
    {
     "type": "CAPACITY",
     "scope": "Chassis & Structural | Asia Pacific",
-    "utilisation_pct": 102.0,
-    "base_utilisation_pct": 97.8
+    "utilisation_pct": 101.0,
+    "base_utilisation_pct": 96.6
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Thermal Management | North America",
+    "utilisation_pct": 100.8,
+    "base_utilisation_pct": 97.1
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Hydraulic Systems | India",
+    "utilisation_pct": 100.1,
+    "base_utilisation_pct": 93.9
    },
    {
     "type": "CAPACITY",
     "scope": "Thermal Management | Latin America",
-    "utilisation_pct": 101.8,
-    "base_utilisation_pct": 97.7
+    "utilisation_pct": 100.1,
+    "base_utilisation_pct": 96.3
    },
    {
     "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | Latin America",
-    "utilisation_pct": 101.8,
-    "base_utilisation_pct": 99.7
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Precision Machined Parts | Latin America",
-    "utilisation_pct": 101.1,
-    "base_utilisation_pct": 95.0
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | Asia Pacific",
-    "utilisation_pct": 100.6,
-    "base_utilisation_pct": 97.8
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Thermal Management | Europe",
+    "scope": "Brake & Safety Systems | Europe",
     "utilisation_pct": 100.0,
-    "base_utilisation_pct": 96.5
+    "base_utilisation_pct": 98.0
    },
    {
     "type": "DEMAND_RISE",
     "scope": "Electrical Assemblies",
-    "change_pct": 9.28
+    "change_pct": 6.42
    },
    {
     "type": "DEMAND_RISE",
     "scope": "Hydraulic Systems",
-    "change_pct": 6.78
-   },
-   {
-    "type": "DEMAND_RISE",
-    "scope": "Powertrain Components",
-    "change_pct": 5.19
-   },
-   {
-    "type": "DEMAND_RISE",
-    "scope": "Precision Machined Parts",
-    "change_pct": 6.38
+    "change_pct": 5.65
    }
   ],
   "responses": [
-   "Demand +4.9% vs base: confirm supplier capacity for the extra 137,085 units and bring forward orders for long-lead parts.",
-   "17 family-region(s) move above demonstrated throughput in this scenario (Electrical Assemblies | Asia Pacific, Electrical Assemblies | Europe, Electrical Assemblies | India, Electrical Assemblies | Latin America): plan overtime or pre-build before their peak windows."
+   "Demand +3.9% vs base: confirm supplier capacity for the extra 110,444 units and bring forward orders for long-lead parts.",
+   "16 family-region(s) move above demonstrated throughput in this scenario (Electrical Assemblies | Asia Pacific, Electrical Assemblies | India, Electrical Assemblies | Latin America, Chassis & Structural | Latin America): plan overtime or pre-build before their peak windows."
   ]
  },
  "PMI -3": {
@@ -1858,418 +1812,418 @@
   "region_overlay": {},
   "method": "exact model re-forecast (simulated)",
   "total": {
-   "base_units": 2818669,
-   "scenario_units": 2753049,
-   "change_units": -65620,
-   "change_pct": -2.33,
-   "base_revenue": 2536706487,
-   "scenario_revenue": 2468268447,
-   "change_revenue": -68438040
+   "base_units": 2814345,
+   "scenario_units": 2752094,
+   "change_units": -62251,
+   "change_pct": -2.21,
+   "base_revenue": 2536960516,
+   "scenario_revenue": 2474030649,
+   "change_revenue": -62929866
   },
   "by_family": [
    {
     "Product_Family": "Brake & Safety Systems",
-    "Base": 536494.6,
-    "Scenario": 534290.1,
-    "Base_revenue": 291345503.46,
-    "Scenario_revenue": 290145506.41,
-    "Change_pct": -0.41,
-    "Change_units": -2204.5
+    "Base": 530087.21,
+    "Scenario": 525446.2,
+    "Base_revenue": 287750023.51,
+    "Scenario_revenue": 285231615.78,
+    "Change_pct": -0.88,
+    "Change_units": -4641.01
    },
    {
     "Product_Family": "Chassis & Structural",
-    "Base": 433277.67,
-    "Scenario": 429100.39,
-    "Base_revenue": 268924970.16,
-    "Scenario_revenue": 266351089.3,
-    "Change_pct": -0.96,
-    "Change_units": -4177.27
+    "Base": 432075.81,
+    "Scenario": 426481.27,
+    "Base_revenue": 268636601.79,
+    "Scenario_revenue": 265174241.03,
+    "Change_pct": -1.29,
+    "Change_units": -5594.54
    },
    {
     "Product_Family": "Electrical Assemblies",
-    "Base": 286133.1,
-    "Scenario": 273553.24,
-    "Base_revenue": 445215245.75,
-    "Scenario_revenue": 425670294.65,
-    "Change_pct": -4.4,
-    "Change_units": -12579.86
+    "Base": 287779.7,
+    "Scenario": 276683.26,
+    "Base_revenue": 447864167.68,
+    "Scenario_revenue": 430585783.49,
+    "Change_pct": -3.86,
+    "Change_units": -11096.44
    },
    {
     "Product_Family": "Hydraulic Systems",
-    "Base": 332242.97,
-    "Scenario": 316466.21,
-    "Base_revenue": 336064214.93,
-    "Scenario_revenue": 320124465.05,
-    "Change_pct": -4.75,
-    "Change_units": -15776.76
+    "Base": 333963.4,
+    "Scenario": 321335.2,
+    "Base_revenue": 337564415.35,
+    "Scenario_revenue": 324810162.64,
+    "Change_pct": -3.78,
+    "Change_units": -12628.2
    },
    {
     "Product_Family": "Powertrain Components",
-    "Base": 363166.21,
-    "Scenario": 355936.75,
-    "Base_revenue": 434574162.65,
-    "Scenario_revenue": 425907692.75,
-    "Change_pct": -1.99,
-    "Change_units": -7229.46
+    "Base": 363182.83,
+    "Scenario": 356096.26,
+    "Base_revenue": 434909630.8,
+    "Scenario_revenue": 426403917.48,
+    "Change_pct": -1.95,
+    "Change_units": -7086.57
    },
    {
     "Product_Family": "Precision Machined Parts",
-    "Base": 439003.2,
-    "Scenario": 424862.84,
-    "Base_revenue": 361426923.54,
-    "Scenario_revenue": 349766652.74,
-    "Change_pct": -3.22,
-    "Change_units": -14140.35
+    "Base": 440486.52,
+    "Scenario": 428184.18,
+    "Base_revenue": 362229230.11,
+    "Scenario_revenue": 352107519.92,
+    "Change_pct": -2.79,
+    "Change_units": -12302.34
    },
    {
     "Product_Family": "Thermal Management",
-    "Base": 428351.18,
-    "Scenario": 418839.01,
-    "Base_revenue": 399155466.02,
-    "Scenario_revenue": 390302746.08,
-    "Change_pct": -2.22,
-    "Change_units": -9512.17
+    "Base": 426769.99,
+    "Scenario": 417867.73,
+    "Base_revenue": 398006446.37,
+    "Scenario_revenue": 389717409.07,
+    "Change_pct": -2.09,
+    "Change_units": -8902.27
    }
   ],
   "by_region": [
    {
     "Region": "Asia Pacific",
-    "Base": 505731.16,
-    "Scenario": 495575.58,
-    "Base_revenue": 460955950.56,
-    "Scenario_revenue": 450130150.06,
-    "Change_pct": -2.01,
-    "Change_units": -10155.58
+    "Base": 505890.71,
+    "Scenario": 495401.03,
+    "Base_revenue": 461948610.98,
+    "Scenario_revenue": 451161120.18,
+    "Change_pct": -2.07,
+    "Change_units": -10489.68
    },
    {
     "Region": "Europe",
-    "Base": 540178.86,
-    "Scenario": 526904.97,
-    "Base_revenue": 490162688.93,
-    "Scenario_revenue": 476166604.64,
-    "Change_pct": -2.46,
-    "Change_units": -13273.9
+    "Base": 537976.07,
+    "Scenario": 526112.11,
+    "Base_revenue": 489001742.29,
+    "Scenario_revenue": 476840334.24,
+    "Change_pct": -2.21,
+    "Change_units": -11863.96
    },
    {
     "Region": "India",
-    "Base": 514509.49,
-    "Scenario": 502896.26,
-    "Base_revenue": 457465941.44,
-    "Scenario_revenue": 445456301.84,
-    "Change_pct": -2.26,
-    "Change_units": -11613.23
+    "Base": 519338.09,
+    "Scenario": 507928.56,
+    "Base_revenue": 462621579.8,
+    "Scenario_revenue": 451203446.06,
+    "Change_pct": -2.2,
+    "Change_units": -11409.52
    },
    {
     "Region": "Latin America",
-    "Base": 462053.22,
-    "Scenario": 450817.97,
-    "Base_revenue": 419558813.15,
-    "Scenario_revenue": 407740746.86,
-    "Change_pct": -2.43,
-    "Change_units": -11235.25
+    "Base": 457794.56,
+    "Scenario": 447838.34,
+    "Base_revenue": 416523062.3,
+    "Scenario_revenue": 406282335.69,
+    "Change_pct": -2.17,
+    "Change_units": -9956.22
    },
    {
     "Region": "Middle East & Africa",
-    "Base": 261339.41,
-    "Scenario": 254419.25,
-    "Base_revenue": 233933701.75,
-    "Scenario_revenue": 226996897.91,
-    "Change_pct": -2.65,
-    "Change_units": -6920.16
+    "Base": 261897.83,
+    "Scenario": 255532.79,
+    "Base_revenue": 234953933.16,
+    "Scenario_revenue": 228760373.82,
+    "Change_pct": -2.43,
+    "Change_units": -6365.04
    },
    {
     "Region": "North America",
-    "Base": 534856.78,
-    "Scenario": 522434.51,
-    "Base_revenue": 474629390.66,
-    "Scenario_revenue": 461777745.67,
-    "Change_pct": -2.32,
-    "Change_units": -12422.27
+    "Base": 531448.21,
+    "Scenario": 519281.26,
+    "Base_revenue": 471911587.09,
+    "Scenario_revenue": 459783039.43,
+    "Change_pct": -2.29,
+    "Change_units": -12166.95
    }
   ],
   "by_month": [
    {
     "Date": "2026-11",
-    "Base": 161335.79,
-    "Scenario": 161335.79,
-    "Base_revenue": 138744052.26,
-    "Scenario_revenue": 138744052.26,
+    "Base": 158993.77,
+    "Scenario": 158993.77,
+    "Base_revenue": 136562054.42,
+    "Scenario_revenue": 136562054.42,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2026-12",
-    "Base": 144458.97,
-    "Scenario": 144678.63,
-    "Base_revenue": 125411459.76,
-    "Scenario_revenue": 125494695.81,
-    "Change_pct": 0.15,
-    "Change_units": 219.66
+    "Base": 142759.86,
+    "Scenario": 142004.57,
+    "Base_revenue": 123948131.22,
+    "Scenario_revenue": 123225298.91,
+    "Change_pct": -0.53,
+    "Change_units": -755.29
    },
    {
     "Date": "2027-01",
-    "Base": 152425.97,
-    "Scenario": 143819.57,
-    "Base_revenue": 136414909.27,
-    "Scenario_revenue": 127809600.76,
-    "Change_pct": -5.65,
-    "Change_units": -8606.4
+    "Base": 151596.23,
+    "Scenario": 144116.39,
+    "Base_revenue": 135667153.55,
+    "Scenario_revenue": 128387469.16,
+    "Change_pct": -4.93,
+    "Change_units": -7479.85
    },
    {
     "Date": "2027-02",
-    "Base": 140314.87,
-    "Scenario": 132888.85,
-    "Base_revenue": 126795107.86,
-    "Scenario_revenue": 119288780.58,
-    "Change_pct": -5.29,
-    "Change_units": -7426.02
+    "Base": 139959.79,
+    "Scenario": 134400.83,
+    "Base_revenue": 126522790.94,
+    "Scenario_revenue": 120928122.61,
+    "Change_pct": -3.97,
+    "Change_units": -5558.97
    },
    {
     "Date": "2027-03",
-    "Base": 159336.67,
-    "Scenario": 153005.49,
-    "Base_revenue": 141770827.4,
-    "Scenario_revenue": 135278096.85,
-    "Change_pct": -3.97,
-    "Change_units": -6331.18
+    "Base": 157796.02,
+    "Scenario": 153189.31,
+    "Base_revenue": 140293086.71,
+    "Scenario_revenue": 135598294.43,
+    "Change_pct": -2.92,
+    "Change_units": -4606.71
    },
    {
     "Date": "2027-04",
-    "Base": 160545.33,
-    "Scenario": 154027.78,
-    "Base_revenue": 145166651.82,
-    "Scenario_revenue": 138361585.56,
-    "Change_pct": -4.06,
-    "Change_units": -6517.55
+    "Base": 157512.77,
+    "Scenario": 152743.45,
+    "Base_revenue": 142304650.47,
+    "Scenario_revenue": 137337999.21,
+    "Change_pct": -3.03,
+    "Change_units": -4769.32
    },
    {
     "Date": "2027-05",
-    "Base": 158711.09,
-    "Scenario": 151222.06,
-    "Base_revenue": 141490469.23,
-    "Scenario_revenue": 133957693.1,
-    "Change_pct": -4.72,
-    "Change_units": -7489.03
+    "Base": 156050.95,
+    "Scenario": 150831.06,
+    "Base_revenue": 139106357.55,
+    "Scenario_revenue": 133857413.51,
+    "Change_pct": -3.34,
+    "Change_units": -5219.89
    },
    {
     "Date": "2027-06",
-    "Base": 147748.99,
-    "Scenario": 140777.57,
-    "Base_revenue": 132756777.42,
-    "Scenario_revenue": 125633571.34,
-    "Change_pct": -4.72,
-    "Change_units": -6971.42
+    "Base": 145565.13,
+    "Scenario": 140170.42,
+    "Base_revenue": 130830896.06,
+    "Scenario_revenue": 125419461.39,
+    "Change_pct": -3.71,
+    "Change_units": -5394.71
    },
    {
     "Date": "2027-07",
-    "Base": 145677.5,
-    "Scenario": 140633.23,
-    "Base_revenue": 130491008.82,
-    "Scenario_revenue": 125270325.01,
-    "Change_pct": -3.46,
-    "Change_units": -5044.27
+    "Base": 145396.88,
+    "Scenario": 140246.7,
+    "Base_revenue": 130372197.35,
+    "Scenario_revenue": 125329623.17,
+    "Change_pct": -3.54,
+    "Change_units": -5150.18
    },
    {
     "Date": "2027-08",
-    "Base": 133189.43,
-    "Scenario": 128296.15,
-    "Base_revenue": 119830004.64,
-    "Scenario_revenue": 114797245.71,
-    "Change_pct": -3.67,
-    "Change_units": -4893.28
+    "Base": 133566.71,
+    "Scenario": 128504.36,
+    "Base_revenue": 120509640.89,
+    "Scenario_revenue": 115493882.38,
+    "Change_pct": -3.79,
+    "Change_units": -5062.35
    },
    {
     "Date": "2027-09",
-    "Base": 151891.14,
-    "Scenario": 149164.34,
-    "Base_revenue": 134275216.57,
-    "Scenario_revenue": 131384918.19,
-    "Change_pct": -1.8,
-    "Change_units": -2726.8
+    "Base": 152604.78,
+    "Scenario": 148995.72,
+    "Base_revenue": 135338028.81,
+    "Scenario_revenue": 131820830.18,
+    "Change_pct": -2.36,
+    "Change_units": -3609.06
    },
    {
     "Date": "2027-10",
-    "Base": 152520.64,
-    "Scenario": 149556.95,
-    "Base_revenue": 136717605.79,
-    "Scenario_revenue": 133636395.19,
-    "Change_pct": -1.94,
-    "Change_units": -2963.69
+    "Base": 153709.28,
+    "Scenario": 150037.88,
+    "Base_revenue": 138340330.9,
+    "Scenario_revenue": 134699251.52,
+    "Change_pct": -2.39,
+    "Change_units": -3671.4
    },
    {
     "Date": "2027-11",
-    "Base": 147638.19,
-    "Scenario": 145865.23,
-    "Base_revenue": 131182778.77,
-    "Scenario_revenue": 129220770.82,
-    "Change_pct": -1.2,
-    "Change_units": -1772.95
+    "Base": 149026.99,
+    "Scenario": 145949.23,
+    "Base_revenue": 132864225.98,
+    "Scenario_revenue": 129763765.81,
+    "Change_pct": -2.07,
+    "Change_units": -3077.76
    },
    {
     "Date": "2027-12",
-    "Base": 132581.66,
-    "Scenario": 131784.89,
-    "Base_revenue": 118914475.71,
-    "Scenario_revenue": 117882586.26,
-    "Change_pct": -0.6,
-    "Change_units": -796.77
+    "Base": 132643.6,
+    "Scenario": 131483.99,
+    "Base_revenue": 119393906.65,
+    "Scenario_revenue": 118055739.59,
+    "Change_pct": -0.87,
+    "Change_units": -1159.61
    },
    {
     "Date": "2028-01",
-    "Base": 136636.38,
-    "Scenario": 135348.98,
-    "Base_revenue": 125905272.51,
-    "Scenario_revenue": 124390636.27,
-    "Change_pct": -0.94,
-    "Change_units": -1287.39
+    "Base": 138025.37,
+    "Scenario": 135673.44,
+    "Base_revenue": 127541725.21,
+    "Scenario_revenue": 125114410.63,
+    "Change_pct": -1.7,
+    "Change_units": -2351.94
    },
    {
     "Date": "2028-02",
-    "Base": 134556.39,
-    "Scenario": 132401.2,
-    "Base_revenue": 125701784.56,
-    "Scenario_revenue": 123433467.35,
-    "Change_pct": -1.6,
-    "Change_units": -2155.18
+    "Base": 135737.14,
+    "Scenario": 132904.69,
+    "Base_revenue": 127150897.27,
+    "Scenario_revenue": 124280361.52,
+    "Change_pct": -2.09,
+    "Change_units": -2832.45
    },
    {
     "Date": "2028-03",
-    "Base": 152374.36,
-    "Scenario": 152048.07,
-    "Base_revenue": 140240459.47,
-    "Scenario_revenue": 139676177.48,
-    "Change_pct": -0.21,
-    "Change_units": -326.29
+    "Base": 154306.0,
+    "Scenario": 153280.23,
+    "Base_revenue": 142419065.45,
+    "Scenario_revenue": 141212336.9,
+    "Change_pct": -0.66,
+    "Change_units": -1025.78
    },
    {
     "Date": "2028-04",
-    "Base": 153889.46,
-    "Scenario": 153374.88,
-    "Base_revenue": 143894581.12,
-    "Scenario_revenue": 143194717.83,
-    "Change_pct": -0.33,
-    "Change_units": -514.58
+    "Base": 154683.18,
+    "Scenario": 154336.92,
+    "Base_revenue": 144956933.21,
+    "Scenario_revenue": 144450199.26,
+    "Change_pct": -0.22,
+    "Change_units": -346.26
    },
    {
     "Date": "2028-05",
-    "Base": 152836.09,
-    "Scenario": 152818.86,
-    "Base_revenue": 141003043.5,
-    "Scenario_revenue": 140813130.61,
-    "Change_pct": -0.01,
-    "Change_units": -17.23
+    "Base": 154411.02,
+    "Scenario": 154231.15,
+    "Base_revenue": 142838442.96,
+    "Scenario_revenue": 142494134.83,
+    "Change_pct": -0.12,
+    "Change_units": -179.87
    }
   ],
   "capacity": [
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 97.9
+    "Utilisation_pct": 97.3
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Europe",
-    "Utilisation_pct": 100.0
-   },
-   {
-    "Product_Family": "Brake & Safety Systems",
-    "Region": "India",
-    "Utilisation_pct": 99.7
-   },
-   {
-    "Product_Family": "Brake & Safety Systems",
-    "Region": "Latin America",
     "Utilisation_pct": 98.2
    },
    {
     "Product_Family": "Brake & Safety Systems",
+    "Region": "India",
+    "Utilisation_pct": 99.8
+   },
+   {
+    "Product_Family": "Brake & Safety Systems",
+    "Region": "Latin America",
+    "Utilisation_pct": 96.3
+   },
+   {
+    "Product_Family": "Brake & Safety Systems",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 102.2
+    "Utilisation_pct": 101.3
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "North America",
-    "Utilisation_pct": 104.7
+    "Utilisation_pct": 102.4
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 96.8
+    "Utilisation_pct": 96.5
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "Europe",
-    "Utilisation_pct": 97.9
+    "Utilisation_pct": 97.4
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "India",
-    "Utilisation_pct": 96.2
+    "Utilisation_pct": 98.3
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "Latin America",
-    "Utilisation_pct": 99.1
+    "Utilisation_pct": 98.6
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 105.0
+    "Utilisation_pct": 104.5
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "North America",
-    "Utilisation_pct": 91.4
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 95.7
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "Europe",
     "Utilisation_pct": 90.5
    },
    {
     "Product_Family": "Electrical Assemblies",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 96.3
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "Europe",
+    "Utilisation_pct": 91.6
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
     "Region": "India",
-    "Utilisation_pct": 91.3
+    "Utilisation_pct": 93.2
    },
    {
     "Product_Family": "Electrical Assemblies",
     "Region": "Latin America",
-    "Utilisation_pct": 92.8
+    "Utilisation_pct": 94.2
    },
    {
     "Product_Family": "Electrical Assemblies",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 82.9
+    "Utilisation_pct": 82.8
    },
    {
     "Product_Family": "Electrical Assemblies",
     "Region": "North America",
-    "Utilisation_pct": 94.2
+    "Utilisation_pct": 93.3
    },
    {
     "Product_Family": "Hydraulic Systems",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 87.7
+    "Utilisation_pct": 89.1
    },
    {
     "Product_Family": "Hydraulic Systems",
     "Region": "Europe",
-    "Utilisation_pct": 89.0
+    "Utilisation_pct": 89.2
    },
    {
     "Product_Family": "Hydraulic Systems",
     "Region": "India",
-    "Utilisation_pct": 88.1
+    "Utilisation_pct": 89.3
    },
    {
     "Product_Family": "Hydraulic Systems",
     "Region": "Latin America",
-    "Utilisation_pct": 86.7
+    "Utilisation_pct": 88.4
    },
    {
     "Product_Family": "Hydraulic Systems",
@@ -2279,121 +2233,127 @@
    {
     "Product_Family": "Hydraulic Systems",
     "Region": "North America",
-    "Utilisation_pct": 94.7
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 92.2
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Europe",
-    "Utilisation_pct": 85.8
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "India",
-    "Utilisation_pct": 88.0
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Latin America",
-    "Utilisation_pct": 88.0
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 89.0
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "North America",
-    "Utilisation_pct": 85.6
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 93.3
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "Europe",
-    "Utilisation_pct": 89.3
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "India",
-    "Utilisation_pct": 90.0
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "Latin America",
-    "Utilisation_pct": 89.9
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 85.4
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "North America",
-    "Utilisation_pct": 86.8
-   },
-   {
-    "Product_Family": "Thermal Management",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 96.6
-   },
-   {
-    "Product_Family": "Thermal Management",
-    "Region": "Europe",
-    "Utilisation_pct": 92.9
-   },
-   {
-    "Product_Family": "Thermal Management",
-    "Region": "India",
-    "Utilisation_pct": 99.4
-   },
-   {
-    "Product_Family": "Thermal Management",
-    "Region": "Latin America",
-    "Utilisation_pct": 93.6
-   },
-   {
-    "Product_Family": "Thermal Management",
-    "Region": "Middle East & Africa",
     "Utilisation_pct": 93.8
    },
    {
+    "Product_Family": "Powertrain Components",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 92.8
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Europe",
+    "Utilisation_pct": 85.2
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "India",
+    "Utilisation_pct": 88.8
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Latin America",
+    "Utilisation_pct": 87.7
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 89.8
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "North America",
+    "Utilisation_pct": 85.3
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 93.4
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Europe",
+    "Utilisation_pct": 89.2
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "India",
+    "Utilisation_pct": 89.7
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Latin America",
+    "Utilisation_pct": 89.0
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 85.8
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "North America",
+    "Utilisation_pct": 86.7
+   },
+   {
+    "Product_Family": "Thermal Management",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 96.4
+   },
+   {
+    "Product_Family": "Thermal Management",
+    "Region": "Europe",
+    "Utilisation_pct": 91.9
+   },
+   {
+    "Product_Family": "Thermal Management",
+    "Region": "India",
+    "Utilisation_pct": 100.5
+   },
+   {
+    "Product_Family": "Thermal Management",
+    "Region": "Latin America",
+    "Utilisation_pct": 94.0
+   },
+   {
+    "Product_Family": "Thermal Management",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 94.2
+   },
+   {
     "Product_Family": "Thermal Management",
     "Region": "North America",
-    "Utilisation_pct": 96.9
+    "Utilisation_pct": 95.3
    }
   ],
   "planning_risks": [
    {
     "type": "CAPACITY",
     "scope": "Chassis & Structural | Middle East & Africa",
-    "utilisation_pct": 105.0,
-    "base_utilisation_pct": 106.0
+    "utilisation_pct": 104.5,
+    "base_utilisation_pct": 104.9
    },
    {
     "type": "CAPACITY",
     "scope": "Brake & Safety Systems | North America",
-    "utilisation_pct": 104.7,
-    "base_utilisation_pct": 105.3
+    "utilisation_pct": 102.4,
+    "base_utilisation_pct": 102.8
    },
    {
     "type": "CAPACITY",
     "scope": "Brake & Safety Systems | Middle East & Africa",
-    "utilisation_pct": 102.2,
-    "base_utilisation_pct": 103.2
+    "utilisation_pct": 101.3,
+    "base_utilisation_pct": 100.9
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Thermal Management | India",
+    "utilisation_pct": 100.5,
+    "base_utilisation_pct": 103.3
    }
   ],
   "responses": [
-   "Demand -2.3% vs base: within normal forecast error (company-month WAPE about 5%); no change to the plan needed."
+   "Demand -2.2% vs base: within normal forecast error (company-month WAPE about 5%); no change to the plan needed."
   ]
  },
  "Auto slowdown": {
@@ -2404,542 +2364,536 @@
   "region_overlay": {},
   "method": "exact model re-forecast (simulated)",
   "total": {
-   "base_units": 2818669,
-   "scenario_units": 2704276,
-   "change_units": -114393,
-   "change_pct": -4.06,
-   "base_revenue": 2536706487,
-   "scenario_revenue": 2435235720,
-   "change_revenue": -101470766
+   "base_units": 2814345,
+   "scenario_units": 2705727,
+   "change_units": -108618,
+   "change_pct": -3.86,
+   "base_revenue": 2536960516,
+   "scenario_revenue": 2436809867,
+   "change_revenue": -100150649
   },
   "by_family": [
    {
     "Product_Family": "Brake & Safety Systems",
-    "Base": 536494.6,
-    "Scenario": 512101.8,
-    "Base_revenue": 291345503.46,
-    "Scenario_revenue": 278023323.83,
-    "Change_pct": -4.55,
-    "Change_units": -24392.8
+    "Base": 530087.21,
+    "Scenario": 509027.85,
+    "Base_revenue": 287750023.51,
+    "Scenario_revenue": 276225114.53,
+    "Change_pct": -3.97,
+    "Change_units": -21059.36
    },
    {
     "Product_Family": "Chassis & Structural",
-    "Base": 433277.67,
-    "Scenario": 413119.53,
-    "Base_revenue": 268924970.16,
-    "Scenario_revenue": 256395714.62,
-    "Change_pct": -4.65,
-    "Change_units": -20158.14
+    "Base": 432075.81,
+    "Scenario": 415560.04,
+    "Base_revenue": 268636601.79,
+    "Scenario_revenue": 258305030.39,
+    "Change_pct": -3.82,
+    "Change_units": -16515.78
    },
    {
     "Product_Family": "Electrical Assemblies",
-    "Base": 286133.1,
-    "Scenario": 275788.12,
-    "Base_revenue": 445215245.75,
-    "Scenario_revenue": 429158524.79,
-    "Change_pct": -3.62,
-    "Change_units": -10344.97
+    "Base": 287779.7,
+    "Scenario": 275038.86,
+    "Base_revenue": 447864167.68,
+    "Scenario_revenue": 427977254.9,
+    "Change_pct": -4.43,
+    "Change_units": -12740.84
    },
    {
     "Product_Family": "Hydraulic Systems",
-    "Base": 332242.97,
-    "Scenario": 320035.35,
-    "Base_revenue": 336064214.93,
-    "Scenario_revenue": 323712706.68,
-    "Change_pct": -3.67,
-    "Change_units": -12207.63
+    "Base": 333963.4,
+    "Scenario": 322325.29,
+    "Base_revenue": 337564415.35,
+    "Scenario_revenue": 325739377.24,
+    "Change_pct": -3.48,
+    "Change_units": -11638.12
    },
    {
     "Product_Family": "Powertrain Components",
-    "Base": 363166.21,
-    "Scenario": 346348.31,
-    "Base_revenue": 434574162.65,
-    "Scenario_revenue": 414447184.53,
-    "Change_pct": -4.63,
-    "Change_units": -16817.9
+    "Base": 363182.83,
+    "Scenario": 346617.51,
+    "Base_revenue": 434909630.8,
+    "Scenario_revenue": 415003098.76,
+    "Change_pct": -4.56,
+    "Change_units": -16565.32
    },
    {
     "Product_Family": "Precision Machined Parts",
-    "Base": 439003.2,
-    "Scenario": 426234.41,
-    "Base_revenue": 361426923.54,
-    "Scenario_revenue": 350876285.55,
-    "Change_pct": -2.91,
-    "Change_units": -12768.78
+    "Base": 440486.52,
+    "Scenario": 426310.6,
+    "Base_revenue": 362229230.11,
+    "Scenario_revenue": 350484909.81,
+    "Change_pct": -3.22,
+    "Change_units": -14175.92
    },
    {
     "Product_Family": "Thermal Management",
-    "Base": 428351.18,
-    "Scenario": 410648.21,
-    "Base_revenue": 399155466.02,
-    "Scenario_revenue": 382621980.3,
-    "Change_pct": -4.13,
-    "Change_units": -17702.98
+    "Base": 426769.99,
+    "Scenario": 410847.15,
+    "Base_revenue": 398006446.37,
+    "Scenario_revenue": 383075080.99,
+    "Change_pct": -3.73,
+    "Change_units": -15922.85
    }
   ],
   "by_region": [
    {
     "Region": "Asia Pacific",
-    "Base": 505731.16,
-    "Scenario": 484389.15,
-    "Base_revenue": 460955950.56,
-    "Scenario_revenue": 441835983.69,
-    "Change_pct": -4.22,
-    "Change_units": -21342.01
+    "Base": 505890.71,
+    "Scenario": 486146.35,
+    "Base_revenue": 461948610.98,
+    "Scenario_revenue": 443526190.42,
+    "Change_pct": -3.9,
+    "Change_units": -19744.36
    },
    {
     "Region": "Europe",
-    "Base": 540178.86,
-    "Scenario": 517985.81,
-    "Base_revenue": 490162688.93,
-    "Scenario_revenue": 470345977.87,
-    "Change_pct": -4.11,
-    "Change_units": -22193.05
+    "Base": 537976.07,
+    "Scenario": 517016.15,
+    "Base_revenue": 489001742.29,
+    "Scenario_revenue": 469580562.66,
+    "Change_pct": -3.9,
+    "Change_units": -20959.92
    },
    {
     "Region": "India",
-    "Base": 514509.49,
-    "Scenario": 494294.93,
-    "Base_revenue": 457465941.44,
-    "Scenario_revenue": 439704260.27,
-    "Change_pct": -3.93,
-    "Change_units": -20214.56
+    "Base": 519338.09,
+    "Scenario": 499654.62,
+    "Base_revenue": 462621579.8,
+    "Scenario_revenue": 444600525.42,
+    "Change_pct": -3.79,
+    "Change_units": -19683.47
    },
    {
     "Region": "Latin America",
-    "Base": 462053.22,
-    "Scenario": 442375.14,
-    "Base_revenue": 419558813.15,
-    "Scenario_revenue": 401993273.79,
-    "Change_pct": -4.26,
-    "Change_units": -19678.08
+    "Base": 457794.56,
+    "Scenario": 439346.26,
+    "Base_revenue": 416523062.3,
+    "Scenario_revenue": 399462226.91,
+    "Change_pct": -4.03,
+    "Change_units": -18448.3
    },
    {
     "Region": "Middle East & Africa",
-    "Base": 261339.41,
-    "Scenario": 251302.52,
-    "Base_revenue": 233933701.75,
-    "Scenario_revenue": 224983488.45,
-    "Change_pct": -3.84,
-    "Change_units": -10036.89
+    "Base": 261897.83,
+    "Scenario": 252388.1,
+    "Base_revenue": 234953933.16,
+    "Scenario_revenue": 226124696.3,
+    "Change_pct": -3.63,
+    "Change_units": -9509.73
    },
    {
     "Region": "North America",
-    "Base": 534856.78,
-    "Scenario": 513928.17,
-    "Base_revenue": 474629390.66,
-    "Scenario_revenue": 456372736.22,
-    "Change_pct": -3.91,
-    "Change_units": -20928.61
+    "Base": 531448.21,
+    "Scenario": 511175.82,
+    "Base_revenue": 471911587.09,
+    "Scenario_revenue": 453515664.92,
+    "Change_pct": -3.81,
+    "Change_units": -20272.4
    }
   ],
   "by_month": [
    {
     "Date": "2026-11",
-    "Base": 161335.79,
-    "Scenario": 161335.79,
-    "Base_revenue": 138744052.26,
-    "Scenario_revenue": 138744052.26,
+    "Base": 158993.77,
+    "Scenario": 158993.77,
+    "Base_revenue": 136562054.42,
+    "Scenario_revenue": 136562054.42,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2026-12",
-    "Base": 144458.97,
-    "Scenario": 144458.97,
-    "Base_revenue": 125411459.76,
-    "Scenario_revenue": 125411459.76,
+    "Base": 142759.86,
+    "Scenario": 142759.86,
+    "Base_revenue": 123948131.22,
+    "Scenario_revenue": 123948131.22,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2027-01",
-    "Base": 152425.97,
-    "Scenario": 152425.97,
-    "Base_revenue": 136414909.27,
-    "Scenario_revenue": 136414909.27,
+    "Base": 151596.23,
+    "Scenario": 151596.23,
+    "Base_revenue": 135667153.55,
+    "Scenario_revenue": 135667153.55,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2027-02",
-    "Base": 140314.87,
-    "Scenario": 137960.05,
-    "Base_revenue": 126795107.86,
-    "Scenario_revenue": 124945499.63,
-    "Change_pct": -1.68,
-    "Change_units": -2354.83
+    "Base": 139959.79,
+    "Scenario": 135817.91,
+    "Base_revenue": 126522790.94,
+    "Scenario_revenue": 122916288.54,
+    "Change_pct": -2.96,
+    "Change_units": -4141.89
    },
    {
     "Date": "2027-03",
-    "Base": 159336.67,
-    "Scenario": 153079.46,
-    "Base_revenue": 141770827.4,
-    "Scenario_revenue": 136530037.14,
-    "Change_pct": -3.93,
-    "Change_units": -6257.21
+    "Base": 157796.02,
+    "Scenario": 150518.93,
+    "Base_revenue": 140293086.71,
+    "Scenario_revenue": 133917350.3,
+    "Change_pct": -4.61,
+    "Change_units": -7277.09
    },
    {
     "Date": "2027-04",
-    "Base": 160545.33,
-    "Scenario": 153892.78,
-    "Base_revenue": 145166651.82,
-    "Scenario_revenue": 139037968.38,
-    "Change_pct": -4.14,
-    "Change_units": -6652.55
+    "Base": 157512.77,
+    "Scenario": 151358.66,
+    "Base_revenue": 142304650.47,
+    "Scenario_revenue": 136639872.12,
+    "Change_pct": -3.91,
+    "Change_units": -6154.11
    },
    {
     "Date": "2027-05",
-    "Base": 158711.09,
-    "Scenario": 149561.2,
-    "Base_revenue": 141490469.23,
-    "Scenario_revenue": 132767006.2,
-    "Change_pct": -5.77,
-    "Change_units": -9149.89
+    "Base": 156050.95,
+    "Scenario": 148472.43,
+    "Base_revenue": 139106357.55,
+    "Scenario_revenue": 131954781.1,
+    "Change_pct": -4.86,
+    "Change_units": -7578.52
    },
    {
     "Date": "2027-06",
-    "Base": 147748.99,
-    "Scenario": 139008.04,
-    "Base_revenue": 132756777.42,
-    "Scenario_revenue": 124641661.46,
-    "Change_pct": -5.92,
-    "Change_units": -8740.95
+    "Base": 145565.13,
+    "Scenario": 138313.72,
+    "Base_revenue": 130830896.06,
+    "Scenario_revenue": 124002798.67,
+    "Change_pct": -4.98,
+    "Change_units": -7251.41
    },
    {
     "Date": "2027-07",
-    "Base": 145677.5,
-    "Scenario": 134274.84,
-    "Base_revenue": 130491008.82,
-    "Scenario_revenue": 120236700.06,
-    "Change_pct": -7.83,
-    "Change_units": -11402.66
+    "Base": 145396.88,
+    "Scenario": 136879.79,
+    "Base_revenue": 130372197.35,
+    "Scenario_revenue": 122374174.97,
+    "Change_pct": -5.86,
+    "Change_units": -8517.09
    },
    {
     "Date": "2027-08",
-    "Base": 133189.43,
-    "Scenario": 123756.95,
-    "Base_revenue": 119830004.64,
-    "Scenario_revenue": 111281483.15,
-    "Change_pct": -7.08,
-    "Change_units": -9432.48
+    "Base": 133566.71,
+    "Scenario": 126448.52,
+    "Base_revenue": 120509640.89,
+    "Scenario_revenue": 113748255.9,
+    "Change_pct": -5.33,
+    "Change_units": -7118.2
    },
    {
     "Date": "2027-09",
-    "Base": 151891.14,
-    "Scenario": 141035.37,
-    "Base_revenue": 134275216.57,
-    "Scenario_revenue": 124570453.86,
-    "Change_pct": -7.15,
-    "Change_units": -10855.77
+    "Base": 152604.78,
+    "Scenario": 144470.56,
+    "Base_revenue": 135338028.81,
+    "Scenario_revenue": 127695263.39,
+    "Change_pct": -5.33,
+    "Change_units": -8134.22
    },
    {
     "Date": "2027-10",
-    "Base": 152520.64,
-    "Scenario": 142221.03,
-    "Base_revenue": 136717605.79,
-    "Scenario_revenue": 127381398.88,
-    "Change_pct": -6.75,
-    "Change_units": -10299.61
+    "Base": 153709.28,
+    "Scenario": 145213.52,
+    "Base_revenue": 138340330.9,
+    "Scenario_revenue": 130274503.41,
+    "Change_pct": -5.53,
+    "Change_units": -8495.76
    },
    {
     "Date": "2027-11",
-    "Base": 147638.19,
-    "Scenario": 138417.7,
-    "Base_revenue": 131182778.77,
-    "Scenario_revenue": 122932781.03,
-    "Change_pct": -6.25,
-    "Change_units": -9220.48
+    "Base": 149026.99,
+    "Scenario": 141739.36,
+    "Base_revenue": 132864225.98,
+    "Scenario_revenue": 126019537.4,
+    "Change_pct": -4.89,
+    "Change_units": -7287.63
    },
    {
     "Date": "2027-12",
-    "Base": 132581.66,
-    "Scenario": 127238.22,
-    "Base_revenue": 118914475.71,
-    "Scenario_revenue": 114249826.84,
-    "Change_pct": -4.03,
-    "Change_units": -5343.44
+    "Base": 132643.6,
+    "Scenario": 128320.8,
+    "Base_revenue": 119393906.65,
+    "Scenario_revenue": 115359982.4,
+    "Change_pct": -3.26,
+    "Change_units": -4322.8
    },
    {
     "Date": "2028-01",
-    "Base": 136636.38,
-    "Scenario": 132877.17,
-    "Base_revenue": 125905272.51,
-    "Scenario_revenue": 122752207.66,
-    "Change_pct": -2.75,
-    "Change_units": -3759.21
+    "Base": 138025.37,
+    "Scenario": 133366.31,
+    "Base_revenue": 127541725.21,
+    "Scenario_revenue": 123338859.65,
+    "Change_pct": -3.38,
+    "Change_units": -4659.07
    },
    {
     "Date": "2028-02",
-    "Base": 134556.39,
-    "Scenario": 129241.36,
-    "Base_revenue": 125701784.56,
-    "Scenario_revenue": 121141671.84,
-    "Change_pct": -3.95,
-    "Change_units": -5315.02
+    "Base": 135737.14,
+    "Scenario": 129181.28,
+    "Base_revenue": 127150897.27,
+    "Scenario_revenue": 121144882.29,
+    "Change_pct": -4.83,
+    "Change_units": -6555.85
    },
    {
     "Date": "2028-03",
-    "Base": 152374.36,
-    "Scenario": 147300.95,
-    "Base_revenue": 140240459.47,
-    "Scenario_revenue": 136092369.46,
-    "Change_pct": -3.33,
-    "Change_units": -5073.41
+    "Base": 154306.0,
+    "Scenario": 147181.74,
+    "Base_revenue": 142419065.45,
+    "Scenario_revenue": 136057418.86,
+    "Change_pct": -4.62,
+    "Change_units": -7124.26
    },
    {
     "Date": "2028-04",
-    "Base": 153889.46,
-    "Scenario": 148714.98,
-    "Base_revenue": 143894581.12,
-    "Scenario_revenue": 139516642.8,
-    "Change_pct": -3.36,
-    "Change_units": -5174.49
+    "Base": 154683.18,
+    "Scenario": 147694.36,
+    "Base_revenue": 144956933.21,
+    "Scenario_revenue": 138607811.48,
+    "Change_pct": -4.52,
+    "Change_units": -6988.82
    },
    {
     "Date": "2028-05",
-    "Base": 152836.09,
-    "Scenario": 147474.9,
-    "Base_revenue": 141003043.5,
-    "Scenario_revenue": 136587590.61,
-    "Change_pct": -3.51,
-    "Change_units": -5361.19
+    "Base": 154411.02,
+    "Scenario": 147399.55,
+    "Base_revenue": 142838442.96,
+    "Scenario_revenue": 136580746.95,
+    "Change_pct": -4.54,
+    "Change_units": -7011.48
    }
   ],
   "capacity": [
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 93.3
+    "Utilisation_pct": 92.3
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Europe",
-    "Utilisation_pct": 96.2
+    "Utilisation_pct": 94.2
    },
    {
     "Product_Family": "Brake & Safety Systems",
+    "Region": "India",
+    "Utilisation_pct": 96.3
+   },
+   {
+    "Product_Family": "Brake & Safety Systems",
+    "Region": "Latin America",
+    "Utilisation_pct": 91.5
+   },
+   {
+    "Product_Family": "Brake & Safety Systems",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 99.3
+   },
+   {
+    "Product_Family": "Brake & Safety Systems",
+    "Region": "North America",
+    "Utilisation_pct": 100.0
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 94.2
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "Europe",
+    "Utilisation_pct": 95.1
+   },
+   {
+    "Product_Family": "Chassis & Structural",
     "Region": "India",
     "Utilisation_pct": 97.2
    },
    {
-    "Product_Family": "Brake & Safety Systems",
-    "Region": "Latin America",
-    "Utilisation_pct": 94.5
-   },
-   {
-    "Product_Family": "Brake & Safety Systems",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 101.6
-   },
-   {
-    "Product_Family": "Brake & Safety Systems",
-    "Region": "North America",
-    "Utilisation_pct": 101.4
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 94.5
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "Europe",
-    "Utilisation_pct": 96.5
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "India",
-    "Utilisation_pct": 96.0
-   },
-   {
     "Product_Family": "Chassis & Structural",
     "Region": "Latin America",
-    "Utilisation_pct": 96.5
+    "Utilisation_pct": 95.0
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 104.1
+    "Utilisation_pct": 103.0
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "North America",
-    "Utilisation_pct": 90.9
+    "Utilisation_pct": 90.2
    },
    {
     "Product_Family": "Electrical Assemblies",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 98.7
+    "Utilisation_pct": 98.3
    },
    {
     "Product_Family": "Electrical Assemblies",
     "Region": "Europe",
-    "Utilisation_pct": 94.7
+    "Utilisation_pct": 92.5
    },
    {
     "Product_Family": "Electrical Assemblies",
     "Region": "India",
-    "Utilisation_pct": 96.0
+    "Utilisation_pct": 96.3
    },
    {
     "Product_Family": "Electrical Assemblies",
     "Region": "Latin America",
-    "Utilisation_pct": 93.8
+    "Utilisation_pct": 91.7
    },
    {
     "Product_Family": "Electrical Assemblies",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 86.0
+    "Utilisation_pct": 84.4
    },
    {
     "Product_Family": "Electrical Assemblies",
     "Region": "North America",
-    "Utilisation_pct": 97.0
+    "Utilisation_pct": 95.6
    },
    {
     "Product_Family": "Hydraulic Systems",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 90.6
+    "Utilisation_pct": 90.5
    },
    {
     "Product_Family": "Hydraulic Systems",
-    "Region": "Europe",
-    "Utilisation_pct": 92.4
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "India",
-    "Utilisation_pct": 93.1
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "Latin America",
-    "Utilisation_pct": 88.1
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 80.2
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "North America",
-    "Utilisation_pct": 98.1
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 93.7
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Europe",
-    "Utilisation_pct": 86.3
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "India",
-    "Utilisation_pct": 89.8
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Latin America",
-    "Utilisation_pct": 87.3
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 89.5
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "North America",
-    "Utilisation_pct": 86.6
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 95.1
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "Europe",
-    "Utilisation_pct": 91.8
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "India",
-    "Utilisation_pct": 91.9
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "Latin America",
-    "Utilisation_pct": 91.3
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 87.8
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "North America",
-    "Utilisation_pct": 89.4
-   },
-   {
-    "Product_Family": "Thermal Management",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 95.1
-   },
-   {
-    "Product_Family": "Thermal Management",
     "Region": "Europe",
     "Utilisation_pct": 91.4
    },
    {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "India",
+    "Utilisation_pct": 92.8
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Latin America",
+    "Utilisation_pct": 87.3
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 79.7
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "North America",
+    "Utilisation_pct": 96.6
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 93.3
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Europe",
+    "Utilisation_pct": 84.7
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "India",
+    "Utilisation_pct": 90.0
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Latin America",
+    "Utilisation_pct": 84.9
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 89.0
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "North America",
+    "Utilisation_pct": 85.0
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 95.1
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Europe",
+    "Utilisation_pct": 91.2
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "India",
+    "Utilisation_pct": 91.4
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Latin America",
+    "Utilisation_pct": 88.1
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 87.9
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "North America",
+    "Utilisation_pct": 87.9
+   },
+   {
+    "Product_Family": "Thermal Management",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 94.8
+   },
+   {
+    "Product_Family": "Thermal Management",
+    "Region": "Europe",
+    "Utilisation_pct": 90.0
+   },
+   {
     "Product_Family": "Thermal Management",
     "Region": "India",
-    "Utilisation_pct": 98.7
+    "Utilisation_pct": 99.0
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Latin America",
-    "Utilisation_pct": 93.5
+    "Utilisation_pct": 91.9
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 95.5
+    "Utilisation_pct": 93.9
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "North America",
-    "Utilisation_pct": 95.2
+    "Utilisation_pct": 92.7
    }
   ],
   "planning_risks": [
    {
     "type": "CAPACITY",
     "scope": "Chassis & Structural | Middle East & Africa",
-    "utilisation_pct": 104.1,
-    "base_utilisation_pct": 106.0
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | Middle East & Africa",
-    "utilisation_pct": 101.6,
-    "base_utilisation_pct": 103.2
+    "utilisation_pct": 103.0,
+    "base_utilisation_pct": 104.9
    },
    {
     "type": "CAPACITY",
     "scope": "Brake & Safety Systems | North America",
-    "utilisation_pct": 101.4,
-    "base_utilisation_pct": 105.3
+    "utilisation_pct": 100.0,
+    "base_utilisation_pct": 102.8
    }
   ],
   "responses": [
-   "Demand -4.1% vs base: slow purchase-order releases to the scenario forecast, keep safety stock only on A-class items, and review fixed supplier commitments."
+   "Demand -3.9% vs base: slow purchase-order releases to the scenario forecast, keep safety stock only on A-class items, and review fixed supplier commitments."
   ]
  },
  "Raw-material spike": {
@@ -2949,304 +2903,304 @@
   "region_overlay": {},
   "method": "exact model re-forecast (simulated)",
   "total": {
-   "base_units": 2818669,
-   "scenario_units": 2808488,
-   "change_units": -10181,
-   "change_pct": -0.36,
-   "base_revenue": 2536706487,
-   "scenario_revenue": 2530546925,
-   "change_revenue": -6159561
+   "base_units": 2814345,
+   "scenario_units": 2811317,
+   "change_units": -3028,
+   "change_pct": -0.11,
+   "base_revenue": 2536960516,
+   "scenario_revenue": 2535837478,
+   "change_revenue": -1123038
   },
   "by_family": [
    {
     "Product_Family": "Brake & Safety Systems",
-    "Base": 536494.6,
-    "Scenario": 532093.73,
-    "Base_revenue": 291345503.46,
-    "Scenario_revenue": 288968519.77,
-    "Change_pct": -0.82,
-    "Change_units": -4400.86
+    "Base": 530087.21,
+    "Scenario": 528679.35,
+    "Base_revenue": 287750023.51,
+    "Scenario_revenue": 286989551.28,
+    "Change_pct": -0.27,
+    "Change_units": -1407.86
    },
    {
     "Product_Family": "Chassis & Structural",
-    "Base": 433277.67,
-    "Scenario": 430435.45,
-    "Base_revenue": 268924970.16,
-    "Scenario_revenue": 267176162.92,
-    "Change_pct": -0.66,
-    "Change_units": -2842.22
+    "Base": 432075.81,
+    "Scenario": 430329.73,
+    "Base_revenue": 268636601.79,
+    "Scenario_revenue": 267561322.84,
+    "Change_pct": -0.4,
+    "Change_units": -1746.09
    },
    {
     "Product_Family": "Electrical Assemblies",
-    "Base": 286133.1,
-    "Scenario": 286738.87,
-    "Base_revenue": 445215245.75,
-    "Scenario_revenue": 446145735.36,
-    "Change_pct": 0.21,
-    "Change_units": 605.77
+    "Base": 287779.7,
+    "Scenario": 288325.03,
+    "Base_revenue": 447864167.68,
+    "Scenario_revenue": 448701578.29,
+    "Change_pct": 0.19,
+    "Change_units": 545.33
    },
    {
     "Product_Family": "Hydraulic Systems",
-    "Base": 332242.97,
-    "Scenario": 334095.15,
-    "Base_revenue": 336064214.93,
-    "Scenario_revenue": 337922117.36,
-    "Change_pct": 0.56,
-    "Change_units": 1852.18
+    "Base": 333963.4,
+    "Scenario": 336045.2,
+    "Base_revenue": 337564415.35,
+    "Scenario_revenue": 339651201.5,
+    "Change_pct": 0.62,
+    "Change_units": 2081.8
    },
    {
     "Product_Family": "Powertrain Components",
-    "Base": 363166.21,
-    "Scenario": 362840.65,
-    "Base_revenue": 434574162.65,
-    "Scenario_revenue": 434177450.85,
-    "Change_pct": -0.09,
-    "Change_units": -325.56
+    "Base": 363182.83,
+    "Scenario": 362970.61,
+    "Base_revenue": 434909630.8,
+    "Scenario_revenue": 434656109.85,
+    "Change_pct": -0.06,
+    "Change_units": -212.22
    },
    {
     "Product_Family": "Precision Machined Parts",
-    "Base": 439003.2,
-    "Scenario": 436527.13,
-    "Base_revenue": 361426923.54,
-    "Scenario_revenue": 359396427.67,
-    "Change_pct": -0.56,
-    "Change_units": -2476.07
+    "Base": 440486.52,
+    "Scenario": 439012.34,
+    "Base_revenue": 362229230.11,
+    "Scenario_revenue": 361022383.03,
+    "Change_pct": -0.33,
+    "Change_units": -1474.18
    },
    {
     "Product_Family": "Thermal Management",
-    "Base": 428351.18,
-    "Scenario": 425756.83,
-    "Base_revenue": 399155466.02,
-    "Scenario_revenue": 396760511.3,
-    "Change_pct": -0.61,
-    "Change_units": -2594.35
+    "Base": 426769.99,
+    "Scenario": 425954.81,
+    "Base_revenue": 398006446.37,
+    "Scenario_revenue": 397255331.21,
+    "Change_pct": -0.19,
+    "Change_units": -815.18
    }
   ],
   "by_region": [
    {
     "Region": "Asia Pacific",
-    "Base": 505731.16,
-    "Scenario": 504581.94,
-    "Base_revenue": 460955950.56,
-    "Scenario_revenue": 460387775.9,
-    "Change_pct": -0.23,
-    "Change_units": -1149.22
+    "Base": 505890.71,
+    "Scenario": 505629.65,
+    "Base_revenue": 461948610.98,
+    "Scenario_revenue": 461954697.74,
+    "Change_pct": -0.05,
+    "Change_units": -261.06
    },
    {
     "Region": "Europe",
-    "Base": 540178.86,
-    "Scenario": 537969.65,
-    "Base_revenue": 490162688.93,
-    "Scenario_revenue": 488733887.57,
-    "Change_pct": -0.41,
-    "Change_units": -2209.21
+    "Base": 537976.07,
+    "Scenario": 537329.23,
+    "Base_revenue": 489001742.29,
+    "Scenario_revenue": 488743381.78,
+    "Change_pct": -0.12,
+    "Change_units": -646.84
    },
    {
     "Region": "India",
-    "Base": 514509.49,
-    "Scenario": 513206.05,
-    "Base_revenue": 457465941.44,
-    "Scenario_revenue": 456813670.3,
-    "Change_pct": -0.25,
-    "Change_units": -1303.44
+    "Base": 519338.09,
+    "Scenario": 519435.37,
+    "Base_revenue": 462621579.8,
+    "Scenario_revenue": 462952118.96,
+    "Change_pct": 0.02,
+    "Change_units": 97.28
    },
    {
     "Region": "Latin America",
-    "Base": 462053.22,
-    "Scenario": 459710.51,
-    "Base_revenue": 419558813.15,
-    "Scenario_revenue": 417988757.75,
-    "Change_pct": -0.51,
-    "Change_units": -2342.72
+    "Base": 457794.56,
+    "Scenario": 456939.54,
+    "Base_revenue": 416523062.3,
+    "Scenario_revenue": 416088930.5,
+    "Change_pct": -0.19,
+    "Change_units": -855.03
    },
    {
     "Region": "Middle East & Africa",
-    "Base": 261339.41,
-    "Scenario": 260302.31,
-    "Base_revenue": 233933701.75,
-    "Scenario_revenue": 233343274.65,
-    "Change_pct": -0.4,
-    "Change_units": -1037.1
+    "Base": 261897.83,
+    "Scenario": 261321.53,
+    "Base_revenue": 234953933.16,
+    "Scenario_revenue": 234620275.98,
+    "Change_pct": -0.22,
+    "Change_units": -576.29
    },
    {
     "Region": "North America",
-    "Base": 534856.78,
-    "Scenario": 532717.34,
-    "Base_revenue": 474629390.66,
-    "Scenario_revenue": 473279559.07,
-    "Change_pct": -0.4,
-    "Change_units": -2139.43
+    "Base": 531448.21,
+    "Scenario": 530661.75,
+    "Base_revenue": 471911587.09,
+    "Scenario_revenue": 471478073.04,
+    "Change_pct": -0.15,
+    "Change_units": -786.47
    }
   ],
   "by_month": [
    {
     "Date": "2026-11",
-    "Base": 161335.79,
-    "Scenario": 161335.79,
-    "Base_revenue": 138744052.26,
-    "Scenario_revenue": 138744052.26,
+    "Base": 158993.77,
+    "Scenario": 158993.77,
+    "Base_revenue": 136562054.42,
+    "Scenario_revenue": 136562054.42,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2026-12",
-    "Base": 144458.97,
-    "Scenario": 143561.53,
-    "Base_revenue": 125411459.76,
-    "Scenario_revenue": 124856445.6,
-    "Change_pct": -0.62,
-    "Change_units": -897.44
+    "Base": 142759.86,
+    "Scenario": 142624.87,
+    "Base_revenue": 123948131.22,
+    "Scenario_revenue": 123934983.9,
+    "Change_pct": -0.09,
+    "Change_units": -134.99
    },
    {
     "Date": "2027-01",
-    "Base": 152425.97,
-    "Scenario": 152223.5,
-    "Base_revenue": 136414909.27,
-    "Scenario_revenue": 136529283.66,
-    "Change_pct": -0.13,
-    "Change_units": -202.46
+    "Base": 151596.23,
+    "Scenario": 152134.66,
+    "Base_revenue": 135667153.55,
+    "Scenario_revenue": 136292143.37,
+    "Change_pct": 0.36,
+    "Change_units": 538.43
    },
    {
     "Date": "2027-02",
-    "Base": 140314.87,
-    "Scenario": 139524.55,
-    "Base_revenue": 126795107.86,
-    "Scenario_revenue": 126463187.71,
-    "Change_pct": -0.56,
-    "Change_units": -790.32
+    "Base": 139959.79,
+    "Scenario": 140032.98,
+    "Base_revenue": 126522790.94,
+    "Scenario_revenue": 126785810.15,
+    "Change_pct": 0.05,
+    "Change_units": 73.19
    },
    {
     "Date": "2027-03",
-    "Base": 159336.67,
-    "Scenario": 157807.16,
-    "Base_revenue": 141770827.4,
-    "Scenario_revenue": 140808892.29,
-    "Change_pct": -0.96,
-    "Change_units": -1529.51
+    "Base": 157796.02,
+    "Scenario": 156818.41,
+    "Base_revenue": 140293086.71,
+    "Scenario_revenue": 139689665.62,
+    "Change_pct": -0.62,
+    "Change_units": -977.61
    },
    {
     "Date": "2027-04",
-    "Base": 160545.33,
-    "Scenario": 158941.73,
-    "Base_revenue": 145166651.82,
-    "Scenario_revenue": 144094716.28,
-    "Change_pct": -1.0,
-    "Change_units": -1603.6
+    "Base": 157512.77,
+    "Scenario": 156331.37,
+    "Base_revenue": 142304650.47,
+    "Scenario_revenue": 141491028.88,
+    "Change_pct": -0.75,
+    "Change_units": -1181.4
    },
    {
     "Date": "2027-05",
-    "Base": 158711.09,
-    "Scenario": 157607.18,
-    "Base_revenue": 141490469.23,
-    "Scenario_revenue": 140796694.02,
-    "Change_pct": -0.7,
-    "Change_units": -1103.92
+    "Base": 156050.95,
+    "Scenario": 155449.45,
+    "Base_revenue": 139106357.55,
+    "Scenario_revenue": 138740015.35,
+    "Change_pct": -0.39,
+    "Change_units": -601.5
    },
    {
     "Date": "2027-06",
-    "Base": 147748.99,
-    "Scenario": 146284.59,
-    "Base_revenue": 132756777.42,
-    "Scenario_revenue": 131694976.21,
-    "Change_pct": -0.99,
-    "Change_units": -1464.4
+    "Base": 145565.13,
+    "Scenario": 144665.66,
+    "Base_revenue": 130830896.06,
+    "Scenario_revenue": 130171127.92,
+    "Change_pct": -0.62,
+    "Change_units": -899.47
    },
    {
     "Date": "2027-07",
-    "Base": 145677.5,
-    "Scenario": 144858.32,
-    "Base_revenue": 130491008.82,
-    "Scenario_revenue": 129944401.3,
-    "Change_pct": -0.56,
-    "Change_units": -819.18
+    "Base": 145396.88,
+    "Scenario": 145294.85,
+    "Base_revenue": 130372197.35,
+    "Scenario_revenue": 130355320.5,
+    "Change_pct": -0.07,
+    "Change_units": -102.02
    },
    {
     "Date": "2027-08",
-    "Base": 133189.43,
-    "Scenario": 132590.29,
-    "Base_revenue": 119830004.64,
-    "Scenario_revenue": 119417070.46,
-    "Change_pct": -0.45,
-    "Change_units": -599.14
+    "Base": 133566.71,
+    "Scenario": 133444.3,
+    "Base_revenue": 120509640.89,
+    "Scenario_revenue": 120461531.99,
+    "Change_pct": -0.09,
+    "Change_units": -122.41
    },
    {
     "Date": "2027-09",
-    "Base": 151891.14,
-    "Scenario": 151142.82,
-    "Base_revenue": 134275216.57,
-    "Scenario_revenue": 133785573.08,
-    "Change_pct": -0.49,
-    "Change_units": -748.32
+    "Base": 152604.78,
+    "Scenario": 152512.3,
+    "Base_revenue": 135338028.81,
+    "Scenario_revenue": 135329152.92,
+    "Change_pct": -0.06,
+    "Change_units": -92.47
    },
    {
     "Date": "2027-10",
-    "Base": 152520.64,
-    "Scenario": 152424.71,
-    "Base_revenue": 136717605.79,
-    "Scenario_revenue": 136784416.49,
-    "Change_pct": -0.06,
-    "Change_units": -95.93
+    "Base": 153709.28,
+    "Scenario": 154071.24,
+    "Base_revenue": 138340330.9,
+    "Scenario_revenue": 138727454.81,
+    "Change_pct": 0.24,
+    "Change_units": 361.96
    },
    {
     "Date": "2027-11",
-    "Base": 147638.19,
-    "Scenario": 147311.29,
-    "Base_revenue": 131182778.77,
-    "Scenario_revenue": 130967598.99,
-    "Change_pct": -0.22,
-    "Change_units": -326.9
+    "Base": 149026.99,
+    "Scenario": 149136.89,
+    "Base_revenue": 132864225.98,
+    "Scenario_revenue": 132996217.42,
+    "Change_pct": 0.07,
+    "Change_units": 109.9
    },
    {
     "Date": "2027-12",
-    "Base": 132581.66,
-    "Scenario": 132581.66,
-    "Base_revenue": 118914475.71,
-    "Scenario_revenue": 118914475.71,
+    "Base": 132643.6,
+    "Scenario": 132643.6,
+    "Base_revenue": 119393906.65,
+    "Scenario_revenue": 119393906.65,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2028-01",
-    "Base": 136636.38,
-    "Scenario": 136636.38,
-    "Base_revenue": 125905272.51,
-    "Scenario_revenue": 125905272.51,
+    "Base": 138025.37,
+    "Scenario": 138025.37,
+    "Base_revenue": 127541725.21,
+    "Scenario_revenue": 127541725.21,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2028-02",
-    "Base": 134556.39,
-    "Scenario": 134556.39,
-    "Base_revenue": 125701784.56,
-    "Scenario_revenue": 125701784.56,
+    "Base": 135737.14,
+    "Scenario": 135737.14,
+    "Base_revenue": 127150897.27,
+    "Scenario_revenue": 127150897.27,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2028-03",
-    "Base": 152374.36,
-    "Scenario": 152374.36,
-    "Base_revenue": 140240459.47,
-    "Scenario_revenue": 140240459.47,
+    "Base": 154306.0,
+    "Scenario": 154306.0,
+    "Base_revenue": 142419065.45,
+    "Scenario_revenue": 142419065.45,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2028-04",
-    "Base": 153889.46,
-    "Scenario": 153889.46,
-    "Base_revenue": 143894581.12,
-    "Scenario_revenue": 143894581.12,
+    "Base": 154683.18,
+    "Scenario": 154683.18,
+    "Base_revenue": 144956933.21,
+    "Scenario_revenue": 144956933.21,
     "Change_pct": 0.0,
     "Change_units": 0.0
    },
    {
     "Date": "2028-05",
-    "Base": 152836.09,
-    "Scenario": 152836.09,
-    "Base_revenue": 141003043.5,
-    "Scenario_revenue": 141003043.5,
+    "Base": 154411.02,
+    "Scenario": 154411.02,
+    "Base_revenue": 142838442.96,
+    "Scenario_revenue": 142838442.96,
     "Change_pct": 0.0,
     "Change_units": 0.0
    }
@@ -3255,242 +3209,248 @@
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 97.0
+    "Utilisation_pct": 96.7
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Europe",
-    "Utilisation_pct": 99.0
+    "Utilisation_pct": 97.9
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "India",
-    "Utilisation_pct": 99.0
+    "Utilisation_pct": 99.6
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Latin America",
-    "Utilisation_pct": 97.4
+    "Utilisation_pct": 95.8
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 101.2
+    "Utilisation_pct": 100.7
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "North America",
-    "Utilisation_pct": 102.9
+    "Utilisation_pct": 102.1
    },
    {
     "Product_Family": "Chassis & Structural",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 97.2
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "Europe",
-    "Utilisation_pct": 98.6
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "India",
-    "Utilisation_pct": 98.3
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "Latin America",
-    "Utilisation_pct": 99.7
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 104.4
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "North America",
-    "Utilisation_pct": 92.2
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 99.1
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "Europe",
-    "Utilisation_pct": 98.1
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "India",
-    "Utilisation_pct": 98.9
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "Latin America",
-    "Utilisation_pct": 99.0
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 86.5
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "North America",
-    "Utilisation_pct": 97.4
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 92.3
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "Europe",
-    "Utilisation_pct": 93.7
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "India",
-    "Utilisation_pct": 94.5
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "Latin America",
-    "Utilisation_pct": 93.0
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 81.0
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "North America",
-    "Utilisation_pct": 98.9
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 93.6
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Europe",
-    "Utilisation_pct": 88.9
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "India",
-    "Utilisation_pct": 91.4
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Latin America",
-    "Utilisation_pct": 91.1
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 91.4
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "North America",
-    "Utilisation_pct": 88.9
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 96.5
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "Europe",
-    "Utilisation_pct": 93.0
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "India",
-    "Utilisation_pct": 93.2
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "Latin America",
-    "Utilisation_pct": 93.7
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 87.6
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
-    "Region": "North America",
-    "Utilisation_pct": 90.7
-   },
-   {
-    "Product_Family": "Thermal Management",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 98.6
-   },
-   {
-    "Product_Family": "Thermal Management",
-    "Region": "Europe",
-    "Utilisation_pct": 95.0
-   },
-   {
-    "Product_Family": "Thermal Management",
-    "Region": "India",
-    "Utilisation_pct": 102.5
-   },
-   {
-    "Product_Family": "Thermal Management",
-    "Region": "Latin America",
-    "Utilisation_pct": 96.1
-   },
-   {
-    "Product_Family": "Thermal Management",
-    "Region": "Middle East & Africa",
     "Utilisation_pct": 96.2
    },
    {
+    "Product_Family": "Chassis & Structural",
+    "Region": "Europe",
+    "Utilisation_pct": 97.3
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "India",
+    "Utilisation_pct": 100.3
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "Latin America",
+    "Utilisation_pct": 98.2
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 104.2
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "North America",
+    "Utilisation_pct": 91.1
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 98.5
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "Europe",
+    "Utilisation_pct": 96.7
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "India",
+    "Utilisation_pct": 98.5
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "Latin America",
+    "Utilisation_pct": 96.8
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 84.6
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "North America",
+    "Utilisation_pct": 95.9
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 92.2
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Europe",
+    "Utilisation_pct": 92.6
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "India",
+    "Utilisation_pct": 95.1
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Latin America",
+    "Utilisation_pct": 91.6
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 80.3
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "North America",
+    "Utilisation_pct": 97.3
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 93.5
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Europe",
+    "Utilisation_pct": 88.0
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "India",
+    "Utilisation_pct": 92.6
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Latin America",
+    "Utilisation_pct": 88.9
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 91.2
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "North America",
+    "Utilisation_pct": 87.4
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 95.7
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Europe",
+    "Utilisation_pct": 92.0
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "India",
+    "Utilisation_pct": 92.6
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Latin America",
+    "Utilisation_pct": 90.8
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 87.8
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "North America",
+    "Utilisation_pct": 89.6
+   },
+   {
+    "Product_Family": "Thermal Management",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 98.1
+   },
+   {
+    "Product_Family": "Thermal Management",
+    "Region": "Europe",
+    "Utilisation_pct": 94.4
+   },
+   {
+    "Product_Family": "Thermal Management",
+    "Region": "India",
+    "Utilisation_pct": 102.8
+   },
+   {
+    "Product_Family": "Thermal Management",
+    "Region": "Latin America",
+    "Utilisation_pct": 95.1
+   },
+   {
+    "Product_Family": "Thermal Management",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 94.8
+   },
+   {
     "Product_Family": "Thermal Management",
     "Region": "North America",
-    "Utilisation_pct": 99.2
+    "Utilisation_pct": 96.3
    }
   ],
   "planning_risks": [
    {
     "type": "CAPACITY",
     "scope": "Chassis & Structural | Middle East & Africa",
-    "utilisation_pct": 104.4,
-    "base_utilisation_pct": 106.0
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | North America",
-    "utilisation_pct": 102.9,
-    "base_utilisation_pct": 105.3
+    "utilisation_pct": 104.2,
+    "base_utilisation_pct": 104.9
    },
    {
     "type": "CAPACITY",
     "scope": "Thermal Management | India",
-    "utilisation_pct": 102.5,
-    "base_utilisation_pct": 103.8
+    "utilisation_pct": 102.8,
+    "base_utilisation_pct": 103.3
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Brake & Safety Systems | North America",
+    "utilisation_pct": 102.1,
+    "base_utilisation_pct": 102.8
    },
    {
     "type": "CAPACITY",
     "scope": "Brake & Safety Systems | Middle East & Africa",
-    "utilisation_pct": 101.2,
-    "base_utilisation_pct": 103.2
+    "utilisation_pct": 100.7,
+    "base_utilisation_pct": 100.9
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Chassis & Structural | India",
+    "utilisation_pct": 100.3,
+    "base_utilisation_pct": 100.6
    }
   ],
   "responses": [
-   "Demand -0.4% vs base: within normal forecast error (company-month WAPE about 5%); no change to the plan needed."
+   "Demand -0.1% vs base: within normal forecast error (company-month WAPE about 5%); no change to the plan needed."
   ]
  },
  "EV acceleration": {
@@ -3500,638 +3460,614 @@
   "region_overlay": {},
   "method": "exact model re-forecast (simulated)",
   "total": {
-   "base_units": 2818669,
-   "scenario_units": 2872325,
-   "change_units": 53656,
-   "change_pct": 1.9,
-   "base_revenue": 2536706487,
-   "scenario_revenue": 2591060066,
-   "change_revenue": 54353579
+   "base_units": 2814345,
+   "scenario_units": 2866651,
+   "change_units": 52306,
+   "change_pct": 1.86,
+   "base_revenue": 2536960516,
+   "scenario_revenue": 2589983595,
+   "change_revenue": 53023079
   },
   "by_family": [
    {
     "Product_Family": "Brake & Safety Systems",
-    "Base": 536494.6,
-    "Scenario": 541895.62,
-    "Base_revenue": 291345503.46,
-    "Scenario_revenue": 294304901.33,
-    "Change_pct": 1.01,
-    "Change_units": 5401.03
+    "Base": 530087.21,
+    "Scenario": 535498.6,
+    "Base_revenue": 287750023.51,
+    "Scenario_revenue": 290719412.05,
+    "Change_pct": 1.02,
+    "Change_units": 5411.39
    },
    {
     "Product_Family": "Chassis & Structural",
-    "Base": 433277.67,
-    "Scenario": 445317.83,
-    "Base_revenue": 268924970.16,
-    "Scenario_revenue": 276407149.37,
-    "Change_pct": 2.78,
-    "Change_units": 12040.16
+    "Base": 432075.81,
+    "Scenario": 443926.19,
+    "Base_revenue": 268636601.79,
+    "Scenario_revenue": 276011542.34,
+    "Change_pct": 2.74,
+    "Change_units": 11850.38
    },
    {
     "Product_Family": "Electrical Assemblies",
-    "Base": 286133.1,
-    "Scenario": 301543.04,
-    "Base_revenue": 445215245.75,
-    "Scenario_revenue": 469187636.16,
-    "Change_pct": 5.39,
-    "Change_units": 15409.94
+    "Base": 287779.7,
+    "Scenario": 303484.87,
+    "Base_revenue": 447864167.68,
+    "Scenario_revenue": 472279050.46,
+    "Change_pct": 5.46,
+    "Change_units": 15705.17
    },
    {
     "Product_Family": "Hydraulic Systems",
-    "Base": 332242.97,
-    "Scenario": 333945.52,
-    "Base_revenue": 336064214.93,
-    "Scenario_revenue": 337783451.66,
-    "Change_pct": 0.51,
-    "Change_units": 1702.54
+    "Base": 333963.4,
+    "Scenario": 335436.94,
+    "Base_revenue": 337564415.35,
+    "Scenario_revenue": 339073129.72,
+    "Change_pct": 0.44,
+    "Change_units": 1473.54
    },
    {
     "Product_Family": "Powertrain Components",
-    "Base": 363166.21,
-    "Scenario": 367545.14,
-    "Base_revenue": 434574162.65,
-    "Scenario_revenue": 439879675.76,
-    "Change_pct": 1.21,
-    "Change_units": 4378.93
+    "Base": 363182.83,
+    "Scenario": 366008.85,
+    "Base_revenue": 434909630.8,
+    "Scenario_revenue": 438314826.82,
+    "Change_pct": 0.78,
+    "Change_units": 2826.02
    },
    {
     "Product_Family": "Precision Machined Parts",
-    "Base": 439003.2,
-    "Scenario": 446545.52,
-    "Base_revenue": 361426923.54,
-    "Scenario_revenue": 367684707.88,
-    "Change_pct": 1.72,
-    "Change_units": 7542.32
+    "Base": 440486.52,
+    "Scenario": 446679.64,
+    "Base_revenue": 362229230.11,
+    "Scenario_revenue": 367341547.16,
+    "Change_pct": 1.41,
+    "Change_units": 6193.12
    },
    {
     "Product_Family": "Thermal Management",
-    "Base": 428351.18,
-    "Scenario": 435531.93,
-    "Base_revenue": 399155466.02,
-    "Scenario_revenue": 405812543.71,
-    "Change_pct": 1.68,
-    "Change_units": 7180.74
+    "Base": 426769.99,
+    "Scenario": 435616.16,
+    "Base_revenue": 398006446.37,
+    "Scenario_revenue": 406244086.44,
+    "Change_pct": 2.07,
+    "Change_units": 8846.16
    }
   ],
   "by_region": [
    {
     "Region": "Asia Pacific",
-    "Base": 505731.16,
-    "Scenario": 511944.85,
-    "Base_revenue": 460955950.56,
-    "Scenario_revenue": 468000192.64,
-    "Change_pct": 1.23,
-    "Change_units": 6213.69
+    "Base": 505890.71,
+    "Scenario": 512586.46,
+    "Base_revenue": 461948610.98,
+    "Scenario_revenue": 469569943.64,
+    "Change_pct": 1.32,
+    "Change_units": 6695.75
    },
    {
     "Region": "Europe",
-    "Base": 540178.86,
-    "Scenario": 549294.79,
-    "Base_revenue": 490162688.93,
-    "Scenario_revenue": 499466473.99,
-    "Change_pct": 1.69,
-    "Change_units": 9115.93
+    "Base": 537976.07,
+    "Scenario": 547849.75,
+    "Base_revenue": 489001742.29,
+    "Scenario_revenue": 498922800.81,
+    "Change_pct": 1.84,
+    "Change_units": 9873.68
    },
    {
     "Region": "India",
-    "Base": 514509.49,
-    "Scenario": 525743.4,
-    "Base_revenue": 457465941.44,
-    "Scenario_revenue": 468649078.85,
-    "Change_pct": 2.18,
-    "Change_units": 11233.91
+    "Base": 519338.09,
+    "Scenario": 530177.27,
+    "Base_revenue": 462621579.8,
+    "Scenario_revenue": 473372653.83,
+    "Change_pct": 2.09,
+    "Change_units": 10839.18
    },
    {
     "Region": "Latin America",
-    "Base": 462053.22,
-    "Scenario": 471598.23,
-    "Base_revenue": 419558813.15,
-    "Scenario_revenue": 428995659.86,
-    "Change_pct": 2.07,
-    "Change_units": 9545.01
+    "Base": 457794.56,
+    "Scenario": 465911.13,
+    "Base_revenue": 416523062.3,
+    "Scenario_revenue": 424417258.45,
+    "Change_pct": 1.77,
+    "Change_units": 8116.57
    },
    {
     "Region": "Middle East & Africa",
-    "Base": 261339.41,
-    "Scenario": 268703.4,
-    "Base_revenue": 233933701.75,
-    "Scenario_revenue": 240971404.87,
-    "Change_pct": 2.82,
-    "Change_units": 7363.99
+    "Base": 261897.83,
+    "Scenario": 268492.24,
+    "Base_revenue": 234953933.16,
+    "Scenario_revenue": 241314363.74,
+    "Change_pct": 2.52,
+    "Change_units": 6594.41
    },
    {
     "Region": "North America",
-    "Base": 534856.78,
-    "Scenario": 545039.92,
-    "Base_revenue": 474629390.66,
-    "Scenario_revenue": 484977255.66,
-    "Change_pct": 1.9,
-    "Change_units": 10183.14
+    "Base": 531448.21,
+    "Scenario": 541634.4,
+    "Base_revenue": 471911587.09,
+    "Scenario_revenue": 482386574.52,
+    "Change_pct": 1.92,
+    "Change_units": 10186.19
    }
   ],
   "by_month": [
    {
     "Date": "2026-11",
-    "Base": 161335.79,
-    "Scenario": 164024.11,
-    "Base_revenue": 138744052.26,
-    "Scenario_revenue": 141412541.94,
-    "Change_pct": 1.67,
-    "Change_units": 2688.32
+    "Base": 158993.77,
+    "Scenario": 161387.13,
+    "Base_revenue": 136562054.42,
+    "Scenario_revenue": 138961347.35,
+    "Change_pct": 1.51,
+    "Change_units": 2393.36
    },
    {
     "Date": "2026-12",
-    "Base": 144458.97,
-    "Scenario": 147760.05,
-    "Base_revenue": 125411459.76,
-    "Scenario_revenue": 128715433.02,
-    "Change_pct": 2.29,
-    "Change_units": 3301.08
+    "Base": 142759.86,
+    "Scenario": 145730.13,
+    "Base_revenue": 123948131.22,
+    "Scenario_revenue": 126956814.49,
+    "Change_pct": 2.08,
+    "Change_units": 2970.28
    },
    {
     "Date": "2027-01",
-    "Base": 152425.97,
-    "Scenario": 154917.49,
-    "Base_revenue": 136414909.27,
-    "Scenario_revenue": 139054275.01,
-    "Change_pct": 1.63,
-    "Change_units": 2491.52
+    "Base": 151596.23,
+    "Scenario": 154271.27,
+    "Base_revenue": 135667153.55,
+    "Scenario_revenue": 138479569.09,
+    "Change_pct": 1.76,
+    "Change_units": 2675.03
    },
    {
     "Date": "2027-02",
-    "Base": 140314.87,
-    "Scenario": 142551.39,
-    "Base_revenue": 126795107.86,
-    "Scenario_revenue": 129185291.73,
-    "Change_pct": 1.59,
-    "Change_units": 2236.52
+    "Base": 139959.79,
+    "Scenario": 142332.3,
+    "Base_revenue": 126522790.94,
+    "Scenario_revenue": 129081444.17,
+    "Change_pct": 1.7,
+    "Change_units": 2372.51
    },
    {
     "Date": "2027-03",
-    "Base": 159336.67,
-    "Scenario": 161785.03,
-    "Base_revenue": 141770827.4,
-    "Scenario_revenue": 144224974.88,
-    "Change_pct": 1.54,
-    "Change_units": 2448.36
+    "Base": 157796.02,
+    "Scenario": 160206.46,
+    "Base_revenue": 140293086.71,
+    "Scenario_revenue": 142740284.61,
+    "Change_pct": 1.53,
+    "Change_units": 2410.43
    },
    {
     "Date": "2027-04",
-    "Base": 160545.33,
-    "Scenario": 163085.25,
-    "Base_revenue": 145166651.82,
-    "Scenario_revenue": 147897414.64,
-    "Change_pct": 1.58,
-    "Change_units": 2539.92
+    "Base": 157512.77,
+    "Scenario": 160102.76,
+    "Base_revenue": 142304650.47,
+    "Scenario_revenue": 145073602.29,
+    "Change_pct": 1.64,
+    "Change_units": 2589.99
    },
    {
     "Date": "2027-05",
-    "Base": 158711.09,
-    "Scenario": 160929.24,
-    "Base_revenue": 141490469.23,
-    "Scenario_revenue": 143795647.13,
-    "Change_pct": 1.4,
-    "Change_units": 2218.15
+    "Base": 156050.95,
+    "Scenario": 158319.78,
+    "Base_revenue": 139106357.55,
+    "Scenario_revenue": 141441938.31,
+    "Change_pct": 1.45,
+    "Change_units": 2268.84
    },
    {
     "Date": "2027-06",
-    "Base": 147748.99,
-    "Scenario": 150452.39,
-    "Base_revenue": 132756777.42,
-    "Scenario_revenue": 135544136.31,
-    "Change_pct": 1.83,
-    "Change_units": 2703.4
+    "Base": 145565.13,
+    "Scenario": 148059.34,
+    "Base_revenue": 130830896.06,
+    "Scenario_revenue": 133429009.56,
+    "Change_pct": 1.71,
+    "Change_units": 2494.21
    },
    {
     "Date": "2027-07",
-    "Base": 145677.5,
-    "Scenario": 148523.69,
-    "Base_revenue": 130491008.82,
-    "Scenario_revenue": 133332049.09,
-    "Change_pct": 1.95,
-    "Change_units": 2846.19
+    "Base": 145396.88,
+    "Scenario": 148174.6,
+    "Base_revenue": 130372197.35,
+    "Scenario_revenue": 133158331.07,
+    "Change_pct": 1.91,
+    "Change_units": 2777.72
    },
    {
     "Date": "2027-08",
-    "Base": 133189.43,
-    "Scenario": 136298.23,
-    "Base_revenue": 119830004.64,
-    "Scenario_revenue": 123042793.61,
-    "Change_pct": 2.33,
-    "Change_units": 3108.8
+    "Base": 133566.71,
+    "Scenario": 136558.12,
+    "Base_revenue": 120509640.89,
+    "Scenario_revenue": 123576556.84,
+    "Change_pct": 2.24,
+    "Change_units": 2991.41
    },
    {
     "Date": "2027-09",
-    "Base": 151891.14,
-    "Scenario": 154832.58,
-    "Base_revenue": 134275216.57,
-    "Scenario_revenue": 137122139.47,
-    "Change_pct": 1.94,
-    "Change_units": 2941.44
+    "Base": 152604.78,
+    "Scenario": 155634.15,
+    "Base_revenue": 135338028.81,
+    "Scenario_revenue": 138258812.64,
+    "Change_pct": 1.99,
+    "Change_units": 3029.38
    },
    {
     "Date": "2027-10",
-    "Base": 152520.64,
-    "Scenario": 155508.69,
-    "Base_revenue": 136717605.79,
-    "Scenario_revenue": 139649049.18,
-    "Change_pct": 1.96,
-    "Change_units": 2988.05
+    "Base": 153709.28,
+    "Scenario": 156874.54,
+    "Base_revenue": 138340330.9,
+    "Scenario_revenue": 141423519.25,
+    "Change_pct": 2.06,
+    "Change_units": 3165.26
    },
    {
     "Date": "2027-11",
-    "Base": 147638.19,
-    "Scenario": 150920.3,
-    "Base_revenue": 131182778.77,
-    "Scenario_revenue": 134357382.4,
-    "Change_pct": 2.22,
-    "Change_units": 3282.11
+    "Base": 149026.99,
+    "Scenario": 151805.88,
+    "Base_revenue": 132864225.98,
+    "Scenario_revenue": 135556408.13,
+    "Change_pct": 1.86,
+    "Change_units": 2778.89
    },
    {
     "Date": "2027-12",
-    "Base": 132581.66,
-    "Scenario": 136077.54,
-    "Base_revenue": 118914475.71,
-    "Scenario_revenue": 122216879.16,
-    "Change_pct": 2.64,
-    "Change_units": 3495.87
+    "Base": 132643.6,
+    "Scenario": 135923.27,
+    "Base_revenue": 119393906.65,
+    "Scenario_revenue": 122531028.13,
+    "Change_pct": 2.47,
+    "Change_units": 3279.68
    },
    {
     "Date": "2028-01",
-    "Base": 136636.38,
-    "Scenario": 138842.05,
-    "Base_revenue": 125905272.51,
-    "Scenario_revenue": 128146470.12,
-    "Change_pct": 1.61,
-    "Change_units": 2205.67
+    "Base": 138025.37,
+    "Scenario": 140077.58,
+    "Base_revenue": 127541725.21,
+    "Scenario_revenue": 129602275.8,
+    "Change_pct": 1.49,
+    "Change_units": 2052.2
    },
    {
     "Date": "2028-02",
-    "Base": 134556.39,
-    "Scenario": 137453.01,
-    "Base_revenue": 125701784.56,
-    "Scenario_revenue": 128732905.52,
-    "Change_pct": 2.15,
-    "Change_units": 2896.62
+    "Base": 135737.14,
+    "Scenario": 138266.27,
+    "Base_revenue": 127150897.27,
+    "Scenario_revenue": 129801174.71,
+    "Change_pct": 1.86,
+    "Change_units": 2529.14
    },
    {
     "Date": "2028-03",
-    "Base": 152374.36,
-    "Scenario": 155482.13,
-    "Base_revenue": 140240459.47,
-    "Scenario_revenue": 143325939.34,
-    "Change_pct": 2.04,
-    "Change_units": 3107.77
+    "Base": 154306.0,
+    "Scenario": 157422.4,
+    "Base_revenue": 142419065.45,
+    "Scenario_revenue": 145522873.01,
+    "Change_pct": 2.02,
+    "Change_units": 3116.39
    },
    {
     "Date": "2028-04",
-    "Base": 153889.46,
-    "Scenario": 157079.76,
-    "Base_revenue": 143894581.12,
-    "Scenario_revenue": 147253785.38,
-    "Change_pct": 2.07,
-    "Change_units": 3190.3
+    "Base": 154683.18,
+    "Scenario": 157926.07,
+    "Base_revenue": 144956933.21,
+    "Scenario_revenue": 148332810.2,
+    "Change_pct": 2.1,
+    "Change_units": 3242.89
    },
    {
     "Date": "2028-05",
-    "Base": 152836.09,
-    "Scenario": 155801.69,
-    "Base_revenue": 141003043.5,
-    "Scenario_revenue": 144050957.96,
-    "Change_pct": 1.94,
-    "Change_units": 2965.6
+    "Base": 154411.02,
+    "Scenario": 157579.19,
+    "Base_revenue": 142838442.96,
+    "Scenario_revenue": 146055795.34,
+    "Change_pct": 2.05,
+    "Change_units": 3168.17
    }
   ],
   "capacity": [
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 98.1
+    "Utilisation_pct": 97.1
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Europe",
+    "Utilisation_pct": 98.8
+   },
+   {
+    "Product_Family": "Brake & Safety Systems",
+    "Region": "India",
     "Utilisation_pct": 101.3
    },
    {
     "Product_Family": "Brake & Safety Systems",
-    "Region": "India",
-    "Utilisation_pct": 101.5
-   },
-   {
-    "Product_Family": "Brake & Safety Systems",
     "Region": "Latin America",
-    "Utilisation_pct": 100.8
+    "Utilisation_pct": 97.5
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 105.4
+    "Utilisation_pct": 102.6
    },
    {
     "Product_Family": "Brake & Safety Systems",
     "Region": "North America",
-    "Utilisation_pct": 105.3
+    "Utilisation_pct": 103.2
    },
    {
     "Product_Family": "Chassis & Structural",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 99.6
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "Europe",
-    "Utilisation_pct": 102.8
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "India",
-    "Utilisation_pct": 101.4
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "Latin America",
-    "Utilisation_pct": 104.0
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 110.3
-   },
-   {
-    "Product_Family": "Chassis & Structural",
-    "Region": "North America",
-    "Utilisation_pct": 95.9
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 105.4
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "Europe",
-    "Utilisation_pct": 102.8
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "India",
-    "Utilisation_pct": 104.0
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "Latin America",
-    "Utilisation_pct": 102.7
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 92.8
-   },
-   {
-    "Product_Family": "Electrical Assemblies",
-    "Region": "North America",
-    "Utilisation_pct": 103.9
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 91.1
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "Europe",
-    "Utilisation_pct": 92.7
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "India",
-    "Utilisation_pct": 93.6
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "Latin America",
-    "Utilisation_pct": 92.6
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 81.6
-   },
-   {
-    "Product_Family": "Hydraulic Systems",
-    "Region": "North America",
-    "Utilisation_pct": 98.4
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Asia Pacific",
-    "Utilisation_pct": 94.0
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Europe",
-    "Utilisation_pct": 89.9
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "India",
-    "Utilisation_pct": 90.4
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Latin America",
-    "Utilisation_pct": 93.0
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "Middle East & Africa",
-    "Utilisation_pct": 92.7
-   },
-   {
-    "Product_Family": "Powertrain Components",
-    "Region": "North America",
-    "Utilisation_pct": 89.3
-   },
-   {
-    "Product_Family": "Precision Machined Parts",
     "Region": "Asia Pacific",
     "Utilisation_pct": 98.3
    },
    {
+    "Product_Family": "Chassis & Structural",
+    "Region": "Europe",
+    "Utilisation_pct": 101.0
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "India",
+    "Utilisation_pct": 103.2
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "Latin America",
+    "Utilisation_pct": 101.8
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 107.9
+   },
+   {
+    "Product_Family": "Chassis & Structural",
+    "Region": "North America",
+    "Utilisation_pct": 94.2
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 105.2
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "Europe",
+    "Utilisation_pct": 101.5
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "India",
+    "Utilisation_pct": 104.1
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "Latin America",
+    "Utilisation_pct": 100.5
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 90.6
+   },
+   {
+    "Product_Family": "Electrical Assemblies",
+    "Region": "North America",
+    "Utilisation_pct": 102.5
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 91.4
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Europe",
+    "Utilisation_pct": 91.9
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "India",
+    "Utilisation_pct": 94.0
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Latin America",
+    "Utilisation_pct": 90.9
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 80.1
+   },
+   {
+    "Product_Family": "Hydraulic Systems",
+    "Region": "North America",
+    "Utilisation_pct": 96.4
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 93.6
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Europe",
+    "Utilisation_pct": 88.6
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "India",
+    "Utilisation_pct": 91.7
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Latin America",
+    "Utilisation_pct": 90.1
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "Middle East & Africa",
+    "Utilisation_pct": 92.1
+   },
+   {
+    "Product_Family": "Powertrain Components",
+    "Region": "North America",
+    "Utilisation_pct": 87.6
+   },
+   {
+    "Product_Family": "Precision Machined Parts",
+    "Region": "Asia Pacific",
+    "Utilisation_pct": 97.2
+   },
+   {
     "Product_Family": "Precision Machined Parts",
     "Region": "Europe",
-    "Utilisation_pct": 94.9
+    "Utilisation_pct": 93.8
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "India",
-    "Utilisation_pct": 94.5
+    "Utilisation_pct": 93.4
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "Latin America",
-    "Utilisation_pct": 95.8
+    "Utilisation_pct": 92.5
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 90.8
+    "Utilisation_pct": 90.3
    },
    {
     "Product_Family": "Precision Machined Parts",
     "Region": "North America",
-    "Utilisation_pct": 93.1
+    "Utilisation_pct": 91.0
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Asia Pacific",
-    "Utilisation_pct": 100.8
+    "Utilisation_pct": 100.4
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Europe",
-    "Utilisation_pct": 98.0
+    "Utilisation_pct": 96.8
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "India",
-    "Utilisation_pct": 105.7
+    "Utilisation_pct": 105.3
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Latin America",
-    "Utilisation_pct": 99.1
+    "Utilisation_pct": 98.1
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "Middle East & Africa",
-    "Utilisation_pct": 101.3
+    "Utilisation_pct": 98.8
    },
    {
     "Product_Family": "Thermal Management",
     "Region": "North America",
-    "Utilisation_pct": 101.8
+    "Utilisation_pct": 99.0
    }
   ],
   "planning_risks": [
    {
     "type": "CAPACITY",
     "scope": "Chassis & Structural | Middle East & Africa",
-    "utilisation_pct": 110.3,
-    "base_utilisation_pct": 106.0
+    "utilisation_pct": 107.9,
+    "base_utilisation_pct": 104.9
    },
    {
     "type": "CAPACITY",
     "scope": "Thermal Management | India",
-    "utilisation_pct": 105.7,
-    "base_utilisation_pct": 103.8
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | Middle East & Africa",
-    "utilisation_pct": 105.4,
-    "base_utilisation_pct": 103.2
+    "utilisation_pct": 105.3,
+    "base_utilisation_pct": 103.3
    },
    {
     "type": "CAPACITY",
     "scope": "Electrical Assemblies | Asia Pacific",
-    "utilisation_pct": 105.4,
-    "base_utilisation_pct": 98.7
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | North America",
-    "utilisation_pct": 105.3,
-    "base_utilisation_pct": 105.3
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Chassis & Structural | Latin America",
-    "utilisation_pct": 104.0,
-    "base_utilisation_pct": 101.2
+    "utilisation_pct": 105.2,
+    "base_utilisation_pct": 98.3
    },
    {
     "type": "CAPACITY",
     "scope": "Electrical Assemblies | India",
-    "utilisation_pct": 104.0,
-    "base_utilisation_pct": 98.1
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Electrical Assemblies | North America",
-    "utilisation_pct": 103.9,
-    "base_utilisation_pct": 97.0
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Chassis & Structural | Europe",
-    "utilisation_pct": 102.8,
-    "base_utilisation_pct": 99.9
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Electrical Assemblies | Europe",
-    "utilisation_pct": 102.8,
-    "base_utilisation_pct": 97.4
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Electrical Assemblies | Latin America",
-    "utilisation_pct": 102.7,
-    "base_utilisation_pct": 98.6
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Thermal Management | North America",
-    "utilisation_pct": 101.8,
-    "base_utilisation_pct": 100.6
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | India",
-    "utilisation_pct": 101.5,
-    "base_utilisation_pct": 101.2
+    "utilisation_pct": 104.1,
+    "base_utilisation_pct": 97.8
    },
    {
     "type": "CAPACITY",
     "scope": "Chassis & Structural | India",
-    "utilisation_pct": 101.4,
-    "base_utilisation_pct": 98.9
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Thermal Management | Middle East & Africa",
-    "utilisation_pct": 101.3,
-    "base_utilisation_pct": 97.7
-   },
-   {
-    "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | Europe",
-    "utilisation_pct": 101.3,
+    "utilisation_pct": 103.2,
     "base_utilisation_pct": 100.6
    },
    {
     "type": "CAPACITY",
-    "scope": "Thermal Management | Asia Pacific",
-    "utilisation_pct": 100.8,
-    "base_utilisation_pct": 99.7
+    "scope": "Brake & Safety Systems | North America",
+    "utilisation_pct": 103.2,
+    "base_utilisation_pct": 102.8
    },
    {
     "type": "CAPACITY",
-    "scope": "Brake & Safety Systems | Latin America",
-    "utilisation_pct": 100.8,
-    "base_utilisation_pct": 99.7
+    "scope": "Brake & Safety Systems | Middle East & Africa",
+    "utilisation_pct": 102.6,
+    "base_utilisation_pct": 100.9
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Electrical Assemblies | North America",
+    "utilisation_pct": 102.5,
+    "base_utilisation_pct": 95.6
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Chassis & Structural | Latin America",
+    "utilisation_pct": 101.8,
+    "base_utilisation_pct": 99.1
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Electrical Assemblies | Europe",
+    "utilisation_pct": 101.5,
+    "base_utilisation_pct": 96.0
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Brake & Safety Systems | India",
+    "utilisation_pct": 101.3,
+    "base_utilisation_pct": 100.8
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Chassis & Structural | Europe",
+    "utilisation_pct": 101.0,
+    "base_utilisation_pct": 98.1
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Electrical Assemblies | Latin America",
+    "utilisation_pct": 100.5,
+    "base_utilisation_pct": 96.3
+   },
+   {
+    "type": "CAPACITY",
+    "scope": "Thermal Management | Asia Pacific",
+    "utilisation_pct": 100.4,
+    "base_utilisation_pct": 99.1
    },
    {
     "type": "DEMAND_RISE",
     "scope": "Electrical Assemblies",
-    "change_pct": 5.39
+    "change_pct": 5.46
    }
   ],
   "responses": [
    "Demand +1.9% vs base: within normal forecast error (company-month WAPE about 5%); no change to the plan needed.",
-   "10 family-region(s) move above demonstrated throughput in this scenario (Electrical Assemblies | Asia Pacific, Electrical Assemblies | India, Electrical Assemblies | North America, Chassis & Structural | Europe): plan overtime or pre-build before their peak windows."
+   "8 family-region(s) move above demonstrated throughput in this scenario (Electrical Assemblies | Asia Pacific, Electrical Assemblies | India, Electrical Assemblies | North America, Chassis & Structural | Latin America): plan overtime or pre-build before their peak windows."
   ]
  }
 }

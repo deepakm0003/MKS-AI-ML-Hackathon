@@ -80,6 +80,15 @@ def test_request_with_actuals_is_scored_and_bad_rows_rejected(client):
     assert res["frozen_comparison"]["identical"]          # official history -> same numbers as the frozen forecast
 
 
+def test_default_request_matches_the_frozen_forecast(client):
+    # every active series, no uploads: a subset of the frozen run's series must get the same numbers
+    job = client.post("/score/jobs", json={}).json()
+    s = _wait(client, job["job_id"])
+    assert s["status"] == "done", s["error"]
+    res = client.get(f"/score/jobs/{job['job_id']}/result").json()
+    assert res["frozen_comparison"]["identical"], res["frozen_comparison"]
+
+
 def test_bad_inputs_get_clear_errors(client):
     bad = _upload(client, b"Date,Units_Sold\n2026-11,5\n", "history")
     assert not bad["ok"] and "SKU_ID" in bad["problem"]

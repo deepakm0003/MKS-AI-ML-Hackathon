@@ -17,8 +17,8 @@
     "rows": 58219,
     "rows_zero_by_lifecycle": 156,
     "series": 3068,
-    "total_19m": 2818669,
-    "next12_vs_last12": 0.0609,
+    "total_19m": 2814345,
+    "next12_vs_last12": 0.0535,
     "methods": {
       "global LightGBM": 57946,
       "outside lifecycle (EOL / pre-launch): 0": 156,

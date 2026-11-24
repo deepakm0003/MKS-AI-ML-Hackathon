@@ -639,3 +639,28 @@ frozen outputs through the API; the demand-class table comes from the selected m
 ```powershell
 python scripts/make_deck.py
 ```
+
+## Model promotion — 2026-11-25: `t3_blend_cross_both`
+
+After the C9c freeze, a further 20 experiments were run on the GPU server under the same 6 folds:
+
+| Wave | Experiments | Result |
+|---|---|---|
+| t1 tuning | leaves 31 / 127 / 255, learning rate, Tweedie power 1.1 / 1.35, feature fraction + L2, seeds | 28.35 – 28.43% WAPE: a plateau |
+| post-hoc | bias correction, global scaling, shrinking sparse series to the 12-month mean (leave-one-cutoff-out) | no gain |
+| t2 | announced price-change features (`base+price`); cross-series features on C9c months; seed-bagged C9b; blends | price features worse (28.54%); `t2_cross_c9c` 28.19% |
+| t3 | cross-series features on C9b months; 50/50 blend of the two cross models | **28.07%**, promoted |
+
+`t3_blend_cross_both` averages two global LightGBMs that both use the cross-series feature set (140 features) and
+differ only in their training months (price pull-forward kept vs event months kept). Against C9c it lowers WAPE by
+0.30 points, wins all 6 cutoffs, every horizon bucket and every family, region, lifecycle, volume-band and
+demand-class segment; bias moves from −2.8% to −3.6% (within the 1-point rule). SKU-month accuracy 71.9% (was
+71.6%); family-month 92.5% and company-month 94.4% (were 92.7% / 94.9%): the gain is at the SKU level the
+submission is scored on.
+
+Freezing a blend whose members use different feature sets and training-month variants required: `Member` records
+its feature set and variant, `Panel.sibling()` rebuilds the same inputs (including shocked macro values in
+scenarios) for each member, and `Ensemble.predict_frame()` lets each member predict on its own panel. Single-model
+freezes follow the old code path unchanged (C9c still reproduces bit for bit). Uploading the official files on
+Upload & Forecast reproduces the new submission exactly (`tests/test_scoring.py`).
+

@@ -21,19 +21,19 @@ Accuracy = 1 − WAPE on a **6-cutoff rolling-origin backtest** over the full 19
 
 | Level | Accuracy | Seasonal-naive baseline |
 |---|---|---|
-| Company × month | **94.9%** | 91.8% |
-| Product family × month | **92.7%** | 89.5% |
-| SKU × region × month | **71.6%** | 62.2% |
+| Company × month | **94.4%** | 91.8% |
+| Product family × month | **92.5%** | 89.5% |
+| SKU × region × month | **71.9%** | 62.2% |
 
 | Demand class | Series | Model | Baseline | Gain |
 |---|---|---|---|---|
-| Smooth | 2,207 | **72.1%** | 62.9% | +9.2 pts |
-| Intermittent | 759 | **70.8%** | 60.6% | +10.2 pts |
-| Erratic | 68 | **65.5%** | 56.6% | +8.9 pts |
-| Lumpy | 13 | **66.1%** | 55.9% | +10.3 pts |
+| Smooth | 2,207 | **72.4%** | 62.9% | +9.5 pts |
+| Intermittent | 759 | **71.2%** | 60.6% | +10.6 pts |
+| Erratic | 68 | **65.7%** | 56.6% | +9.1 pts |
+| Lumpy | 13 | **66.2%** | 55.9% | +10.3 pts |
 
-**Forecast:** 2.82M units over 19 months (P10–P90: 2.66M – 3.15M) · next 12 months **$1.61B** revenue (+11.0%) ·
-**351** ranked actions (62 critical) · 42,223 data fixes logged · 21,951 anomalies explained.
+**Forecast:** 2.81M units over 19 months (P10–P90: 2.68M – 3.17M) · next 12 months **$1.60B** revenue (+10.3%) ·
+**359** ranked actions (58 critical) · 42,223 data fixes logged · 21,951 anomalies explained.
 
 ---
 
@@ -52,10 +52,10 @@ Accuracy = 1 − WAPE on a **6-cutoff rolling-origin backtest** over the full 19
 | **Landing** | the headline story: live demand chart, forecast, revenue, accuracy, pipeline |
 | **Executive Overview** | how much demand and revenue, is it growing, what could go wrong, what to do now |
 | **Demand Explorer** | drill family → SKU → region → customer; seasonality, order patterns, lifecycle |
-| **Risk & Exceptions** | world risk map, capacity heatmap, supply risk, all 351 actions with filters, search and CSV |
+| **Risk & Exceptions** | world risk map, capacity heatmap, supply risk, all 359 actions with filters, search and CSV |
 | **Planning & Procurement** | what to order next cycle, safety buffers, ABC-XYZ service levels, capacity |
 | **Scenario Lab** | what if PMI / auto production / EV adoption changes — demand and revenue respond instantly |
-| **Model Trust** | accuracy by horizon and segment, 19 experiments, band calibration, why this model |
+| **Model Trust** | accuracy by horizon and segment, 39 experiments, band calibration, why this model |
 | **Upload & Forecast** | upload your own CSV → same pipeline + frozen model → forecast, accuracy, CSV and PDF |
 | **Calendar Forecast** | any date range inside the horizon: demand, revenue, growth, range, drivers |
 | **Macro Drivers** | which indicator leads which family, by how many months, and is the lag stable |
@@ -76,7 +76,7 @@ flowchart LR
         A3["stockouts · events · macro"]
     end
     subgraph PIPE["Batch pipeline · Python"]
-        P1["1 Clean + DQ log"] --> P2["2 Anomalies +<br/>demand recovery"] --> P3["3 Drivers +<br/>87 features"] --> P4["4 Backtest +<br/>experiment registry"] --> P5["5 Freeze +<br/>validate"] --> P6["6 Planning<br/>intelligence"]
+        P1["1 Clean + DQ log"] --> P2["2 Anomalies +<br/>demand recovery"] --> P3["3 Drivers +<br/>140 features"] --> P4["4 Backtest +<br/>experiment registry"] --> P5["5 Freeze +<br/>validate"] --> P6["6 Planning<br/>intelligence"]
     end
     subgraph STORE["Storage"]
         S1[("Parquet store")]
@@ -102,7 +102,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    R["Raw extract<br/>248,248 rows"] --> C["Clean panel<br/>244,566 rows"] --> D["Unconstrained demand<br/>8,617 stockouts rebuilt"] --> F["Feature frames<br/>87 features × 19 horizons"] --> M["Global LightGBM<br/>Tweedie"] --> O["Forecast<br/>58,219 rows · P10/P50/P90"] --> I["351 ranked actions<br/>procurement · capacity · risk"]
+    R["Raw extract<br/>248,248 rows"] --> C["Clean panel<br/>244,566 rows"] --> D["Unconstrained demand<br/>8,617 stockouts rebuilt"] --> F["Feature frames<br/>140 features × 19 horizons"] --> M["Blend of 2 global<br/>LightGBMs"] --> O["Forecast<br/>58,219 rows · P10/P50/P90"] --> I["359 ranked actions<br/>procurement · capacity · risk"]
     C -.-> L1[("DQ issue log")]
     D -.-> L2[("Anomaly register")]
     M -.-> L3[("6-cutoff backtest")]
@@ -168,29 +168,35 @@ too low, so the pipeline rebuilds **unconstrained demand** first. **21,951** mon
 | One-off spike | 246 | kept in history, excluded from training |
 | Unexplained drop | 225 | flagged for review |
 
-### 3 · Drivers and features — 87 inputs, no look-ahead
+### 3 · Drivers and features — 140 inputs, no look-ahead
 - **Macro lead / lag:** auto production and new-vehicle orders lead demand by 3–4 months, PMI by 1–2 months; each
   link is checked for stability over time. EV share grew from 0% to 9.8% (2019 → 2026) and is modelled.
 - **Feature groups:** demand history (lags 1–12, rolling statistics, same month last year), seasonality (family ×
   region index), lifecycle (age, months to EOL, launch ramp), macro leads, calendar and events (holidays,
   shutdowns, strikes), attributes (family, region, channel, customer).
+- **Cross-series signals (53):** how each product family, region and customer is trending and ordering as a whole,
+  so a single SKU can borrow evidence from its peers. These signals are what lifted the promoted model.
 - Every feature uses only data up to the forecast origin; only the calendar, lifecycle dates, scheduled events and
   the macro file are known in advance.
 
 ### 4 · Model and validation — tested like production
-- **One global LightGBM** over all 3,068 series (Tweedie loss on demand ÷ series scale), direct multi-horizon:
+- **Global LightGBM models** over all 3,068 series (Tweedie loss on demand ÷ series scale), direct multi-horizon:
   each row asks "standing at this month, what will demand be *h* months later?" for h = 1…19.
 - **Rolling-origin backtest:** 6 cutoffs (2022-10 → 2025-03), each forecasting the next 19 months, never scored on
   training months.
-- **19 experiments** under identical folds; a challenger is promoted only if it lowers WAPE by ≥ 0.2 points, wins ≥ 4
-  of 6 cutoffs and is not worse on any cutoff, horizon or segment. Selected: **C9c** (keeps price pull-forward
-  months in training) — WAPE 28.37% vs 28.97% for the first champion.
-- A later tuning sweep on the GPU (tree size, learning rate, loss, regularisation, seeds) moved WAPE by < 0.1 point:
-  the model is at its ceiling for the available information.
+- **39 experiments** under identical folds; a challenger is promoted only if it lowers WAPE by ≥ 0.2 points, wins ≥ 4
+  of 6 cutoffs and is not worse on any cutoff, horizon or segment.
+- **Selected model: `t3_blend_cross_both`** — an equal blend of two global LightGBMs that both use cross-series
+  (family and customer) signals, one trained with price pull-forward months kept, one with event months kept.
+  WAPE **28.07%** vs 28.37% for the previous model (C9c) and 28.97% for the first champion; it wins all 6 cutoffs,
+  every horizon bucket and every family, region, lifecycle and demand-class segment.
+- How it was found: a GPU tuning sweep (tree size, learning rate, loss, regularisation, seeds) moved WAPE by < 0.1
+  point, so the gain had to come from new information - cross-series signals - and from combining models trained
+  on different training months. Announced price-change features were tested too and did not help.
 
 ### 5 · Uncertainty, rules and freeze
 - **P10 / P50 / P90 bands:** stratified split-conformal (size × horizon × age × volatility) fitted on the model's own
-  backtest; held-out P10–P90 coverage ≈ 80–86% at every level. Aggregates (family, region, total) are exact sums of
+  backtest; held-out P10–P90 coverage ≈ 80–83% at every level. Aggregates (family, region, total) are exact sums of
   SKU forecasts with level-specific bands.
 - **Business rules the model cannot learn:** zero outside launch → EOL, new launches from the predecessor's level ×
   a ramp-up curve, predecessor run-down while the successor ramps, scheduled customer shutdowns.
@@ -199,11 +205,11 @@ too low, so the pipeline rebuilds **unconstrained demand** first. **21,951** mon
   all **PASS**.
 
 ### 6 · Planning intelligence — from forecast to decisions
-- **351 ranked actions** (62 critical, 201 high) scored by impact × severity × urgency × confidence, each with a
+- **359 ranked actions** (58 critical, 210 high) scored by impact × severity × urgency × confidence, each with a
   finding, action, owner, decision window and evidence.
-- **Procurement:** next-cycle cover **$560.9M** (639K units, 3-month lead time), safety buffer 181K units,
-  ABC-XYZ service levels (revenue-weighted 93.1%).
-- **Capacity and supply risk:** 3-month P90 load vs demonstrated throughput per family × region (8 above),
+- **Procurement:** next-cycle cover **$557.6M** (636K units, 3-month lead time), safety buffer 182K units,
+  ABC-XYZ service levels (revenue-weighted 93.2%).
+- **Capacity and supply risk:** 3-month P90 load vs demonstrated throughput per family × region (6 above),
   shortage history and lost demand per supply base.
 - **Scenarios:** macro shocks re-forecast through the frozen model (Scenario Lab).
 

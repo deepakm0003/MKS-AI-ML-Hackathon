@@ -82,7 +82,8 @@ def forecast_test(P: Panel, model, cols, test: pd.DataFrame, sku: pd.DataFrame,
     eligible &= has_hist
 
     fr = P.frame(o, horizons=range(1, HORIZON + 1), need_target=False, eligible=eligible)
-    fr["f_model"] = predict_lgb(model, cols, fr)
+    fr["f_model"] = (model.predict_frame(P, o, eligible, fr) if hasattr(model, "predict_frame")
+                     else predict_lgb(model, cols, fr))
     fr["Date"] = [MONTHS[t] for t in fr["target_idx"]]
     out = test.merge(fr[["series", "Date", "f_model"]], on=["series", "Date"], how="left")
     out["method"] = np.where(out["f_model"].notna(), "global LightGBM", "")

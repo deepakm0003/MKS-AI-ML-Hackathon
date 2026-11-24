@@ -75,7 +75,8 @@ def fu(v: float) -> str:
 def demand_class_table() -> list[dict]:
     """Accuracy by Syntetos-Boylan demand class on the C9c 6-cutoff backtest (cached as JSON)."""
     cache = DECK / "demand_class_accuracy.json"
-    src = ROOT / "artifacts" / "experiments" / "c9c_keep_pull_forward" / "predictions.parquet"
+    man = json.loads((ROOT / "outputs" / "final" / "manifest.json").read_text(encoding="utf-8"))
+    src = ROOT / "artifacts" / "experiments" / man["selected_model"] / "predictions.parquet"
     if src.exists():
         import pandas as pd
         p = pd.read_parquet(src)
@@ -493,7 +494,7 @@ def main():
     for i, (t, s) in enumerate(srcs):
         d.doc(48, 168 + i * 52, 116, 40, t, s)
     stages = [("Clean + DQ log", "42k fixes"), ("Anomalies + recovery", "true demand"), ("Drivers + features", f"{n_feat} features"),
-              ("Backtest + registry", "19 experiments"), ("Freeze + validate", "manifest, SHA-256"), ("Planning intelligence", "351 actions")]
+              ("Backtest + registry", f"{len(reg)} experiments"), ("Freeze + validate", "manifest, SHA-256"), ("Planning intelligence", f"{k['exceptions']} actions")]
     for i, (t, s) in enumerate(stages):
         d.process(198, 168 + i * 52, 200, 40, i + 1, t, s, LIME if i in (0, 3) else LBLUE if i in (1, 2) else GOOD if i == 4 else WARN)
         if i:
@@ -525,7 +526,7 @@ def main():
            "Every stage reads only the previous stage's validated output and writes a machine-readable report. No feature uses data after the forecast origin.")
     nodes = [(36, 160, "Raw extract", f"{rr['rows_ingested']:,} rows", T3), (196, 160, "Clean panel", f"{rr['rows_clean']:,} rows", LIME),
              (356, 160, "Unconstrained demand", f"{an['by_category']['stockout']:,} stockouts rebuilt", LBLUE),
-             (516, 160, "Feature frames", f"{n_feat} features x 19 horizons", LBLUE), (676, 160, "Global LightGBM", "Tweedie, one model", LIME),
+             (516, 160, "Feature frames", f"{n_feat} features x 19 horizons", LBLUE), (676, 160, "Model blend", "2 global LightGBMs", LIME),
              (816, 160, "Forecast", "58,219 rows", LIME)]
     for i, (x, t, title, sub, col) in enumerate(nodes):
         w = 128 if i < 5 else 108
@@ -569,12 +570,12 @@ def main():
                "Events are measured before they are excluded: only events with a material impact are kept out of training"], 36, 462, 880, 9.5, 3)
 
     # 6 ---------------------------------------------------------------- model + validation design
-    d.page("Model and validation", f"One global model, {n_feat} features, tested like production",
-           f"Direct multi-horizon LightGBM (Tweedie loss on demand/scale) over every series. Rolling-origin backtest: train before each origin, "
-           f"forecast the next 19 months, repeat {len(cutoffs)} times.")
+    d.page("Model and validation", f"A blend of two global models, {n_feat} features, tested like production",
+           f"Two direct multi-horizon LightGBMs (Tweedie loss on demand/scale) over every series, averaged. Rolling-origin backtest: "
+           f"train before each origin, forecast the next 19 months, repeat {len(cutoffs)} times.")
     groups = [("Demand history", "lags 1-12, rolling stats, last year", LIME), ("Seasonality", "family x region index", BLUE),
               ("Lifecycle", "age, months to EOL, ramp", WARN), ("Macro leads", "auto output, orders, PMI, EV", LBLUE),
-              ("Calendar & events", "holidays, shutdowns, strikes", GOOD), ("Attributes", "family, region, channel, customer", T3)]
+              ("Calendar & events", "holidays, shutdowns, strikes", GOOD), ("Cross-series signals", "family, region, customer trends", T3)]
     d.card(36, 150, 360, 300, "Feature groups")
     for i, (t, s, col) in enumerate(groups):
         x, top = 50 + (i % 2) * 170, 182 + (i // 2) * 84
@@ -582,7 +583,7 @@ def main():
         d.rect(x, top + 8, 3, 56, col, r=1.5)
         d.text(t, x + 12, top + 24, 9.5, T1, BOLD)
         d.para(s, x + 12, top + 40, 140, 8.2, T2, 10.5)
-    d.card(412, 150, 512, 300, "Rolling-origin backtest", "train (grey) · 19-month test window (lime) · same folds for all 19 experiments")
+    d.card(412, 150, 512, 300, "Rolling-origin backtest", f"train (grey) · 19-month test window (lime) · same folds for all {len(reg)} experiments")
     x0, x1 = 470, 904
     t0, t1 = 2019.0, 2026 + 10 / 12
 
@@ -599,9 +600,9 @@ def main():
         d.text(c, xm(c) - 5, top + 11.5, 7, T2, align="right")
     for yr in range(2019, 2027):
         d.text(str(yr), xm(f"{yr}-01"), 424, 7.5, T3, align="center")
-    d.note("Why this design", "One model for every series lets small, sparse products borrow patterns from large ones, and predicting "
-           "demand divided by each series' own scale keeps big and small series on the same footing. Each row asks 'standing at "
-           "this month, what will demand be h months later?', so the same model covers all 19 horizons without feeding its own errors back in.",
+    d.note("Why this design", "Global models let small, sparse products borrow patterns from large ones, and cross-series signals tell "
+           "each SKU how its family and customer are moving. The two members differ only in which unusual months they learn from "
+           "(price pull-forward vs event months), so averaging them cancels part of each one's errors - and one design covers all 19 horizons.",
            36, 460, 888, 9.2)
 
     # 7 ---------------------------------------------------------------- accuracy incl. demand classes
