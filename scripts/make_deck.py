@@ -29,6 +29,9 @@ ROOT = Path(__file__).resolve().parents[1]
 DECK = ROOT / "docs" / "deck"
 SCREENS = DECK / "screens"
 API = "http://127.0.0.1:8000"
+AUTHOR, INSTITUTE = "Deepak Meena", "IIIT Delhi"
+GITHUB = "https://github.com/deepakm0003/MKS-AI-ML-Hackathon"
+LIVE = "http://192.168.2.254:8060"
 W, H = 960, 540
 
 BG, S1, S2, S3, BORDER = "#080808", "#141414", "#1c1c1c", "#242424", "#2c2c2c"
@@ -124,7 +127,7 @@ class Deck:
         self.c.setStrokeColor(BORDER)
         self.c.setLineWidth(0.6)
         self.c.line(36, 26, W - 36, 26)
-        self.text("Celeris Demand Intelligence Control Tower · MKS AI/ML Hackathon · Phase 2", 36, H - 12, 7.5, T3)
+        self.text(f"Celeris Demand Intelligence Control Tower · {AUTHOR}, {INSTITUTE} · MKS AI/ML Hackathon Phase 2", 36, H - 12, 7.5, T3)
         self.text(f"{self.n} / 12", W - 36, H - 12, 7.5, T3, align="right")
 
     def logo(self, x, top):
@@ -351,6 +354,13 @@ class Deck:
                 xx += w
         return top + row_h * (len(rows) + 1)
 
+    def link(self, label, url, x, top, size=9.5, color=LBLUE):
+        """Clickable link text."""
+        self.text(label, x, top, size, color, REG)
+        w = pdfmetrics.stringWidth(label, REG, size)
+        self.c.linkURL(url, (x, self.Y(top) - 3, x + w, self.Y(top) + size), relative=0)
+        return w
+
     def note(self, title, body, x, top, w, size=9.6):
         """A short explanatory paragraph in a soft card with a lime accent bar."""
         lines = 0
@@ -425,6 +435,7 @@ def main():
     d.para("Celeris Demand Intelligence Control Tower: messy ERP data cleaned and explained, true demand recovered, "
            "a validated 19-month forecast with calibrated uncertainty, and a control tower that turns it into decisions.",
            36, 214, 430, 11, T2, 15)
+    d.text(f"{AUTHOR}  ·  {INSTITUTE}", 36, 272, 12.5, T1, BOLD)
     tiles = [("19-month forecast", f"{fu(k['units_19m'])} units", "Nov 2026 – May 2028", True),
              ("Forecast accuracy", acc(bt["total_month"]["WAPE"]), f"company · {acc(bt['family_month']['WAPE'])} family · {acc(wape)} SKU", False),
              ("Revenue · next 12 m", f"${k['revenue_next12'] / 1e9:.2f}B", f"{k['revenue_next12_vs_last12']:+.1%} vs last 12 months", False),
@@ -432,6 +443,10 @@ def main():
     for i, (lab, val, sub, a) in enumerate(tiles):
         d.kpi(36 + (i % 2) * 218, 300 + (i // 2) * 92, 208, lab, val, sub, accent=a)
     d.screen("home", 488, 140, 436)
+    d.text("GITHUB", 488, 432, 7.5, T3, BOLD)
+    d.link(GITHUB.replace("https://", ""), GITHUB, 488, 446)
+    d.text("LIVE DEMO (college server)", 488, 468, 7.5, T3, BOLD)
+    d.link(LIVE.replace("http://", ""), LIVE, 488, 482)
 
     # 2 ---------------------------------------------------------------- challenge & answer
     d.page("The challenge and our answer", "From a messy ERP extract to confident planning decisions",
@@ -723,9 +738,12 @@ def main():
     d.note("How it runs", "Experiments run on the GPU server and only a model that passes the promotion rule is frozen. The app "
            "server then serves that frozen state: the API reads only contract-checked files and the dashboard only calls the API, "
            "so what a judge sees is exactly what was validated.", 612, 300, 312, 9)
-    d.text("Thank you", 36, 452, 34, LIME, BOLD)
+    d.text("Thank you", 36, 446, 34, LIME, BOLD)
+    d.text(f"{AUTHOR} · {INSTITUTE}", 300, 440, 12, T1, BOLD)
+    d.text("GitHub:", 300, 458, 9, T3); d.link(GITHUB.replace("https://", ""), GITHUB, 340, 458, 9)
+    d.text("Live demo:", 612, 458, 9, T3); d.link(LIVE.replace("http://", ""), LIVE, 664, 458, 9)
     d.text(f"{fu(k['units_19m'])} units forecast · {acc(bt['total_month']['WAPE'])} company accuracy · {k['exceptions']} ranked actions · 12 views",
-           36, 480, 11, T2)
+           36, 486, 11, T2)
     d.save()
     print(f"wrote {DECK / 'celeris_presentation.pdf'} ({d.n} slides)")
 
