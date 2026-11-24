@@ -1,7 +1,7 @@
 import type {
   AnomaliesView, DataHealthView, PlanningView,
   Briefing, BreakdownView, DatasetIndex, DrilldownView, DrillLevel, FilterOptions, Health, Kpis, LifecycleView, Paged,
-  PresetResult, Recommendations, ScenarioConfig, ScenarioResult, SeasonalityView, SeriesDetail, TimelineView,
+  PresetResult, Recommendations, ScenarioConfig, ScenarioResult, ScoreJob, ScoreResult, ScoreUpload, SeasonalityView, SeriesDetail, TimelineView,
 } from "./types";
 
 /** Base URL of the read-only API. Dev and preview proxy /api to FastAPI (vite.config.ts). */
@@ -111,6 +111,22 @@ export const api = {
     request<DataHealthView>("/views/data-health", { query, signal }),
   scenarioPresets: (signal?: AbortSignal) => request<Record<string, PresetResult>>("/scenario/presets", { signal }),
   scenarioConfig: (signal?: AbortSignal) => request<ScenarioConfig>("/scenario/config", { signal }),
+  // Upload & Forecast: POSTs and job polls bypass the GET cache (fresh status every poll)
+  scoreUpload: (file: File, kind: "history" | "request", signal?: AbortSignal) => {
+    const body = new FormData();
+    body.append("file", file);
+    body.append("kind", kind);
+    return request<ScoreUpload>("/score/uploads", { method: "POST", body, signal });
+  },
+  scoreStart: (body: { history_upload?: string; request_upload?: string; cutoff?: string }, signal?: AbortSignal) =>
+    request<ScoreJob>("/score/jobs", {
+      method: "POST", body: JSON.stringify(body), signal, headers: { "Content-Type": "application/json", Accept: "application/json" },
+    }),
+  scoreStatus: (jobId: string, signal?: AbortSignal) =>
+    request<ScoreJob>(`/score/jobs/${jobId}`, { query: { _t: Date.now() }, signal }),
+  scoreResult: (jobId: string, signal?: AbortSignal) => request<ScoreResult>(`/score/jobs/${jobId}/result`, { signal }),
+  scoreFileUrl: (jobId: string, name: string) => `${API_BASE}/score/jobs/${jobId}/files/${name}`,
+  scoreTemplateUrl: (name: string) => `${API_BASE}/score/templates/${name}`,
   scenario: (body: { shocks: Record<string, number>; region_overlay?: Record<string, number> }, signal?: AbortSignal) =>
     request<ScenarioResult>("/scenario", {
       method: "POST", body: JSON.stringify(body), signal, headers: { "Content-Type": "application/json", Accept: "application/json" },

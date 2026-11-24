@@ -16,6 +16,7 @@ const ScenarioLab = lazy(() => import("./pages/ScenarioLab").then((m) => ({ defa
 const ModelTrust = lazy(() => import("./pages/ModelTrust").then((m) => ({ default: m.ModelTrust })));
 const DataHealth = lazy(() => import("./pages/DataHealth").then((m) => ({ default: m.DataHealth })));
 const AnomalyMonitor = lazy(() => import("./pages/AnomalyMonitor").then((m) => ({ default: m.AnomalyMonitor })));
+const UploadForecast = lazy(() => import("./pages/UploadForecast").then((m) => ({ default: m.UploadForecast })));
 const CalendarForecast = lazy(() => import("./pages/CalendarForecast").then((m) => ({ default: m.CalendarForecast })));
 const MacroDrivers     = lazy(() => import("./pages/MacroDrivers").then((m) => ({ default: m.MacroDrivers })));
 const LandingPage      = lazy(() => import("./pages/LandingPage").then((m) => ({ default: m.LandingPage })));
@@ -30,6 +31,7 @@ const BUILT: Record<string, () => JSX.Element> = {
   "/trust": () => <ModelTrust />,
   "/data-health": () => <DataHealth />,
   "/anomalies": () => <AnomalyMonitor />,
+  "/upload": () => <UploadForecast />,
   "/calendar": () => <CalendarForecast />,
   "/macro": () => <MacroDrivers />,
 };

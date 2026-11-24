@@ -66,10 +66,12 @@ def train_final(P: Panel, params=None, rounds=N_ROUNDS, step=2):
 # ----------------------------------------------------------------------------- forecast
 def forecast_test(P: Panel, model, cols, test: pd.DataFrame, sku: pd.DataFrame,
                   demand: pd.DataFrame, events_monthly: pd.DataFrame, event_impact: pd.DataFrame,
-                  bt: pd.DataFrame, curves: dict, band_q=None) -> tuple[pd.DataFrame, dict]:
+                  bt: pd.DataFrame, curves: dict, band_q=None, origin: int | None = None) -> tuple[pd.DataFrame, dict]:
     """band_q: optional pre-fitted (stratified) ratio-quantile table from
-    intervals.fit_ratio_quantiles(..., strata=True); default = pooled table from bt."""
-    o = LAST_HIST
+    intervals.fit_ratio_quantiles(..., strata=True); default = pooled table from bt.
+    origin: month index of the last history month (default LAST_HIST = 2026-10; the upload
+    scorer passes an earlier one when the user forecasts from an earlier cutoff)."""
+    o = LAST_HIST if origin is None else origin
     test = test.copy()
     test["h"] = test["Date"].map(MIDX) - o
     keys = {k: i for i, k in enumerate(zip(P.keys["SKU_ID"], P.keys["Region"]))}

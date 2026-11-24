@@ -363,3 +363,92 @@ export interface DataHealthView {
   rows: { file: string; row_ref: string; date: string; sku_id: string; region: string; issue_type: string; category: string;
     field: string; original: string; corrected: string; action: string; rule: string }[];
 }
+
+/* ---------------------------------------------------------------- Upload & Forecast (api/scoring.py) */
+export interface ScoreUpload {
+  upload_id: string;
+  filename: string;
+  bytes: number;
+  kind: "history" | "request";
+  detected_kind: "history" | "request";
+  rows: number;
+  columns: string[];
+  missing_history_columns: string[];
+  missing_request_columns: string[];
+  optional_columns_missing: string[];
+  date_from: string | null;
+  date_to: string | null;
+  unparseable_dates: number | null;
+  series: number | null;
+  has_actuals: boolean;
+  actual_rows: number;
+  ok: boolean;
+  problem: string | null;
+}
+
+export interface ScoreStep { id: string; label: string; state: "pending" | "running" | "done" | "failed"; seconds: number | null }
+
+export interface ScoreJob {
+  job_id: string;
+  status: "queued" | "running" | "done" | "error";
+  error: string | null;
+  steps: ScoreStep[];
+  seconds?: number;
+}
+
+export interface ScoreMetrics {
+  Member?: string;
+  rows: number;
+  actual: number;
+  forecast: number;
+  WAPE: number | null;
+  Bias: number | null;
+  MAE: number;
+  Naive_WAPE: number | null;
+  Coverage_P10_P90: number;
+}
+
+export interface ScoreBreakdownRow { Member: string; Units: number; P10: number; P90: number; Revenue: number; Series: number }
+
+export interface ScoreSeriesRow {
+  SKU_ID: string; Region: string; Product_Family: string; Customer_Name: string | null; Sales_Channel: string | null;
+  Units: number; P10: number; P90: number; Revenue: number; Months: number; Method: string;
+  Demand_last12: number | null; Actual?: number | null; AbsErr?: number | null; WAPE?: number | null;
+}
+
+export interface ScoreResult {
+  status: "done";
+  seconds: number;
+  model: { name: string; frozen_at: string; trained_through: string; features: number };
+  inputs: { history: "uploaded" | "official"; history_end: string; rows_to_forecast: string; cutoff: string;
+    horizon: [string, string]; horizon_months: number };
+  kpis: { rows: number; series: number; units: number; units_p10: number; units_p90: number; revenue: number;
+    band_method: string; zero_by_lifecycle: number; methods: Record<string, number> };
+  timeline: TimelineView;
+  by_family: ScoreBreakdownRow[];
+  by_region: ScoreBreakdownRow[];
+  series: ScoreSeriesRow[];
+  series_total: number;
+  accuracy: null | {
+    source: string;
+    in_sample: boolean;
+    overall: ScoreMetrics;
+    family_month_WAPE: number | null;
+    total_month_WAPE: number | null;
+    by_family: ScoreMetrics[];
+    by_region: ScoreMetrics[];
+    by_horizon: ScoreMetrics[];
+    monthly: { Date: string; Actual: number; Forecast: number; P10: number | null; P90: number | null; Naive: number }[];
+  };
+  frozen_comparison: null | { rows: number; max_abs_diff: number; identical: boolean; total: number; total_frozen: number;
+    change_pct: number | null };
+  checks: {
+    cleaning?: { rows_in: number; rows_clean: number; issues: number; null_cells_before: number | null; null_cells_after: number | null;
+      by_type: { issue_type: string; category: string; action: string; rows: number }[] };
+    anomalies: { flagged: number; by_category: Record<string, number>; demand_source: Record<string, number> };
+    request: { rows_in: number; accepted: number; rejected: number; rejected_by_reason: Record<string, number> };
+  };
+  rejected_sample: Record<string, string | number | null>[];
+  warnings: string[];
+  files: string[];
+}

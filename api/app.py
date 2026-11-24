@@ -24,11 +24,13 @@ app = FastAPI(title="Celeris demand control tower API", version=load_contract()[
 
 from api.explorer import router as explorer_router  # noqa: E402
 from api.pages import router as pages_router  # noqa: E402
+from api.scoring import router as scoring_router  # noqa: E402
 from api.views import router as views_router  # noqa: E402
 
 app.include_router(views_router)
 app.include_router(explorer_router)
 app.include_router(pages_router)
+app.include_router(scoring_router)
 
 
 @lru_cache(maxsize=32)
@@ -388,7 +390,7 @@ if DIST.exists():
         return FileResponse(DIST / "index.html")
 
     # first path segment of every API route (exact match: the SPA page /scenarios is not the API /scenario/*)
-    API_SEGMENTS = {"views", "datasets", "intelligence", "scenario", "series", "hierarchy", "meta", "health",
+    API_SEGMENTS = {"views", "datasets", "intelligence", "scenario", "score", "series", "hierarchy", "meta", "health",
                     "kpis", "contract", "docs", "openapi.json", "redoc"}
 
     @app.get("/{path:path}", response_class=FileResponse)

@@ -185,3 +185,12 @@ New contract datasets `sku_lifecycle` and `series_profile` are exports of existi
 | Status colour | `theme/chart.ts`, `tokens.css` | "good" is emerald `#34d399`, so a status is never confused with the lime forecast series / accent |
 | Production serving | `api/app.py` | SPA routes registered last; API paths (exact first segment) return a JSON 404 instead of `index.html`; the `/api` prefix the build uses is stripped by the API |
 
+## 12. Upload & Forecast (`/upload`)
+
+| Piece | Where | What it does |
+|---|---|---|
+| Scoring core | `src/celeris/scoring.py` | runs an uploaded sales history through `clean_sales` → `refine_with_stockouts` → `build_panel` → `build_demand` (only months up to the origin: no look-ahead) → the selected model's demand variant → `Panel` → `forecast_test(..., origin=o)` with the frozen model, rules and stratified bands; validates rows to forecast; scores actuals (SKU / family / total-month WAPE, bias, coverage, seasonal naive) |
+| Jobs API | `api/scoring.py` | multipart upload with format detection, one background worker, per-step progress, results + CSV downloads under `outputs/scoring/` (ids are 32-hex, file names whitelisted) |
+| Page | `pages/UploadForecast.tsx` | two drop zones with live file checks and sample downloads, forecast origin, live step list, then KPIs, the shared timeline chart, forecast vs actual, family / region bars, pipeline checks, series table, downloads; `?job=` keeps the result on refresh |
+| Guarantees | `tests/test_scoring.py` | official `train.csv` + `test.csv` → the frozen submission exactly; bad rows rejected with reasons; clear errors for bad inputs |
+

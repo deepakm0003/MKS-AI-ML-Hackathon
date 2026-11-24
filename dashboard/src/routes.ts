@@ -65,6 +65,14 @@ export const VIEWS: ViewDef[] = [
     sources: ["backtest_metrics", "experiment_registry", "band_coverage", "interval_reliability", "horizon_reliability", "manifest"],
   },
   {
+    path: "/upload", number: "07", label: "Upload & Forecast", icon: "upload", group: "workspace", phase: 10,
+    purpose: "Upload sales history (train.csv format) and/or rows to forecast (test.csv format); the frozen pipeline cleans, recovers demand, scores and — when actuals are included — measures accuracy, all on one page.",
+    questions: ["What does the model forecast for my data?", "How accurate is it against the real outcome?",
+      "What did the pipeline fix in my file?"],
+    covers: { required: [], optional: ["Data download", "Forecast & accuracy"] },
+    sources: ["POST /score/uploads", "POST /score/jobs", "/score/jobs/{id}/result"],
+  },
+  {
     path: "/data-health", label: "Data Health", icon: "health", group: "data", phase: 9,
     purpose: "Issues by type and file, rows affected, before vs after cleaning.",
     questions: ["What was wrong with the raw ERP extract?", "What did cleaning change, and why?"],

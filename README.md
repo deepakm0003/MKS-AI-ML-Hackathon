@@ -549,3 +549,45 @@ Monitor, header with live model / validation status, global filter bar shared th
 the design system (validated dark palette, typography, states) and route placeholders that
 report live data readiness - no static or invented values.
 
+
+## Upload & Forecast — score your own CSV with the frozen model (`/upload`)
+
+One page, two optional files in the competition formats:
+
+| File | Format | What happens |
+|---|---|---|
+| Sales history | `train.csv` columns (minimum `Date, SKU_ID, Region, Units_Sold`) | the **same** stage-1 cleaning (every fix logged), stockout / anomaly demand recovery and feature panel as the official run |
+| Rows to forecast | `test.csv` columns (minimum `Date, SKU_ID, Region`) | validated row by row (unknown SKU, unknown region, outside the horizon, duplicates → rejected with a reason); an optional `Units_Sold` column with the real outcome turns on the accuracy report |
+
+Leave one out and the official data takes its place. The **forecast origin** defaults to the last
+history month; an earlier month holds the later history out and scores the forecast against it.
+The frozen model (`outputs/final/model`) is only read — nothing is retrained — and it is scored with
+the same lifecycle, launch, run-down and shutdown rules and the same calibrated P10–P90 bands.
+
+The result page shows the history → forecast chart with bands (units / revenue), forecast vs actual
+with SKU-month, family-month and total-month WAPE, bias, P10–P90 coverage and the seasonal-naive
+comparison (by horizon, family and region), what the pipeline fixed in the file, the series table
+and CSV downloads (a `submission.csv` in the request's row order, the detail with P10/P50/P90 and
+revenue, the issue log, the anomaly register, rejected rows).
+
+**Reproducibility check:** uploading the official `train.csv` + `test.csv` reproduces
+`outputs/final/submission.csv` exactly (tested in `tests/test_scoring.py`; the page shows
+"Identical to the frozen submission"). Accuracy measured on months up to 2026-10 is flagged as
+in-sample, because the frozen model was trained on them.
+
+API: `POST /score/uploads` (multipart CSV) → `POST /score/jobs` → poll `GET /score/jobs/{id}` →
+`GET /score/jobs/{id}/result` and `/files/{name}`; samples at `/score/templates/{train,test}_format_sample.csv`.
+Uploads and results are written to `outputs/scoring/` (gitignored); the frozen outputs are never touched.
+Code: `src/celeris/scoring.py`, `api/scoring.py`, `dashboard/src/pages/UploadForecast.tsx`.
+
+## Presentation — `docs/deck/celeris_presentation.pdf`
+
+16-slide deck (16:9 PDF) in the dashboard's design: challenge, system architecture and data-flow
+diagrams, each pipeline stage, validation, experiments, uncertainty, the forecast, planning
+intelligence, the dashboard, Upload & Forecast and engineering quality. Every number is read from
+the frozen outputs through the API and the screens are captures of the running dashboard, so it
+can be rebuilt after any change:
+
+```powershell
+python scripts/make_deck.py
+```
