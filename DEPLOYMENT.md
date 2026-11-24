@@ -12,8 +12,8 @@
 ssh your_username@server_address
 
 # Clone the repo
-git clone https://github.com/deepakm0003/MKS-AI-ML-Hackathon.git
-cd MKS-AI-ML-Hackathon/celeris-control-tower
+git clone https://github.com/deepakm0003/mks-celeris-demand-forecasting.git
+cd mks-celeris-demand-forecasting
 
 # Install Python dependencies
 pip install -r requirements.txt
@@ -125,7 +125,7 @@ Ask your college IT to open port 8000 (or 80 if using nginx) for external access
 
 Once deployed, share:
 - **Live URL**: `http://your-server-ip:8000` or `http://your-domain.edu`
-- **GitHub repo**: https://github.com/deepakm0003/MKS-AI-ML-Hackathon
+- **GitHub repo**: https://github.com/deepakm0003/mks-celeris-demand-forecasting
 - **Demo video** (optional but recommended): 2-minute walkthrough
 
 ---

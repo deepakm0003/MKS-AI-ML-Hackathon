@@ -30,7 +30,7 @@ DECK = ROOT / "docs" / "deck"
 SCREENS = DECK / "screens"
 API = "http://127.0.0.1:8000"
 AUTHOR, INSTITUTE = "Deepak Meena", "IIIT Delhi"
-GITHUB = "https://github.com/deepakm0003/MKS-AI-ML-Hackathon"
+GITHUB = "https://github.com/deepakm0003/mks-celeris-demand-forecasting"
 LIVE = "http://192.168.2.254:8060"
 W, H = 960, 540
 
