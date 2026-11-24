@@ -582,11 +582,13 @@ Code: `src/celeris/scoring.py`, `api/scoring.py`, `dashboard/src/pages/UploadFor
 
 ## Presentation — `docs/deck/celeris_presentation.pdf`
 
-16-slide deck (16:9 PDF) in the dashboard's design: challenge, system architecture and data-flow
-diagrams, each pipeline stage, validation, experiments, uncertainty, the forecast, planning
-intelligence, the dashboard, Upload & Forecast and engineering quality. Every number is read from
-the frozen outputs through the API and the screens are captures of the running dashboard, so it
-can be rebuilt after any change:
+12-slide deck (16:9 PDF) in the dashboard's design: challenge and answer, four system-design
+diagrams (layered architecture with data stores, data-flow DAG, Upload & Forecast sequence
+diagram, deployment), data quality, model and backtest design, accuracy by level, horizon and
+demand class (smooth / intermittent / erratic / lumpy vs seasonal naive), experiments and band
+calibration, the forecast and its decisions, and the dashboard. Every number is read from the
+frozen outputs through the API; the demand-class table comes from the selected model's backtest
+(cached in `docs/deck/demand_class_accuracy.json`). Rebuild after any change:
 
 ```powershell
 python scripts/make_deck.py
