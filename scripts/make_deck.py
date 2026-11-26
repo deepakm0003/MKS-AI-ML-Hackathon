@@ -31,7 +31,7 @@ SCREENS = DECK / "screens"
 API = "http://127.0.0.1:8000"
 AUTHOR, INSTITUTE = "Deepak Meena", "IIIT Delhi"
 GITHUB = "https://github.com/deepakm0003/mks-celeris-demand-forecasting"
-LIVE = "http://192.168.2.254:8060"
+LIVE = "http://3.239.68.190"
 W, H = 960, 540
 
 BG, S1, S2, S3, BORDER = "#080808", "#141414", "#1c1c1c", "#242424", "#2c2c2c"
@@ -728,9 +728,9 @@ def main():
 
     # 12 --------------------------------------------------------------- deployment + engineering + close
     d.page("System design · deployment and quality", "One server to run, one command to rebuild, tests on every number",
-           "deploy.sh runs the pipeline, builds the dashboard and starts one uvicorn process; model experiments run on a separate GPU server.")
+           "Public on AWS EC2: one uvicorn process serves the API and the dashboard as a systemd service; model experiments run on a separate GPU server.")
     d.lane(36, 150, 556, 248, "Deployment")
-    d.server(56, 182, 236, 196, "App server · uvicorn :8000", ["FastAPI  /views /score ...", "dashboard/dist (React build)", "outputs/final + intelligence",
+    d.server(56, 182, 236, 196, "AWS EC2 · uvicorn :80", ["FastAPI  /views /score ...", "dashboard/dist (React build)", "outputs/final + intelligence",
                                                               "outputs/scoring (uploads)", "contract + manifest checks"], BLUE)
     d.server(324, 182, 248, 112, "GPU server · experiments", ["run_backtest.py  (6 cutoffs)", "registry -> promotion rule", "promoted model -> app server"], LIME)
     d.rect(324, 306, 248, 72, S1, r=8, stroke=BORDER)

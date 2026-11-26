@@ -9,7 +9,7 @@ Messy ERP data cleaned and explained, true demand recovered, a validated 19-mont
 | | |
 |---|---|
 | **Presentation (12 slides, PDF)** | [docs/deck/celeris_presentation.pdf](docs/deck/celeris_presentation.pdf) |
-| **Live demo** | **http://192.168.2.254:8060** — college GPU server (college network / VPN) · [API docs](http://192.168.2.254:8060/docs) |
+| **Live demo** | **http://3.239.68.190** — public, hosted on AWS EC2 · [API docs](http://3.239.68.190/docs) |
 | **Submission** | [outputs/final/submission.csv](outputs/final/submission.csv) — 58,219 rows, all validation checks PASS |
 | **Full technical write-up** | [docs/TECHNICAL.md](docs/TECHNICAL.md) |
 
@@ -219,17 +219,20 @@ too low, so the pipeline rebuilds **unconstrained demand** first. **21,951** mon
 
 ```mermaid
 flowchart LR
-    U["Browser"] -->|":8060"| S
-    subgraph GPU["College GPU server · Tesla P100 · 56 cores"]
-        S["uvicorn · FastAPI<br/>API + React build"] --> O[("Frozen outputs")]
-        X["Experiments<br/>run_backtest.py"] -->|"promoted model only"| O
-        CR["cron watchdog<br/>@reboot + every 5 min"] -.->|"restart if down"| S
+    U["Any browser<br/>(public internet)"] -->|"HTTP :80"| S
+    subgraph AWS["AWS EC2 · Ubuntu · t3.small"]
+        S["uvicorn · FastAPI<br/>API + React build<br/>gzip responses"] --> O[("Frozen outputs<br/>+ final model")]
+        SD["systemd service<br/>start on boot · restart on crash"] -.-> S
+    end
+    subgraph GPU["GPU server · experiments"]
+        X["run_backtest.py<br/>6-cutoff backtest"] -->|"promoted model only"| O
     end
 ```
 
-**Why it matters:** judges can use every page, filter, scenario and upload without installing anything · one
-process serves API + dashboard, so nothing drifts out of sync · self-healing after a reboot or crash · the live site
-serves the same frozen, fingerprinted numbers as this repo.
+**Why it matters:** anyone can open **http://3.239.68.190** and use every page, filter, scenario and upload without installing
+anything · one process serves API + dashboard, so nothing drifts out of sync · systemd restarts it after a reboot or crash
+· responses are gzip-compressed for fast loading over the internet · the live site serves the same frozen,
+fingerprinted numbers as this repo (Upload & Forecast reproduces the submission exactly on the live server).
 
 ---
 

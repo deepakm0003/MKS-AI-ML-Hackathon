@@ -22,6 +22,11 @@ from celeris.contract import dataset_path, load_contract, read_dataset  # noqa: 
 app = FastAPI(title="Celeris demand control tower API", version=load_contract()["version"],
               description="Frozen forecasts, accuracy, anomalies, data quality and planning intelligence.")
 
+# compress JSON responses (browsers ask for gzip): the forecast detail drops from ~26 MB to a few MB,
+# which matters when the dashboard is served over the internet
+from fastapi.middleware.gzip import GZipMiddleware  # noqa: E402
+app.add_middleware(GZipMiddleware, minimum_size=1000, compresslevel=5)
+
 from api.explorer import router as explorer_router  # noqa: E402
 from api.pages import router as pages_router  # noqa: E402
 from api.scoring import router as scoring_router  # noqa: E402
