@@ -26,6 +26,25 @@ Accuracy = 1 − WAPE on a **6-cutoff rolling-origin backtest** over the full 19
 | Product family × month | **92.5%** | 89.5% |
 | SKU × region × month | **71.9%** | 62.2% |
 
+**WAPE (weighted absolute percentage error — lower is better)**
+
+| Level | Our WAPE | Seasonal-naive WAPE | Error reduction |
+|---|---|---|---|
+| SKU × region × month | **28.07%** | 37.82% | **−25.8%** |
+| Product family × month | **7.46%** | 10.51% | **−29.0%** |
+| Company × month | **5.63%** | 8.23% | **−31.6%** |
+
+| Forecast horizon | 1–3 months | 4–6 months | 7–12 months | 13–19 months |
+|---|---|---|---|---|
+| SKU-level WAPE | **27.4%** | **27.2%** | **28.0%** | **28.8%** |
+
+| Model (same 6 folds) | SKU-level WAPE |
+|---|---|
+| Seasonal naive (same month last year) | 37.82% |
+| First champion (global LightGBM) | 28.97% |
+| C9c (training-month variant) | 28.37% |
+| **Final: blend of two cross-series LightGBMs** | **28.07%** — best of 39 experiments |
+
 | Demand class | Series | Model | Baseline | Gain |
 |---|---|---|---|---|
 | Smooth | 2,207 | **72.4%** | 62.9% | +9.4 pts |
