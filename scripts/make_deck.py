@@ -447,7 +447,7 @@ def main():
     d.screen("home", 488, 140, 436)
     d.text("GITHUB", 488, 432, 7.5, T3, BOLD)
     d.link(GITHUB.replace("https://", ""), GITHUB, 488, 446)
-    d.text("LIVE DEMO", 488, 468, 7.5, T3, BOLD)
+    d.text("LIVE DEMO ON AWS", 488, 468, 7.5, T3, BOLD)
     d.link(LIVE.replace("http://", ""), LIVE, 488, 482)
 
     # 2 ---------------------------------------------------------------- challenge & answer
@@ -469,7 +469,7 @@ def main():
              ("Recover", f"{an['total']:,} anomalies; stockout demand rebuilt"),
              ("Learn", f"{n_feat} features, macro leads, EV shift"),
              ("Forecast", f"{acc(wape)} SKU accuracy, calibrated P10–P90"),
-             ("Decide", "12-view control tower, API, upload & score")]
+             ("Decide", "12-view control tower, live on AWS")]
     for i, (t, s) in enumerate(deliv):
         x = 36 + i * 181
         d.rect(x, 284, 171, 74, S1, r=8, stroke=BORDER)
@@ -727,7 +727,7 @@ def main():
            "(58,219 rows, difference below 1e-13 units) - a built-in reproducibility test.", 36, 462, 888, 9.2)
 
     # 12 --------------------------------------------------------------- deployment + engineering + close
-    d.page("System design · deployment and quality", "One server to run, one command to rebuild, tests on every number",
+    d.page("System design · deployment and quality", "Deployed on AWS: live for anyone, rebuilt by one command, tested end to end",
            "Public on AWS EC2: one uvicorn process serves the API and the dashboard as a systemd service; model experiments run on a separate GPU server.")
     d.lane(36, 150, 556, 248, "Deployment")
     d.server(56, 182, 236, 196, "AWS EC2 · uvicorn :80", ["FastAPI  /views /score ...", "dashboard/dist (React build)", "outputs/final + intelligence",
@@ -738,9 +738,9 @@ def main():
     d.para("custom domain: /api -> :8000, static files; the app also strips /api itself", 336, 340, 226, 7.4, T2, 9.5)
     d.line([(324, 280), (294, 280)], T3, 1, dash=(3, 2))
     d.text("Engineering quality", 612, 166, 12, T1, BOLD)
-    d.bullets(["214 tests: 173 backend (pytest) + 41 frontend (vitest)", "data contract: every dataset's grain, key, columns and types",
+    d.bullets(["215 tests: 174 backend (pytest) + 41 frontend (vitest)", "data contract: every dataset's grain, key, columns and types",
                "frozen backend: SHA-256 manifest, validation all PASS", "experiment registry with an explicit promotion rule",
-               "one command rebuilds everything: python run_pipeline.py"], 612, 190, 312, 9.5, 5)
+               "one command rebuilds everything: python run_pipeline.py", "live on AWS EC2: systemd service, auto-restart, gzip"], 612, 190, 312, 9.5, 5)
     d.note("How it runs", "Experiments run on the GPU server and only a model that passes the promotion rule is frozen. The app "
            "server then serves that frozen state: the API reads only contract-checked files and the dashboard only calls the API, "
            "so what a judge sees is exactly what was validated.", 612, 300, 312, 9)

@@ -2,7 +2,8 @@
 
 **AI demand forecasting and planning control tower for Celeris Automobili** — MKS AI/ML Hackathon, Phase 2.
 Messy ERP data cleaned and explained, true demand recovered, a validated 19-month forecast
-(Nov 2026 → May 2028) for 3,068 SKU × region series, and a 12-view control tower that turns it into decisions.
+(Nov 2026 → May 2028) for 3,068 SKU × region series, and a 12-view control tower that turns it into decisions —
+**deployed live on AWS (EC2)** as a production-style service anyone can open: **http://3.239.68.190**.
 
 **Deepak Meena · IIIT Delhi**
 
@@ -243,7 +244,8 @@ fingerprinted numbers as this repo (Upload & Forecast reproduces the submission 
 | Data & ML | Python, pandas, NumPy, Parquet, **LightGBM** (CatBoost as challenger), scikit-learn, statsmodels |
 | Backend | **FastAPI**, Uvicorn, background scoring jobs |
 | Frontend | **React 18 + TypeScript**, Vite, Apache ECharts, React Router |
-| Quality | typed data contract (YAML), **214 tests** (173 pytest + 41 vitest), SHA-256 manifest |
+| Quality | typed data contract (YAML), **215 tests** (174 pytest + 41 vitest), SHA-256 manifest |
+| Cloud deployment | **AWS EC2** (Ubuntu, t3.small): systemd service with auto-start and auto-restart, gzip-compressed API, public URL |
 
 ---
 
