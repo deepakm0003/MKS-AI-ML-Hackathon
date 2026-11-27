@@ -32,6 +32,7 @@ API = "http://127.0.0.1:8000"
 AUTHOR, INSTITUTE = "Deepak Meena", "IIIT Delhi"
 GITHUB = "https://github.com/deepakm0003/mks-celeris-demand-forecasting"
 LIVE = "http://3.239.68.190"
+VIDEO = "https://youtu.be/5Q1XuY8AAf4"
 W, H = 960, 540
 
 BG, S1, S2, S3, BORDER = "#080808", "#141414", "#1c1c1c", "#242424", "#2c2c2c"
@@ -445,10 +446,12 @@ def main():
     for i, (lab, val, sub, a) in enumerate(tiles):
         d.kpi(36 + (i % 2) * 218, 300 + (i // 2) * 92, 208, lab, val, sub, accent=a)
     d.screen("home", 488, 140, 436)
-    d.text("GITHUB", 488, 432, 7.5, T3, BOLD)
-    d.link(GITHUB.replace("https://", ""), GITHUB, 488, 446)
-    d.text("LIVE DEMO ON AWS", 488, 468, 7.5, T3, BOLD)
-    d.link(LIVE.replace("http://", ""), LIVE, 488, 482)
+    d.text("GITHUB", 488, 428, 7.5, T3, BOLD)
+    d.link(GITHUB.replace("https://", ""), GITHUB, 488, 442)
+    d.text("LIVE DEMO ON AWS", 488, 460, 7.5, T3, BOLD)
+    d.link(LIVE.replace("http://", ""), LIVE, 488, 474)
+    d.text("DEMO VIDEO", 488, 492, 7.5, T3, BOLD)
+    d.link(VIDEO.replace("https://", ""), VIDEO, 488, 506)
 
     # 2 ---------------------------------------------------------------- challenge & answer
     d.page("The challenge and our answer", "From a messy ERP extract to confident planning decisions",
@@ -748,8 +751,9 @@ def main():
     d.text(f"{AUTHOR} · {INSTITUTE}", 300, 440, 12, T1, BOLD)
     d.text("GitHub:", 300, 458, 9, T3); d.link(GITHUB.replace("https://", ""), GITHUB, 340, 458, 9)
     d.text("Live demo:", 612, 458, 9, T3); d.link(LIVE.replace("http://", ""), LIVE, 664, 458, 9)
+    d.text("Demo video:", 300, 474, 9, T3); d.link(VIDEO.replace("https://", ""), VIDEO, 356, 474, 9)
     d.text(f"{fu(k['units_19m'])} units forecast · {acc(bt['total_month']['WAPE'])} company accuracy · {k['exceptions']} ranked actions · 12 views",
-           36, 486, 11, T2)
+           36, 496, 11, T2)
     d.save()
     print(f"wrote {DECK / 'celeris_presentation.pdf'} ({d.n} slides)")
 

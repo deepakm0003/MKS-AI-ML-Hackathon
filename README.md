@@ -10,6 +10,7 @@ Messy ERP data cleaned and explained, true demand recovered, a validated 19-mont
 | | |
 |---|---|
 | **Presentation (12 slides, PDF)** | [docs/deck/celeris_presentation.pdf](docs/deck/celeris_presentation.pdf) |
+| **Demo video** | [https://youtu.be/5Q1XuY8AAf4](https://youtu.be/5Q1XuY8AAf4) — slides and a walkthrough of the live dashboard |
 | **Live demo** | **http://3.239.68.190** — public, hosted on AWS EC2 · [API docs](http://3.239.68.190/docs) |
 | **Submission** | [outputs/final/submission.csv](outputs/final/submission.csv) — 58,219 rows, all validation checks PASS |
 | **Full technical write-up** | [docs/TECHNICAL.md](docs/TECHNICAL.md) |
